@@ -12,12 +12,11 @@
       margin:0;
       min-height:100vh;
     }
-    .wrapper {max-width:900px; display:grid; grid-template-columns:1fr 2fr; gap:2rem;}
-    .logo-card {background:#fff; border:2px solid #000; text-align:center; padding:2rem;}
-    .logo-card .logo {width:100%; max-width:260px; margin-bottom:1rem;}
-    .logo-card h2 {margin:0; font-size:2rem;}
-    .content {background:#fff; border:2px solid #ddd; padding:2rem;}
-    a {color:#000; text-decoration:underline;}
+    .hero {max-width:900px; margin:2rem auto; text-align:center;}
+    .hero-img {width:100%; max-width:700px; margin:0 auto 1.5rem;}
+    .hero h1 {font-size:2.5rem; margin:0 0 .5rem; letter-spacing:.05em;}
+    .hero p {font-size:1.1rem; color:#555; margin:.5rem 0;}
+    .hero a {color:#000; text-decoration:underline;}
   </style>
 </head>
 <body>
@@ -28,17 +27,13 @@
       <li class="nav-item"><a href="history/" class="nav-link">History</a></li>
     </ul>
   </nav>
-  <div class="wrapper" style="display:flex;justify-content:center;align-items:center;flex:1;">
-    <section class="logo-card">
-      <img src="assets/logo.jpg" alt="Holy Chip" class="logo"/>
-      <h2>Holy&nbsp;Chip</h2>
-      <p>Creative tech &amp; consulting</p>
-    </section>
-    <section class="content">
-      <p>We are launching soon. Stay tuned for updates!</p>
-      <p>Contact us at <a href="mailto:info@example.com">info@example.com</a></p>
-      <p><a href="history/">Explore History</a></p>
-    </section>
+  <div class="hero">
+    <img src="assets/logo.jpg" alt="Holy Chip character" class="hero-img"/>
+    <h1>Holy&nbsp;Chip</h1>
+    <p>Creative tech &amp; consulting</p>
+    <p>We are launching soon. Stay tuned for updates!</p>
+    <p>Contact us at <a href="mailto:info@example.com">info@example.com</a></p>
+    <p><a href="history/">Explore History</a></p>
   </div>
 </body>
 </html>
