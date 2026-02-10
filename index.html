@@ -3,15 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>Holy Chip</title>
+  <link rel="stylesheet" href="assets/style.css">
   <style>
     body {
       font-family: system-ui, sans-serif;
       background:#fafafa;
       color:#222;
       margin:0;
-      display:flex;
-      justify-content:center;
-      align-items:center;
       min-height:100vh;
     }
     .wrapper {max-width:900px; display:grid; grid-template-columns:1fr 2fr; gap:2rem;}
@@ -23,7 +21,14 @@
   </style>
 </head>
 <body>
-  <div class="wrapper">
+  <nav class="site-nav">
+    <ul class="nav-list">
+      <li class="nav-item"><a href="store.html" class="nav-link">Store</a></li>
+      <li class="nav-item"><a href="stories.html" class="nav-link">Stories</a></li>
+      <li class="nav-item"><a href="history/" class="nav-link">History</a></li>
+    </ul>
+  </nav>
+  <div class="wrapper" style="display:flex;justify-content:center;align-items:center;flex:1;">
     <section class="logo-card">
       <img src="https://via.placeholder.com/280x180?text=Holy+Chip" alt="Holy Chip" class="logo"/>
       <h2>Holy&nbsp;Chip</h2>
