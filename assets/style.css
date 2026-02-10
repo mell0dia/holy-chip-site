@@ -1,0 +1,14 @@
+/* Menu component */
+:root {
+  --nav-bg: #2c3e50;
+  --nav-fg: #ecf0f1;
+  --nav-hover-bg: #34495e;
+  --nav-padding: 1rem 1.5rem;
+  --nav-font: system-ui, sans-serif;
+}
+.site-nav {background: var(--nav-bg);font-family: var(--nav-font);}
+.nav-list {display:flex;justify-content:center;margin:0;padding:0;list-style:none;}
+.nav-item {margin:0;}
+.nav-link {display:block;padding:var(--nav-padding);color:var(--nav-fg);text-decoration:none;transition:background .2s,color .2s;}
+.nav-link:hover,.nav-link:focus {background:var(--nav-hover-bg);color:#fff;}
+@media (max-width:640px){.nav-list{flex-direction:column;}}
