@@ -37,4 +37,8 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 ---
 
+### Secrets
+
+- Printful API Token: Stored in keychain "openclaw" with key "printful-api-token"
+
 Add whatever helps you do your job. This is your cheat sheet.
