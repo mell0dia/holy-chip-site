@@ -6,8 +6,125 @@
   <link rel="stylesheet" href="assets/style.css">
   <style>
     body { font-family: system-ui, sans-serif; background:#fafafa; color:#222; margin:0; min-height:100vh; }
-    .content { max-width:900px; margin:2rem auto; padding:0 1.5rem; }
-    h1 { color:#222; }
+    .content { max-width:1200px; margin:2rem auto; padding:0 1.5rem; }
+    h1 { color:#222; margin-bottom:0.5rem; }
+    .step-title { font-size:1.2rem; color:#666; margin:2rem 0 1rem; }
+
+    /* Step 1: Character Grid */
+    .character-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .character-grid.hidden {
+      display: none;
+    }
+
+    /* Selected Bot Preview with Brand */
+    .selection-preview {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      margin: 2rem 0;
+      padding: 2rem;
+      background: white;
+      border: 2px solid #000;
+    }
+    .selection-preview.active {
+      display: flex;
+    }
+    .selection-preview img {
+      max-width: 300px;
+      height: auto;
+      cursor: pointer;
+    }
+    .selection-preview .divider {
+      font-size: 2rem;
+      color: #ccc;
+    }
+    .character-card {
+      border: 1px solid #ddd;
+      padding: 0.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: white;
+    }
+    .character-card:hover {
+      border-color: #000;
+      transform: scale(1.05);
+    }
+    .character-card.selected {
+      border: 3px solid #000;
+      transform: scale(1.1);
+    }
+    .character-card.hidden {
+      display: none;
+    }
+    .character-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .character-card .name {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+
+    /* Step 2: Product Selection */
+    .product-selection {
+      display: none;
+      margin: 2rem 0;
+    }
+    .product-selection.active {
+      display: block;
+    }
+    .product-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .product-btn {
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      background: white;
+      border: 2px solid #000;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .product-btn:hover {
+      background: #000;
+      color: white;
+    }
+
+    /* Step 3: Processing */
+    .processing {
+      display: none;
+      margin: 2rem 0;
+      padding: 2rem;
+      background: white;
+      border: 2px solid #000;
+      text-align: center;
+    }
+    .processing.active {
+      display: block;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .character-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    @media (max-width: 480px) {
+      .character-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
   </style>
 </head>
 <body>
@@ -19,9 +136,139 @@
       <li class="nav-item"><a href="history/" class="nav-link">History</a></li>
     </ul>
   </nav>
+
   <div class="content">
-    <h1>Store</h1>
-    <p>Coming soon.</p>
+    <h1>Store — Products</h1>
+    <p style="color:#666;">Choose your Bot, choose your product, get your Holy Chip merch!</p>
+
+    <!-- Step 1: Choose Character -->
+    <div class="step-title">Step 1: Choose Your Bot</div>
+    <div class="character-grid" id="characterGrid">
+      <!-- Characters will be loaded dynamically -->
+    </div>
+
+    <!-- Selected Bot + Brand Preview -->
+    <div class="selection-preview" id="selectionPreview">
+      <img id="previewBot" src="" alt="Selected Bot">
+      <div class="divider">+</div>
+      <img src="assets/brand.png" alt="Holy Chip Brand">
+    </div>
+
+    <!-- Step 2: Choose Product -->
+    <div class="product-selection" id="productSelection">
+      <div class="step-title">Step 2: Choose Your Product</div>
+      <div class="product-buttons">
+        <button class="product-btn" data-product="tshirt">T-Shirt</button>
+        <button class="product-btn" data-product="mug">Mug</button>
+        <button class="product-btn" data-product="hat">Hat</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Processing/Redirect -->
+    <div class="processing" id="processing">
+      <h2>Redirecting to Printify...</h2>
+      <p>You selected <strong id="selectedBot"></strong> on a <strong id="selectedProduct"></strong></p>
+      <p style="color:#666; margin-top:1rem;">(Printify integration coming soon)</p>
+    </div>
   </div>
+
+  <script>
+    // Character list - will be dynamically loaded
+    const characters = [
+      'Bot_0', 'Bot_1',
+      'Bot_100', 'Bot_101', 'Bot_110', 'Bot_111',
+      'Bot_1000', 'Bot_1001', 'Bot_1010', 'Bot_1011',
+      'Bot_1100', 'Bot_1101'
+    ];
+
+    let selectedCharacter = null;
+    let selectedProduct = null;
+
+    // Load character grid
+    const grid = document.getElementById('characterGrid');
+    characters.forEach(char => {
+      const card = document.createElement('div');
+      card.className = 'character-card';
+      card.innerHTML = `
+        <img src="characters/${char}.png" alt="${char}">
+        <div class="name">${char}</div>
+      `;
+      card.onclick = () => selectCharacter(char, card);
+      grid.appendChild(card);
+    });
+
+    // Handle character selection
+    function selectCharacter(char, cardElement) {
+      selectedCharacter = char;
+
+      // Hide the entire grid
+      document.getElementById('characterGrid').classList.add('hidden');
+
+      // Update and show preview with Bot + Brand
+      document.getElementById('previewBot').src = `characters/${char}.png`;
+      document.getElementById('previewBot').alt = char;
+      document.getElementById('selectionPreview').classList.add('active');
+
+      // Show product selection
+      document.getElementById('productSelection').classList.add('active');
+
+      // Scroll to preview
+      document.getElementById('selectionPreview').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // Handle deselection (click on preview to go back)
+    function deselectCharacter() {
+      selectedCharacter = null;
+
+      // Show grid again
+      document.getElementById('characterGrid').classList.remove('hidden');
+
+      // Hide preview and product selection
+      document.getElementById('selectionPreview').classList.remove('active');
+      document.getElementById('productSelection').classList.remove('active');
+    }
+
+    // Handle deselection - click preview Bot to go back
+    document.getElementById('previewBot').onclick = deselectCharacter;
+
+    // Handle product selection
+    document.querySelectorAll('.product-btn').forEach(btn => {
+      btn.onclick = () => {
+        if (!selectedCharacter) {
+          alert('Please select a character first!');
+          return;
+        }
+
+        selectedProduct = btn.dataset.product;
+        redirectToPrintify();
+      };
+    });
+
+    // Redirect to Printify (placeholder)
+    function redirectToPrintify() {
+      // Update processing message
+      document.getElementById('selectedBot').textContent = selectedCharacter;
+      document.getElementById('selectedProduct').textContent = selectedProduct.toUpperCase();
+
+      // Show processing
+      document.getElementById('processing').classList.add('active');
+      document.getElementById('processing').scrollIntoView({ behavior: 'smooth' });
+
+      // TODO: Actual Printify API integration
+      // For now, just show the message
+      console.log(`Selected: ${selectedCharacter} on ${selectedProduct}`);
+      console.log('Product design:', getProductDesign(selectedProduct));
+    }
+
+    // Get product design configuration
+    function getProductDesign(product) {
+      const designs = {
+        tshirt: 'Bot + brand side by side (brand follows character)',
+        mug: 'Bot + brand side by side (brand follows character)',
+        hat: 'Bot front, brand back'
+      };
+      return designs[product];
+    }
+  </script>
 </body>
 </html>
