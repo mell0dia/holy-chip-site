@@ -4,6 +4,44 @@ _Track what we've accomplished and where we left off._
 
 ---
 
+## Session 2026-02-14 - Shopping Cart & Mockup Integration
+
+### ✅ Completed
+
+**Shopping Cart Implementation:**
+- ✅ Built complete shopping cart system (store-v2.html)
+- ✅ Multi-product purchase in single transaction (replaces separate Printify transactions)
+- ✅ Cart features: Add/remove items, view cart modal, localStorage persistence
+- ✅ Product cards showing 2 t-shirt styles per Chip
+- ✅ Pricing confirmed: $25 per t-shirt
+- ✅ Cart count badge and floating cart button
+
+**Printify Mockup Integration:**
+- ✅ Created fetch-product-images.js to download product mockups from Printify API
+- ✅ Downloaded 175 mockup images (5 products × 35 images each)
+- ✅ Updated store-v2.html to display actual Printify t-shirt mockups instead of character images
+- ✅ Mockups show t-shirts on models with real designs
+- ✅ Added fallback to character images if mockups unavailable
+
+**Files Created:**
+- store-v2.html (shopping cart implementation)
+- fetch-product-images.js (mockup download script)
+- assets/mockups/ (175 product mockup images + metadata JSON files)
+
+### 📋 Next Steps
+
+**Immediate (Store Display):**
+1. Filter mockups to show ONLY white t-shirts (currently shows all 35 color variations)
+2. Display BOTH front and back views in each product card side-by-side
+3. Identify which mockup image indexes correspond to white shirts front/back
+
+**Later:**
+1. Integrate Printify checkout API (replace placeholder checkout function)
+2. Create remaining 19 t-shirt products (need 24 total for all Chips)
+3. Test end-to-end purchase flow
+
+---
+
 ## Session 2026-02-13 (Part 2) - Printify Integration & Product Automation
 
 ### ✅ Completed

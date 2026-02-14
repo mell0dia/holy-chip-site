@@ -4,6 +4,19 @@ _Things to build, improve, and explore._
 
 ## 🔥 High Priority
 
+- [ ] **Filter Product Display to White Shirts Only**
+  - Printify mockups include multiple colors (35 images per product)
+  - Update store-v2.html to show ONLY white t-shirt mockups
+  - Identify which mockup image index corresponds to white shirts
+  - Filter out all other colors for now
+
+- [ ] **Show Front AND Back Views in Product Cards**
+  - Currently each product card shows only 1 image (front view)
+  - Update product cards to display BOTH front and back views side-by-side
+  - Front view: Shows the Chip design
+  - Back view: Shows the brand logo (Style #3) or empty (Style #5)
+  - Create responsive layout for dual-image display
+
 - [ ] **CREATE ALL T-SHIRT PRODUCTS (24 total)**
   - Run automation to create all 12 Chips × 2 styles = 24 t-shirt products
   - Style #3: Front: Chip | Back: Brand (50% top)
@@ -11,10 +24,10 @@ _Things to build, improve, and explore._
   - Currently only 5 test products exist
   - Script ready: Need to customize create-products.js for both styles
 
-- [ ] **Map Products to Store**
-  - Save product mapping (Chip + Style → Printify Product ID)
-  - Update store.html to redirect to actual Printify products
-  - Test end-to-end purchase flow
+- [ ] **Integrate Printify Checkout**
+  - Replace placeholder checkout in store-v2.html
+  - Send cart items to Printify API for actual purchase
+  - Test end-to-end purchase flow with real products
 
 ## Store - Products
 
