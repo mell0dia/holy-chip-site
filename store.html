@@ -21,7 +21,7 @@
       display: none;
     }
 
-    /* Selected Bot Preview with Brand */
+    /* Selected Chip Preview with Brand */
     .selection-preview {
       display: none;
       justify-content: center;
@@ -139,17 +139,17 @@
 
   <div class="content">
     <h1>Store — Products</h1>
-    <p style="color:#666;">Choose your Bot, choose your product, get your Holy Chip merch!</p>
+    <p style="color:#666;">Choose your Chip, choose your product, get your Holy Chip merch!</p>
 
     <!-- Step 1: Choose Character -->
-    <div class="step-title">Step 1: Choose Your Bot</div>
+    <div class="step-title">Step 1: Choose Your Chip</div>
     <div class="character-grid" id="characterGrid">
       <!-- Characters will be loaded dynamically -->
     </div>
 
-    <!-- Selected Bot + Brand Preview -->
+    <!-- Selected Chip + Brand Preview -->
     <div class="selection-preview" id="selectionPreview">
-      <img id="previewBot" src="" alt="Selected Bot">
+      <img id="previewChip" src="" alt="Selected Chip">
       <div class="divider">+</div>
       <img src="assets/brand.png" alt="Holy Chip Brand">
     </div>
@@ -167,7 +167,7 @@
     <!-- Step 3: Processing/Redirect -->
     <div class="processing" id="processing">
       <h2>Redirecting to Printify...</h2>
-      <p>You selected <strong id="selectedBot"></strong> on a <strong id="selectedProduct"></strong></p>
+      <p>You selected <strong id="selectedChip"></strong> on a <strong id="selectedProduct"></strong></p>
       <p style="color:#666; margin-top:1rem;">(Printify integration coming soon)</p>
     </div>
   </div>
@@ -175,10 +175,10 @@
   <script>
     // Character list - will be dynamically loaded
     const characters = [
-      'Bot_0', 'Bot_1',
-      'Bot_100', 'Bot_101', 'Bot_110', 'Bot_111',
-      'Bot_1000', 'Bot_1001', 'Bot_1010', 'Bot_1011',
-      'Bot_1100', 'Bot_1101'
+      'Chip_0', 'Chip_1',
+      'Chip_100', 'Chip_101', 'Chip_110', 'Chip_111',
+      'Chip_1000', 'Chip_1001', 'Chip_1010', 'Chip_1011',
+      'Chip_1100', 'Chip_1101'
     ];
 
     let selectedCharacter = null;
@@ -204,9 +204,9 @@
       // Hide the entire grid
       document.getElementById('characterGrid').classList.add('hidden');
 
-      // Update and show preview with Bot + Brand
-      document.getElementById('previewBot').src = `characters/${char}.png`;
-      document.getElementById('previewBot').alt = char;
+      // Update and show preview with Chip + Brand
+      document.getElementById('previewChip').src = `characters/${char}.png`;
+      document.getElementById('previewChip').alt = char;
       document.getElementById('selectionPreview').classList.add('active');
 
       // Show product selection
@@ -228,8 +228,8 @@
       document.getElementById('productSelection').classList.remove('active');
     }
 
-    // Handle deselection - click preview Bot to go back
-    document.getElementById('previewBot').onclick = deselectCharacter;
+    // Handle deselection - click preview Chip to go back
+    document.getElementById('previewChip').onclick = deselectCharacter;
 
     // Handle product selection
     document.querySelectorAll('.product-btn').forEach(btn => {
@@ -247,7 +247,7 @@
     // Redirect to Printify (placeholder)
     function redirectToPrintify() {
       // Update processing message
-      document.getElementById('selectedBot').textContent = selectedCharacter;
+      document.getElementById('selectedChip').textContent = selectedCharacter;
       document.getElementById('selectedProduct').textContent = selectedProduct.toUpperCase();
 
       // Show processing
@@ -263,9 +263,9 @@
     // Get product design configuration
     function getProductDesign(product) {
       const designs = {
-        tshirt: 'Bot + brand side by side (brand follows character)',
-        mug: 'Bot + brand side by side (brand follows character)',
-        hat: 'Bot front, brand back'
+        tshirt: 'Chip + brand side by side (brand follows character)',
+        mug: 'Chip + brand side by side (brand follows character)',
+        hat: 'Chip front, brand back'
       };
       return designs[product];
     }

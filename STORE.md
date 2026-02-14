@@ -23,7 +23,7 @@ The Holy Chip store is divided into two main sections:
 ### Design Guidelines
 
 - **Visual Style:** Black & white only (consistent with brand identity)
-- **Character Usage:** _[Which Bots appear on products? All 14? Featured characters?]_
+- **Character Usage:** _[Which Chips appear on products? All 14? Featured characters?]_
 - **Typography:** _[Font choices for product text]_
 - **Layouts:** _[Simple/bold, minimal, character-focused?]_
 
@@ -39,7 +39,7 @@ The Holy Chip store is divided into two main sections:
 
 _Organize products for easy browsing:_
 
-1. **Category 1:** _[e.g., "Featured Bots" - best sellers]_
+1. **Category 1:** _[e.g., "Featured Chips" - best sellers]_
 2. **Category 2:** _[e.g., "Apparel" - all clothing]_
 3. **Category 3:** _[e.g., "Accessories" - smaller items]_
 4. _[Add more as needed]_
@@ -50,7 +50,7 @@ _Organize products for easy browsing:_
 
 ### What We Offer
 
-- **Character NFTs:** _[All 14 Bots? Limited editions? Variants?]_
+- **Character NFTs:** _[All 14 Chips? Limited editions? Variants?]_
 - **Collections:** _[Are they part of a series/collection?]_
 - **Rarity:** _[Are some rarer than others? Special editions?]_
 - **Utility:** _[Do NFTs unlock anything? Community access? Exclusive content?]_
@@ -66,7 +66,7 @@ _Organize products for easy browsing:_
 
 - **Format:** Black & white PNG (consistent with brand)
 - **Resolution:** _[Size/resolution of NFT images]_
-- **Metadata:** _[What info is included? Bot number, rarity, traits?]_
+- **Metadata:** _[What info is included? Chip number, rarity, traits?]_
 
 ---
 
@@ -85,7 +85,7 @@ _How we think about pricing:_
 _How we talk about products in the store:_
 
 - **Product Descriptions:** _[Funny? Straightforward? In-character?]_
-- **Call-to-Actions:** _[What language do we use? "Get Your Bot"? "Holy Chip Merch"?]_
+- **Call-to-Actions:** _[What language do we use? "Get Your Chip"? "Holy Chip Merch"?]_
 - **Tone:** _[Consistent with brand - subversive, humorous, direct?]_
 
 ---

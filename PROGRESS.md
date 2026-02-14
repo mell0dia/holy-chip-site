@@ -19,9 +19,9 @@ _Track what we've accomplished and where we left off._
 
 **Characters:**
 - ✅ Brought 14 character images from main branch to gh-pages
-- ✅ Renamed all characters to binary notation (Bot_0, Bot_1, Bot_10, Bot_11, Bot_100... Bot_1101)
-- ✅ Removed duplicate images (Bot_10, Bot_11 were duplicates)
-- ✅ Final count: 12 unique Bots with binary naming
+- ✅ Renamed all characters to binary notation (Chip_0, Chip_1, Chip_10, Chip_11, Chip_100... Chip_1101)
+- ✅ Removed duplicate images (Chip_10, Chip_11 were duplicates)
+- ✅ Final count: 12 unique Chips with binary naming
 - ✅ Added brand.png to assets for product designs
 
 **Store - Products Section:**
@@ -30,16 +30,16 @@ _Track what we've accomplished and where we left off._
   - Product design specs for each type
   - Printify integration plan
 - ✅ Built interactive 3-step store flow on store.html:
-  - **Step 1:** Choose Bot (5 per row grid, selection hides grid and shows Bot + Brand preview)
+  - **Step 1:** Choose Chip (5 per row grid, selection hides grid and shows Chip + Brand preview)
   - **Step 2:** Choose Product (T-shirt, Mug, Hat buttons)
   - **Step 3:** Redirect to Printify (placeholder for API integration)
 - ✅ Single-page experience with smooth transitions
-- ✅ Clean UX: Click Bot → see Bot + Brand together → choose product
+- ✅ Clean UX: Click Chip → see Chip + Brand together → choose product
 
 **Product Design Specs (documented in STORE.md):**
-- T-Shirts: Bot + brand side by side (brand follows character)
-- Hats: Bot front, brand back
-- Mugs: Bot + brand side by side (brand follows character)
+- T-Shirts: Chip + brand side by side (brand follows character)
+- Hats: Chip front, brand back
+- Mugs: Chip + brand side by side (brand follows character)
 
 **Project Organization:**
 - ✅ Created BACKLOG.md for future tasks
@@ -55,8 +55,8 @@ _Track what we've accomplished and where we left off._
 **Immediate Priorities:**
 1. **Printify API Integration**
    - Set up Printify account and API credentials
-   - Create products programmatically (12 Bots × 3 products = 36 products)
-   - Each product needs Bot + brand.png images uploaded
+   - Create products programmatically (12 Chips × 3 products = 36 products)
+   - Each product needs Chip + brand.png images uploaded
    - Implement redirect to Printify product pages
 
 2. **Store Improvements**
@@ -64,7 +64,7 @@ _Track what we've accomplished and where we left off._
    - Test purchase flow end-to-end
 
 3. **NFTs Section**
-   - Define NFT strategy (all 12 Bots? Limited editions?)
+   - Define NFT strategy (all 12 Chips? Limited editions?)
    - Choose NFT marketplace
    - Create NFT section on store page
 
@@ -76,7 +76,7 @@ _Track what we've accomplished and where we left off._
 **Questions to Answer:**
 - Printify account setup: Who has access? API key location?
 - NFT marketplace choice: OpenSea, Rarible, custom?
-- Do we want all 12 Bots as NFTs or select few?
+- Do we want all 12 Chips as NFTs or select few?
 
 ---
 
