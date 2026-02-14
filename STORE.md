@@ -1,17 +1,18 @@
 # STORE.md - Holy Chip Store Strategy
 
-_How we sell Holy Chip to the world._
+_How we sell Holy Chip physical products._
 
 ## Store Structure
 
-The Holy Chip store is divided into two main sections:
+The Holy Chip **Store** page focuses exclusively on:
 
-1. **Products** - Physical merchandise (t-shirts, mugs, etc.)
-2. **NFTs** - Digital character collectibles
+**Products** - Physical merchandise (t-shirts, mugs, hats, etc.) via Printify
+
+**Note:** NFTs are on a separate dedicated page (nfts.html). See NFTS.md for NFT strategy.
 
 ---
 
-## Products Section
+## Products
 
 ### What We Sell
 
@@ -46,36 +47,11 @@ _Organize products for easy browsing:_
 
 ---
 
-## NFTs Section
-
-### What We Offer
-
-- **Character NFTs:** _[All 14 Chips? Limited editions? Variants?]_
-- **Collections:** _[Are they part of a series/collection?]_
-- **Rarity:** _[Are some rarer than others? Special editions?]_
-- **Utility:** _[Do NFTs unlock anything? Community access? Exclusive content?]_
-
-### Marketplace
-
-- **Platform:** _[Which NFT marketplace? OpenSea, Rarible, custom?]_
-- **Blockchain:** _[Ethereum, Polygon, other?]_
-- **Pricing:** _[Fixed price, auction, how much?]_
-- **Link Strategy:** _[Direct link to collection? Marketplace profile?]_
-
-### NFT Design
-
-- **Format:** Black & white PNG (consistent with brand)
-- **Resolution:** _[Size/resolution of NFT images]_
-- **Metadata:** _[What info is included? Chip number, rarity, traits?]_
-
----
-
 ## Pricing Philosophy
 
 _How we think about pricing:_
 
 - **Products:** _[Affordable, premium, balanced?]_
-- **NFTs:** _[Accessible entry point or collectible value?]_
 - **Strategy:** _[Volume vs. margin? Community-first pricing?]_
 
 ---
@@ -101,6 +77,6 @@ _Ideas for later:_
 
 ---
 
-**Last Updated:** 2026-02-13
+**Last Updated:** 2026-02-13 (NFTs moved to separate page)
 
 _This strategy evolves as we grow the store and learn what resonates with our audience._
