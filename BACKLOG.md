@@ -2,6 +2,32 @@
 
 _Things to build, improve, and explore._
 
+## 🔥 High Priority
+
+- [ ] **CREATE ALL T-SHIRT PRODUCTS (24 total)**
+  - Run automation to create all 12 Chips × 2 styles = 24 t-shirt products
+  - Style #3: Front: Chip | Back: Brand (50% top)
+  - Style #5: Front: Brand (80% top) + Chip (80% bottom)
+  - Currently only 5 test products exist
+  - Script ready: Need to customize create-products.js for both styles
+
+- [ ] **Map Products to Store**
+  - Save product mapping (Chip + Style → Printify Product ID)
+  - Update store.html to redirect to actual Printify products
+  - Test end-to-end purchase flow
+
+## Store - Products
+
+- [ ] **Design & Create Mug Products (12 total)**
+  - Test design layouts for mugs
+  - Decide on Chip + brand positioning
+  - Create all 12 mug products via automation
+
+- [ ] **Design & Create Hat Products (12 total)**
+  - Test design layouts for hats
+  - Decide on Chip + brand positioning
+  - Create all 12 hat products via automation
+
 ## Store Improvements
 
 - [ ] **Replace product type buttons with Printify template images** - Instead of simple "T-shirt/Mug/Hat" buttons, use actual product template images from Printify API to show what products look like
@@ -12,7 +38,6 @@ _Things to build, improve, and explore._
 
 ## Integrations
 
-- [ ] **Printify API Integration** - Connect store to Printify for product creation and order fulfillment
 - [ ] **NFT Marketplace Integration** - Link NFT section to chosen marketplace
 
 ## Content
