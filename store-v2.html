@@ -235,6 +235,83 @@
       background: #333;
     }
 
+    /* Image Lightbox */
+    .image-lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+    .image-lightbox.active {
+      display: flex;
+    }
+    .lightbox-content {
+      max-width: 90%;
+      max-height: 90vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    .lightbox-content img {
+      max-width: 100%;
+      max-height: 90vh;
+      display: block;
+      margin: 0 auto;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: white;
+      color: #000;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 2001;
+    }
+    .lightbox-nav {
+      background: rgba(255,255,255,0.9);
+      color: #000;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .lightbox-nav:hover {
+      background: white;
+    }
+    .lightbox-nav:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    .lightbox-counter {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.9);
+      color: #000;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+    .product-image img {
+      cursor: zoom-in;
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
       .character-grid {
@@ -281,6 +358,17 @@
       </div>
       <button class="checkout-btn" onclick="checkout()">Checkout</button>
     </div>
+  </div>
+
+  <!-- Image Lightbox -->
+  <div class="image-lightbox" id="imageLightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">×</button>
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+      <button class="lightbox-nav" id="lightboxPrev" onclick="showPrevImage()">‹</button>
+      <img id="lightboxImage" src="" alt="">
+      <button class="lightbox-nav" id="lightboxNext" onclick="showNextImage()">›</button>
+    </div>
+    <div class="lightbox-counter" id="lightboxCounter">1 of 2</div>
   </div>
 
   <script>
@@ -368,12 +456,14 @@
           <div class="product-images">
             <div class="product-image">
               <img src="${frontImage}" alt="${chip} ${style.name} Front"
-                   onerror="this.src='characters/${chip}.png'">
+                   onerror="this.src='characters/${chip}.png'"
+                   onclick="openLightbox(['${frontImage}', '${backImage}'], 0)">
               <div class="label">Front</div>
             </div>
             <div class="product-image">
               <img src="${backImage}" alt="${chip} ${style.name} Back"
-                   onerror="this.src='assets/brand.png'">
+                   onerror="this.src='assets/brand.png'"
+                   onclick="openLightbox(['${frontImage}', '${backImage}'], 1)">
               <div class="label">Back</div>
             </div>
           </div>
@@ -465,6 +555,63 @@
 
       // TODO: Integrate with Printify for actual checkout
     }
+
+    // Image Lightbox functions
+    let lightboxImages = [];
+    let currentLightboxIndex = 0;
+
+    function openLightbox(images, startIndex = 0) {
+      lightboxImages = images;
+      currentLightboxIndex = startIndex;
+      showLightboxImage();
+      document.getElementById('imageLightbox').classList.add('active');
+    }
+
+    function showLightboxImage() {
+      const lightboxImage = document.getElementById('lightboxImage');
+      const counter = document.getElementById('lightboxCounter');
+      const prevBtn = document.getElementById('lightboxPrev');
+      const nextBtn = document.getElementById('lightboxNext');
+
+      lightboxImage.src = lightboxImages[currentLightboxIndex];
+      counter.textContent = `${currentLightboxIndex + 1} of ${lightboxImages.length}`;
+
+      // Enable/disable navigation buttons
+      prevBtn.disabled = currentLightboxIndex === 0;
+      nextBtn.disabled = currentLightboxIndex === lightboxImages.length - 1;
+    }
+
+    function showPrevImage() {
+      if (currentLightboxIndex > 0) {
+        currentLightboxIndex--;
+        showLightboxImage();
+      }
+    }
+
+    function showNextImage() {
+      if (currentLightboxIndex < lightboxImages.length - 1) {
+        currentLightboxIndex++;
+        showLightboxImage();
+      }
+    }
+
+    function closeLightbox() {
+      document.getElementById('imageLightbox').classList.remove('active');
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(event) {
+      const lightbox = document.getElementById('imageLightbox');
+      if (lightbox.classList.contains('active')) {
+        if (event.key === 'Escape') {
+          closeLightbox();
+        } else if (event.key === 'ArrowLeft') {
+          showPrevImage();
+        } else if (event.key === 'ArrowRight') {
+          showNextImage();
+        }
+      }
+    });
   </script>
 
   <script src="assets/nav.js"></script>
