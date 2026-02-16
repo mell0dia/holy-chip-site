@@ -104,19 +104,31 @@
       border-color: #000;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
+    .product-images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
     .product-image {
       width: 100%;
       height: 200px;
       background: #f5f5f5;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin-bottom: 1rem;
       border: 1px solid #ddd;
     }
     .product-image img {
-      max-width: 80%;
-      max-height: 180px;
+      max-width: 90%;
+      max-height: 160px;
+      margin-bottom: 0.25rem;
+    }
+    .product-image .label {
+      font-size: 0.75rem;
+      color: #666;
+      text-transform: uppercase;
     }
     .product-title {
       font-size: 1.1rem;
@@ -284,15 +296,15 @@
     const productStyles = [
       {
         id: 'style3',
-        name: 'Style #3',
-        description: 'Front: Chip | Back: Brand (50% top)',
+        name: 'Style 3',
+        description: 'Front: Chip | Back: Brand',
         price: 25.00,
         type: 'T-Shirt'
       },
       {
         id: 'style5',
-        name: 'Style #5',
-        description: 'Front: Brand (80%) + Chip (80%)',
+        name: 'Style 5',
+        description: 'Front: Brand + Chip',
         price: 25.00,
         type: 'T-Shirt'
       }
@@ -348,13 +360,22 @@
         const card = document.createElement('div');
         card.className = 'product-card';
 
-        // Use Printify mockup image (first image = front view)
-        const mockupImage = `assets/mockups/${chip}_${style.id}_0.png`;
+        // Use Printify mockup images (front and back)
+        const frontImage = `assets/mockups/${chip}_${style.id}_white_front.png`;
+        const backImage = `assets/mockups/${chip}_${style.id}_white_back.png`;
 
         card.innerHTML = `
-          <div class="product-image">
-            <img src="${mockupImage}" alt="${chip} ${style.name}"
-                 onerror="this.src='characters/${chip}.png'">
+          <div class="product-images">
+            <div class="product-image">
+              <img src="${frontImage}" alt="${chip} ${style.name} Front"
+                   onerror="this.src='characters/${chip}.png'">
+              <div class="label">Front</div>
+            </div>
+            <div class="product-image">
+              <img src="${backImage}" alt="${chip} ${style.name} Back"
+                   onerror="this.src='assets/brand.png'">
+              <div class="label">Back</div>
+            </div>
           </div>
           <div class="product-title">${chip} ${style.type} - ${style.name}</div>
           <div class="product-description">${style.description}</div>

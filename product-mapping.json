@@ -1,0 +1,126 @@
+{
+  "created_at": "2026-02-16T18:32:24.875Z",
+  "total_products": 24,
+  "products": [
+    {
+      "chip": "Chip_0",
+      "style": "style3",
+      "productId": "6993627d4ef083e0eb0f079b"
+    },
+    {
+      "chip": "Chip_0",
+      "style": "style5",
+      "productId": "6993627e81551e76130b7fd5"
+    },
+    {
+      "chip": "Chip_1",
+      "style": "style3",
+      "productId": "699362804267b5cca10e041d"
+    },
+    {
+      "chip": "Chip_1",
+      "style": "style5",
+      "productId": "69936282fce69c95790678de"
+    },
+    {
+      "chip": "Chip_100",
+      "style": "style3",
+      "productId": "69936284e76bab52b50461af"
+    },
+    {
+      "chip": "Chip_100",
+      "style": "style5",
+      "productId": "699362851b150aae4b05e2f6"
+    },
+    {
+      "chip": "Chip_101",
+      "style": "style3",
+      "productId": "6993628881551e76130b7fd6"
+    },
+    {
+      "chip": "Chip_101",
+      "style": "style5",
+      "productId": "6993628a7c35cc1f9905d04b"
+    },
+    {
+      "chip": "Chip_110",
+      "style": "style3",
+      "productId": "6993628dbfc0e49d4e0714b5"
+    },
+    {
+      "chip": "Chip_110",
+      "style": "style5",
+      "productId": "699362921d708f95f80be74c"
+    },
+    {
+      "chip": "Chip_111",
+      "style": "style3",
+      "productId": "699362982a803811040f7bf4"
+    },
+    {
+      "chip": "Chip_111",
+      "style": "style5",
+      "productId": "6993629c7d99f31ddd0a65f7"
+    },
+    {
+      "chip": "Chip_1000",
+      "style": "style3",
+      "productId": "6993629e4922e9bd36051551"
+    },
+    {
+      "chip": "Chip_1000",
+      "style": "style5",
+      "productId": "699362a1ded8329cc20b3105"
+    },
+    {
+      "chip": "Chip_1001",
+      "style": "style3",
+      "productId": "699362a4947f32bfdf05952b"
+    },
+    {
+      "chip": "Chip_1001",
+      "style": "style5",
+      "productId": "699362a64ef083e0eb0f07a1"
+    },
+    {
+      "chip": "Chip_1010",
+      "style": "style3",
+      "productId": "699362a8bfc0e49d4e0714be"
+    },
+    {
+      "chip": "Chip_1010",
+      "style": "style5",
+      "productId": "699362ad2a803811040f7bf8"
+    },
+    {
+      "chip": "Chip_1011",
+      "style": "style3",
+      "productId": "699362af2a803811040f7bf9"
+    },
+    {
+      "chip": "Chip_1011",
+      "style": "style5",
+      "productId": "699362b14922e9bd36051559"
+    },
+    {
+      "chip": "Chip_1100",
+      "style": "style3",
+      "productId": "699362b35b3dfb682c00b089"
+    },
+    {
+      "chip": "Chip_1100",
+      "style": "style5",
+      "productId": "699362b5fce69c95790678ec"
+    },
+    {
+      "chip": "Chip_1101",
+      "style": "style3",
+      "productId": "699362b61b150aae4b05e304"
+    },
+    {
+      "chip": "Chip_1101",
+      "style": "style5",
+      "productId": "699362b8be1f7dc43a02da0a"
+    }
+  ]
+}
