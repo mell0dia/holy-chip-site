@@ -10,7 +10,33 @@
     h1 { color:#222; margin-bottom:0.5rem; }
     .step-title { font-size:1.2rem; color:#666; margin:2rem 0 1rem; }
 
-    /* Step 1: Character Grid */
+    /* Cart Button */
+    .cart-btn {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      background: #000;
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      z-index: 100;
+    }
+    .cart-btn:hover {
+      background: #333;
+    }
+    .cart-count {
+      background: #ff0000;
+      color: white;
+      border-radius: 50%;
+      padding: 0.2rem 0.5rem;
+      font-size: 0.8rem;
+      margin-left: 0.5rem;
+    }
+
+    /* Character Grid */
     .character-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -19,30 +45,6 @@
     }
     .character-grid.hidden {
       display: none;
-    }
-
-    /* Selected Chip Preview with Brand */
-    .selection-preview {
-      display: none;
-      justify-content: center;
-      align-items: center;
-      gap: 2rem;
-      margin: 2rem 0;
-      padding: 2rem;
-      background: white;
-      border: 2px solid #000;
-    }
-    .selection-preview.active {
-      display: flex;
-    }
-    .selection-preview img {
-      max-width: 300px;
-      height: auto;
-      cursor: pointer;
-    }
-    .selection-preview .divider {
-      font-size: 2rem;
-      color: #ccc;
     }
     .character-card {
       border: 1px solid #ddd;
@@ -56,13 +58,6 @@
       border-color: #000;
       transform: scale(1.05);
     }
-    .character-card.selected {
-      border: 3px solid #000;
-      transform: scale(1.1);
-    }
-    .character-card.hidden {
-      display: none;
-    }
     .character-card img {
       width: 100%;
       height: auto;
@@ -74,44 +69,296 @@
       font-weight: bold;
     }
 
-    /* Step 2: Product Selection */
-    .product-selection {
+    /* Product Cards */
+    .products-section {
       display: none;
-      margin: 2rem 0;
     }
-    .product-selection.active {
+    .products-section.active {
       display: block;
     }
-    .product-buttons {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    .product-btn {
-      padding: 1rem 2rem;
-      font-size: 1.1rem;
-      font-weight: bold;
-      background: white;
-      border: 2px solid #000;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .product-btn:hover {
+    .back-btn {
       background: #000;
       color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      cursor: pointer;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+    .back-btn:hover {
+      background: #333;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .product-card {
+      border: 2px solid #ddd;
+      padding: 1.5rem;
+      background: white;
+      transition: all 0.2s ease;
+    }
+    .product-card:hover {
+      border-color: #000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .product-images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .product-image {
+      width: 100%;
+      height: 200px;
+      background: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #ddd;
+    }
+    .product-image img {
+      max-width: 90%;
+      max-height: 160px;
+      margin-bottom: 0.25rem;
+    }
+    .product-image .label {
+      font-size: 0.75rem;
+      color: #666;
+      text-transform: uppercase;
+    }
+    .product-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    .product-description {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 1rem;
+    }
+    .product-price {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+    .add-to-cart-btn {
+      width: 100%;
+      padding: 1rem;
+      background: #000;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: all 0.2s ease;
+    }
+    .add-to-cart-btn:hover {
+      background: #333;
     }
 
-    /* Step 3: Processing */
-    .processing {
+    /* Cart Modal */
+    .cart-modal {
       display: none;
-      margin: 2rem 0;
-      padding: 2rem;
-      background: white;
-      border: 2px solid #000;
-      text-align: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
     }
-    .processing.active {
+    .cart-modal.active {
+      display: flex;
+    }
+    .cart-content {
+      background: white;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 2rem;
+      position: relative;
+    }
+    .cart-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+    .cart-items {
+      margin: 2rem 0;
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      border-bottom: 1px solid #ddd;
+    }
+    .cart-item-image {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .cart-item-info {
+      flex: 1;
+    }
+    .cart-item-quantity {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .qty-btn {
+      background: #000;
+      color: white;
+      border: none;
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .qty-btn:hover {
+      background: #333;
+    }
+    .qty-input {
+      width: 50px;
+      text-align: center;
+      padding: 0.4rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    .cart-item-subtotal {
+      font-weight: bold;
+      min-width: 70px;
+      text-align: right;
+    }
+    .cart-item-remove {
+      background: #ff0000;
+      color: white;
+      border: none;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      font-size: 1.5rem;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cart-item-remove:hover {
+      background: #cc0000;
+    }
+    .cart-total {
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: right;
+      margin: 2rem 0;
+    }
+    .checkout-btn {
+      width: 100%;
+      padding: 1.5rem;
+      background: #000;
+      color: white;
+      border: none;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .checkout-btn:hover {
+      background: #333;
+    }
+
+    /* Image Lightbox */
+    .image-lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+    .image-lightbox.active {
+      display: flex;
+    }
+    .lightbox-content {
+      max-width: 90%;
+      max-height: 90vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    .lightbox-content img {
+      max-width: 100%;
+      max-height: 90vh;
       display: block;
+      margin: 0 auto;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: white;
+      color: #000;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 2001;
+    }
+    .lightbox-nav {
+      background: rgba(255,255,255,0.9);
+      color: #000;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .lightbox-nav:hover {
+      background: white;
+    }
+    .lightbox-nav:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    .lightbox-counter {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.9);
+      color: #000;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+    .product-image img {
+      cursor: zoom-in;
     }
 
     /* Responsive */
@@ -120,54 +367,61 @@
         grid-template-columns: repeat(3, 1fr);
       }
     }
-    @media (max-width: 480px) {
-      .character-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
   </style>
 </head>
 <body>
-  <!-- Navigation injected here -->
+  <!-- Navigation -->
   <div id="nav-container"></div>
+
+  <!-- Cart Button -->
+  <div class="cart-btn" onclick="openCart()">
+    🛒 Cart <span class="cart-count" id="cartCount">0</span>
+  </div>
 
   <div class="content">
     <h1>Store — Products</h1>
-    <p style="color:#666;">Choose your Chip, choose your product, get your Holy Chip merch!</p>
+    <p style="color:#666;">Choose your Chip and add products to cart!</p>
 
-    <!-- Step 1: Choose Character -->
-    <div class="step-title">Step 1: Choose Your Chip</div>
-    <div class="character-grid" id="characterGrid">
-      <!-- Characters will be loaded dynamically -->
+    <!-- Step 1: Choose Chip -->
+    <div id="chipSelection">
+      <div class="step-title">Choose Your Chip</div>
+      <div class="character-grid" id="characterGrid"></div>
     </div>
 
-    <!-- Selected Chip + Brand Preview -->
-    <div class="selection-preview" id="selectionPreview">
-      <img id="previewChip" src="" alt="Selected Chip">
-      <div class="divider">+</div>
-      <img src="assets/brand.png" alt="Holy Chip Brand">
-    </div>
-
-    <!-- Step 2: Choose Product -->
-    <div class="product-selection" id="productSelection">
-      <div class="step-title">Step 2: Choose Your Product</div>
-      <div class="product-buttons">
-        <button class="product-btn" data-product="tshirt">T-Shirt</button>
-        <button class="product-btn" data-product="mug">Mug</button>
-        <button class="product-btn" data-product="hat">Hat</button>
-      </div>
-    </div>
-
-    <!-- Step 3: Processing/Redirect -->
-    <div class="processing" id="processing">
-      <h2>Redirecting to Printify...</h2>
-      <p>You selected <strong id="selectedChip"></strong> on a <strong id="selectedProduct"></strong></p>
-      <p style="color:#666; margin-top:1rem;">(Printify integration coming soon)</p>
+    <!-- Step 2: Product Cards for Selected Chip -->
+    <div class="products-section" id="productsSection">
+      <button class="back-btn" onclick="goBack()">← Back to Chips</button>
+      <h2 id="selectedChipName"></h2>
+      <div class="product-grid" id="productGrid"></div>
     </div>
   </div>
 
+  <!-- Cart Modal -->
+  <div class="cart-modal" id="cartModal">
+    <div class="cart-content">
+      <button class="cart-close" onclick="closeCart()">×</button>
+      <h2>Your Cart</h2>
+      <div class="cart-items" id="cartItems"></div>
+      <div class="cart-total">
+        Total: $<span id="cartTotal">0.00</span>
+      </div>
+      <button class="checkout-btn" onclick="checkout()">Checkout</button>
+    </div>
+  </div>
+
+  <!-- Image Lightbox -->
+  <div class="image-lightbox" id="imageLightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">×</button>
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+      <button class="lightbox-nav" id="lightboxPrev" onclick="showPrevImage()">‹</button>
+      <img id="lightboxImage" src="" alt="">
+      <button class="lightbox-nav" id="lightboxNext" onclick="showNextImage()">›</button>
+    </div>
+    <div class="lightbox-counter" id="lightboxCounter">1 of 2</div>
+  </div>
+
   <script>
-    // Character list - will be dynamically loaded
+    // Characters
     const characters = [
       'Chip_0', 'Chip_1',
       'Chip_100', 'Chip_101', 'Chip_110', 'Chip_111',
@@ -175,94 +429,363 @@
       'Chip_1100', 'Chip_1101'
     ];
 
-    let selectedCharacter = null;
-    let selectedProduct = null;
+    // Product definitions - T-shirts and Mugs
+    const productStyles = [
+      {
+        id: 'style3',
+        name: 'Style 3',
+        description: 'Front: Chip | Back: Brand',
+        price: 25.00,
+        type: 'T-Shirt',
+        category: 'tshirt'
+      },
+      {
+        id: 'style5',
+        name: 'Style 5',
+        description: 'Front: Brand + Chip',
+        price: 25.00,
+        type: 'T-Shirt',
+        category: 'tshirt'
+      },
+      {
+        id: 'mug',
+        name: 'Mug',
+        description: 'Chip + Brand side by side',
+        price: 15.00,
+        type: 'Mug',
+        category: 'mug',
+        colors: ['Black', 'Red', 'Navy'],
+        sizes: ['11oz', '15oz']
+      }
+    ];
+
+    // Cart state
+    let cart = JSON.parse(localStorage.getItem('holyChipCart') || '[]');
+    let selectedChip = null;
+    let productData = null; // Will hold product-data.json with Stripe Price IDs
+
+    // Initialize
+    loadProductData();
+    loadCharacterGrid();
+    updateCartCount();
+
+    // Load product data with Stripe Price IDs
+    async function loadProductData() {
+      try {
+        const response = await fetch('product-data.json');
+        productData = await response.json();
+        console.log('Product data loaded:', productData);
+      } catch (error) {
+        console.error('Failed to load product data:', error);
+      }
+    }
 
     // Load character grid
-    const grid = document.getElementById('characterGrid');
-    characters.forEach(char => {
-      const card = document.createElement('div');
-      card.className = 'character-card';
-      card.innerHTML = `
-        <img src="characters/${char}.png" alt="${char}">
-        <div class="name">${char}</div>
-      `;
-      card.onclick = () => selectCharacter(char, card);
-      grid.appendChild(card);
-    });
-
-    // Handle character selection
-    function selectCharacter(char, cardElement) {
-      selectedCharacter = char;
-
-      // Hide the entire grid
-      document.getElementById('characterGrid').classList.add('hidden');
-
-      // Update and show preview with Chip + Brand
-      document.getElementById('previewChip').src = `characters/${char}.png`;
-      document.getElementById('previewChip').alt = char;
-      document.getElementById('selectionPreview').classList.add('active');
-
-      // Show product selection
-      document.getElementById('productSelection').classList.add('active');
-
-      // Scroll to preview
-      document.getElementById('selectionPreview').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    function loadCharacterGrid() {
+      const grid = document.getElementById('characterGrid');
+      characters.forEach(char => {
+        const card = document.createElement('div');
+        card.className = 'character-card';
+        card.innerHTML = `
+          <img src="characters/${char}.png" alt="${char}">
+          <div class="name">${char}</div>
+        `;
+        card.onclick = () => selectChip(char);
+        grid.appendChild(card);
+      });
     }
 
-    // Handle deselection (click on preview to go back)
-    function deselectCharacter() {
-      selectedCharacter = null;
+    // Select a chip
+    function selectChip(chip) {
+      selectedChip = chip;
+      document.getElementById('chipSelection').style.display = 'none';
+      document.getElementById('productsSection').classList.add('active');
+      document.getElementById('selectedChipName').textContent = chip + ' Products';
 
-      // Show grid again
-      document.getElementById('characterGrid').classList.remove('hidden');
-
-      // Hide preview and product selection
-      document.getElementById('selectionPreview').classList.remove('active');
-      document.getElementById('productSelection').classList.remove('active');
+      // Load products for this chip
+      loadProducts(chip);
     }
 
-    // Handle deselection - click preview Chip to go back
-    document.getElementById('previewChip').onclick = deselectCharacter;
+    // Go back to chip selection
+    function goBack() {
+      document.getElementById('chipSelection').style.display = 'block';
+      document.getElementById('productsSection').classList.remove('active');
+      selectedChip = null;
+    }
 
-    // Handle product selection
-    document.querySelectorAll('.product-btn').forEach(btn => {
-      btn.onclick = () => {
-        if (!selectedCharacter) {
-          alert('Please select a character first!');
-          return;
+    // Load product cards
+    function loadProducts(chip) {
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = '';
+
+      productStyles.forEach(style => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+
+        let productImagesHTML = '';
+
+        if (style.category === 'tshirt') {
+          // T-shirts: Front and back images
+          const frontImage = `assets/mockups/${chip}_${style.id}_white_front.png`;
+          const backImage = `assets/mockups/${chip}_${style.id}_white_back.png`;
+
+          productImagesHTML = `
+            <div class="product-images">
+              <div class="product-image">
+                <img src="${frontImage}" alt="${chip} ${style.name} Front"
+                     onerror="this.src='characters/${chip}.png'"
+                     onclick="openLightbox(['${frontImage}', '${backImage}'], 0)">
+                <div class="label">Front</div>
+              </div>
+              <div class="product-image">
+                <img src="${backImage}" alt="${chip} ${style.name} Back"
+                     onerror="this.src='assets/brand.png'"
+                     onclick="openLightbox(['${frontImage}', '${backImage}'], 1)">
+                <div class="label">Back</div>
+              </div>
+            </div>
+          `;
+        } else if (style.category === 'mug') {
+          // Mugs: Show front view, lightbox has all 6 angles
+          const mugFront = `assets/mug-mockups/${chip}_mug_front.png`;
+          const mugBack = `assets/mug-mockups/${chip}_mug_back.png`;
+          const mugLeft = `assets/mug-mockups/${chip}_mug_left.png`;
+          const mugRight = `assets/mug-mockups/${chip}_mug_right.png`;
+          const mugContext1 = `assets/mug-mockups/${chip}_mug_context1.png`;
+          const mugContext2 = `assets/mug-mockups/${chip}_mug_context2.png`;
+
+          const mugAngles = [mugFront, mugBack, mugLeft, mugRight, mugContext1, mugContext2];
+
+          productImagesHTML = `
+            <div class="product-image" style="height: 250px; margin-bottom: 1rem;">
+              <img src="${mugFront}" alt="${chip} Mug"
+                   onerror="this.src='characters/${chip}.png'"
+                   onclick="openLightbox(['${mugFront}', '${mugBack}', '${mugLeft}', '${mugRight}', '${mugContext1}', '${mugContext2}'], 0)"
+                   style="max-height: 230px; cursor: pointer;">
+              <div class="label" style="margin-top: 0.5rem; font-size: 0.8rem; color: #666;">Click to see all angles</div>
+            </div>
+          `;
         }
 
-        selectedProduct = btn.dataset.product;
-        redirectToPrintify();
+        const colorInfo = style.colors ? `<div style="font-size: 0.85rem; color: #888; margin-bottom: 0.5rem;">Colors: ${style.colors.join(', ')} | Sizes: ${style.sizes.join(', ')}</div>` : '';
+
+        card.innerHTML = `
+          ${productImagesHTML}
+          <div class="product-title">${chip} ${style.type} - ${style.name}</div>
+          <div class="product-description">${style.description}</div>
+          ${colorInfo}
+          <div class="product-price">$${style.price.toFixed(2)}</div>
+          <button class="add-to-cart-btn" onclick='addToCart("${chip}", "${style.id}", "${style.name}", ${style.price}, "${style.type}")'>
+            Add to Cart
+          </button>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Add to cart
+    function addToCart(chip, styleId, styleName, price, productType = 'T-Shirt') {
+      // Get product image
+      let productImage = '';
+      if (productType === 'T-Shirt') {
+        productImage = `assets/mockups/${chip}_${styleId}_white_front.png`;
+      } else if (productType === 'Mug') {
+        productImage = `assets/mug-mockups/${chip}_mug_front.png`;
+      }
+
+      // Find Stripe Price ID from product data
+      let stripePriceId = null;
+      if (productData) {
+        if (productType === 'Mug') {
+          const mugProduct = productData.mugs.products.find(p => p.chip === chip);
+          stripePriceId = mugProduct?.stripePriceId;
+        } else if (productType === 'T-Shirt') {
+          const tshirtProduct = productData.tshirts.products.find(
+            p => p.chip === chip && p.style === styleId
+          );
+          stripePriceId = tshirtProduct?.stripePriceId;
+        }
+      }
+
+      if (!stripePriceId) {
+        alert('Error: Product not found in Stripe. Please contact support.');
+        console.error('Missing Stripe Price ID for:', { chip, styleId, productType });
+        return;
+      }
+
+      const item = {
+        chip: chip,
+        styleId: styleId,
+        styleName: styleName,
+        price: price,
+        productType: productType,
+        productName: `${chip} ${productType} - ${styleName}`,
+        productImage: productImage,
+        stripePriceId: stripePriceId, // ADDED FOR STRIPE
+        quantity: 1
       };
+
+      // Check if item already exists in cart
+      const existingIndex = cart.findIndex(i =>
+        i.chip === chip && i.styleId === styleId && i.productType === productType
+      );
+
+      if (existingIndex >= 0) {
+        // Increase quantity if already in cart
+        cart[existingIndex].quantity++;
+      } else {
+        // Add new item
+        cart.push(item);
+      }
+
+      localStorage.setItem('holyChipCart', JSON.stringify(cart));
+      updateCartCount();
+
+      // Visual feedback
+      alert(`Added ${item.productName} to cart!`);
+    }
+
+    // Update cart count
+    function updateCartCount() {
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.getElementById('cartCount').textContent = totalItems;
+    }
+
+    // Open cart
+    function openCart() {
+      const modal = document.getElementById('cartModal');
+      const itemsDiv = document.getElementById('cartItems');
+
+      if (cart.length === 0) {
+        itemsDiv.innerHTML = '<p style="text-align:center;color:#666;">Your cart is empty</p>';
+      } else {
+        itemsDiv.innerHTML = cart.map((item, index) => `
+          <div class="cart-item">
+            <img src="${item.productImage}" alt="${item.productName}" class="cart-item-image"
+                 onerror="this.src='characters/${item.chip}.png'">
+            <div class="cart-item-info">
+              <strong>${item.productName}</strong><br>
+              <span style="color:#666;">$${item.price.toFixed(2)} each</span>
+            </div>
+            <div class="cart-item-quantity">
+              <button onclick="updateQuantity(${index}, -1)" class="qty-btn">-</button>
+              <input type="number" value="${item.quantity}" min="1"
+                     onchange="setQuantity(${index}, this.value)"
+                     class="qty-input">
+              <button onclick="updateQuantity(${index}, 1)" class="qty-btn">+</button>
+            </div>
+            <div class="cart-item-subtotal">
+              $${(item.price * item.quantity).toFixed(2)}
+            </div>
+            <button class="cart-item-remove" onclick="removeFromCart(${index})">×</button>
+          </div>
+        `).join('');
+      }
+
+      // Calculate total
+      const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      document.getElementById('cartTotal').textContent = total.toFixed(2);
+
+      modal.classList.add('active');
+    }
+
+    // Close cart
+    function closeCart() {
+      document.getElementById('cartModal').classList.remove('active');
+    }
+
+    // Update quantity
+    function updateQuantity(index, change) {
+      cart[index].quantity = Math.max(1, cart[index].quantity + change);
+      localStorage.setItem('holyChipCart', JSON.stringify(cart));
+      updateCartCount();
+      openCart(); // Refresh cart display
+    }
+
+    // Set quantity directly
+    function setQuantity(index, value) {
+      const qty = parseInt(value) || 1;
+      cart[index].quantity = Math.max(1, qty);
+      localStorage.setItem('holyChipCart', JSON.stringify(cart));
+      updateCartCount();
+      openCart(); // Refresh cart display
+    }
+
+    // Remove from cart
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      localStorage.setItem('holyChipCart', JSON.stringify(cart));
+      updateCartCount();
+      openCart(); // Refresh cart display
+    }
+
+    // Checkout
+    function checkout() {
+      if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+      }
+
+      // Redirect to custom checkout page
+      window.location.href = 'checkout.html';
+    }
+
+    // Image Lightbox functions
+    let lightboxImages = [];
+    let currentLightboxIndex = 0;
+
+    function openLightbox(images, startIndex = 0) {
+      lightboxImages = images;
+      currentLightboxIndex = startIndex;
+      showLightboxImage();
+      document.getElementById('imageLightbox').classList.add('active');
+    }
+
+    function showLightboxImage() {
+      const lightboxImage = document.getElementById('lightboxImage');
+      const counter = document.getElementById('lightboxCounter');
+      const prevBtn = document.getElementById('lightboxPrev');
+      const nextBtn = document.getElementById('lightboxNext');
+
+      lightboxImage.src = lightboxImages[currentLightboxIndex];
+      counter.textContent = `${currentLightboxIndex + 1} of ${lightboxImages.length}`;
+
+      // Enable/disable navigation buttons
+      prevBtn.disabled = currentLightboxIndex === 0;
+      nextBtn.disabled = currentLightboxIndex === lightboxImages.length - 1;
+    }
+
+    function showPrevImage() {
+      if (currentLightboxIndex > 0) {
+        currentLightboxIndex--;
+        showLightboxImage();
+      }
+    }
+
+    function showNextImage() {
+      if (currentLightboxIndex < lightboxImages.length - 1) {
+        currentLightboxIndex++;
+        showLightboxImage();
+      }
+    }
+
+    function closeLightbox() {
+      document.getElementById('imageLightbox').classList.remove('active');
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(event) {
+      const lightbox = document.getElementById('imageLightbox');
+      if (lightbox.classList.contains('active')) {
+        if (event.key === 'Escape') {
+          closeLightbox();
+        } else if (event.key === 'ArrowLeft') {
+          showPrevImage();
+        } else if (event.key === 'ArrowRight') {
+          showNextImage();
+        }
+      }
     });
-
-    // Redirect to Printify (placeholder)
-    function redirectToPrintify() {
-      // Update processing message
-      document.getElementById('selectedChip').textContent = selectedCharacter;
-      document.getElementById('selectedProduct').textContent = selectedProduct.toUpperCase();
-
-      // Show processing
-      document.getElementById('processing').classList.add('active');
-      document.getElementById('processing').scrollIntoView({ behavior: 'smooth' });
-
-      // TODO: Actual Printify API integration
-      // For now, just show the message
-      console.log(`Selected: ${selectedCharacter} on ${selectedProduct}`);
-      console.log('Product design:', getProductDesign(selectedProduct));
-    }
-
-    // Get product design configuration
-    function getProductDesign(product) {
-      const designs = {
-        tshirt: 'Chip + brand side by side (brand follows character)',
-        mug: 'Chip + brand side by side (brand follows character)',
-        hat: 'Chip front, brand back'
-      };
-      return designs[product];
-    }
   </script>
 
   <script src="assets/nav.js"></script>
