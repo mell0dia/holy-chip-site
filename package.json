@@ -1,0 +1,18 @@
+{
+  "name": "holy-chip-store",
+  "version": "1.0.0",
+  "description": "Holy Chip - Custom POD Store with Printify Integration",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod",
+    "add-product": "./add-product.sh"
+  },
+  "dependencies": {
+    "stripe": "^14.0.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

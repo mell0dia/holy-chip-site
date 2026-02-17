@@ -1,2 +1,7 @@
 printify-config.js
 printify-products.json
+.vercel
+
+# Environment files with secrets
+.env.check
+.env.production.local

@@ -1,54 +1,67 @@
 {
-  "created_at": "2026-02-16T18:56:28.058Z",
+  "created_at": "2026-02-16T21:10:01.978Z",
   "total_products": 12,
+  "settings": {
+    "position": "front",
+    "chip": {
+      "x": 0.3,
+      "y": 0.5,
+      "scale": 0.55
+    },
+    "brand": {
+      "x": 0.8,
+      "y": 0.5,
+      "scale": 0.5
+    }
+  },
   "products": [
     {
       "chip": "Chip_0",
-      "productId": "6993683b947f32bfdf059614"
+      "productId": "6993878b4ef083e0eb0f0e5a"
     },
     {
       "chip": "Chip_1",
-      "productId": "6993683d2fdefe6cb3015448"
+      "productId": "6993878ffce69c9579067ee6"
     },
     {
       "chip": "Chip_100",
-      "productId": "6993683e947f32bfdf059615"
+      "productId": "699387927c35cc1f9905d663"
     },
     {
       "chip": "Chip_101",
-      "productId": "69936840350878b66800c74e"
+      "productId": "6993879481551e76130b8632"
     },
     {
       "chip": "Chip_110",
-      "productId": "6993684569515bc2650acb56"
+      "productId": "69938796ded8329cc20b371f"
     },
     {
       "chip": "Chip_111",
-      "productId": "69936848fb169ed8cf07302b"
+      "productId": "6993879a1d708f95f80bedbb"
     },
     {
       "chip": "Chip_1000",
-      "productId": "6993684abe1f7dc43a02db0a"
+      "productId": "6993879c7d99f31ddd0a6c5c"
     },
     {
       "chip": "Chip_1001",
-      "productId": "6993684b1b150aae4b05e403"
+      "productId": "6993879f69515bc2650ad0a4"
     },
     {
       "chip": "Chip_1010",
-      "productId": "6993684e1d708f95f80be83c"
+      "productId": "699387a1947f32bfdf059c2e"
     },
     {
       "chip": "Chip_1011",
-      "productId": "69936852ded8329cc20b31f3"
+      "productId": "699387a32fdefe6cb301599e"
     },
     {
       "chip": "Chip_1100",
-      "productId": "699368552fdefe6cb301544a"
+      "productId": "699387a62a803811040f8295"
     },
     {
       "chip": "Chip_1101",
-      "productId": "69936859be1f7dc43a02db0c"
+      "productId": "699387a84267b5cca10e0a7b"
     }
   ]
 }

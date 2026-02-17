@@ -199,21 +199,70 @@
     }
     .cart-item {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      gap: 1rem;
       padding: 1rem;
       border-bottom: 1px solid #ddd;
     }
+    .cart-item-image {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
     .cart-item-info {
       flex: 1;
+    }
+    .cart-item-quantity {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .qty-btn {
+      background: #000;
+      color: white;
+      border: none;
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .qty-btn:hover {
+      background: #333;
+    }
+    .qty-input {
+      width: 50px;
+      text-align: center;
+      padding: 0.4rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    .cart-item-subtotal {
+      font-weight: bold;
+      min-width: 70px;
+      text-align: right;
     }
     .cart-item-remove {
       background: #ff0000;
       color: white;
       border: none;
-      padding: 0.5rem 1rem;
+      width: 32px;
+      height: 32px;
       cursor: pointer;
-      margin-left: 1rem;
+      font-size: 1.5rem;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cart-item-remove:hover {
+      background: #cc0000;
     }
     .cart-total {
       font-size: 1.5rem;
@@ -380,21 +429,33 @@
       'Chip_1100', 'Chip_1101'
     ];
 
-    // Product definitions (for now, only t-shirts)
+    // Product definitions - T-shirts and Mugs
     const productStyles = [
       {
         id: 'style3',
         name: 'Style 3',
         description: 'Front: Chip | Back: Brand',
         price: 25.00,
-        type: 'T-Shirt'
+        type: 'T-Shirt',
+        category: 'tshirt'
       },
       {
         id: 'style5',
         name: 'Style 5',
         description: 'Front: Brand + Chip',
         price: 25.00,
-        type: 'T-Shirt'
+        type: 'T-Shirt',
+        category: 'tshirt'
+      },
+      {
+        id: 'mug',
+        name: 'Mug',
+        description: 'Chip + Brand side by side',
+        price: 15.00,
+        type: 'Mug',
+        category: 'mug',
+        colors: ['Black', 'Red', 'Navy'],
+        sizes: ['11oz', '15oz']
       }
     ];
 
@@ -448,29 +509,60 @@
         const card = document.createElement('div');
         card.className = 'product-card';
 
-        // Use Printify mockup images (front and back)
-        const frontImage = `assets/mockups/${chip}_${style.id}_white_front.png`;
-        const backImage = `assets/mockups/${chip}_${style.id}_white_back.png`;
+        let productImagesHTML = '';
+
+        if (style.category === 'tshirt') {
+          // T-shirts: Front and back images
+          const frontImage = `assets/mockups/${chip}_${style.id}_white_front.png`;
+          const backImage = `assets/mockups/${chip}_${style.id}_white_back.png`;
+
+          productImagesHTML = `
+            <div class="product-images">
+              <div class="product-image">
+                <img src="${frontImage}" alt="${chip} ${style.name} Front"
+                     onerror="this.src='characters/${chip}.png'"
+                     onclick="openLightbox(['${frontImage}', '${backImage}'], 0)">
+                <div class="label">Front</div>
+              </div>
+              <div class="product-image">
+                <img src="${backImage}" alt="${chip} ${style.name} Back"
+                     onerror="this.src='assets/brand.png'"
+                     onclick="openLightbox(['${frontImage}', '${backImage}'], 1)">
+                <div class="label">Back</div>
+              </div>
+            </div>
+          `;
+        } else if (style.category === 'mug') {
+          // Mugs: Show front view, lightbox has all 6 angles
+          const mugFront = `assets/mug-mockups/${chip}_mug_front.png`;
+          const mugBack = `assets/mug-mockups/${chip}_mug_back.png`;
+          const mugLeft = `assets/mug-mockups/${chip}_mug_left.png`;
+          const mugRight = `assets/mug-mockups/${chip}_mug_right.png`;
+          const mugContext1 = `assets/mug-mockups/${chip}_mug_context1.png`;
+          const mugContext2 = `assets/mug-mockups/${chip}_mug_context2.png`;
+
+          const mugAngles = [mugFront, mugBack, mugLeft, mugRight, mugContext1, mugContext2];
+
+          productImagesHTML = `
+            <div class="product-image" style="height: 250px; margin-bottom: 1rem;">
+              <img src="${mugFront}" alt="${chip} Mug"
+                   onerror="this.src='characters/${chip}.png'"
+                   onclick="openLightbox(['${mugFront}', '${mugBack}', '${mugLeft}', '${mugRight}', '${mugContext1}', '${mugContext2}'], 0)"
+                   style="max-height: 230px; cursor: pointer;">
+              <div class="label" style="margin-top: 0.5rem; font-size: 0.8rem; color: #666;">Click to see all angles</div>
+            </div>
+          `;
+        }
+
+        const colorInfo = style.colors ? `<div style="font-size: 0.85rem; color: #888; margin-bottom: 0.5rem;">Colors: ${style.colors.join(', ')} | Sizes: ${style.sizes.join(', ')}</div>` : '';
 
         card.innerHTML = `
-          <div class="product-images">
-            <div class="product-image">
-              <img src="${frontImage}" alt="${chip} ${style.name} Front"
-                   onerror="this.src='characters/${chip}.png'"
-                   onclick="openLightbox(['${frontImage}', '${backImage}'], 0)">
-              <div class="label">Front</div>
-            </div>
-            <div class="product-image">
-              <img src="${backImage}" alt="${chip} ${style.name} Back"
-                   onerror="this.src='assets/brand.png'"
-                   onclick="openLightbox(['${frontImage}', '${backImage}'], 1)">
-              <div class="label">Back</div>
-            </div>
-          </div>
+          ${productImagesHTML}
           <div class="product-title">${chip} ${style.type} - ${style.name}</div>
           <div class="product-description">${style.description}</div>
+          ${colorInfo}
           <div class="product-price">$${style.price.toFixed(2)}</div>
-          <button class="add-to-cart-btn" onclick='addToCart("${chip}", "${style.id}", "${style.name}", ${style.price})'>
+          <button class="add-to-cart-btn" onclick='addToCart("${chip}", "${style.id}", "${style.name}", ${style.price}, "${style.type}")'>
             Add to Cart
           </button>
         `;
@@ -479,16 +571,39 @@
     }
 
     // Add to cart
-    function addToCart(chip, styleId, styleName, price) {
+    function addToCart(chip, styleId, styleName, price, productType = 'T-Shirt') {
+      // Get product image
+      let productImage = '';
+      if (productType === 'T-Shirt') {
+        productImage = `assets/mockups/${chip}_${styleId}_white_front.png`;
+      } else if (productType === 'Mug') {
+        productImage = `assets/mug-mockups/${chip}_mug_front.png`;
+      }
+
       const item = {
         chip: chip,
         styleId: styleId,
         styleName: styleName,
         price: price,
-        productName: `${chip} T-Shirt - ${styleName}`
+        productType: productType,
+        productName: `${chip} ${productType} - ${styleName}`,
+        productImage: productImage,
+        quantity: 1
       };
 
-      cart.push(item);
+      // Check if item already exists in cart
+      const existingIndex = cart.findIndex(i =>
+        i.chip === chip && i.styleId === styleId && i.productType === productType
+      );
+
+      if (existingIndex >= 0) {
+        // Increase quantity if already in cart
+        cart[existingIndex].quantity++;
+      } else {
+        // Add new item
+        cart.push(item);
+      }
+
       localStorage.setItem('holyChipCart', JSON.stringify(cart));
       updateCartCount();
 
@@ -498,7 +613,8 @@
 
     // Update cart count
     function updateCartCount() {
-      document.getElementById('cartCount').textContent = cart.length;
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.getElementById('cartCount').textContent = totalItems;
     }
 
     // Open cart
@@ -511,17 +627,29 @@
       } else {
         itemsDiv.innerHTML = cart.map((item, index) => `
           <div class="cart-item">
+            <img src="${item.productImage}" alt="${item.productName}" class="cart-item-image"
+                 onerror="this.src='characters/${item.chip}.png'">
             <div class="cart-item-info">
               <strong>${item.productName}</strong><br>
-              <span style="color:#666;">$${item.price.toFixed(2)}</span>
+              <span style="color:#666;">$${item.price.toFixed(2)} each</span>
             </div>
-            <button class="cart-item-remove" onclick="removeFromCart(${index})">Remove</button>
+            <div class="cart-item-quantity">
+              <button onclick="updateQuantity(${index}, -1)" class="qty-btn">-</button>
+              <input type="number" value="${item.quantity}" min="1"
+                     onchange="setQuantity(${index}, this.value)"
+                     class="qty-input">
+              <button onclick="updateQuantity(${index}, 1)" class="qty-btn">+</button>
+            </div>
+            <div class="cart-item-subtotal">
+              $${(item.price * item.quantity).toFixed(2)}
+            </div>
+            <button class="cart-item-remove" onclick="removeFromCart(${index})">×</button>
           </div>
         `).join('');
       }
 
       // Calculate total
-      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
       document.getElementById('cartTotal').textContent = total.toFixed(2);
 
       modal.classList.add('active');
@@ -530,6 +658,23 @@
     // Close cart
     function closeCart() {
       document.getElementById('cartModal').classList.remove('active');
+    }
+
+    // Update quantity
+    function updateQuantity(index, change) {
+      cart[index].quantity = Math.max(1, cart[index].quantity + change);
+      localStorage.setItem('holyChipCart', JSON.stringify(cart));
+      updateCartCount();
+      openCart(); // Refresh cart display
+    }
+
+    // Set quantity directly
+    function setQuantity(index, value) {
+      const qty = parseInt(value) || 1;
+      cart[index].quantity = Math.max(1, qty);
+      localStorage.setItem('holyChipCart', JSON.stringify(cart));
+      updateCartCount();
+      openCart(); // Refresh cart display
     }
 
     // Remove from cart
@@ -547,13 +692,8 @@
         return;
       }
 
-      // For now, show order summary
-      const summary = cart.map(item => `- ${item.productName} ($${item.price})`).join('\n');
-      const total = cart.reduce((sum, item) => sum + item.price, 0);
-
-      alert(`Order Summary:\n\n${summary}\n\nTotal: $${total.toFixed(2)}\n\n(Printify checkout integration coming soon!)`);
-
-      // TODO: Integrate with Printify for actual checkout
+      // Redirect to custom checkout page
+      window.location.href = 'checkout.html';
     }
 
     // Image Lightbox functions

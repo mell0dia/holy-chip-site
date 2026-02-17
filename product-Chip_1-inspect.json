@@ -1,0 +1,855 @@
+{
+  "id": "699372ad4922e9bd36051833",
+  "title": "Holy Chip - Chip_1 Mug",
+  "description": "Chip_1 mug with Holy Chip branding - AI made by a Human",
+  "tags": [
+    "Home & Living",
+    "Mugs",
+    "Coffee Mugs",
+    "11 oz",
+    "11oz",
+    "Kitchen",
+    "White base",
+    "two tone",
+    "accent mug",
+    "Spring Essentials",
+    "15 oz",
+    "15oz",
+    "Halloween",
+    "Personalization Picks",
+    "Beverage",
+    "Drink",
+    "Drinks",
+    "Valentine's Day"
+  ],
+  "options": [
+    {
+      "name": "Mug sizes",
+      "type": "size",
+      "values": [
+        {
+          "id": 1189,
+          "title": "11oz"
+        },
+        {
+          "id": 1190,
+          "title": "15oz"
+        }
+      ],
+      "display_in_preview": true
+    },
+    {
+      "name": "Mug color",
+      "type": "color",
+      "values": [
+        {
+          "id": 2663,
+          "title": "Red",
+          "colors": [
+            "#CC141B"
+          ]
+        },
+        {
+          "id": 2621,
+          "title": "Black",
+          "colors": [
+            "#000000"
+          ]
+        },
+        {
+          "id": 2754,
+          "title": "Orange",
+          "colors": [
+            "#F97000"
+          ]
+        },
+        {
+          "id": 2755,
+          "title": "Yellow",
+          "colors": [
+            "#FFE819"
+          ]
+        },
+        {
+          "id": 4976,
+          "title": "Blue",
+          "colors": [
+            "#AADCF2"
+          ]
+        },
+        {
+          "id": 2758,
+          "title": "Light Blue",
+          "colors": [
+            "#AADCF2"
+          ]
+        },
+        {
+          "id": 2664,
+          "title": "Navy",
+          "colors": [
+            "#262F4C"
+          ]
+        },
+        {
+          "id": 2759,
+          "title": "Purple",
+          "colors": [
+            "#862470"
+          ]
+        },
+        {
+          "id": 2665,
+          "title": "Pink",
+          "colors": [
+            "#daa2a6"
+          ]
+        }
+      ],
+      "display_in_preview": true
+    }
+  ],
+  "variants": [
+    {
+      "id": 72180,
+      "sku": "68298384974517973197",
+      "cost": 632,
+      "price": 1500,
+      "title": "11oz / Black",
+      "grams": 310,
+      "is_enabled": true,
+      "is_default": false,
+      "is_available": true,
+      "is_printify_express_eligible": false,
+      "options": [
+        1189,
+        2621
+      ],
+      "quantity": 1
+    },
+    {
+      "id": 72181,
+      "sku": "31764097229099590747",
+      "cost": 632,
+      "price": 632,
+      "title": "11oz / Blue",
+      "grams": 310,
+      "is_enabled": false,
+      "is_default": false,
+      "is_available": false,
+      "is_printify_express_eligible": false,
+      "options": [
+        1189,
+        4976
+      ],
+      "quantity": 1
+    },
+    {
+      "id": 72182,
+      "sku": "16317052291725557326",
+      "cost": 632,
+      "price": 1500,
+      "title": "11oz / Navy",
+      "grams": 360,
+      "is_enabled": true,
+      "is_default": false,
+      "is_available": true,
+      "is_printify_express_eligible": false,
+      "options": [
+        1189,
+        2664
+      ],
+      "quantity": 1
+    },
+    {
+      "id": 72183,
+      "sku": "38678188664503170298",
+      "cost": 632,
+      "price": 632,
+      "title": "11oz / Pink",
+      "grams": 310,
+      "is_enabled": false,
+      "is_default": false,
+      "is_available": true,
+      "is_printify_express_eligible": false,
+      "options": [
+        1189,
+        2665
+      ],
+      "quantity": 1
+    },
+    {
+      "id": 72184,
+      "sku": "82549726054310580045",
+      "cost": 632,
+      "price": 1500,
+      "title": "11oz / Red",
+      "grams": 310,
+      "is_enabled": true,
+      "is_default": true,
+      "is_available": true,
+      "is_printify_express_eligible": false,
+      "options": [
+        1189,
+        2663
+      ],
+      "quantity": 1
+    },
+    {
+      "id": 105883,
+      "sku": "13786502734163431657",
+      "cost": 844,
+      "price": 1500,
+      "title": "15oz / Black",
+      "grams": 460,
+      "is_enabled": true,
+      "is_default": false,
+      "is_available": true,
+      "is_printify_express_eligible": false,
+      "options": [
+        1190,
+        2621
+      ],
+      "quantity": 1
+    },
+    {
+      "id": 105885,
+      "sku": "26085770023046859271",
+      "cost": 790,
+      "price": 1500,
+      "title": "15oz / Navy",
+      "grams": 430,
+      "is_enabled": true,
+      "is_default": false,
+      "is_available": true,
+      "is_printify_express_eligible": false,
+      "options": [
+        1190,
+        2664
+      ],
+      "quantity": 1
+    },
+    {
+      "id": 105886,
+      "sku": "21056603456739798717",
+      "cost": 844,
+      "price": 844,
+      "title": "15oz / Pink",
+      "grams": 460,
+      "is_enabled": false,
+      "is_default": false,
+      "is_available": true,
+      "is_printify_express_eligible": false,
+      "options": [
+        1190,
+        2665
+      ],
+      "quantity": 1
+    },
+    {
+      "id": 105887,
+      "sku": "22606669083899678060",
+      "cost": 844,
+      "price": 1500,
+      "title": "15oz / Red",
+      "grams": 460,
+      "is_enabled": true,
+      "is_default": false,
+      "is_available": true,
+      "is_printify_express_eligible": false,
+      "options": [
+        1190,
+        2663
+      ],
+      "quantity": 1
+    },
+    {
+      "id": 105888,
+      "sku": "13242253545113548326",
+      "cost": 632,
+      "price": 632,
+      "title": "11oz / Light Blue",
+      "grams": 310,
+      "is_enabled": false,
+      "is_default": false,
+      "is_available": true,
+      "is_printify_express_eligible": false,
+      "options": [
+        1189,
+        2758
+      ],
+      "quantity": 1
+    },
+    {
+      "id": 105889,
+      "sku": "24887489602109724642",
+      "cost": 844,
+      "price": 844,
+      "title": "15oz / Light Blue",
+      "grams": 460,
+      "is_enabled": false,
+      "is_default": false,
+      "is_available": true,
+      "is_printify_express_eligible": false,
+      "options": [
+        1190,
+        2758
+      ],
+      "quantity": 1
+    },
+    {
+      "id": 108906,
+      "sku": "33446560906511978681",
+      "cost": 632,
+      "price": 632,
+      "title": "11oz / Orange",
+      "grams": 310,
+      "is_enabled": false,
+      "is_default": false,
+      "is_available": true,
+      "is_printify_express_eligible": false,
+      "options": [
+        1189,
+        2754
+      ],
+      "quantity": 1
+    },
+    {
+      "id": 108907,
+      "sku": "11416646007977041797",
+      "cost": 632,
+      "price": 632,
+      "title": "11oz / Purple",
+      "grams": 360,
+      "is_enabled": false,
+      "is_default": false,
+      "is_available": true,
+      "is_printify_express_eligible": false,
+      "options": [
+        1189,
+        2759
+      ],
+      "quantity": 1
+    },
+    {
+      "id": 108908,
+      "sku": "32739422126524794891",
+      "cost": 632,
+      "price": 632,
+      "title": "11oz / Yellow",
+      "grams": 310,
+      "is_enabled": false,
+      "is_default": false,
+      "is_available": true,
+      "is_printify_express_eligible": false,
+      "options": [
+        1189,
+        2755
+      ],
+      "quantity": 1
+    },
+    {
+      "id": 108910,
+      "sku": "98829844831602100528",
+      "cost": 844,
+      "price": 844,
+      "title": "15oz / Orange",
+      "grams": 460,
+      "is_enabled": false,
+      "is_default": false,
+      "is_available": true,
+      "is_printify_express_eligible": false,
+      "options": [
+        1190,
+        2754
+      ],
+      "quantity": 1
+    },
+    {
+      "id": 108911,
+      "sku": "37039243658452136915",
+      "cost": 844,
+      "price": 844,
+      "title": "15oz / Purple",
+      "grams": 430,
+      "is_enabled": false,
+      "is_default": false,
+      "is_available": true,
+      "is_printify_express_eligible": false,
+      "options": [
+        1190,
+        2759
+      ],
+      "quantity": 1
+    },
+    {
+      "id": 108912,
+      "sku": "33252576531891603899",
+      "cost": 844,
+      "price": 844,
+      "title": "15oz / Yellow",
+      "grams": 460,
+      "is_enabled": false,
+      "is_default": false,
+      "is_available": true,
+      "is_printify_express_eligible": false,
+      "options": [
+        1190,
+        2755
+      ],
+      "quantity": 1
+    }
+  ],
+  "images": [
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/72180/102752/holy-chip-chip-1-mug.jpg?camera_label=front",
+      "variant_ids": [
+        72180
+      ],
+      "position": "other",
+      "is_default": true,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/72180/102754/holy-chip-chip-1-mug.jpg?camera_label=right",
+      "variant_ids": [
+        72180
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/72180/102756/holy-chip-chip-1-mug.jpg?camera_label=left",
+      "variant_ids": [
+        72180
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/72180/102758/holy-chip-chip-1-mug.jpg?camera_label=back",
+      "variant_ids": [
+        72180
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/72180/102760/holy-chip-chip-1-mug.jpg?camera_label=context-1",
+      "variant_ids": [
+        72180
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/72180/102762/holy-chip-chip-1-mug.jpg?camera_label=context-2",
+      "variant_ids": [
+        72180
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/72182/102752/holy-chip-chip-1-mug.jpg?camera_label=front",
+      "variant_ids": [
+        72182
+      ],
+      "position": "other",
+      "is_default": true,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/72182/102754/holy-chip-chip-1-mug.jpg?camera_label=right",
+      "variant_ids": [
+        72182
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/72182/102756/holy-chip-chip-1-mug.jpg?camera_label=left",
+      "variant_ids": [
+        72182
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/72182/102758/holy-chip-chip-1-mug.jpg?camera_label=back",
+      "variant_ids": [
+        72182
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/72182/102760/holy-chip-chip-1-mug.jpg?camera_label=context-1",
+      "variant_ids": [
+        72182
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/72182/102762/holy-chip-chip-1-mug.jpg?camera_label=context-2",
+      "variant_ids": [
+        72182
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/72184/102752/holy-chip-chip-1-mug.jpg?camera_label=front",
+      "variant_ids": [
+        72184
+      ],
+      "position": "other",
+      "is_default": true,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/72184/102754/holy-chip-chip-1-mug.jpg?camera_label=right",
+      "variant_ids": [
+        72184
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/72184/102756/holy-chip-chip-1-mug.jpg?camera_label=left",
+      "variant_ids": [
+        72184
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/72184/102758/holy-chip-chip-1-mug.jpg?camera_label=back",
+      "variant_ids": [
+        72184
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/72184/102760/holy-chip-chip-1-mug.jpg?camera_label=context-1",
+      "variant_ids": [
+        72184
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/72184/102762/holy-chip-chip-1-mug.jpg?camera_label=context-2",
+      "variant_ids": [
+        72184
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/105883/102753/holy-chip-chip-1-mug.jpg?camera_label=front",
+      "variant_ids": [
+        105883
+      ],
+      "position": "other",
+      "is_default": true,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/105883/102755/holy-chip-chip-1-mug.jpg?camera_label=right",
+      "variant_ids": [
+        105883
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/105883/102757/holy-chip-chip-1-mug.jpg?camera_label=left",
+      "variant_ids": [
+        105883
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/105883/102759/holy-chip-chip-1-mug.jpg?camera_label=back",
+      "variant_ids": [
+        105883
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/105883/102761/holy-chip-chip-1-mug.jpg?camera_label=context-1",
+      "variant_ids": [
+        105883
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/105883/102763/holy-chip-chip-1-mug.jpg?camera_label=context-2",
+      "variant_ids": [
+        105883
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/105885/102753/holy-chip-chip-1-mug.jpg?camera_label=front",
+      "variant_ids": [
+        105885
+      ],
+      "position": "other",
+      "is_default": true,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/105885/102755/holy-chip-chip-1-mug.jpg?camera_label=right",
+      "variant_ids": [
+        105885
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/105885/102757/holy-chip-chip-1-mug.jpg?camera_label=left",
+      "variant_ids": [
+        105885
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/105885/102759/holy-chip-chip-1-mug.jpg?camera_label=back",
+      "variant_ids": [
+        105885
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/105885/102761/holy-chip-chip-1-mug.jpg?camera_label=context-1",
+      "variant_ids": [
+        105885
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/105885/102763/holy-chip-chip-1-mug.jpg?camera_label=context-2",
+      "variant_ids": [
+        105885
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/105887/102753/holy-chip-chip-1-mug.jpg?camera_label=front",
+      "variant_ids": [
+        105887
+      ],
+      "position": "other",
+      "is_default": true,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/105887/102755/holy-chip-chip-1-mug.jpg?camera_label=right",
+      "variant_ids": [
+        105887
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/105887/102757/holy-chip-chip-1-mug.jpg?camera_label=left",
+      "variant_ids": [
+        105887
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/105887/102759/holy-chip-chip-1-mug.jpg?camera_label=back",
+      "variant_ids": [
+        105887
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/105887/102761/holy-chip-chip-1-mug.jpg?camera_label=context-1",
+      "variant_ids": [
+        105887
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    },
+    {
+      "src": "https://images-api.printify.com/mockup/699372ad4922e9bd36051833/105887/102763/holy-chip-chip-1-mug.jpg?camera_label=context-2",
+      "variant_ids": [
+        105887
+      ],
+      "position": "other",
+      "is_default": false,
+      "is_selected_for_publishing": true,
+      "order": null
+    }
+  ],
+  "created_at": "2026-02-16 19:40:29+00:00",
+  "updated_at": "2026-02-16 19:40:29+00:00",
+  "visible": true,
+  "is_locked": false,
+  "blueprint_id": 635,
+  "user_id": 26366739,
+  "shop_id": 26476603,
+  "print_provider_id": 28,
+  "print_areas": [
+    {
+      "variant_ids": [
+        72180,
+        72181,
+        72182,
+        72183,
+        72184,
+        105883,
+        105885,
+        105886,
+        105887,
+        105888,
+        105889,
+        108906,
+        108907,
+        108908,
+        108910,
+        108911,
+        108912
+      ],
+      "placeholders": [
+        {
+          "position": "front",
+          "images": [],
+          "decoration_method": "dye-sublimation"
+        }
+      ],
+      "background": "#ffffff"
+    }
+  ],
+  "print_details": [],
+  "sales_channel_properties": [],
+  "is_printify_express_eligible": false,
+  "is_printify_express_enabled": false,
+  "is_economy_shipping_eligible": true,
+  "is_economy_shipping_enabled": false,
+  "is_deleted": false,
+  "original_product_id": "",
+  "views": [
+    {
+      "id": 126928,
+      "label": "Wraparound exterior",
+      "position": "front",
+      "files": [
+        {
+          "src": "https://images.printify.com/api/catalog/687a1983e9d16f2a440cd772.svg",
+          "variant_ids": [
+            72180,
+            72181,
+            72182,
+            72183,
+            72184,
+            105888,
+            108905,
+            108906,
+            108907,
+            108908,
+            113942,
+            149513
+          ]
+        },
+        {
+          "src": "https://images.printify.com/api/catalog/687a198dbd9da1ecc30b22f2.svg",
+          "variant_ids": [
+            105883,
+            105885,
+            105886,
+            105887,
+            105889,
+            108909,
+            108910,
+            108911,
+            108912,
+            109354,
+            113943,
+            149514
+          ]
+        }
+      ]
+    }
+  ]
+}
