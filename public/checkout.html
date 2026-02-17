@@ -237,7 +237,7 @@
       document.getElementById('total').textContent = total.toFixed(2);
     }
 
-    // Handle form submission - CLIENT-SIDE STRIPE REDIRECT
+    // Handle form submission - CLOUDFLARE WORKER
     document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -249,40 +249,28 @@
 
       errorDiv.style.display = 'none';
       btn.disabled = true;
-      btn.textContent = 'Redirecting to Stripe...';
+      btn.textContent = 'Processing...';
 
       try {
-        // Build line items with Stripe Price IDs
-        const lineItems = cart.map(item => ({
-          price: item.stripePriceId,
-          quantity: item.quantity
-        }));
-
-        // Store shipping info in localStorage for later fulfillment
-        localStorage.setItem('holyChipPendingOrder', JSON.stringify({
-          cart,
-          shipping,
-          timestamp: new Date().toISOString()
-        }));
-
-        // Redirect to Stripe Checkout (client-side, no server call!)
-        const { error } = await stripe.redirectToCheckout({
-          lineItems: lineItems,
-          mode: 'payment',
-          successUrl: window.location.origin + '/success.html?session_id={CHECKOUT_SESSION_ID}',
-          cancelUrl: window.location.origin + '/checkout.html',
-          customerEmail: shipping.email,
-          shippingAddressCollection: {
-            allowedCountries: ['US', 'CA', 'GB', 'AU']
-          }
+        // Call Cloudflare Worker to create checkout session
+        const response = await fetch('https://holy-chip-checkout.rico-duoba.workers.dev/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ cart, shipping })
         });
 
-        if (error) {
-          throw error;
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Checkout failed');
         }
 
+        const { url } = await response.json();
+
+        // Redirect to Stripe Checkout
+        window.location.href = url;
+
       } catch (error) {
-        console.error('Stripe error:', error);
+        console.error('Checkout error:', error);
         errorDiv.textContent = error.message || 'Checkout failed. Please try again.';
         errorDiv.style.display = 'block';
         btn.disabled = false;
