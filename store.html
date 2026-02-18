@@ -593,23 +593,26 @@
         productImage = `assets/mug-mockups/${chip}_mug_front.png`;
       }
 
-      // Find Stripe Price ID from product data
+      // Find Stripe Price ID and Printify Product ID from product data
       let stripePriceId = null;
+      let productId = null;
       if (productData) {
         if (productType === 'Mug') {
           const mugProduct = productData.mugs.products.find(p => p.chip === chip);
           stripePriceId = mugProduct?.stripePriceId;
+          productId = mugProduct?.productId;
         } else if (productType === 'T-Shirt') {
           const tshirtProduct = productData.tshirts.products.find(
             p => p.chip === chip && p.style === styleId
           );
           stripePriceId = tshirtProduct?.stripePriceId;
+          productId = tshirtProduct?.productId;
         }
       }
 
-      if (!stripePriceId) {
-        alert('Error: Product not found in Stripe. Please contact support.');
-        console.error('Missing Stripe Price ID for:', { chip, styleId, productType });
+      if (!stripePriceId || !productId) {
+        alert('Error: Product not found. Please contact support.');
+        console.error('Missing product data for:', { chip, styleId, productType });
         return;
       }
 
@@ -621,7 +624,8 @@
         productType: productType,
         productName: `${chip} ${productType} - ${styleName}`,
         productImage: productImage,
-        stripePriceId: stripePriceId, // ADDED FOR STRIPE
+        stripePriceId: stripePriceId,
+        productId: productId, // Printify product ID for shipping calculation
         quantity: 1
       };
 
