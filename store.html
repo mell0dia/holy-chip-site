@@ -187,6 +187,113 @@
       background: #333;
     }
 
+    /* Toast Notifications */
+    .toast-container {
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 400px;
+    }
+    .toast {
+      background: white;
+      border: 2px solid #000;
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      animation: slideIn 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .toast.warning {
+      border-color: #ff6b00;
+      background: #fff8f0;
+    }
+    .toast.success {
+      border-color: #000;
+      background: white;
+    }
+    .toast::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: #000;
+      animation: shrink 3s linear;
+    }
+    .toast.warning::before {
+      background: #ff6b00;
+    }
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    @keyframes slideOut {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+    }
+    @keyframes shrink {
+      from { width: 100%; }
+      to { width: 0%; }
+    }
+    .toast.hiding {
+      animation: slideOut 0.3s ease;
+    }
+    .toast-logo {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+    }
+    .toast-content {
+      flex: 1;
+    }
+    .toast-title {
+      font-weight: bold;
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+      color: #000;
+    }
+    .toast-message {
+      font-size: 0.9rem;
+      color: #666;
+      line-height: 1.4;
+    }
+    .toast-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #999;
+      padding: 0;
+      width: 24px;
+      height: 24px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .toast-close:hover {
+      color: #000;
+    }
+
     /* Cart Modal */
     .cart-modal {
       display: none;
@@ -404,6 +511,9 @@
   <div class="cart-btn" onclick="openCart()">
     🛒 Cart <span class="cart-count" id="cartCount">0</span>
   </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
 
   <div class="content">
     <h1>Store — Products</h1>
@@ -634,7 +744,7 @@
         if (sizeSelect) {
           size = sizeSelect.value;
         } else {
-          alert('Please select a size');
+          showToast('Size Required', 'Please select a size for your t-shirt.', 'warning');
           return;
         }
       }
@@ -670,7 +780,7 @@
       }
 
       if (!stripePriceId || !productId) {
-        alert('Error: Product not found. Please contact support.');
+        showToast('Error', 'Product not found. Please contact support.', 'warning');
         console.error('Missing product data for:', { chip, styleId, productType });
         return;
       }
@@ -706,13 +816,65 @@
       updateCartCount();
 
       // Visual feedback
-      alert(`Added ${item.productName} to cart!`);
+      showToast('Added to Cart!', `${item.productName} has been added to your cart.`, 'success');
+
+      // Check for mixed basket (shirts + mugs)
+      checkMixedBasket();
     }
 
     // Update cart count
     function updateCartCount() {
       const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
       document.getElementById('cartCount').textContent = totalItems;
+    }
+
+    // Show toast notification
+    function showToast(title, message, type = 'success') {
+      const container = document.getElementById('toastContainer');
+
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+
+      toast.innerHTML = `
+        <img src="assets/brand.png" alt="Holy Chip" class="toast-logo">
+        <div class="toast-content">
+          <div class="toast-title">${title}</div>
+          <div class="toast-message">${message}</div>
+        </div>
+        <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+      `;
+
+      container.appendChild(toast);
+
+      // Auto-remove after 3 seconds
+      setTimeout(() => {
+        toast.classList.add('hiding');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // Check for mixed basket and show shipping warning
+    let mixedBasketWarningShown = false;
+
+    function checkMixedBasket() {
+      const hasShirts = cart.some(item => item.productType === 'T-Shirt');
+      const hasMugs = cart.some(item => item.productType === 'Mug');
+
+      if (hasShirts && hasMugs && !mixedBasketWarningShown) {
+        mixedBasketWarningShown = true;
+        setTimeout(() => {
+          showToast(
+            '⚠️ Shipping Notice',
+            'Mixed orders (shirts + mugs) have higher shipping costs due to separate fulfillment. Consider ordering items of the same type together to save on shipping!',
+            'warning'
+          );
+        }, 500);
+      }
+
+      // Reset warning if basket becomes unmixed
+      if (!hasShirts || !hasMugs) {
+        mixedBasketWarningShown = false;
+      }
     }
 
     // Open cart
@@ -780,13 +942,14 @@
       cart.splice(index, 1);
       localStorage.setItem('holyChipCart', JSON.stringify(cart));
       updateCartCount();
+      checkMixedBasket(); // Recheck mixed basket status
       openCart(); // Refresh cart display
     }
 
     // Checkout
     function checkout() {
       if (cart.length === 0) {
-        alert('Your cart is empty!');
+        showToast('Cart Empty', 'Please add some items to your cart before checking out.', 'warning');
         return;
       }
 
