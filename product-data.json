@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-17T18:55:43.887Z",
+  "lastUpdated": "2026-02-18T22:55:38.301Z",
   "mugs": {
     "settings": {
       "position": "front",
@@ -257,6 +257,90 @@
         "style": "style5",
         "productId": "69956e6429743bae5306a7be",
         "stripePriceId": "price_1T25U7JZLzX0hJCS2qUQdn2Z",
+        "price": 25
+      },
+      {
+        "chip": "Chip_0",
+        "style": "ringer",
+        "productId": "6996407f9d0ff130c001ea65",
+        "stripePriceId": "price_1T2JebJZLzX0hJCS37PUz2j3",
+        "price": 25
+      },
+      {
+        "chip": "Chip_1",
+        "style": "ringer",
+        "productId": "69964086f65d6461470ec004",
+        "stripePriceId": "price_1T2JebJZLzX0hJCSNuOQO3lI",
+        "price": 25
+      },
+      {
+        "chip": "Chip_100",
+        "style": "ringer",
+        "productId": "6996408a8592aae3680ce47f",
+        "stripePriceId": "price_1T2JecJZLzX0hJCSBzWW2cLk",
+        "price": 25
+      },
+      {
+        "chip": "Chip_101",
+        "style": "ringer",
+        "productId": "6996408ef34762bd880c79c9",
+        "stripePriceId": "price_1T2JecJZLzX0hJCSBUJm3grY",
+        "price": 25
+      },
+      {
+        "chip": "Chip_110",
+        "style": "ringer",
+        "productId": "69964090d82bc1e9bc005c6a",
+        "stripePriceId": "price_1T2JecJZLzX0hJCStIUOGfxt",
+        "price": 25
+      },
+      {
+        "chip": "Chip_111",
+        "style": "ringer",
+        "productId": "699640939d0ff130c001ea66",
+        "stripePriceId": "price_1T2JedJZLzX0hJCSvJvGRUES",
+        "price": 25
+      },
+      {
+        "chip": "Chip_1000",
+        "style": "ringer",
+        "productId": "699640968592aae3680ce481",
+        "stripePriceId": "price_1T2JedJZLzX0hJCSRQPKbmRl",
+        "price": 25
+      },
+      {
+        "chip": "Chip_1001",
+        "style": "ringer",
+        "productId": "6996409993bde5514c0183b8",
+        "stripePriceId": "price_1T2JeeJZLzX0hJCS0XvjBqnY",
+        "price": 25
+      },
+      {
+        "chip": "Chip_1010",
+        "style": "ringer",
+        "productId": "6996409b93bde5514c0183ba",
+        "stripePriceId": "price_1T2JeeJZLzX0hJCS2QuuHD8F",
+        "price": 25
+      },
+      {
+        "chip": "Chip_1011",
+        "style": "ringer",
+        "productId": "6996409e452eed7b8b03fd7c",
+        "stripePriceId": "price_1T2JefJZLzX0hJCSvvcpuqew",
+        "price": 25
+      },
+      {
+        "chip": "Chip_1100",
+        "style": "ringer",
+        "productId": "699640a1a48a26f5a90418bf",
+        "stripePriceId": "price_1T2JefJZLzX0hJCS2CpXGPRY",
+        "price": 25
+      },
+      {
+        "chip": "Chip_1101",
+        "style": "ringer",
+        "productId": "699640a3f34762bd880c79cc",
+        "stripePriceId": "price_1T2JegJZLzX0hJCSbEmghDWU",
         "price": 25
       }
     ]
