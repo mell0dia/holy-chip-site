@@ -175,9 +175,10 @@ exports.handler = async (event) => {
     }));
 
     // Add shipping as a line item
+    // Note: Printify returns cost in cents, so no need to multiply by 100
     const shippingPrice = await stripe.prices.create({
       currency: 'usd',
-      unit_amount: Math.round(shippingCost * 100), // Convert to cents
+      unit_amount: shippingCost, // Already in cents from Printify
       product_data: {
         name: 'Shipping'
       }
