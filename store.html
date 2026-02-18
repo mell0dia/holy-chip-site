@@ -331,6 +331,33 @@
     .cart-items {
       margin: 2rem 0;
     }
+    .shipping-warning {
+      background: #fff8f0;
+      border: 2px solid #ff6b00;
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      margin: 1rem 0 2rem 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .shipping-warning-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .shipping-warning-content {
+      flex: 1;
+    }
+    .shipping-warning-title {
+      font-weight: bold;
+      color: #ff6b00;
+      margin-bottom: 0.25rem;
+    }
+    .shipping-warning-message {
+      font-size: 0.9rem;
+      color: #666;
+      line-height: 1.4;
+    }
     .cart-item {
       display: flex;
       align-items: center;
@@ -817,9 +844,6 @@
 
       // Visual feedback
       showToast('Added to Cart!', `${item.productName} has been added to your cart.`, 'success');
-
-      // Check for mixed basket (shirts + mugs)
-      checkMixedBasket();
     }
 
     // Update cart count
@@ -857,31 +881,6 @@
       }, duration);
     }
 
-    // Check for mixed basket and show shipping warning
-    let mixedBasketWarningShown = false;
-
-    function checkMixedBasket() {
-      const hasShirts = cart.some(item => item.productType === 'T-Shirt');
-      const hasMugs = cart.some(item => item.productType === 'Mug');
-
-      if (hasShirts && hasMugs && !mixedBasketWarningShown) {
-        mixedBasketWarningShown = true;
-        setTimeout(() => {
-          showToast(
-            '⚠️ Shipping Notice',
-            'Mixed orders (shirts + mugs) have higher shipping costs due to separate fulfillment. Consider ordering items of the same type together to save on shipping!',
-            'warning',
-            6000  // Show for 6 seconds (longer to read)
-          );
-        }, 500);
-      }
-
-      // Reset warning if basket becomes unmixed
-      if (!hasShirts || !hasMugs) {
-        mixedBasketWarningShown = false;
-      }
-    }
-
     // Open cart
     function openCart() {
       const modal = document.getElementById('cartModal');
@@ -890,7 +889,26 @@
       if (cart.length === 0) {
         itemsDiv.innerHTML = '<p style="text-align:center;color:#666;">Your cart is empty</p>';
       } else {
-        itemsDiv.innerHTML = cart.map((item, index) => `
+        // Check for mixed basket (shirts + mugs)
+        const hasShirts = cart.some(item => item.productType === 'T-Shirt');
+        const hasMugs = cart.some(item => item.productType === 'Mug');
+        const isMixed = hasShirts && hasMugs;
+
+        // Add shipping warning if mixed
+        const shippingWarning = isMixed ? `
+          <div class="shipping-warning">
+            <div class="shipping-warning-icon">⚠️</div>
+            <div class="shipping-warning-content">
+              <div class="shipping-warning-title">Higher Shipping Costs for Mixed Orders</div>
+              <div class="shipping-warning-message">
+                Orders with both shirts and mugs ship separately, resulting in higher shipping costs.
+                Consider ordering items of the same type together to save on shipping!
+              </div>
+            </div>
+          </div>
+        ` : '';
+
+        itemsDiv.innerHTML = shippingWarning + cart.map((item, index) => `
           <div class="cart-item">
             <img src="${item.productImage}" alt="${item.productName}" class="cart-item-image"
                  onerror="this.src='characters/${item.chip}.png'">
@@ -947,7 +965,6 @@
       cart.splice(index, 1);
       localStorage.setItem('holyChipCart', JSON.stringify(cart));
       updateCartCount();
-      checkMixedBasket(); // Recheck mixed basket status
       openCart(); // Refresh cart display
     }
 
