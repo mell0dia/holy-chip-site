@@ -199,8 +199,6 @@ exports.handler = async (event) => {
         allowed_countries: ['US', 'CA', 'GB', 'AU']
       },
       metadata: {
-        shippingData: JSON.stringify(shipping),
-        cartData: JSON.stringify(cart),
         shippingCost: shippingCost.toString()
       }
     });
