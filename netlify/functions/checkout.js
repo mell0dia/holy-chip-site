@@ -179,8 +179,7 @@ exports.handler = async (event) => {
       currency: 'usd',
       unit_amount: Math.round(shippingCost * 100), // Convert to cents
       product_data: {
-        name: 'Shipping',
-        description: 'Standard shipping via Printify'
+        name: 'Shipping'
       }
     });
 
