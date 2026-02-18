@@ -227,7 +227,7 @@
       width: 100%;
       height: 3px;
       background: #000;
-      animation: shrink 3s linear;
+      animation: shrink var(--toast-duration, 3s) linear;
     }
     .toast.warning::before {
       background: #ff6b00;
@@ -829,7 +829,7 @@
     }
 
     // Show toast notification
-    function showToast(title, message, type = 'success') {
+    function showToast(title, message, type = 'success', duration = 3000) {
       const container = document.getElementById('toastContainer');
 
       const toast = document.createElement('div');
@@ -846,11 +846,15 @@
 
       container.appendChild(toast);
 
-      // Auto-remove after 3 seconds
+      // Set animation duration for progress bar
+      const durationInSeconds = duration / 1000;
+      toast.style.setProperty('--toast-duration', `${durationInSeconds}s`);
+
+      // Auto-remove after specified duration
       setTimeout(() => {
         toast.classList.add('hiding');
         setTimeout(() => toast.remove(), 300);
-      }, 3000);
+      }, duration);
     }
 
     // Check for mixed basket and show shipping warning
@@ -866,7 +870,8 @@
           showToast(
             '⚠️ Shipping Notice',
             'Mixed orders (shirts + mugs) have higher shipping costs due to separate fulfillment. Consider ordering items of the same type together to save on shipping!',
-            'warning'
+            'warning',
+            6000  // Show for 6 seconds (longer to read)
           );
         }, 500);
       }
