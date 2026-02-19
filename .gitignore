@@ -5,3 +5,14 @@ printify-products.json
 # Environment files with secrets
 .env.check
 .env.production.local
+
+# Test scripts with API keys
+create-stripe-prices-*.js
+update-swiftpod-in-stripe.js
+test-fulfillment-dryrun.js
+*-shipping*.js
+create-*-mugs.js
+create-*-ringers.js
+create-*-swiftpod*.js
+update-*-stripe.js
+fulfill-orders.js
