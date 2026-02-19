@@ -7,8 +7,8 @@ const PRINTIFY_CONFIG = {
   apiBase: 'https://api.printify.com/v1'
 };
 
-// Fetch product variant ID from Printify
-async function getProductVariant(productId) {
+// Fetch product variant ID from Printify based on size and color
+async function getProductVariant(productId, size, productType) {
   try {
     const response = await fetch(
       `${PRINTIFY_CONFIG.apiBase}/shops/${PRINTIFY_CONFIG.shopId}/products/${productId}.json`,
@@ -25,14 +25,46 @@ async function getProductVariant(productId) {
     }
 
     const product = await response.json();
-    const enabledVariant = product.variants.find(v => v.is_enabled);
 
-    if (!enabledVariant) {
-      console.error(`No enabled variants found for product ${productId}`);
+    // Determine the color based on product type
+    let color;
+    if (productType === 'Mug') {
+      color = 'Black'; // Default mug color
+    } else {
+      color = 'White'; // All shirts are white
+    }
+
+    // Find variant matching color and size
+    let variant;
+
+    if (productType === 'Mug') {
+      // Mugs: format is "Size / Color" (e.g., "11oz / Black")
+      variant = product.variants.find(v => {
+        const title = v.title;
+        const sizeMatch = size || '11oz'; // Default to 11oz if no size specified
+        return title === `${sizeMatch} / ${color}`;
+      });
+    } else {
+      // T-Shirts: check if it's a ringer (format: "Color1/Color2 / Size")
+      const isRinger = product.variants.some(v => v.title.includes('/') && v.title.split('/').length > 2);
+
+      if (isRinger) {
+        // Ringer format: "White/Black / XL"
+        variant = product.variants.find(v => v.title === `White/Black / ${size}`);
+      } else {
+        // Regular shirt format: "White / M"
+        variant = product.variants.find(v => v.title === `${color} / ${size}`);
+      }
+    }
+
+    if (!variant) {
+      console.error(`No variant found for ${productType} - ${color} / ${size}`);
+      console.error(`Available variants:`, product.variants.slice(0, 5).map(v => v.title));
       return null;
     }
 
-    return enabledVariant.id;
+    console.log(`✅ Found variant: ${variant.title} (ID: ${variant.id})`);
+    return variant.id;
   } catch (error) {
     console.error(`Error fetching variant for product ${productId}:`, error.message);
     return null;
@@ -127,13 +159,17 @@ exports.handler = async (event) => {
         continue;
       }
 
-      const variantId = await getProductVariant(item.productId);
+      // Get size from cart item (for t-shirts) or default for mugs
+      const size = item.size || (item.productType === 'Mug' ? '11oz' : 'M');
+      const productType = item.productType || 'T-Shirt';
+
+      const variantId = await getProductVariant(item.productId, size, productType);
 
       if (!variantId) {
         return {
           statusCode: 500,
           headers,
-          body: JSON.stringify({ error: 'Failed to get product variant' })
+          body: JSON.stringify({ error: `Failed to get variant for ${item.productName}. Please contact support.` })
         };
       }
 
