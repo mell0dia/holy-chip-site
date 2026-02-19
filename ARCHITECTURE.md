@@ -9,6 +9,7 @@
 6. [File Structure](#file-structure)
 7. [User Journey](#user-journey)
 8. [Technical Stack](#technical-stack)
+9. [Business Rules](#business-rules)
 
 ---
 
@@ -17,38 +18,45 @@
 Holy Chip is a custom print-on-demand (POD) e-commerce platform that provides a seamless shopping experience while leveraging Printify for manufacturing and fulfillment.
 
 ### Key Components:
-1. **Frontend**: Custom website with character-first browsing
-2. **Backend**: Vercel serverless functions for payment & order processing
+1. **Frontend**: Static website (GitHub Pages) with character-first browsing
+2. **Backend**: Netlify serverless functions for checkout processing
 3. **Payment**: Stripe Checkout for secure payments
-4. **Fulfillment**: Printify API for automated manufacturing & shipping
+4. **Fulfillment**: Manual script-based order creation in Printify
+5. **Order Processing**: Manual `fulfill-orders.js` script (NO automatic webhooks)
 
 ### Architecture Pattern:
 **JAMstack** (JavaScript, APIs, Markup)
-- Static frontend (HTML/CSS/JS)
-- Serverless backend (Vercel Functions)
+- Static frontend (HTML/CSS/JS) hosted on GitHub Pages
+- Serverless backend (Netlify Functions) for checkout only
 - Third-party APIs (Stripe, Printify)
+- Manual order fulfillment workflow
 
 ---
 
 ## Frontend Architecture
 
 ### Overview
-The frontend is a static, client-side application that provides:
+The frontend is a static, client-side application hosted on **GitHub Pages** that provides:
 - Character-based product browsing
 - Shopping cart with localStorage persistence
+- Size selection for t-shirts
 - Responsive product gallery with lightbox
 - Checkout flow integration
 
 ### Core Pages
 
-#### 1. **store-v2.html** - Main Store
+#### 1. **store.html** - Main Store
+**URL**: `https://mell0dia.github.io/holy-chip-site/store.html`
+
 **Purpose**: Primary shopping interface
 
 **Key Features:**
-- **Character Selection**: 12 Holy Chip characters displayed in grid
+- **Character Selection**: 12 Holy Chip characters (Chip_0 through Chip_1101) displayed in grid
 - **Product View**: Click character → See all products for that character
+- **Size Selection**: Dropdown for t-shirt sizes (XS, S, M, L, XL, 2XL, 3XL)
 - **Shopping Cart**: Persistent cart with quantity controls
 - **Image Lightbox**: View product mockups (front/back for t-shirts, 6 angles for mugs)
+- **Cart Animation**: Bounce animation instead of toast notifications
 
 **State Management:**
 ```javascript
@@ -58,12 +66,15 @@ let cart = JSON.parse(localStorage.getItem('holyChipCart') || '[]');
 // Cart item structure:
 {
   chip: "Chip_0",
-  styleId: "style3",
-  styleName: "Style 3",
+  styleId: "ringer",
+  styleName: "Cotton Ringer",
   price: 25.00,
   productType: "T-Shirt",
-  productName: "Chip_0 T-Shirt - Style 3",
-  productImage: "assets/mockups/Chip_0_style3_white_front.png",
+  productName: "Chip_0 T-Shirt - Cotton Ringer (L)",
+  productImage: "assets/mockups/Chip_0_ringer_white_front.png",
+  productId: "69964086f65d6461470ec004", // Printify product ID
+  stripePriceId: "price_1T2JebJZLzX0hJCS37PUz2j3",
+  size: "L", // Customer-selected size
   quantity: 1
 }
 ```
@@ -73,8 +84,24 @@ let cart = JSON.parse(localStorage.getItem('holyChipCart') || '[]');
 const productStyles = [
   {
     id: 'style3',
-    name: 'Style 3',
+    name: 'Unisex',
+    description: 'Front: Brand + Chip',
+    price: 25.00,
+    type: 'T-Shirt',
+    category: 'tshirt'
+  },
+  {
+    id: 'style5',
+    name: 'Fitted',
     description: 'Front: Chip | Back: Brand',
+    price: 25.00,
+    type: 'T-Shirt',
+    category: 'tshirt'
+  },
+  {
+    id: 'ringer',
+    name: 'Cotton Ringer',
+    description: 'Classic retro style with contrast trim',
     price: 25.00,
     type: 'T-Shirt',
     category: 'tshirt'
@@ -97,6 +124,7 @@ const productStyles = [
 Home (Character Grid)
   ↓ Click Character
 Product View (All styles for that character)
+  ↓ Select Size (for t-shirts)
   ↓ Add to Cart
 Cart Modal
   ↓ Checkout
@@ -117,12 +145,13 @@ Redirect to checkout.html
 **Process:**
 1. Display order summary from cart
 2. Collect shipping information
-3. Submit to `/api/create-checkout`
-4. Redirect to Stripe Checkout
+3. Submit to Netlify function at `https://holychip.netlify.app/.netlify/functions/checkout`
+4. Receive Stripe Checkout URL
+5. Redirect to Stripe Checkout
 
 **API Integration:**
 ```javascript
-const response = await fetch('/api/create-checkout', {
+const response = await fetch('https://holychip.netlify.app/.netlify/functions/checkout', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({ cart, shipping })
@@ -137,7 +166,7 @@ window.location.href = url; // Redirect to Stripe
 
 **Features:**
 - Success checkmark visual
-- Order ID display
+- Session ID display
 - Cart cleared from localStorage
 - Link back to store
 
@@ -145,19 +174,23 @@ window.location.href = url; // Redirect to Stripe
 
 ## Backend Architecture
 
-### Platform: Vercel Serverless Functions
-**Why Vercel:**
-- Zero server management
-- Auto-scaling
-- Global CDN
-- Free tier sufficient for startup
-- Instant deployment
+### Platform: Netlify Functions
+**Why Netlify:**
+- Generous free tier
+- Simple deployment from GitHub
+- Serverless functions support
+- Environment variable management
+- No credit card required for basic usage
+
+**Deployment URL**: `https://holychip.netlify.app`
 
 ### Serverless Functions
 
-#### 1. **create-checkout.js** - Payment Session Creation
+#### 1. **checkout.js** - Payment Session Creation
 
-**Endpoint**: `POST /api/create-checkout`
+**Endpoint**: `POST https://holychip.netlify.app/.netlify/functions/checkout`
+
+**Location**: `/netlify/functions/checkout.js`
 
 **Request:**
 ```json
@@ -165,31 +198,41 @@ window.location.href = url; // Redirect to Stripe
   "cart": [
     {
       "chip": "Chip_0",
-      "productName": "Chip_0 T-Shirt - Style 3",
+      "styleId": "ringer",
+      "productName": "Chip_0 Cotton Ringer (L)",
       "price": 25.00,
-      "quantity": 2,
-      "productImage": "assets/mockups/..."
+      "quantity": 1,
+      "productId": "69964086f65d6461470ec004",
+      "stripePriceId": "price_1T2JebJZLzX0hJCS37PUz2j3",
+      "size": "L",
+      "productType": "T-Shirt"
     }
   ],
   "shipping": {
-    "firstName": "John",
-    "lastName": "Doe",
+    "name": "John Doe",
     "email": "john@example.com",
     "address1": "123 Main St",
     "city": "Los Angeles",
     "state": "CA",
     "zip": "90001",
-    "country": "US"
+    "country": "US",
+    "phone": "555-1234"
   }
 }
 ```
 
 **Process:**
 1. Validate cart and shipping data
-2. Calculate total
-3. Create Stripe line items
-4. Create Stripe Checkout Session
-5. Store cart/shipping in session metadata
+2. For each cart item:
+   - Get Printify product variants
+   - Find correct variant based on:
+     - **Color**: WHITE for all shirts (or White/Black for Cotton Ringers)
+     - **Size**: Customer-selected size from cart
+     - **Color**: Black for mugs
+3. Calculate shipping cost via Printify API
+4. Create Stripe line items (products + shipping)
+5. Create Stripe Checkout Session with:
+   - Session metadata containing full cart data (for fulfillment)
 6. Return session URL
 
 **Response:**
@@ -200,129 +243,114 @@ window.location.href = url; // Redirect to Stripe
 }
 ```
 
-**Key Code:**
+**Critical Code - Variant Selection:**
+```javascript
+async function getProductVariant(productId, size, productType) {
+  const product = await fetchFromPrintify(productId);
+
+  // Determine color
+  let color = productType === 'Mug' ? 'Black' : 'White';
+
+  // Find variant
+  if (productType === 'Mug') {
+    // "11oz / Black"
+    variant = product.variants.find(v => v.title === `${size || '11oz'} / ${color}`);
+  } else {
+    // Check if Cotton Ringer
+    const isRinger = product.variants.some(v => v.title.includes('White/Black'));
+
+    if (isRinger) {
+      // "White/Black / XL"
+      variant = product.variants.find(v => v.title === `White/Black / ${size}`);
+    } else {
+      // "White / M"
+      variant = product.variants.find(v => v.title === `${color} / ${size}`);
+    }
+  }
+
+  return variant.id;
+}
+```
+
+**Cart Data Storage:**
 ```javascript
 const session = await stripe.checkout.sessions.create({
-  payment_method_types: ['card'],
-  line_items: lineItems,
-  mode: 'payment',
-  success_url: 'https://yoursite.com/success.html?session_id={CHECKOUT_SESSION_ID}',
-  cancel_url: 'https://yoursite.com/store-v2.html',
-  customer_email: shipping.email,
+  // ... other fields
   metadata: {
-    shippingData: JSON.stringify(shipping),
-    cartData: JSON.stringify(cart)
+    shippingCost: shippingCost.toString(),
+    // CRITICAL: Store full cart for fulfillment script
+    cartData: JSON.stringify(cart.map(item => ({
+      productId: item.productId,
+      chip: item.chip,
+      styleId: item.styleId,
+      size: item.size,
+      productType: item.productType,
+      quantity: item.quantity
+    })))
   }
 });
 ```
 
-#### 2. **stripe-webhook.js** - Payment Fulfillment
+#### 2. **stripe-webhook.js** - Webhook Handler (NOT USED)
 
-**Endpoint**: `POST /api/stripe-webhook`
+**Status**: ⚠️ **NOT CURRENTLY USED**
 
-**Purpose**: Receive payment confirmation from Stripe and create Printify order
+**Location**: `/netlify/functions/stripe-webhook.js`
 
-**Webhook Event**: `checkout.session.completed`
+**Reason**: User prefers manual order fulfillment via `fulfill-orders.js` script instead of automatic webhook processing.
 
-**Process:**
-1. Verify webhook signature (security)
-2. Extract cart and shipping from session metadata
-3. Map cart items to Printify product IDs
-4. Create order in Printify via API
-5. Log order creation
-6. Return success
-
-**Printify Order Creation:**
-```javascript
-const lineItems = cart.map(item => {
-  // Map Holy Chip product to Printify product
-  const printifyProductId = findPrintifyProduct(item.chip, item.styleId);
-
-  return {
-    product_id: printifyProductId,
-    variant_id: getVariantId(item), // Based on size/color
-    quantity: item.quantity
-  };
-});
-
-const order = await fetch('https://api.printify.com/v1/shops/{shop_id}/orders.json', {
-  method: 'POST',
-  headers: { 'Authorization': `Bearer ${API_TOKEN}` },
-  body: JSON.stringify({
-    external_id: paymentIntentId,
-    line_items: lineItems,
-    shipping_method: 1,
-    send_shipping_notification: true,
-    address_to: shippingAddress
-  })
-});
-```
-
-**Product Mapping:**
-```javascript
-// Environment variables store product mappings
-const mugMapping = JSON.parse(process.env.MUG_MAPPING);
-const productMapping = JSON.parse(process.env.PRODUCT_MAPPING);
-
-// Find Printify product ID
-if (item.productType === 'Mug') {
-  const mugProduct = mugMapping.products.find(p => p.chip === item.chip);
-  printifyProductId = mugProduct.productId;
-}
-```
+**Purpose**: Would automatically create Printify orders when Stripe payments succeed, but user chose manual workflow for better control.
 
 ---
 
 ## Data Flow
 
-### Complete Purchase Flow
+### Current Order Fulfillment Flow (Manual)
 
 ```
-1. FRONTEND: Customer browses store-v2.html
+1. FRONTEND (store.html): Customer browses products
    ↓
-2. FRONTEND: Selects character (e.g., Chip_0)
+2. FRONTEND: Customer selects character (e.g., Chip_1)
    ↓
-3. FRONTEND: Views products for that character
+3. FRONTEND: Customer views t-shirt and mug options
    ↓
-4. FRONTEND: Adds items to cart (stored in localStorage)
+4. FRONTEND: Customer selects SIZE for t-shirt (e.g., "L")
    ↓
-5. FRONTEND: Clicks "Checkout" → Redirect to checkout.html
+5. FRONTEND: Customer adds to cart
+   - Cart stores: productId, size, productType, quantity
    ↓
-6. FRONTEND: Fills shipping form
+6. FRONTEND (checkout.html): Customer fills shipping form
    ↓
-7. FRONTEND: Clicks "Proceed to Payment"
-   ↓
-8. BACKEND: POST /api/create-checkout
+7. NETLIFY FUNCTION (checkout.js):
    - Receives cart + shipping
+   - Maps size + productType to correct WHITE variant
+   - Calculates Printify shipping cost
    - Creates Stripe Checkout Session
-   - Returns session URL
+   - Stores cartData in session metadata
+   - Returns Stripe URL
    ↓
-9. STRIPE: Customer redirected to Stripe Checkout
-   - Enters payment information
-   - Completes payment
+8. STRIPE CHECKOUT: Customer enters payment
    ↓
-10. STRIPE: Sends webhook to /api/stripe-webhook
+9. STRIPE: Payment succeeds
+   - Session marked as "paid"
+   - Customer redirected to success.html
    ↓
-11. BACKEND: Receives checkout.session.completed event
-   - Extracts cart + shipping from metadata
-   - Maps products to Printify IDs
-   - Creates order in Printify
+10. ADMIN: Runs fulfill-orders.js script (MANUAL STEP)
+   - Script checks Stripe for paid sessions
+   - Reads cartData from session metadata
+   - For each cart item:
+     * Gets correct Printify variant (WHITE + size)
+     * Creates line item
+   - Creates Printify order in DRAFT status
+   - Marks session as processed
    ↓
-12. PRINTIFY: Receives order
-   - Queues for manufacturing
-   - Sends confirmation
+11. ADMIN: Reviews order in Printify dashboard
    ↓
-13. STRIPE: Redirects customer to success.html
+12. ADMIN: Manually clicks "Send to Production" in Printify
    ↓
-14. FRONTEND: Shows success page
-   - Clears cart
-   - Displays order ID
+13. PRINTIFY: Manufactures and ships
    ↓
-15. PRINTIFY: Manufactures products
-   ↓
-16. PRINTIFY: Ships to customer
-   ↓
-17. CUSTOMER: Receives products
+14. CUSTOMER: Receives products
 ```
 
 ### Data Storage
@@ -337,10 +365,10 @@ if (item.productType === 'Mug') {
 - All data passed via:
   - API requests
   - Stripe session metadata
-  - Environment variables
+  - `processed-orders.json` (local file tracking)
 
 **Third-Party:**
-- **Stripe**: Payment records, customer data
+- **Stripe**: Payment records, session metadata with cart data
 - **Printify**: Order records, shipping status
 
 ---
@@ -353,20 +381,15 @@ if (item.productType === 'Mug') {
 
 **Components:**
 - Stripe Checkout: Hosted payment page
-- Stripe Webhooks: Payment notifications
+- Stripe Sessions API: Create checkout sessions
 - Stripe SDK: Node.js library
 
 **Test Mode:**
-- Test keys: `sk_test_...` / `pk_test_...`
+- Test keys: `sk_test_51FAfoSJZLzX0hJCS...`
 - Test card: `4242 4242 4242 4242`
 
-**Live Mode:**
-- Live keys: `sk_live_...` / `pk_live_...`
-- Real payments processed
-
 **Security:**
-- API keys stored in environment variables
-- Webhook signature verification
+- API keys stored in Netlify environment variables
 - HTTPS enforced
 
 ### 2. Printify Integration
@@ -374,69 +397,78 @@ if (item.productType === 'Mug') {
 **Purpose**: Product manufacturing and fulfillment
 
 **API Endpoints Used:**
+- `GET /shops/{shop_id}/products/{id}.json` - Get product variants
+- `POST /shops/{shop_id}/orders/shipping.json` - Calculate shipping
 - `POST /shops/{shop_id}/orders.json` - Create order
-- `GET /shops/{shop_id}/products/{id}.json` - Get product details
 
 **Authentication:**
 - Bearer token in Authorization header
-- Token stored in environment variable
+- Token: `eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...`
+- Shop ID: `26508747`
+
+**Print Providers:**
+- **SwiftPOD (39)**: Unisex and Fitted t-shirts, Mugs
+- **Printify Choice (99)**: Cotton Ringer t-shirts
 
 **Order Submission:**
 ```javascript
 {
-  "external_id": "stripe_payment_intent_id",
+  "external_id": "cs_test_b1MVXcfOw...",
   "line_items": [
     {
-      "product_id": "69937fa881551e76130b84e8",
-      "variant_id": 72180,
-      "quantity": 2
+      "product_id": "69964086f65d6461470ec004",
+      "variant_id": 102310, // White/Black / L
+      "quantity": 1
     }
   ],
-  "shipping_method": 1,
+  "shipping_method": 1, // Standard
   "send_shipping_notification": true,
   "address_to": {
     "first_name": "John",
     "last_name": "Doe",
     "email": "john@example.com",
-    "country": "US",
+    "phone": "555-1234",
+    "country": "CA",
+    "region": "BC",
     "address1": "123 Main St",
-    "city": "Los Angeles",
-    "region": "CA",
-    "zip": "90001"
+    "city": "Vancouver",
+    "zip": "V6R 1W1"
   }
 }
 ```
 
-**Product Mapping:**
-- Mugs: `mug-mapping.json` → Maps Chip_X to Printify product ID
-- T-Shirts: `product-mapping.json` → Maps Chip_X + Style to Printify product ID
+### 3. GitHub Pages Deployment
 
-### 3. Vercel Deployment
+**Repository**: `https://github.com/mell0dia/holy-chip-site`
 
-**Configuration**: `vercel.json`
-```json
-{
-  "version": 2,
-  "builds": [
-    { "src": "api/**/*.js", "use": "@vercel/node" }
-  ],
-  "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/(.*)", "dest": "/public/$1" }
-  ]
-}
-```
+**Branch**: `gh-pages`
 
-**Environment Variables:**
-- Stored in Vercel dashboard
-- Injected at runtime
-- Encrypted at rest
+**URL**: `https://mell0dia.github.io/holy-chip-site/`
 
 **Deployment:**
 ```bash
-vercel          # Deploy preview
-vercel --prod   # Deploy production
+git add .
+git commit -m "Update site"
+git push origin gh-pages
 ```
+
+**Automatic**: GitHub Pages rebuilds automatically on push to `gh-pages` branch.
+
+### 4. Netlify Functions Deployment
+
+**Site**: `holychip.netlify.app`
+
+**Connected to**: GitHub repository (auto-deploys on push)
+
+**Environment Variables:**
+- `STRIPE_SECRET_KEY` - Stripe API key
+- `PRINTIFY_API_TOKEN` - Printify API token
+- `PRINTIFY_SHOP_ID` - Printify shop ID (26508747)
+
+**Build Settings:**
+- Build command: (none - static site)
+- Publish directory: `/`
+- Functions directory: `netlify/functions`
 
 ---
 
@@ -445,55 +477,38 @@ vercel --prod   # Deploy production
 ```
 holy-chip-site/
 │
-├── api/                              # Vercel Serverless Functions
-│   ├── create-checkout.js           # Creates Stripe checkout session
-│   └── stripe-webhook.js            # Handles payment → Printify order
+├── netlify/
+│   └── functions/                        # Netlify Serverless Functions
+│       ├── checkout.js                   # Creates Stripe checkout session
+│       └── stripe-webhook.js             # (NOT USED) Webhook handler
 │
-├── public/                           # Static files (served by Vercel)
-│   ├── store-v2.html                # Main store interface
-│   ├── checkout.html                # Checkout page
-│   ├── success.html                 # Order confirmation
-│   └── assets/                      # Static assets
-│       ├── mockups/                 # T-shirt product images
-│       │   ├── Chip_0_style3_white_front.png
-│       │   ├── Chip_0_style3_white_back.png
-│       │   └── ...
-│       ├── mug-mockups/             # Mug product images (6 angles each)
-│       │   ├── Chip_0_mug_front.png
-│       │   ├── Chip_0_mug_back.png
-│       │   ├── Chip_0_mug_left.png
-│       │   ├── Chip_0_mug_right.png
-│       │   ├── Chip_0_mug_context1.png
-│       │   ├── Chip_0_mug_context2.png
-│       │   └── ...
-│       ├── brand.png                # Holy Chip branding
-│       └── style.css                # Global styles
+├── store.html                            # Main store interface
+├── checkout.html                         # Checkout page
+├── success.html                          # Order confirmation
 │
-├── characters/                       # Character source images
-│   ├── Chip_0.png
-│   ├── Chip_1.png
-│   └── ...
+├── assets/
+│   └── mockups/                          # Product mockup images
+│       ├── Chip_0_style3_white_front.png
+│       ├── Chip_0_style3_white_back.png
+│       ├── Chip_0_ringer_white_front.png
+│       ├── Chip_0_ringer_white_back.png
+│       ├── Chip_0_mug_front.png
+│       ├── Chip_0_mug_back.png
+│       └── ... (all 12 chips × all styles)
 │
-├── printify-config.js               # Printify API configuration
-├── mug-mapping.json                 # Maps Chips → Printify mug products
-├── product-mapping.json             # Maps Chips + Styles → Printify t-shirts
+├── product-data.json                     # Product catalog with IDs
+├── processed-orders.json                 # Tracks fulfilled Stripe sessions
 │
-├── package.json                     # Node.js dependencies
-├── vercel.json                      # Vercel deployment config
-├── .env.example                     # Environment variables template
+├── fulfill-orders.js                     # MAIN FULFILLMENT SCRIPT (manual)
+├── check-stripe-orders.js                # View recent Stripe orders
 │
-├── ARCHITECTURE.md                  # This file
-├── DEPLOYMENT.md                    # Deployment instructions
-├── AUTOMATION-GUIDE.md              # Product creation automation
-├── CHECKOUT-FLOW.md                 # Checkout options explained
-└── README.md                        # Quick start guide
+├── package.json                          # Node.js dependencies
+├── .gitignore                            # Ignores scripts with API keys
 │
-└── Automation Scripts (development only)
-    ├── recreate-all-mugs-final.js   # Create all 12 mug products
-    ├── create-all-products.js       # Create all 24 t-shirt products
-    ├── fetch-all-mug-angles.js      # Download mug mockup images
-    ├── fetch-all-mockups.js         # Download t-shirt mockup images
-    └── publish-to-printify-store.js # Publish products (not needed for custom checkout)
+├── SCRIPTS.md                            # Scripts documentation
+├── ARCHITECTURE.md                       # This file
+├── DEPLOYMENT.md                         # Deployment instructions
+└── README.md                             # Quick start guide
 ```
 
 ---
@@ -501,44 +516,46 @@ holy-chip-site/
 ## User Journey
 
 ### 1. Discovery & Browsing
-**Page**: `store-v2.html`
+**Page**: `store.html`
 
 ```
 User lands on page
   → Sees 12 character cards in grid
-  → Clicks on character (e.g., Chip_0)
+  → Clicks on character (e.g., Chip_1)
   → Character grid hides
-  → Product grid shows (t-shirts + mugs for that character)
+  → Product grid shows (3 t-shirt styles + 1 mug)
 ```
 
 ### 2. Product Selection
-**Page**: `store-v2.html`
+**Page**: `store.html`
 
 ```
 User views products
-  → Clicks on product image → Opens lightbox
-    - T-shirts: Front/Back views with arrow navigation
-    - Mugs: 6 angles (front, back, left, right, context1, context2)
+  → For T-SHIRT:
+    * Selects SIZE from dropdown (S, M, L, XL, etc.)
+    * Clicks on product image → Opens lightbox (front/back views)
+  → For MUG:
+    * No size selection (defaults to Black/11oz)
+    * Clicks on image → Opens lightbox (6 angles)
   → Clicks "Add to Cart"
-  → Product added to cart (with quantity 1)
-  → Cart count updates in header
+  → Product added with selected size
+  → Cart count badge animates
 ```
 
 ### 3. Cart Management
-**Page**: `store-v2.html` (Cart Modal)
+**Page**: `store.html` (Cart Modal)
 
 ```
 User clicks cart icon
   → Cart modal opens
-  → Shows all cart items with:
-    - Product thumbnail
-    - Product name
-    - Price per unit
-    - Quantity controls (+/- buttons)
-    - Subtotal per item
+  → Shows all cart items:
+    - Thumbnail
+    - Name with size (e.g., "Chip_1 Cotton Ringer (L)")
+    - Price
+    - Quantity controls (+/-)
     - Remove button
   → User adjusts quantities
-  → Total updates automatically
+  → Total updates
   → Clicks "Checkout"
 ```
 
@@ -546,58 +563,113 @@ User clicks cart icon
 **Page**: `checkout.html`
 
 ```
-User redirected to checkout page
-  → Sees order summary (cart items + total)
-  → Fills shipping form:
-    - Name, email, phone
-    - Address, city, state, ZIP, country
+User redirected to checkout
+  → Sees order summary
+  → Fills shipping form
   → Clicks "Proceed to Payment"
-  → API call to /api/create-checkout
+  → Netlify function processes:
+    * Validates cart
+    * Maps sizes to WHITE variants
+    * Calculates shipping
+    * Creates Stripe session with cartData
   → Redirected to Stripe Checkout
 ```
 
 ### 5. Payment
-**Page**: Stripe Checkout (stripe.com)
+**Page**: Stripe Checkout
 
 ```
-User on Stripe's secure checkout page
-  → Enters credit card information
+User on Stripe's page
+  → Enters card info
   → Completes payment
-  → Stripe processes payment
-  → Triggers webhook to backend
+  → Redirected to success.html
 ```
 
-### 6. Fulfillment (Background)
-**Backend**: Webhook processing
+### 6. Fulfillment (Manual - Admin Side)
+**Admin Process**:
 
 ```
-Webhook received
-  → Extracts cart and shipping data
-  → Maps products to Printify IDs
-  → Creates order in Printify
-  → Printify queues order for manufacturing
+Admin runs: node fulfill-orders.js
+  → Script fetches paid Stripe sessions
+  → Filters out already-processed orders
+  → For each new order:
+    * Reads cartData from metadata
+    * For each item:
+      - Gets Printify product
+      - Finds WHITE variant + correct size
+      - Adds to line items
+    * Creates Printify order (DRAFT status)
+    * Marks session as processed
+  → Admin reviews orders in Printify dashboard
+  → Admin manually sends to production
 ```
 
 ### 7. Confirmation
 **Page**: `success.html`
 
 ```
-User redirected from Stripe
-  → Sees success message
-  → Order ID displayed
-  → Cart cleared from localStorage
-  → "Continue Shopping" button
+User sees success page
+  → Success message
+  → Session ID
+  → Cart cleared
+  → "Continue Shopping" link
 ```
 
-### 8. Delivery (Printify)
+### 8. Delivery
 **External**: Printify fulfillment
 
 ```
-Printify manufactures products
-  → Ships to customer address
-  → Sends tracking email to customer
+Printify manufactures
+  → Ships to customer
+  → Sends tracking email
   → Customer receives products
 ```
+
+---
+
+## Business Rules
+
+### Product Variants
+
+**CRITICAL RULE: All t-shirts MUST be WHITE**
+
+1. **Regular T-Shirts (Unisex, Fitted)**:
+   - Color: **WHITE** (hardcoded, not selectable)
+   - Size: Customer-selected from dropdown
+   - Variant format: `"White / M"`, `"White / XL"`, etc.
+
+2. **Cotton Ringer T-Shirts**:
+   - Color: **White/Black** (white body, black trim)
+   - Size: Customer-selected from dropdown
+   - Variant format: `"White/Black / L"`, `"White/Black / XL"`, etc.
+
+3. **Mugs**:
+   - Color: **Black** (default, not selectable)
+   - Size: **11oz** (default, not selectable)
+   - Variant format: `"11oz / Black"`
+
+### Size Selection
+
+- **T-Shirts**: User MUST select size before adding to cart
+- **Mugs**: No size selection, defaults to 11oz
+- Sizes stored in cart and passed to checkout
+- Checkout function uses exact size to find variant
+
+### Order Processing
+
+- **NO automatic fulfillment** - user rejected webhooks
+- **Manual script execution** - `fulfill-orders.js` run on-demand
+- **Draft orders only** - Printify orders created in DRAFT status
+- **Manual approval required** - Admin must approve in Printify dashboard
+- **Duplicate prevention** - `processed-orders.json` tracks completed sessions
+
+### Pricing
+
+- **Unisex T-Shirt**: $25.00
+- **Fitted T-Shirt**: $25.00
+- **Cotton Ringer T-Shirt**: $25.00
+- **Mug**: $15.00
+- **Shipping**: Calculated dynamically via Printify API
 
 ---
 
@@ -605,176 +677,156 @@ Printify manufactures products
 
 ### Frontend
 - **HTML5**: Semantic markup
-- **CSS3**: Custom styling, grid layout, responsive design
-- **JavaScript (Vanilla)**: No frameworks, lightweight
+- **CSS3**: Custom styling, grid layout, animations
+- **JavaScript (Vanilla)**: No frameworks
 - **localStorage API**: Cart persistence
+- **GitHub Pages**: Static hosting
 
 ### Backend
 - **Node.js**: Runtime environment
-- **Vercel Functions**: Serverless compute
+- **Netlify Functions**: Serverless compute (checkout only)
 - **Stripe SDK**: Payment processing
-- **Fetch API**: HTTP requests to Printify
+- **Fetch API**: Printify API calls
+
+### Scripts (Local Execution)
+- **fulfill-orders.js**: Manual order creation
+- **check-stripe-orders.js**: View pending orders
 
 ### Third-Party Services
-- **Vercel**: Hosting + serverless functions
+- **GitHub Pages**: Frontend hosting
+- **Netlify**: Serverless functions
 - **Stripe**: Payment processing
 - **Printify**: POD manufacturing + shipping
-
-### Development Tools
-- **npm**: Package management
-- **Vercel CLI**: Local dev + deployment
-- **Git**: Version control
 
 ---
 
 ## Security
 
 ### API Keys
-- Stored in environment variables (never in code)
-- Different keys for test/live modes
-- Vercel encrypts all environment variables
+- Stored in Netlify environment variables
+- Never in code or committed to Git
+- `.gitignore` blocks scripts with hardcoded keys
 
 ### Payment Security
 - PCI compliance handled by Stripe
 - No card data touches our servers
 - Stripe Checkout is PCI DSS Level 1 certified
 
-### Webhook Verification
-- Stripe webhook signatures verified
-- Prevents unauthorized requests
-- Protects against replay attacks
-
 ### HTTPS
-- Enforced by Vercel
+- GitHub Pages enforces HTTPS
+- Netlify enforces HTTPS
 - All traffic encrypted
-- Free SSL certificates
 
 ---
 
 ## Scalability
 
 ### Current Capacity
-- **Vercel Free Tier**:
+- **GitHub Pages**: Unlimited static requests
+- **Netlify Free Tier**:
   - 100 GB bandwidth/month
-  - 100 GB-hours serverless execution
-  - Unlimited static requests
+  - 125k function invocations/month
+  - 100 hours runtime/month
 
 ### Projected Scaling
-**100 orders/day:**
-- Bandwidth: ~5 GB/month (plenty)
-- Function execution: ~10 GB-hours/month (plenty)
-- Cost: $0 (within free tier)
+**100 orders/day** (~3,000/month):
+- Bandwidth: ~5 GB/month
+- Function calls: ~3,000/month
+- Cost: **$0** (within free tier)
 
-**1000 orders/day:**
-- Bandwidth: ~50 GB/month (still free)
-- Function execution: ~100 GB-hours/month
-- Cost: ~$20/month (if exceeded free tier)
+**1,000 orders/day** (~30,000/month):
+- Bandwidth: ~50 GB/month
+- Function calls: ~30,000/month
+- Cost: **$0** (still within free tier)
 
-### Bottlenecks
-1. **Printify API rate limits**: ~60 requests/minute
-2. **Stripe limits**: 100 requests/second (unlikely to hit)
-3. **Vercel limits**: Scales automatically
-
-### Optimization Strategies
-- Cache product data in environment variables
-- Batch Printify orders if needed
-- Use Vercel Edge Functions for lower latency
-- Add Redis for session storage (if needed)
+**Note**: User upgraded to Netlify paid plan ($19/month) due to previous usage.
 
 ---
 
 ## Monitoring & Logging
 
-### Vercel Logs
+### Netlify Dashboard
 - Function execution logs
 - Error tracking
-- Performance metrics
+- Deployment history
 
 ### Stripe Dashboard
 - Payment logs
-- Webhook delivery logs
-- Failed payment alerts
+- Session details with cartData
+- Successful/failed payments
 
 ### Printify Dashboard
 - Order status
 - Manufacturing progress
 - Shipping tracking
 
----
-
-## Future Enhancements
-
-### Phase 1 (Current)
-- ✅ Custom browsing experience
-- ✅ Shopping cart
-- ✅ Stripe checkout
-- ✅ Printify fulfillment
-
-### Phase 2 (Recommended)
-- [ ] Email confirmations (SendGrid/Mailgun)
-- [ ] Order tracking page
-- [ ] Customer accounts
-- [ ] Order history
-
-### Phase 3 (Advanced)
-- [ ] Admin dashboard
-- [ ] Inventory management
-- [ ] Analytics integration
-- [ ] A/B testing
-- [ ] Abandoned cart recovery
+### Local Logs
+- `fulfill-orders.js` console output
+- `processed-orders.json` tracking file
 
 ---
 
 ## Cost Analysis
 
-### Monthly Costs (Estimated)
+### Monthly Costs
 
 **Fixed Costs:**
-- Vercel: $0 (free tier sufficient for startup)
+- GitHub Pages: $0 (free)
+- Netlify: $19/month (paid plan - user's choice)
 - Stripe: $0 (pay per transaction)
 - Printify: $0 (pay per order)
 
-**Variable Costs (per $100 in sales):**
-- Stripe fees: $3.20 (2.9% + $0.30 per transaction)
-- Printify (wholesale): ~$60 (depends on products)
-- **Net profit**: ~$36.80 per $100 in sales
-
-**Scaling Costs:**
-- 100 orders/month: $0 platform costs
-- 1000 orders/month: ~$20 platform costs
-- 10,000 orders/month: ~$200 platform costs
+**Variable Costs (per order):**
+- Stripe fees: 2.9% + $0.30 per transaction
+- Printify wholesale: ~$12-20 per product
+- **Customer pays**: $15 (mug) or $25 (t-shirt)
 
 ---
 
 ## Maintenance
 
-### Regular Tasks
-- Monitor Vercel logs for errors
-- Check Stripe webhook delivery
-- Review Printify order status
-- Update product prices as needed
+### Daily Tasks
+- Check email for new Stripe payments
+- Run `node fulfill-orders.js` to create Printify orders
+- Review and approve orders in Printify dashboard
 
-### Periodic Updates
-- Rotate API keys (quarterly)
-- Update dependencies (npm update)
-- Review and update product catalog
-- Test checkout flow
+### Weekly Tasks
+- Monitor Netlify function logs
+- Check for abandoned carts in Stripe
 
-### Disaster Recovery
-- Code backed up in Git
-- Environment variables documented
-- Product mappings saved in JSON
-- Can redeploy from scratch in minutes
+### Monthly Tasks
+- Review Printify order history
+- Update product catalog if needed
+- Check script for any errors
+
+---
+
+## Future Enhancements
+
+### Considered but Rejected
+- ❌ Automatic webhook fulfillment (user prefers manual control)
+
+### Possible Phase 2
+- [ ] Email confirmations (SendGrid)
+- [ ] Order tracking page
+- [ ] Customer accounts
+- [ ] Admin dashboard for order management
+
+### Possible Phase 3
+- [ ] Analytics integration
+- [ ] Inventory management
+- [ ] A/B testing
+- [ ] Automated email marketing
 
 ---
 
 ## Conclusion
 
 The Holy Chip architecture provides:
-1. **Seamless UX**: Character-first browsing, custom checkout
-2. **Automated Fulfillment**: Hands-off order processing
-3. **Scalable Infrastructure**: Serverless, auto-scaling
-4. **Low Overhead**: Minimal ongoing costs
-5. **Easy Maintenance**: Simple, well-documented codebase
+1. **Simple UX**: Character-first browsing, size selection, custom checkout
+2. **Manual Control**: User reviews every order before production
+3. **Scalable Infrastructure**: Serverless, auto-scaling backend
+4. **Low Risk**: Manual approval prevents errors
+5. **Cost Effective**: Minimal platform costs
 
-**Result**: A professional e-commerce platform that lets you focus on marketing and growth while technology handles the operations.
+**Result**: A professional e-commerce platform with full manual control over order fulfillment, ensuring quality and preventing costly mistakes.

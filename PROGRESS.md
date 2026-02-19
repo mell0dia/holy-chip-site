@@ -4,186 +4,212 @@ _Track what we've accomplished and where we left off._
 
 ---
 
+## Session 2026-02-18 - System Fixes & Documentation
+
+### ✅ Major Fixes
+
+**Variant Selection Bug Fixed:**
+- ❌ Previous: Script selected random first enabled variant
+- ✅ Fixed: Properly selects WHITE shirts with correct customer-selected size
+- ✅ Cotton Ringers use White/Black variant
+- ✅ Mugs default to Black/11oz
+- ✅ Variant matching logic updated in both `checkout.js` and `fulfill-orders.js`
+
+**Manual Fulfillment Workflow:**
+- ✅ User rejected automatic webhook (wanted manual control)
+- ✅ Updated `fulfill-orders.js` to use cartData from Stripe metadata
+- ✅ Orders created in DRAFT status (manual approval required)
+- ✅ `processed-orders.json` tracks fulfilled sessions
+- ✅ Duplicate order prevention built-in
+
+**Test Order Issues:**
+- ❌ First test order created wrong products ($104 charged, wrong sizes/colors)
+- ✅ Printify couldn't cancel (order already in production)
+- ✅ Identified root cause: variant selection logic error
+- ✅ Fixed and tested successfully with second order
+- ✅ Second test order correct: Chip_1 Cotton Ringer (L) - White/Black variant
+
+### ✅ Documentation Overhaul
+
+**New Documentation:**
+- ✅ Created **SCRIPTS.md** - Complete script documentation
+- ✅ Updated **ARCHITECTURE.md** - Accurate system architecture
+- ✅ Updated **README.md** - Proper project overview
+- ✅ Updated **BACKLOG.md** - Current priorities and completed tasks
+- ✅ Updated **PROGRESS.md** - This file
+
+**Documentation Sync:**
+- ✅ Reviewed and updated all technical .md files
+- ✅ Fixed platform references (Vercel → Netlify)
+- ✅ Updated file paths (`api/` → `netlify/functions/`, `store-v2.html` → `store.html`)
+- ✅ Added business rules (WHITE shirts, size selection, etc.)
+- ✅ Documented manual fulfillment workflow
+- ✅ All docs now in sync with current system
+
+### ✅ Platform Clarifications
+
+**Frontend:**
+- Platform: GitHub Pages
+- URL: https://mell0dia.github.io/holy-chip-site/
+- Deployment: Auto on push to `gh-pages` branch
+
+**Backend:**
+- Platform: Netlify Functions
+- URL: https://holychip.netlify.app
+- Cost: $19/month (paid plan)
+- Deployment: Auto on GitHub push
+
+**Fulfillment:**
+- Method: Manual script execution
+- Script: `fulfill-orders.js`
+- Approval: Manual in Printify dashboard
+- Tracking: `processed-orders.json`
+
+---
+
+## Session 2026-02-17/18 - Cotton Ringer Addition
+
+### ✅ Completed
+
+**Cotton Ringer Collection:**
+- ✅ Added 3rd t-shirt style (Cotton Ringer)
+- ✅ Created all 12 Cotton Ringer products in Printify
+- ✅ Downloaded front + back mockups for all 12
+- ✅ Created Stripe prices for all 12
+- ✅ Updated `product-data.json`
+- ✅ Updated `store.html` with Cotton Ringer option
+- ✅ Deployed to production
+
+**Shipping Analysis:**
+- ✅ Tested Cotton Ringer shipping costs
+- ✅ Print Provider: Printify Choice (99), not SwiftPOD (39)
+- ✅ Shipping impact: +$9.39 for mixed orders (acceptable)
+- ✅ Decision: Keep Cotton Ringer despite different provider
+
+**Deployment Issues:**
+- ❌ GitHub secret scanning blocked initial push (API keys in scripts)
+- ✅ Fixed: Added test scripts to `.gitignore`
+- ✅ Successfully deployed after cleanup
+
+---
+
+## Session 2026-02-15/16 - UX Improvements
+
+### ✅ Completed
+
+**Cart UX:**
+- ✅ Replaced annoying toast notifications with cart button animation
+- ✅ Added bounce animation to cart button
+- ✅ Added pulse animation to cart count badge
+- ✅ Fixed cart count confusion (shows total quantity, not unique items)
+
+**Checkout:**
+- ❌ Netlify function returning 503 (project paused)
+- ✅ Cause: Exceeded free tier limits
+- ✅ Fix: Upgraded to Netlify paid plan ($19/month)
+- ✅ Checkout working after upgrade
+
+**Mixed Product Shipping Warning:**
+- ✅ Added warning message when cart contains both mugs and shirts
+- ✅ Message: "Due to logistics, shipping costs are higher for mixed baskets"
+- ✅ Displays in checkout modal
+
+---
+
 ## Session 2026-02-14 - Shopping Cart & Mockup Integration
 
 ### ✅ Completed
 
 **Shopping Cart Implementation:**
-- ✅ Built complete shopping cart system (store-v2.html)
-- ✅ Multi-product purchase in single transaction (replaces separate Printify transactions)
+- ✅ Built complete shopping cart system (`store.html`)
+- ✅ Multi-product purchase in single transaction
 - ✅ Cart features: Add/remove items, view cart modal, localStorage persistence
 - ✅ Product cards showing 2 t-shirt styles per Chip
-- ✅ Pricing confirmed: $25 per t-shirt
+- ✅ Pricing confirmed: $25 per t-shirt, $15 per mug
 - ✅ Cart count badge and floating cart button
 
 **Printify Mockup Integration:**
-- ✅ Created fetch-product-images.js to download product mockups from Printify API
-- ✅ Downloaded 175 mockup images (5 products × 35 images each)
-- ✅ Updated store-v2.html to display actual Printify t-shirt mockups instead of character images
-- ✅ Mockups show t-shirts on models with real designs
-- ✅ Added fallback to character images if mockups unavailable
+- ✅ Created `fetch-product-images.js` to download product mockups from Printify API
+- ✅ Downloaded all t-shirt mockups (front + back for all products)
+- ✅ Downloaded all mug mockups (6 angles: front, back, left, right, context1, context2)
+- ✅ Integrated mockups into store display
+- ✅ Built lightbox for viewing multiple product angles
 
-**Files Created:**
-- store-v2.html (shopping cart implementation)
-- fetch-product-images.js (mockup download script)
-- assets/mockups/ (175 product mockup images + metadata JSON files)
-
-### 📋 Next Steps
-
-**Immediate (Store Display):**
-1. Filter mockups to show ONLY white t-shirts (currently shows all 35 color variations)
-2. Display BOTH front and back views in each product card side-by-side
-3. Identify which mockup image indexes correspond to white shirts front/back
-
-**Later:**
-1. Integrate Printify checkout API (replace placeholder checkout function)
-2. Create remaining 19 t-shirt products (need 24 total for all Chips)
-3. Test end-to-end purchase flow
+**Product Structure:**
+- ✅ 12 Holy Chip characters (Chip_0 through Chip_1101)
+- ✅ 2 t-shirt styles per character (Unisex, Fitted)
+- ✅ 1 mug per character
+- ✅ Total: 36 products (24 t-shirts + 12 mugs)
 
 ---
 
-## Session 2026-02-13 (Part 2) - Printify Integration & Product Automation
+## Session 2026-02-13 - Printify Product Creation
 
 ### ✅ Completed
 
-**Printify Setup:**
-- ✅ Created Printify account and obtained API token
-- ✅ Shop ID retrieved: 26476603 (Holy-Chip store)
-- ✅ Secure config setup: printify-config.js (gitignored)
-- ✅ API connection tested and validated
-- ✅ Explored product catalog: Found blueprint IDs for t-shirts (6), mugs (68), hats (1108)
+**Mug Products:**
+- ✅ Created all 12 mug products via Printify API
+- ✅ SwiftPOD provider (Print Provider 39)
+- ✅ Blueprint: 635 (Accent Mug)
+- ✅ Correct positioning: Chip on front-left, Brand on front-right
+- ✅ All mugs published and available
 
-**Product Creation Testing:**
-- ✅ Created 5 test products to validate different design layouts:
-  - Test v1 (Chip_0): Front only
-  - Test v2 (Chip_1): Front: Chip | Back: Brand (full size)
-  - Test v3 (Chip_100): Front: Chip | Back: Brand (50% top) ⭐ APPROVED
-  - Test v4 (Chip_101): Front stacked (overlap issue - fixed in v5)
-  - Test v5 (Chip_110): Front: Brand (80% top) + Chip (80% bottom) ⭐ APPROVED
+**T-Shirt Products:**
+- ✅ Created all 24 t-shirt products (12 Unisex + 12 Fitted)
+- ✅ SwiftPOD provider (Print Provider 39)
+- ✅ Blueprints: 1653 (DryBlend Unisex), similar for Fitted
+- ✅ Two styles:
+  - Style 3 (Unisex): Front: Brand + Chip
+  - Style 5 (Fitted): Front: Chip | Back: Brand
+- ✅ All t-shirts published and available
 
-**Final T-Shirt Design Decision:**
-- ✅ **Style #3:** Front: Chip (full) | Back: Brand (50% size, top position)
-- ✅ **Style #5:** Front: Brand (80% top) + Chip (80% bottom) | Back: Empty
-- ✅ Decision: Create BOTH styles for all 12 Chips = **24 t-shirt products**
-
-**Scripts Created:**
-- ✅ printify-test.js - API connection test
-- ✅ printify-catalog.js - Explore product blueprints
-- ✅ test-create-product.js (v1-v5) - Design testing scripts
-- ✅ create-products.js - Full automation template (ready to customize)
-
-**Navigation System:**
-- ✅ Implemented shared navigation (assets/nav.js)
-- ✅ Separated NFTs to dedicated page
-- ✅ All pages use centralized menu
-
-### 📋 Next Steps
-
-**Immediate (T-Shirts):**
-1. Update create-products.js to generate 24 t-shirt products (12 Chips × 2 styles)
-2. Run automation to create all t-shirt products
-3. Verify all products in Printify dashboard
-4. Update store.html to link to actual Printify product URLs
-
-**Later (Mugs & Hats):**
-1. Design and test mug layouts
-2. Design and test hat layouts
-3. Create remaining products via automation
-
-**Store Integration:**
-1. Map Chip + Product Type → Printify Product ID
-2. Update store.html redirect logic
-3. Test end-to-end purchase flow
+**Automation Scripts:**
+- ✅ `create-all-mugs.js` - Bulk mug creation
+- ✅ `create-all-tshirts.js` - Bulk t-shirt creation
+- ✅ `fetch-all-mockups.js` - Download all product images
 
 ---
 
-## Session 2026-02-13 (Part 1)
+## Current System State
 
-### ✅ Completed
+### Live & Working
+- ✅ Store live at https://mell0dia.github.io/holy-chip-site/store.html
+- ✅ GitHub Pages deployment (frontend)
+- ✅ Netlify Functions deployment (backend)
+- ✅ Stripe checkout integration
+- ✅ Manual fulfillment workflow
+- ✅ 12 characters × 3 t-shirt styles + mugs = 48 products
 
-**Brand Identity:**
-- ✅ Created comprehensive IDENTITY.md with Holy Chip brand definition
-  - Mission: Guide humanity with AI wisdom through cartoon series
-  - Tagline: "AI made by a Human"
-  - Visual identity: Black & white only (binary, 0 and 1)
-  - Tone: Funny + philosophical, adult-oriented, subversive
-  - Signature: "Holy Chip!" catchphrase
-  - Target: Anyone affected by AI (universal)
+### Products
+- 12 Unisex T-Shirts (white only)
+- 12 Fitted T-Shirts (white only)
+- 12 Cotton Ringer T-Shirts (white/black only)
+- 12 Mugs (black, 11oz)
 
-**Characters:**
-- ✅ Brought 14 character images from main branch to gh-pages
-- ✅ Renamed all characters to binary notation (Chip_0, Chip_1, Chip_10, Chip_11, Chip_100... Chip_1101)
-- ✅ Removed duplicate images (Chip_10, Chip_11 were duplicates)
-- ✅ Final count: 12 unique Chips with binary naming
-- ✅ Added brand.png to assets for product designs
+### Business Rules
+- All t-shirts **MUST be WHITE**
+- Cotton Ringers use **White/Black** variant
+- Mugs default to **Black/11oz**
+- Size selection **required** for t-shirts
+- Orders created in **DRAFT** (manual approval)
 
-**Store - Products Section:**
-- ✅ Created STORE.md documentation
-  - Store structure: Products vs NFTs
-  - Product design specs for each type
-  - Printify integration plan
-- ✅ Built interactive 3-step store flow on store.html:
-  - **Step 1:** Choose Chip (5 per row grid, selection hides grid and shows Chip + Brand preview)
-  - **Step 2:** Choose Product (T-shirt, Mug, Hat buttons)
-  - **Step 3:** Redirect to Printify (placeholder for API integration)
-- ✅ Single-page experience with smooth transitions
-- ✅ Clean UX: Click Chip → see Chip + Brand together → choose product
-
-**Product Design Specs (documented in STORE.md):**
-- T-Shirts: Chip + brand side by side (brand follows character)
-- Hats: Chip front, brand back
-- Mugs: Chip + brand side by side (brand follows character)
-
-**Project Organization:**
-- ✅ Created BACKLOG.md for future tasks
-- ✅ Created PROGRESS.md (this file) for session tracking
-
-### 🔄 In Progress
-
-- Store front is built but needs Printify API integration
-- NFTs section not yet started
-
-### 📋 Next Steps
-
-**Immediate Priorities:**
-1. **Printify API Integration**
-   - Set up Printify account and API credentials
-   - Create products programmatically (12 Chips × 3 products = 36 products)
-   - Each product needs Chip + brand.png images uploaded
-   - Implement redirect to Printify product pages
-
-2. **Store Improvements**
-   - Replace product type buttons with Printify template images (in BACKLOG.md)
-   - Test purchase flow end-to-end
-
-3. **NFTs Section**
-   - Define NFT strategy (all 12 Chips? Limited editions?)
-   - Choose NFT marketplace
-   - Create NFT section on store page
-
-4. **Content Pages**
-   - Stories page content
-   - Homepage refinement
-   - History page review
-
-**Questions to Answer:**
-- Printify account setup: Who has access? API key location?
-- NFT marketplace choice: OpenSea, Rarible, custom?
-- Do we want all 12 Chips as NFTs or select few?
+### Known Issues
+- None currently
 
 ---
 
-## Session Template (for next time)
+## Next Steps (See BACKLOG.md)
 
-### ✅ Completed
-_[What we accomplished this session]_
+**High Priority:**
+- Email notifications for customers
+- Order tracking page
+- Admin dashboard
 
-### 🔄 In Progress
-_[What we started but didn't finish]_
-
-### 📋 Next Steps
-_[What to tackle next session]_
+**Medium Priority:**
+- Product expansion (more colors for mugs, new characters)
+- UX improvements (reviews, wishlist)
+- Marketing features (discount codes, abandoned cart)
 
 ---
 
-**Last Updated:** 2026-02-13
+**Last Updated**: February 18, 2026

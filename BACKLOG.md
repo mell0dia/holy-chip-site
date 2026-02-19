@@ -2,67 +2,128 @@
 
 _Things to build, improve, and explore._
 
-## 🔥 High Priority
+---
 
-- [ ] **Filter Product Display to White Shirts Only**
-  - Printify mockups include multiple colors (35 images per product)
-  - Update store-v2.html to show ONLY white t-shirt mockups
-  - Identify which mockup image index corresponds to white shirts
-  - Filter out all other colors for now
+## ✅ Recently Completed
 
-- [ ] **Show Front AND Back Views in Product Cards**
-  - Currently each product card shows only 1 image (front view)
-  - Update product cards to display BOTH front and back views side-by-side
-  - Front view: Shows the Chip design
-  - Back view: Shows the brand logo (Style #3) or empty (Style #5)
-  - Create responsive layout for dual-image display
+- ✅ **Fixed Variant Selection** (Feb 18, 2026)
+  - All t-shirts now correctly use WHITE variants
+  - Cotton Ringers use White/Black variant
+  - Size selection properly mapped to Printify variants
 
-- [ ] **CREATE ALL T-SHIRT PRODUCTS (24 total)**
-  - Run automation to create all 12 Chips × 2 styles = 24 t-shirt products
-  - Style #3: Front: Chip | Back: Brand (50% top)
-  - Style #5: Front: Brand (80% top) + Chip (80% bottom)
-  - Currently only 5 test products exist
-  - Script ready: Need to customize create-products.js for both styles
+- ✅ **Added Cotton Ringer T-Shirts** (Feb 18, 2026)
+  - 3rd t-shirt style now available
+  - 12 Cotton Ringer products created
+  - Mockups downloaded and integrated
 
-- [ ] **Integrate Printify Checkout**
-  - Replace placeholder checkout in store-v2.html
-  - Send cart items to Printify API for actual purchase
-  - Test end-to-end purchase flow with real products
+- ✅ **Manual Fulfillment Workflow** (Feb 18, 2026)
+  - Created `fulfill-orders.js` script
+  - Cart data stored in Stripe metadata
+  - Draft order creation with manual approval
 
-## Store - Products
-
-- [ ] **Design & Create Mug Products (12 total)**
-  - Test design layouts for mugs
-  - Decide on Chip + brand positioning
-  - Create all 12 mug products via automation
-
-- [ ] **Design & Create Hat Products (12 total)**
-  - Test design layouts for hats
-  - Decide on Chip + brand positioning
-  - Create all 12 hat products via automation
-
-## Store Improvements
-
-- [ ] **Replace product type buttons with Printify template images** - Instead of simple "T-shirt/Mug/Hat" buttons, use actual product template images from Printify API to show what products look like
-
-## Features to Add
-
-- [ ] _[Future items will be added here]_
-
-## Integrations
-
-- [ ] **NFT Marketplace Integration** - Link NFT section to chosen marketplace
-
-## Content
-
-- [ ] _[Future content tasks]_
-
-## Design Polish
-
-- [ ] _[Future design improvements]_
+- ✅ **Documentation Overhaul** (Feb 18, 2026)
+  - Created SCRIPTS.md
+  - Updated ARCHITECTURE.md
+  - Updated README.md
+  - Synced all .md files to current system
 
 ---
 
-**Last Updated:** 2026-02-13
+## 🔥 High Priority
 
-_Add new items as we discover what needs to be built. Check off items as completed._
+### Email Notifications
+- [ ] Implement email confirmations for customers (SendGrid)
+- [ ] Order confirmation email after payment
+- [ ] Shipping notification email (from Printify)
+- [ ] Admin notification when new order is placed
+
+### Order Tracking
+- [ ] Build order tracking page
+- [ ] Customer can view order status
+- [ ] Integration with Printify tracking API
+- [ ] Display shipping carrier and tracking number
+
+### Admin Dashboard
+- [ ] Simple admin panel for order management
+- [ ] View all orders in one place
+- [ ] One-click fulfillment from dashboard
+- [ ] Order analytics and sales reports
+
+---
+
+## 💡 Medium Priority
+
+### Product Expansion
+- [ ] Add color options for mugs (currently only Black)
+- [ ] Add 15oz mug size option
+- [ ] Consider additional t-shirt styles if demand warrants
+- [ ] Add new characters (Chip_10, Chip_11, etc.)
+
+### UX Improvements
+- [ ] Add product reviews/ratings
+- [ ] Wishlist functionality
+- [ ] Recently viewed products
+- [ ] Recommended products based on selection
+
+### Marketing Features
+- [ ] Discount codes / coupon system
+- [ ] Abandoned cart recovery emails
+- [ ] Newsletter signup
+- [ ] Social media share buttons
+
+---
+
+## 🔮 Future Ideas
+
+### Customer Accounts
+- [ ] User registration and login
+- [ ] Order history page
+- [ ] Save shipping addresses
+- [ ] Reorder previous purchases
+
+### Advanced Features
+- [ ] Bundle deals (buy 3 get 10% off)
+- [ ] Pre-orders for new characters
+- [ ] Limited edition products
+- [ ] Gift cards
+
+### Analytics
+- [ ] Google Analytics integration
+- [ ] Sales dashboard
+- [ ] Popular products report
+- [ ] Conversion funnel analysis
+
+### Internationalization
+- [ ] Multi-currency support
+- [ ] International shipping optimization
+- [ ] Localized product descriptions
+
+---
+
+## 🚫 Not Doing (Decided Against)
+
+- ❌ **Automatic webhook fulfillment** - Manual approval preferred for quality control
+- ❌ **Color selection for t-shirts** - Brand requires white shirts only
+- ❌ **Printify store integration** - Custom checkout provides better UX
+
+---
+
+## 📝 Notes
+
+**Current System Status:**
+- ✅ Live store on GitHub Pages
+- ✅ Netlify functions for checkout
+- ✅ Manual fulfillment workflow
+- ✅ 12 characters × 3 t-shirt styles + mugs
+- ✅ Size selection for t-shirts
+- ✅ Dynamic shipping calculation
+
+**Platform:**
+- Frontend: GitHub Pages
+- Backend: Netlify Functions ($19/month)
+- Payment: Stripe (2.9% + $0.30 per transaction)
+- Fulfillment: Printify (pay per order)
+
+---
+
+**Last Updated**: February 18, 2026
