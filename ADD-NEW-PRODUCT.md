@@ -62,10 +62,10 @@ Downloads 6 angles for the new mug:
 - `Chip_100_mug_context1.png`
 - `Chip_100_mug_context2.png`
 
-### 4. Deployment (`vercel --prod`)
-- Uploads updated `product-data.json`
-- Uploads new mockup images
-- Deploys to production
+### 4. Deployment
+- Push updated `product-data.json` to GitHub
+- GitHub Pages auto-deploys frontend
+- New mockup images available
 - **Live in ~30 seconds!**
 
 ---
@@ -86,7 +86,9 @@ node fetch-all-mug-angles.js
 
 ### Step 3: Deploy
 ```bash
-vercel --prod
+git add .
+git commit -m "Add Chip_100 product"
+git push origin main
 ```
 
 ---
@@ -144,7 +146,7 @@ After adding a product, verify:
    - `public/assets/mug-mockups/Chip_100_mug_*.png` exist ✓
 
 3. **Live Site**
-   - Go to: https://holy-chip-store.vercel.app
+   - Go to: https://mell0dia.github.io/holy-chip-site/store.html
    - Click on "Chip_100" character
    - Verify: Mug product appears
    - Click image: Lightbox shows all 6 angles
@@ -250,6 +252,10 @@ cp ~/Downloads/Chip_200.png characters/
 # Run the automated script
 npm run add-product Chip_200
 
-# Wait 2 minutes...
-# ✅ Done! Check https://holy-chip-store.vercel.app
+# Wait 2 minutes, then deploy
+git add .
+git commit -m "Add Chip_200"
+git push origin main
+
+# ✅ Done! Check https://mell0dia.github.io/holy-chip-site/store.html
 ```

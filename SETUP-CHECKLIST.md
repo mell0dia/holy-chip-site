@@ -4,21 +4,22 @@
 
 ### Files Created & Updated
 
-#### Backend (Vercel Serverless Functions)
-- [x] `api/create-checkout.js` - Creates Stripe checkout session
-- [x] `api/stripe-webhook.js` - Handles payment → Printify order creation
+#### Backend (Netlify Functions)
+- [x] `netlify/functions/create-checkout.js` - Creates Stripe checkout session (draft)
+- [x] `fulfill-orders.js` - Manual script to create Printify orders
 
-#### Frontend (Static Pages)
-- [x] `public/store-v2.html` - Main store (updated checkout flow)
-- [x] `public/checkout.html` - Shipping form & checkout page
-- [x] `public/success.html` - Order confirmation page
-- [x] `public/assets/` - All mockup images and assets
+#### Frontend (Static Pages on GitHub Pages)
+- [x] `store.html` - Main store (updated checkout flow)
+- [x] `checkout.html` - Shipping form & checkout page
+- [x] `success.html` - Order confirmation page
+- [x] `assets/` - All mockup images and assets
 
 #### Configuration Files
-- [x] `vercel.json` - Vercel deployment configuration
+- [x] `netlify.toml` - Netlify deployment configuration
 - [x] `package.json` - Node.js dependencies (Stripe)
 - [x] `.env.example` - Environment variables template
 - [x] `printify-config.js` - Updated to use storefront shop (26508747)
+- [x] `processed-orders.json` - Tracks fulfilled orders
 
 #### Documentation
 - [x] `ARCHITECTURE.md` - Complete system architecture (frontend + backend)
@@ -45,16 +46,18 @@
 4. 12 mug products created in Printify storefront shop
 5. All mug mockup images downloaded
 6. Checkout page with shipping form
-7. Stripe payment integration (backend ready)
-8. Printify order creation (backend ready)
+7. Stripe payment integration (draft orders)
+8. Manual Printify order fulfillment via fulfill-orders.js
 9. Success page
 10. Complete documentation
+11. Business rules: All t-shirts WHITE, Cotton Ringers use White/Black variant
+12. Size selection required for t-shirts
+13. Mugs default to Black/11oz
 
 ### ⏳ Pending
-1. **T-shirt products**: Need to run `create-all-products.js` once Printify rate limit clears (~15 min)
-2. **Stripe account**: User needs to create account and get API keys
-3. **Deployment**: Need to deploy to Vercel
-4. **Environment variables**: Need to set in Vercel dashboard
+1. **Deployment**: Need to deploy backend to Netlify
+2. **Environment variables**: Need to set in Netlify dashboard
+3. **Frontend**: Already on GitHub Pages at https://mell0dia.github.io/holy-chip-site/
 
 ---
 
@@ -87,30 +90,39 @@ npm install
 
 Expected result: `node_modules/` folder created with Stripe SDK
 
-### Step 4: Install Vercel CLI
+### Step 4: Deploy Frontend to GitHub Pages
 ```bash
-npm install -g vercel
+git add .
+git commit -m "Update store"
+git push origin main
 ```
 
-Expected result: `vercel` command available globally
+Expected result: Frontend deployed at https://mell0dia.github.io/holy-chip-site/
 
-### Step 5: Deploy to Vercel
+### Step 5: Install Netlify CLI
 ```bash
-vercel login
-vercel
+npm install -g netlify-cli
+```
+
+Expected result: `netlify` command available globally
+
+### Step 6: Deploy Backend to Netlify
+```bash
+netlify login
+netlify deploy
 ```
 
 Follow prompts:
-- [ ] Link to existing project? No
-- [ ] Project name? holy-chip-store
-- [ ] Directory? ./
-- [ ] Override settings? No
+- [ ] Create & configure a new site? Yes
+- [ ] Team? Your account
+- [ ] Site name? holychip
+- [ ] Publish directory? ./netlify/functions
 
-Expected result: Deployment URL (e.g., holy-chip-store.vercel.app)
+Expected result: Deployment URL (e.g., holychip.netlify.app)
 
-### Step 6: Set Environment Variables in Vercel
+### Step 7: Set Environment Variables in Netlify
 
-Go to Vercel Dashboard → Project → Settings → Environment Variables
+Go to Netlify Dashboard → Site → Settings → Environment Variables
 
 Add these:
 
@@ -161,32 +173,16 @@ Value: {"created_at":"...","total_products":24,"products":[...]}
 Environments: Production, Preview, Development
 ```
 
-### Step 7: Set Up Stripe Webhook
-
-1. [ ] Go to Stripe Dashboard → Developers → Webhooks
-2. [ ] Click "Add endpoint"
-3. [ ] Endpoint URL: `https://your-domain.vercel.app/api/stripe-webhook`
-4. [ ] Events to listen to: `checkout.session.completed`
-5. [ ] Click "Add endpoint"
-6. [ ] Copy the Signing Secret (whsec_...)
-7. [ ] Add to Vercel environment variables:
-
-```
-Variable: STRIPE_WEBHOOK_SECRET
-Value: whsec_... (from webhook)
-Environments: Production, Preview, Development
-```
-
 ### Step 8: Redeploy with Environment Variables
 ```bash
-vercel --prod
+netlify deploy --prod
 ```
 
 Expected result: Production deployment with all env vars configured
 
 ### Step 9: Test Complete Flow
 
-1. [ ] Go to your Vercel URL
+1. [ ] Go to https://mell0dia.github.io/holy-chip-site/store.html
 2. [ ] Browse products → Add to cart
 3. [ ] Go to checkout
 4. [ ] Fill shipping information
@@ -198,8 +194,11 @@ Expected result: Production deployment with all env vars configured
    - ZIP: Any 5 digits
 7. [ ] Complete payment
 8. [ ] Should redirect to success page
-9. [ ] Check Printify dashboard for new order
-10. [ ] Verify order was created successfully
+9. [ ] Order created in DRAFT status in Stripe
+10. [ ] Manually run `node fulfill-orders.js` to create Printify orders
+11. [ ] Check Printify dashboard for new orders
+12. [ ] Verify orders were created successfully
+13. [ ] Check `processed-orders.json` for fulfillment records
 
 ---
 
@@ -212,18 +211,23 @@ Expected result: Production deployment with all env vars configured
 - [ ] Confirm all product images load correctly
 
 ### Within 24 Hours
-- [ ] Monitor Vercel logs for errors
-- [ ] Check Stripe dashboard for test payments
-- [ ] Verify all 36 products are visible (12 mugs + 24 t-shirts)
+- [ ] Monitor Netlify function logs for errors
+- [ ] Check Stripe dashboard for test payments (draft status)
+- [ ] Run fulfill-orders.js to test manual fulfillment
+- [ ] Verify all products are visible on store.html
 - [ ] Test on mobile devices
+- [ ] Verify t-shirt size selection works
+- [ ] Confirm WHITE color enforcement for t-shirts
+- [ ] Test Cotton Ringer White/Black variant selection
 
 ### Before Going Live
-- [ ] Switch to Stripe live keys
-- [ ] Update webhook to use live mode
+- [ ] Switch to Stripe live keys in Netlify
 - [ ] Test with real payment (small amount)
 - [ ] Set up custom domain (optional)
 - [ ] Add Google Analytics (optional)
 - [ ] Create backup of all config files
+- [ ] Document manual fulfillment schedule
+- [ ] Set up reminder to run fulfill-orders.js daily
 
 ---
 
@@ -232,15 +236,14 @@ Expected result: Production deployment with all env vars configured
 ### When Ready for Real Customers
 
 1. **Switch to Live Stripe Keys**
-   - Replace test keys with live keys in Vercel
-   - Create new webhook for live mode
+   - Replace test keys with live keys in Netlify
    - Test with real payment
 
 2. **Custom Domain** (Optional)
    - Buy domain (e.g., holychip.com)
-   - Add to Vercel project
+   - Add to Netlify backend
+   - Add to GitHub Pages frontend
    - Update DNS settings
-   - Update Stripe webhook URL
 
 3. **Marketing Setup**
    - Add Google Analytics
@@ -261,15 +264,17 @@ Expected result: Production deployment with all env vars configured
 ### Common Issues
 
 **"Checkout failed"**
-- Check Vercel function logs
+- Check Netlify function logs
 - Verify environment variables are set
 - Ensure Stripe keys are correct
 
 **"No order created in Printify"**
-- Check Stripe webhook logs
-- Verify webhook secret is correct
-- Check Vercel function logs for errors
+- Remember: orders are NOT automatic
+- Run `node fulfill-orders.js` manually
+- Check Stripe dashboard for session metadata
+- Check Netlify function logs for errors
 - Ensure product mappings are correct
+- Verify processed-orders.json is writable
 
 **"Products not showing"**
 - Check if products are published
@@ -278,14 +283,20 @@ Expected result: Production deployment with all env vars configured
 
 **"Payment succeeded but customer didn't see success page"**
 - Check Stripe success URL is correct
-- Verify Vercel URL in environment
+- Verify GitHub Pages URL in environment
 - Check for JavaScript errors
+
+**"T-shirt added without size selection"**
+- Verify size selection is required in store.html
+- Check cart validation logic
+- Ensure size is included in cart metadata
 
 ---
 
 ## Support Resources
 
-- **Vercel Docs**: https://vercel.com/docs
+- **Netlify Docs**: https://docs.netlify.com
+- **GitHub Pages Docs**: https://docs.github.com/en/pages
 - **Stripe Docs**: https://stripe.com/docs
 - **Printify API**: https://developers.printify.com
 - **Architecture**: See ARCHITECTURE.md
@@ -297,16 +308,17 @@ Expected result: Production deployment with all env vars configured
 
 **Current State:**
 - ✅ All code written and tested
-- ✅ 12 mugs live in Printify store
+- ✅ Frontend deployed on GitHub Pages
+- ✅ All products in Printify store
+- ✅ Manual fulfillment system ready
 - ✅ Documentation complete
-- ⏳ T-shirts pending (rate limit)
-- ⏳ Needs deployment
+- ⏳ Backend needs deployment to Netlify
 
 **Next Steps:**
-1. Create Stripe account
-2. Deploy to Vercel
-3. Set environment variables
-4. Test checkout flow
+1. Deploy backend to Netlify
+2. Set environment variables
+3. Test checkout flow
+4. Run fulfill-orders.js to test fulfillment
 5. Go live!
 
 **Time Estimate:**
@@ -314,4 +326,4 @@ Expected result: Production deployment with all env vars configured
 - Testing: 30 minutes
 - **Total: 1 hour to production-ready**
 
-**You're ready to launch! 🚀**
+**You're ready to launch!**

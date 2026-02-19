@@ -22,18 +22,22 @@
 
 You have **3 main approaches** for implementing checkout:
 
-### **Option 1: Printify Orders API (Recommended for POD)**
+### **Option 1: Manual Fulfillment with Printify Orders API (Current Implementation)**
 
 **How it works:**
 1. User clicks "Checkout"
 2. Your site collects shipping address
-3. Your backend creates an order via Printify API
-4. Printify handles:
+3. Stripe creates a checkout session in DRAFT status
+4. Cart data stored in Stripe session metadata
+5. Payment is processed
+6. **You manually run fulfill-orders.js script**
+7. Script reads cart metadata and creates Printify orders
+8. Printify handles:
    - Manufacturing
    - Shipping
    - Fulfillment
-5. You get charged (wholesale price)
-6. Customer receives product
+9. You get charged (wholesale price)
+10. Customer receives product
 
 **Pricing Structure:**
 - **You pay Printify**: Wholesale price (e.g., $8 for mug, $15 for t-shirt)
@@ -42,52 +46,35 @@ You have **3 main approaches** for implementing checkout:
 
 **Implementation Steps:**
 ```javascript
-// 1. Collect shipping info
-const shippingAddress = {
-  first_name: "John",
-  last_name: "Doe",
-  email: "john@example.com",
-  phone: "555-1234",
-  country: "US",
-  region: "CA",
-  address1: "123 Main St",
-  city: "Los Angeles",
-  zip: "90001"
-};
-
-// 2. Create line items from cart
-const lineItems = cart.map(item => ({
-  product_id: getProductId(item.chip, item.styleId),
-  variant_id: getVariantId(item), // Based on size/color
-  quantity: item.quantity
-}));
-
-// 3. Submit order to Printify
-fetch('https://api.printify.com/v1/shops/{shop_id}/orders.json', {
-  method: 'POST',
-  headers: {
-    'Authorization': 'Bearer YOUR_API_TOKEN',
-    'Content-Type': 'application/json'
+// 1. Create checkout session with cart metadata (create-checkout.js)
+const session = await stripe.checkout.sessions.create({
+  mode: 'payment',
+  metadata: {
+    cart: JSON.stringify(cart)
   },
-  body: JSON.stringify({
-    external_id: generateOrderId(),
-    line_items: lineItems,
-    shipping_method: 1, // Standard shipping
-    send_shipping_notification: true,
-    address_to: shippingAddress
-  })
+  // ... other session config
 });
+
+// 2. After payment, manually run fulfill-orders.js
+// This script:
+// - Reads Stripe sessions
+// - Extracts cart metadata
+// - Creates Printify orders
+// - Tracks processed orders in processed-orders.json
+
+node fulfill-orders.js
 ```
 
 **Pros:**
-- Fully automated fulfillment
-- No inventory needed
-- Printify handles shipping
+- Manual approval before fulfillment
+- Review orders before manufacturing
+- No automatic webhook issues
+- Control over order processing
 
 **Cons:**
-- Need payment processing (Stripe/PayPal)
-- Need backend server (can't run from static HTML)
-- Must collect shipping addresses
+- Requires manual intervention
+- Need to run script regularly
+- Not fully automated
 
 ---
 
@@ -167,10 +154,10 @@ When ready to scale:
 
 ---
 
-## Sample Checkout Flow (Custom Implementation)
+## Sample Checkout Flow (Current Implementation)
 
 ```javascript
-// checkout.js - Full implementation example
+// checkout.js - Current implementation
 
 async function checkout() {
   if (cart.length === 0) {
@@ -187,30 +174,24 @@ async function checkout() {
   const tax = calculateTax(shippingInfo.region, subtotal);
   const total = subtotal + shipping + tax;
 
-  // Step 3: Process payment with Stripe
-  const paymentResult = await processPayment(total);
-
-  if (!paymentResult.success) {
-    alert('Payment failed. Please try again.');
-    return;
-  }
-
-  // Step 4: Create Printify order
-  const order = await createPrintifyOrder({
+  // Step 3: Create Stripe checkout session with cart metadata
+  const session = await createCheckoutSession({
     cart: cart,
     shipping: shippingInfo,
-    external_id: paymentResult.orderId
+    total: total
   });
 
-  // Step 5: Clear cart and show confirmation
-  cart = [];
-  localStorage.setItem('holyChipCart', '[]');
+  // Step 4: Redirect to Stripe checkout
+  window.location.href = session.url;
 
-  showOrderConfirmation(order.id);
+  // After payment succeeds:
+  // - Order is in DRAFT status
+  // - Cart data stored in session metadata
+  // - Admin runs fulfill-orders.js to create Printify orders
 }
 
-async function createPrintifyOrder(orderData) {
-  const response = await fetch('/api/create-order', {
+async function createCheckoutSession(orderData) {
+  const response = await fetch('https://holychip.netlify.app/.netlify/functions/create-checkout', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(orderData)
@@ -218,6 +199,9 @@ async function createPrintifyOrder(orderData) {
 
   return await response.json();
 }
+
+// Manual fulfillment (run by admin)
+// node fulfill-orders.js
 ```
 
 ---
