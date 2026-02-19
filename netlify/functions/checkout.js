@@ -236,7 +236,16 @@ exports.handler = async (event) => {
         allowed_countries: ['US', 'CA', 'GB', 'AU']
       },
       metadata: {
-        shippingCost: shippingCost.toString()
+        shippingCost: shippingCost.toString(),
+        // Store cart data for webhook to create Printify order
+        cartData: JSON.stringify(cart.map(item => ({
+          productId: item.productId,
+          chip: item.chip,
+          styleId: item.styleId,
+          size: item.size,
+          productType: item.productType,
+          quantity: item.quantity
+        })))
       }
     });
 
