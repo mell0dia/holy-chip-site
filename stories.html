@@ -2,23 +2,409 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Stories — Holy Chip</title>
   <link rel="stylesheet" href="assets/style.css">
   <style>
-    body { font-family: system-ui, sans-serif; background:#fafafa; color:#222; margin:0; min-height:100vh; }
-    .content { max-width:900px; margin:2rem auto; padding:0 1.5rem; }
-    h1 { color:#222; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Courier New', monospace;
+      background: #fff;
+      color: #000;
+      min-height: 100vh;
+    }
+
+    #nav-container { position: relative; z-index: 10; }
+
+    /* ── Page wrapper ──────────────────────────────────── */
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .page-header {
+      border-bottom: 3px solid #000;
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+    }
+
+    .page-header h1 {
+      font-size: 2rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    #story-count {
+      font-size: 0.75rem;
+      color: #888;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── Two main action buttons ────────────────────────── */
+    .actions {
+      display: flex;
+      gap: 1.2rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      flex: 1;
+      min-width: 200px;
+      padding: 1.2rem 2rem;
+      font-family: 'Courier New', monospace;
+      font-size: 1rem;
+      font-weight: bold;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: 3px solid #000;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    #btn-random {
+      background: #000;
+      color: #fff;
+    }
+    #btn-random:hover { background: #333; }
+    #btn-random:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    #btn-all {
+      background: #fff;
+      color: #000;
+    }
+    #btn-all:hover { background: #f0f0f0; }
+    #btn-all:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ── Loading ─────────────────────────────────────────── */
+    #loading {
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      color: #aaa;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    /* ── Grid ────────────────────────────────────────────── */
+    #grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .story-card {
+      position: relative;
+      border: 2px solid #000;
+      cursor: pointer;
+      overflow: hidden;
+      aspect-ratio: 3/2;
+      background: #111;
+      box-shadow: 4px 4px 0 #000;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .story-card:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 #000;
+    }
+
+    /* Faded background = main story image */
+    .card-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0.25;
+      filter: grayscale(100%);
+    }
+
+    /* Superposed = pre image, centered */
+    .card-pre {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: grayscale(100%);
+      padding: 8px;
+    }
+
+    /* Story number label */
+    .card-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-align: center;
+      padding: 4px;
+      text-transform: uppercase;
+    }
+
+    /* ── Reader / Lightbox ───────────────────────────────── */
+    #reader {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(0,0,0,0.92);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    #reader.hidden { display: none; }
+
+    .reader-inner {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      max-height: 95vh;
+      width: 100%;
+      max-width: 860px;
+    }
+
+    /* Toggle between pre and main story */
+    .reader-images {
+      position: relative;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      overflow-y: auto;
+      max-height: 80vh;
+    }
+
+    .reader-images img {
+      width: 100%;
+      max-width: 800px;
+      height: auto;
+      display: block;
+      border: 2px solid #444;
+    }
+
+    /* Controls */
+    .reader-controls {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .reader-btn {
+      background: transparent;
+      color: #fff;
+      border: 2px solid #fff;
+      padding: 0.5rem 1.5rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.75rem;
+      font-weight: bold;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .reader-btn:hover { background: #fff; color: #000; }
+    .reader-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    #reader-label {
+      color: #aaa;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      min-width: 80px;
+      text-align: center;
+    }
+
+    #btn-close {
+      position: absolute;
+      top: -0.5rem;
+      right: 0;
+      background: transparent;
+      color: #fff;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0.2rem 0.5rem;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    #btn-close:hover { opacity: 1; }
+
+    /* Empty state */
+    #empty {
+      color: #aaa;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
   </style>
 </head>
 <body>
-  <!-- Navigation injected here -->
+
   <div id="nav-container"></div>
 
-  <div class="content">
-    <h1>Stories</h1>
-    <p>Coming soon.</p>
+  <div class="page">
+    <div class="page-header">
+      <h1>Stories</h1>
+      <span id="story-count"></span>
+    </div>
+
+    <div class="actions">
+      <button class="action-btn" id="btn-random" disabled>⚡ Random Story</button>
+      <button class="action-btn" id="btn-all"    disabled>▦ See All</button>
+    </div>
+
+    <div id="loading">Scanning stories...</div>
+    <div id="empty"  style="display:none">No stories found yet.</div>
+    <div id="grid"   style="display:none"></div>
+  </div>
+
+  <!-- Reader -->
+  <div id="reader" class="hidden">
+    <div class="reader-inner">
+      <button id="btn-close">✕</button>
+      <div class="reader-images">
+        <img id="reader-pre"   src="" alt="Pre-story"/>
+        <img id="reader-story" src="" alt="Story"/>
+      </div>
+      <div class="reader-controls">
+        <button class="reader-btn" id="btn-prev">← Prev</button>
+        <span id="reader-label"></span>
+        <button class="reader-btn" id="btn-next">Next →</button>
+      </div>
+    </div>
   </div>
 
   <script src="assets/nav.js"></script>
+
+  <script>
+    // ── Story discovery ─────────────────────────────────────
+    // Probes HC0001.png, HC0002.png... stops at first 404.
+    // Just drop HC####.png + HC####.pre.png in /stories/ — auto-detected.
+
+    const STORIES_PATH = 'stories/';
+    let stories = [];      // array of padded numbers e.g. ["0001","0002",...]
+    let currentIdx = 0;
+
+    async function discoverStories() {
+      let n = 1;
+      while (true) {
+        const num = String(n).padStart(4, '0');
+        try {
+          const res = await fetch(`${STORIES_PATH}HC${num}.png`, { method: 'HEAD' });
+          if (!res.ok) break;
+          stories.push(num);
+          n++;
+        } catch {
+          break;
+        }
+      }
+      return stories;
+    }
+
+    // ── Boot ────────────────────────────────────────────────
+    (async () => {
+      await discoverStories();
+
+      document.getElementById('loading').style.display = 'none';
+
+      if (stories.length === 0) {
+        document.getElementById('empty').style.display = 'block';
+        return;
+      }
+
+      document.getElementById('story-count').textContent =
+        stories.length + ' stor' + (stories.length === 1 ? 'y' : 'ies');
+
+      document.getElementById('btn-random').disabled = false;
+      document.getElementById('btn-all').disabled    = false;
+    })();
+
+    // ── Random ──────────────────────────────────────────────
+    document.getElementById('btn-random').addEventListener('click', () => {
+      const idx = Math.floor(Math.random() * stories.length);
+      openReader(idx);
+    });
+
+    // ── See All ─────────────────────────────────────────────
+    let gridBuilt = false;
+
+    document.getElementById('btn-all').addEventListener('click', () => {
+      const grid = document.getElementById('grid');
+
+      if (!gridBuilt) {
+        stories.forEach((num, idx) => {
+          const card = document.createElement('div');
+          card.className = 'story-card';
+          card.innerHTML = `
+            <img class="card-bg"  src="${STORIES_PATH}HC${num}.png"     alt=""/>
+            <img class="card-pre" src="${STORIES_PATH}HC${num}.pre.png" alt=""/>
+            <div class="card-label">HC${num}</div>
+          `;
+          card.addEventListener('click', () => openReader(idx));
+          grid.appendChild(card);
+        });
+        gridBuilt = true;
+      }
+
+      grid.style.display = grid.style.display === 'none' ? 'grid' : 'none';
+      document.getElementById('btn-all').textContent =
+        grid.style.display === 'none' ? '▦ See All' : '▲ Hide';
+    });
+
+    // ── Reader ──────────────────────────────────────────────
+    function openReader(idx) {
+      currentIdx = idx;
+      renderReader();
+      document.getElementById('reader').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeReader() {
+      document.getElementById('reader').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    function renderReader() {
+      const num = stories[currentIdx];
+      document.getElementById('reader-pre').src   = `${STORIES_PATH}HC${num}.pre.png`;
+      document.getElementById('reader-story').src = `${STORIES_PATH}HC${num}.png`;
+      document.getElementById('reader-label').textContent = `HC${num}`;
+      document.getElementById('btn-prev').disabled = currentIdx === 0;
+      document.getElementById('btn-next').disabled = currentIdx === stories.length - 1;
+      // Scroll reader images back to top on story change
+      document.querySelector('.reader-images').scrollTop = 0;
+    }
+
+    document.getElementById('btn-close').addEventListener('click', closeReader);
+    document.getElementById('btn-prev').addEventListener('click', () => { currentIdx--; renderReader(); });
+    document.getElementById('btn-next').addEventListener('click', () => { currentIdx++; renderReader(); });
+
+    // Close on backdrop click
+    document.getElementById('reader').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('reader')) closeReader();
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeReader();
+      if (e.key === 'ArrowLeft'  && !document.getElementById('reader').classList.contains('hidden')) { if (currentIdx > 0) { currentIdx--; renderReader(); } }
+      if (e.key === 'ArrowRight' && !document.getElementById('reader').classList.contains('hidden')) { if (currentIdx < stories.length - 1) { currentIdx++; renderReader(); } }
+    });
+  </script>
 </body>
 </html>
