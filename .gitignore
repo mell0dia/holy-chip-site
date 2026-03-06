@@ -16,3 +16,4 @@ create-*-ringers.js
 create-*-swiftpod*.js
 update-*-stripe.js
 fulfill-orders.js
+rebuild-all-products.js
