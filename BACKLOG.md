@@ -6,6 +6,12 @@ _Things to build, improve, and explore._
 
 ## ✅ Recently Completed
 
+- ✅ **Removed Style 3 (Unisex) T-Shirt** (Mar 6, 2026)
+  - Deleted all 12 Style 3 products from Printify
+  - Removed from store.html product list
+  - Removed all 12 Style 3 entries from product-data.json
+  - Store now has 2 t-shirt styles: Fitted (Style 5) + Cotton Ringer
+
 - ✅ **Fixed Variant Selection** (Feb 18, 2026)
   - All t-shirts now correctly use WHITE variants
   - Cotton Ringers use White/Black variant
@@ -100,6 +106,34 @@ _Things to build, improve, and explore._
 
 ---
 
+## 🪙 NFT Project
+
+> All NFT tasks are tracked here. See `HolyChip/nft/NFT-PLAN.md` for full roadmap and on-chain details.
+
+### ⏳ Waiting On User
+- [ ] **2nd creator public key** (25% royalty split) — needed before next batch config
+
+### 🔥 Next Up (As Soon As Keys + Images Ready)
+- [ ] **Register on Magic Eden Creator Hub** — connect hot wallet (Brave/Phantom), apply as creator
+- [ ] **List 1 test NFT on Magic Eden** — verify metadata, image, attributes display correctly
+- [ ] **Top up hot wallet** — need ~0.8–1 SOL for 300 cNFT mint (~0.063 SOL currently)
+- [ ] **Update Candy Machine config** — set 75/25 creator split (cold wallet 75% + 2nd key 25%)
+- [ ] **Prepare 300 images + metadata** — batch metadata generation with attribute/rarity structure
+- [ ] **Mint 300 cNFTs on Mainnet** — new Candy Machine with updated creator split
+
+### 💡 Medium Priority
+- [ ] **nfts.html website integration** — Magic Eden API v2, gallery grid, buy links, floor price stats
+- [ ] **Automation pipeline** — drop folder of PNGs → auto-generate metadata → upload → mint → list
+
+### 📋 NFT Decisions Made
+- ✅ Two-wallet security: hot wallet (fees) + cold wallet (receives sales/royalties)
+- ✅ Storage: Irys/Arweave (permanent, no subscription)
+- ✅ Format: Compressed NFTs (cNFTs) for 300+ scale
+- ✅ First 5 NFTs minted (Chip_0 → Chip_110) — kept as-is, no creator split change
+- ✅ New batches will use 75/25 creator split
+
+---
+
 ## 🚫 Not Doing (Decided Against)
 
 - ❌ **Automatic webhook fulfillment** - Manual approval preferred for quality control
@@ -126,4 +160,4 @@ _Things to build, improve, and explore._
 
 ---
 
-**Last Updated**: February 18, 2026
+**Last Updated**: March 6, 2026
