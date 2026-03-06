@@ -297,22 +297,22 @@
     // Just drop HC####.png + HC####.pre.png in /stories/ — auto-detected.
 
     const STORIES_PATH = 'stories/';
-    let stories = [];      // array of padded numbers e.g. ["0001","0002",...]
+    const MAX_STORIES  = 999;   // probe HC001 → HC999 in parallel
+    let stories = [];           // array of padded numbers e.g. ["001","007",...]
     let currentIdx = 0;
 
     async function discoverStories() {
-      let n = 1;
-      while (true) {
-        const num = String(n).padStart(4, '0');
-        try {
-          const res = await fetch(`${STORIES_PATH}HC${num}.png`, { method: 'HEAD' });
-          if (!res.ok) break;
-          stories.push(num);
-          n++;
-        } catch {
-          break;
-        }
+      const probes = [];
+      for (let n = 1; n <= MAX_STORIES; n++) {
+        const num = String(n).padStart(3, '0');
+        probes.push(
+          fetch(`${STORIES_PATH}HC${num}.png`, { method: 'HEAD' })
+            .then(res => res.ok ? num : null)
+            .catch(() => null)
+        );
       }
+      const results = await Promise.all(probes);
+      stories = results.filter(Boolean);
       return stories;
     }
 
@@ -354,6 +354,7 @@
             <img class="card-bg"  src="${STORIES_PATH}HC${num}.png"     alt=""/>
             <img class="card-pre" src="${STORIES_PATH}HC${num}.pre.png" alt=""/>
             <div class="card-label">HC${num}</div>
+
           `;
           card.addEventListener('click', () => openReader(idx));
           grid.appendChild(card);
