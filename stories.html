@@ -19,7 +19,7 @@
 
     /* ── Page wrapper ──────────────────────────────────── */
     .page {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 2.5rem 1.5rem;
     }
@@ -45,42 +45,6 @@
       letter-spacing: 0.1em;
     }
 
-    /* ── Two main action buttons ────────────────────────── */
-    .actions {
-      display: flex;
-      gap: 1.2rem;
-      margin-bottom: 2.5rem;
-      flex-wrap: wrap;
-    }
-
-    .action-btn {
-      flex: 1;
-      min-width: 200px;
-      padding: 1.2rem 2rem;
-      font-family: 'Courier New', monospace;
-      font-size: 1rem;
-      font-weight: bold;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      cursor: pointer;
-      border: 3px solid #000;
-      transition: background 0.2s, color 0.2s;
-    }
-
-    #btn-random {
-      background: #000;
-      color: #fff;
-    }
-    #btn-random:hover { background: #fff; color: #000; }
-    #btn-random:disabled { opacity: 0.4; cursor: not-allowed; }
-
-    #btn-all {
-      background: #fff;
-      color: #000;
-    }
-    #btn-all:hover { background: #000; color: #fff; }
-    #btn-all:disabled { opacity: 0.4; cursor: not-allowed; }
-
     /* ── Loading ─────────────────────────────────────────── */
     #loading {
       font-size: 0.8rem;
@@ -93,8 +57,8 @@
     /* ── Grid ────────────────────────────────────────────── */
     #grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1.2rem;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 1.5rem;
     }
 
     .story-card {
@@ -146,6 +110,14 @@
       text-transform: uppercase;
     }
 
+    /* Empty state */
+    #empty {
+      color: #aaa;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
     /* ── Reader / Lightbox ───────────────────────────────── */
     #reader {
       position: fixed;
@@ -167,64 +139,28 @@
       flex-direction: column;
       align-items: center;
       gap: 1rem;
-      max-height: 95vh;
+      height: 95vh;
       width: 100%;
-      max-width: 860px;
+      max-width: 1000px;
     }
 
-    /* Toggle between pre and main story */
     .reader-images {
-      position: relative;
       width: 100%;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 0.6rem;
-      overflow-y: auto;
-      max-height: 80vh;
+      justify-content: center;
+      flex: 1;
+      overflow: hidden;
     }
 
     .reader-images img {
-      width: 100%;
-      max-width: 800px;
+      max-width: 100%;
+      max-height: 78vh;
+      width: auto;
       height: auto;
       display: block;
       border: 2px solid #444;
-    }
-
-    /* Controls */
-    .reader-controls {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .reader-btn {
-      background: transparent;
-      color: #fff;
-      border: 2px solid #fff;
-      padding: 0.5rem 1.5rem;
-      font-family: 'Courier New', monospace;
-      font-size: 0.75rem;
-      font-weight: bold;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: background 0.2s, color 0.2s;
-    }
-
-    .reader-btn:hover { background: #fff; color: #000; }
-    .reader-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-
-    #reader-label {
-      color: #aaa;
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      min-width: 80px;
-      text-align: center;
+      object-fit: contain;
     }
 
     #btn-close {
@@ -243,14 +179,6 @@
     }
 
     #btn-close:hover { opacity: 1; }
-
-    /* Empty state */
-    #empty {
-      color: #aaa;
-      font-size: 0.85rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
   </style>
 </head>
 <body>
@@ -263,14 +191,9 @@
       <span id="story-count"></span>
     </div>
 
-    <div class="actions">
-      <button class="action-btn" id="btn-random" disabled>⚡ Random Story</button>
-      <button class="action-btn" id="btn-all"    disabled>▦ See All</button>
-    </div>
-
     <div id="loading">Scanning stories...</div>
-    <div id="empty"  style="display:none">No stories found yet.</div>
-    <div id="grid"   style="display:none"></div>
+    <div id="empty" style="display:none">No stories found yet.</div>
+    <div id="grid"></div>
   </div>
 
   <!-- Reader -->
@@ -278,27 +201,18 @@
     <div class="reader-inner">
       <button id="btn-close">✕</button>
       <div class="reader-images">
-        <img id="reader-pre"   src="" alt="Pre-story"/>
         <img id="reader-story" src="" alt="Story"/>
       </div>
-      <div class="reader-controls">
-        <button class="reader-btn" id="btn-prev">← Prev</button>
-        <span id="reader-label"></span>
-        <button class="reader-btn" id="btn-next">Next →</button>
-      </div>
+      <div style="color:#555;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;" id="reader-label"></div>
     </div>
   </div>
 
   <script src="assets/nav.js"></script>
 
   <script>
-    // ── Story discovery ─────────────────────────────────────
-    // Probes HC0001.png, HC0002.png... stops at first 404.
-    // Just drop HC####.png + HC####.pre.png in /stories/ — auto-detected.
-
     const STORIES_PATH = 'stories/';
-    const MAX_STORIES  = 999;   // probe HC001 → HC999 in parallel
-    let stories = [];           // array of padded numbers e.g. ["001","007",...]
+    const MAX_STORIES  = 200;
+    let stories = [];
     let currentIdx = 0;
 
     async function discoverStories() {
@@ -316,6 +230,21 @@
       return stories;
     }
 
+    function buildGrid() {
+      const grid = document.getElementById('grid');
+      stories.forEach((num, idx) => {
+        const card = document.createElement('div');
+        card.className = 'story-card';
+        card.innerHTML = `
+          <img class="card-bg"  src="${STORIES_PATH}HC${num}.png"     alt=""/>
+          <img class="card-pre" src="${STORIES_PATH}HC${num}.pre.png" alt=""/>
+          <div class="card-label">HC${num}</div>
+        `;
+        card.addEventListener('click', () => openReader(idx));
+        grid.appendChild(card);
+      });
+    }
+
     // ── Boot ────────────────────────────────────────────────
     (async () => {
       await discoverStories();
@@ -330,42 +259,8 @@
       document.getElementById('story-count').textContent =
         stories.length + ' stor' + (stories.length === 1 ? 'y' : 'ies');
 
-      document.getElementById('btn-random').disabled = false;
-      document.getElementById('btn-all').disabled    = false;
+      buildGrid();
     })();
-
-    // ── Random ──────────────────────────────────────────────
-    document.getElementById('btn-random').addEventListener('click', () => {
-      const idx = Math.floor(Math.random() * stories.length);
-      openReader(idx);
-    });
-
-    // ── See All ─────────────────────────────────────────────
-    let gridBuilt = false;
-
-    document.getElementById('btn-all').addEventListener('click', () => {
-      const grid = document.getElementById('grid');
-
-      if (!gridBuilt) {
-        stories.forEach((num, idx) => {
-          const card = document.createElement('div');
-          card.className = 'story-card';
-          card.innerHTML = `
-            <img class="card-bg"  src="${STORIES_PATH}HC${num}.png"     alt=""/>
-            <img class="card-pre" src="${STORIES_PATH}HC${num}.pre.png" alt=""/>
-            <div class="card-label">HC${num}</div>
-
-          `;
-          card.addEventListener('click', () => openReader(idx));
-          grid.appendChild(card);
-        });
-        gridBuilt = true;
-      }
-
-      grid.style.display = grid.style.display === 'none' ? 'grid' : 'none';
-      document.getElementById('btn-all').textContent =
-        grid.style.display === 'none' ? '▦ See All' : '▲ Hide';
-    });
 
     // ── Reader ──────────────────────────────────────────────
     function openReader(idx) {
@@ -382,29 +277,16 @@
 
     function renderReader() {
       const num = stories[currentIdx];
-      document.getElementById('reader-pre').src   = `${STORIES_PATH}HC${num}.pre.png`;
       document.getElementById('reader-story').src = `${STORIES_PATH}HC${num}.png`;
       document.getElementById('reader-label').textContent = `HC${num}`;
-      document.getElementById('btn-prev').disabled = currentIdx === 0;
-      document.getElementById('btn-next').disabled = currentIdx === stories.length - 1;
-      // Scroll reader images back to top on story change
-      document.querySelector('.reader-images').scrollTop = 0;
     }
 
     document.getElementById('btn-close').addEventListener('click', closeReader);
-    document.getElementById('btn-prev').addEventListener('click', () => { currentIdx--; renderReader(); });
-    document.getElementById('btn-next').addEventListener('click', () => { currentIdx++; renderReader(); });
 
-    // Close on backdrop click
-    document.getElementById('reader').addEventListener('click', (e) => {
-      if (e.target === document.getElementById('reader')) closeReader();
-    });
+    document.getElementById('reader').addEventListener('click', closeReader);
 
-    // Close on Escape
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeReader();
-      if (e.key === 'ArrowLeft'  && !document.getElementById('reader').classList.contains('hidden')) { if (currentIdx > 0) { currentIdx--; renderReader(); } }
-      if (e.key === 'ArrowRight' && !document.getElementById('reader').classList.contains('hidden')) { if (currentIdx < stories.length - 1) { currentIdx++; renderReader(); } }
     });
   </script>
 </body>

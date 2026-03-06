@@ -6,6 +6,19 @@ _Things to build, improve, and explore._
 
 ## ✅ Recently Completed
 
+- ✅ **Stories Page** (Mar 6, 2026)
+  - Auto-discovers HC###.png + HC###.pre.png files from `stories/` folder (probes HC001–HC200)
+  - Grid auto-builds on load — cards show faded main story behind, pre-story image centered on top
+  - Cards are large (minmax 360px) for easy readability
+  - Click any card → fullscreen reader showing only the main .png, fitted to viewport (no scroll)
+  - Click anywhere or press Escape → back to grid
+  - HC### label on each card
+
+- ✅ **Homepage Redesign** (Mar 6, 2026)
+  - Floating chip characters (all 20, 6 instances each, size 35–73px, grayscale)
+  - Card with hero.jpg + typewriter tagline ("AI made by a Human")
+  - No buttons on homepage — nav handles navigation
+
 - ✅ **Removed Style 3 (Unisex) T-Shirt** (Mar 6, 2026)
   - Deleted all 12 Style 3 products from Printify
   - Removed from store.html product list
