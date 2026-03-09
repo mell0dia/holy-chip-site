@@ -210,35 +210,21 @@
   <script src="assets/nav.js"></script>
 
   <script>
-    const STORIES_PATH = 'stories/';
-    const MAX_STORIES  = 200;
-    let stories = [];
-    let currentIdx = 0;
+    const STORIES = [
+      { src: 'history/assets/holychip14-3.png',  label: 'holychip14-3'  },
+      { src: 'history/assets/holychip15-PT.png',  label: 'holychip15-PT' }
+    ];
 
-    async function discoverStories() {
-      const probes = [];
-      for (let n = 1; n <= MAX_STORIES; n++) {
-        const num = String(n).padStart(3, '0');
-        probes.push(
-          fetch(`${STORIES_PATH}HC${num}.png`, { method: 'HEAD' })
-            .then(res => res.ok ? num : null)
-            .catch(() => null)
-        );
-      }
-      const results = await Promise.all(probes);
-      stories = results.filter(Boolean);
-      return stories;
-    }
+    let currentIdx = 0;
 
     function buildGrid() {
       const grid = document.getElementById('grid');
-      stories.forEach((num, idx) => {
+      STORIES.forEach((story, idx) => {
         const card = document.createElement('div');
         card.className = 'story-card';
         card.innerHTML = `
-          <img class="card-bg"  src="${STORIES_PATH}HC${num}.png"     alt=""/>
-          <img class="card-pre" src="${STORIES_PATH}HC${num}.pre.png" alt=""/>
-          <div class="card-label">HC${num}</div>
+          <img class="card-bg"  src="${story.src}" alt=""/>
+          <div class="card-label">${story.label}</div>
         `;
         card.addEventListener('click', () => openReader(idx));
         grid.appendChild(card);
@@ -246,21 +232,10 @@
     }
 
     // ── Boot ────────────────────────────────────────────────
-    (async () => {
-      await discoverStories();
-
-      document.getElementById('loading').style.display = 'none';
-
-      if (stories.length === 0) {
-        document.getElementById('empty').style.display = 'block';
-        return;
-      }
-
-      document.getElementById('story-count').textContent =
-        stories.length + ' stor' + (stories.length === 1 ? 'y' : 'ies');
-
-      buildGrid();
-    })();
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('story-count').textContent =
+      STORIES.length + ' stor' + (STORIES.length === 1 ? 'y' : 'ies');
+    buildGrid();
 
     // ── Reader ──────────────────────────────────────────────
     function openReader(idx) {
@@ -276,15 +251,13 @@
     }
 
     function renderReader() {
-      const num = stories[currentIdx];
-      document.getElementById('reader-story').src = `${STORIES_PATH}HC${num}.png`;
-      document.getElementById('reader-label').textContent = `HC${num}`;
+      const story = STORIES[currentIdx];
+      document.getElementById('reader-story').src = story.src;
+      document.getElementById('reader-label').textContent = story.label;
     }
 
     document.getElementById('btn-close').addEventListener('click', closeReader);
-
     document.getElementById('reader').addEventListener('click', closeReader);
-
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeReader();
     });
