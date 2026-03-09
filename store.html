@@ -585,7 +585,7 @@
       <h2>Your Cart</h2>
       <div class="cart-items" id="cartItems"></div>
       <div class="cart-total">
-        Total: $<span id="cartTotal">0.00</span>
+        Total: USD $<span id="cartTotal">0.00</span>
       </div>
       <button class="checkout-btn" onclick="checkout()">Checkout</button>
     </div>
@@ -771,7 +771,7 @@
           <div class="product-title">${chip} ${style.type} - ${style.name}</div>
           <div class="product-description">${style.description}</div>
           ${colorInfo}
-          <div class="product-price">$${style.price.toFixed(2)}</div>
+          <div class="product-price">USD $${style.price.toFixed(2)}</div>
           ${sizeSelector}
           <button class="add-to-cart-btn" onclick='addToCartWithSize("${chip}", "${style.id}", "${style.name}", ${style.price}, "${style.type}")'>
             Add to Cart
@@ -946,7 +946,7 @@
                  onerror="this.src='characters/${item.chip}.png'">
             <div class="cart-item-info">
               <strong>${item.productName}</strong><br>
-              <span style="color:#666;">$${item.price.toFixed(2)} each</span>
+              <span style="color:#666;">USD $${item.price.toFixed(2)} each</span>
             </div>
             <div class="cart-item-quantity">
               <button onclick="updateQuantity(${index}, -1)" class="qty-btn">-</button>
@@ -956,7 +956,7 @@
               <button onclick="updateQuantity(${index}, 1)" class="qty-btn">+</button>
             </div>
             <div class="cart-item-subtotal">
-              $${(item.price * item.quantity).toFixed(2)}
+              USD $${(item.price * item.quantity).toFixed(2)}
             </div>
             <button class="cart-item-remove" onclick="removeFromCart(${index})">×</button>
           </div>
