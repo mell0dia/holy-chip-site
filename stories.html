@@ -210,32 +210,59 @@
   <script src="assets/nav.js"></script>
 
   <script>
-    const STORIES = [
-      { src: 'history/assets/holychip14-3.png',  label: 'holychip14-3'  },
-      { src: 'history/assets/holychip15-PT.png',  label: 'holychip15-PT' }
-    ];
-
+    const BASE = 'stories/';
+    const PAD  = n => String(n).padStart(3, '0');
+    let STORIES = [];
     let currentIdx = 0;
 
     function buildGrid() {
       const grid = document.getElementById('grid');
+      grid.innerHTML = '';
       STORIES.forEach((story, idx) => {
         const card = document.createElement('div');
         card.className = 'story-card';
         card.innerHTML = `
-          <img class="card-bg"  src="${story.src}" alt=""/>
-          <div class="card-label">${story.label}</div>
+          <img class="card-bg"  src="${story.main}" alt=""/>
+          ${story.pre ? `<img class="card-pre" src="${story.pre}" alt=""/>` : ''}
+          <div class="card-label">HC${PAD(story.num)}</div>
         `;
         card.addEventListener('click', () => openReader(idx));
         grid.appendChild(card);
       });
     }
 
+    // ── Auto-discover HC001 … HC200 ─────────────────────────
+    async function discover() {
+      const found = [];
+      const checks = [];
+      for (let n = 1; n <= 200; n++) {
+        const main = `${BASE}HC${PAD(n)}.png`;
+        const pre  = `${BASE}HC${PAD(n)}.pre.png`;
+        checks.push(
+          Promise.all([
+            fetch(main, { method: 'HEAD' }).then(r => r.ok ? main : null).catch(() => null),
+            fetch(pre,  { method: 'HEAD' }).then(r => r.ok ? pre  : null).catch(() => null),
+          ]).then(([m, p]) => m ? { num: n, main: m, pre: p } : null)
+        );
+      }
+      const results = await Promise.all(checks);
+      results.forEach(r => { if (r) found.push(r); });
+      found.sort((a, b) => a.num - b.num);
+      return found;
+    }
+
     // ── Boot ────────────────────────────────────────────────
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('story-count').textContent =
-      STORIES.length + ' stor' + (STORIES.length === 1 ? 'y' : 'ies');
-    buildGrid();
+    discover().then(stories => {
+      STORIES = stories;
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('story-count').textContent =
+        STORIES.length + ' stor' + (STORIES.length === 1 ? 'y' : 'ies');
+      if (STORIES.length === 0) {
+        document.getElementById('empty').style.display = '';
+      } else {
+        buildGrid();
+      }
+    });
 
     // ── Reader ──────────────────────────────────────────────
     function openReader(idx) {
@@ -252,8 +279,8 @@
 
     function renderReader() {
       const story = STORIES[currentIdx];
-      document.getElementById('reader-story').src = story.src;
-      document.getElementById('reader-label').textContent = story.label;
+      document.getElementById('reader-story').src = story.main;
+      document.getElementById('reader-label').textContent = `HC${PAD(story.num)}`;
     }
 
     document.getElementById('btn-close').addEventListener('click', closeReader);
