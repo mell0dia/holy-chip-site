@@ -61,6 +61,18 @@
       gap: 1.5rem;
     }
 
+    @media (max-width: 768px) {
+      .page { padding: 1.5rem 1rem; }
+      #grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+    }
+
+    @media (max-width: 480px) {
+      .page { padding: 1rem 0.75rem; }
+      .page-header h1 { font-size: 1.4rem; }
+      #grid { grid-template-columns: 1fr; gap: 0.75rem; }
+      .reader-images img { max-height: 65vh; }
+    }
+
     .story-card {
       position: relative;
       border: 2px solid #000;

@@ -9,8 +9,13 @@
     .content {max-width:900px;margin:2rem auto;padding:0 1.5rem;}
     h1 {text-align:center;color:#222;}
     .gallery {display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:1.5rem;}
-    .gallery a {display:block;width:200px;height:auto;overflow:hidden;}
+    .gallery a {display:block;width:clamp(140px,40%,200px);height:auto;overflow:hidden;}
     .gallery img {width:100%;height:auto;display:block;border:2px solid #ddd;}
+    @media (max-width:480px) {
+      .content {padding:0 0.75rem; margin:1rem auto;}
+      .gallery {gap:8px;}
+      .gallery a {width:100%;}
+    }
   </style>
 </head>
 <body>

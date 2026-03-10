@@ -1,15 +1,92 @@
-/* ── Holy Chip Menu ── */
+/* ── Holy Chip Navigation ── */
 :root {
   --nav-bg: #1a1a2e;
   --nav-fg: #e0e0e0;
   --nav-hover: #16213e;
   --nav-padding: 1rem 1.5rem;
 }
-.site-nav { background: var(--nav-bg); font-family: system-ui, sans-serif; display:flex; align-items:center; justify-content:center; gap:1rem; padding:0 1rem; }
-.nav-logo { color:var(--nav-fg); text-decoration:none; font-weight:bold; font-size:1.1rem; display:flex; align-items:center; padding:.5rem 0; }
-.nav-list { display:flex; margin:0; padding:0; list-style:none; }
-.nav-item { margin:0; }
-.nav-link { display:block; padding:var(--nav-padding); color:var(--nav-fg); text-decoration:none; transition:background .2s, color .2s; }
-.nav-link:hover, .nav-link:focus { background:var(--nav-hover); color:#fff; }
-.nav-link.active { background:#e94560; color:#fff; }
-@media (max-width:640px) { .nav-list { flex-direction:column; } .nav-link { text-align:center; } }
+
+.site-nav {
+  background: var(--nav-bg);
+  font-family: system-ui, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+.nav-logo {
+  color: var(--nav-fg);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  padding: .5rem 0;
+  flex-shrink: 0;
+}
+
+.nav-list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-item { margin: 0; }
+
+.nav-link {
+  display: block;
+  padding: var(--nav-padding);
+  color: var(--nav-fg);
+  text-decoration: none;
+  transition: background .2s, color .2s;
+  white-space: nowrap;
+}
+
+.nav-link:hover,
+.nav-link:focus  { background: var(--nav-hover); color: #fff; }
+.nav-link.active { background: #e94560; color: #fff; }
+
+/* ── Hamburger toggle ── */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--nav-fg);
+  font-size: 1.6rem;
+  cursor: pointer;
+  padding: 0.6rem 0.4rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* ── Mobile nav ── */
+@media (max-width: 768px) {
+  .site-nav {
+    padding: 0 0.75rem;
+  }
+
+  .nav-toggle {
+    display: block;
+  }
+
+  .nav-list {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    border-top: 1px solid #2a2a4e;
+  }
+
+  .nav-list.open {
+    display: flex;
+  }
+
+  .nav-link {
+    padding: 0.9rem 1.2rem;
+    border-bottom: 1px solid #2a2a4e;
+    text-align: left;
+  }
+}
