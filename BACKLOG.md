@@ -6,6 +6,20 @@ _Things to build, improve, and explore._
 
 ## ✅ Recently Completed
 
+- ✅ **Homepage Story Finder** (Mar 9, 2026)
+  - Hero image pushed to top (no longer vertically centered)
+  - Typewriter: "AI made by a human" then "we are 2 chips talking about our lives and our feelings" (bold, black, stays on screen)
+  - Scanner animation after 2s delay: green terminal, progress bar, "STORY LOCATED"
+  - Random story card appears (exact same style as stories.html: faded bg + pre.png overlay)
+  - Click card → inline lightbox reader (full story image)
+  - Close → scanner runs again, shows different story
+  - localStorage queue: never repeats a story until all have been shown, then resets
+  - Scanner hides once card is shown; reappears only during next search
+
+- ✅ **History Page Fixed** (Mar 9, 2026)
+  - history/index.html now shows only holychip14-3.png + holychip15-PT.png
+  - stories.html reverted to correct auto-discovery (HC001–HC200)
+
 - ✅ **Stories Page** (Mar 6, 2026)
   - Auto-discovers HC###.png + HC###.pre.png files from `stories/` folder (probes HC001–HC200)
   - Grid auto-builds on load — cards show faded main story behind, pre-story image centered on top
@@ -50,7 +64,44 @@ _Things to build, improve, and explore._
 
 ## 🔥 High Priority
 
-### Email Notifications
+### 🎯 Story Submission System — `/submit` (NFT-Gated)
+> Full spec: `memory/holychip-submission.md`
+> **Status: PLANNED — ready to build on Ricardo's go-ahead**
+
+**What it is:** NFT holders submit comic scripts. Ricardo reviews, generates image, mints as NFT. Submitter gets 20% of first sale.
+
+**Locked decisions:**
+- Character 1 = submitter's own Holy Chip NFT from their wallet
+- Character 2 = any Holy Chip NFT still unsold (in creator/treasury wallet — live list via Helius)
+- Simplified form (no AI generation — dialogue fields only)
+- Royalty: 20% first sale only, paid manually. Resales 100% to Ricardo
+- Unlimited submissions per wallet
+- Email from @holy-chip.com (SendGrid)
+
+**Phase 1 — Core (build first):**
+- [ ] Supabase project + `submissions` table (schema in spec)
+- [ ] `verify-wallet.js` — Phantom/Backpack connect + Helius cNFT ownership check → JWT
+- [ ] `get-wallet-nfts.js` — fetch submitter's Holy Chip NFTs via Helius
+- [ ] `get-available-nfts.js` — fetch unsold Holy Chip NFTs (owned by creator wallet) via Helius
+- [ ] `submit-story.js` — JWT auth → Supabase write → SendGrid emails
+- [ ] `/submit.html` — wallet connect + 5-section form + submit button
+- [ ] SendGrid: configure @holy-chip.com sender + 4 email templates
+
+**Phase 2 — Status Notifications:**
+- [ ] Supabase webhook → Netlify `update-submission.js` → email submitter on approval/rejection
+
+**Phase 3 — Member Dashboard:**
+- [ ] `/members.html` — wallet login → see all submissions + status
+
+**Phase 4 — Admin UI:**
+- [ ] `/admin.html` — password-protected submission review (if raw Supabase becomes clunky)
+
+**Env vars needed in Netlify:**
+`HELIUS_API_KEY`, `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `JWT_SECRET`, `SENDGRID_API_KEY`, `ADMIN_SECRET`, `CREATOR_WALLET`
+
+---
+
+### Email Notifications (Store)
 - [ ] Implement email confirmations for customers (SendGrid)
 - [ ] Order confirmation email after payment
 - [ ] Shipping notification email (from Printify)
