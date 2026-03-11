@@ -50,6 +50,56 @@
 .nav-link:focus  { background: var(--nav-hover); color: #fff; }
 .nav-link.active { background: #e94560; color: #fff; }
 
+/* ── Nav right cluster (share + toggle) ── */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.nav-share-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: none;
+  border: 1px solid rgba(255,255,255,0.25);
+  color: var(--nav-fg);
+  font-size: 0.72rem;
+  font-family: system-ui, sans-serif;
+  cursor: pointer;
+  padding: 0.3rem 0.7rem;
+  border-radius: 3px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  transition: background 0.2s, border-color 0.2s;
+}
+.nav-share-btn:hover { background: var(--nav-hover); border-color: rgba(255,255,255,0.55); }
+
+/* ── Share toast ── */
+.hc-toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(2rem);
+  background: #1a1a2e;
+  color: #e0e0e0;
+  font-family: system-ui, sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  padding: 0.55rem 1.2rem;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 4px;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.25s, transform 0.25s;
+  pointer-events: none;
+}
+.hc-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
 /* ── Hamburger toggle ── */
 .nav-toggle {
   display: none;
