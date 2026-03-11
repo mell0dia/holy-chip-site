@@ -761,10 +761,18 @@
       btn.textContent = 'Submitting...';
       statusEl.style.display = 'none';
 
+      const SUPABASE_URL = 'https://wexdbkuwfxgimuubedvc.supabase.co';
+      const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndleGRia3V3ZnhnaW11dWJlZHZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyNjUyNjYsImV4cCI6MjA4ODg0MTI2Nn0.hdFwhtk9gzjjwCnBftHt1BxDhsGcoSRXLyKyd3jm0ek';
+
       try {
-        const res = await fetch('/.netlify/functions/submit-story', {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/submissions`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${SUPABASE_ANON}`,
+            'apikey': SUPABASE_ANON,
+            'Prefer': 'return=minimal'
+          },
           body: JSON.stringify({
             track: 'open',
             char_a: data.charA,
@@ -773,7 +781,7 @@
             panels: data.panels,
             pre_intro: data.preIntroVisible && data.pre ? data.pre : null,
             email: data.email.trim(),
-            pitch: data.pitch.trim()
+            pitch: data.pitch.trim() || null
           })
         });
 
