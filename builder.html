@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Builder — Holy Chip</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Courier New', monospace;
+      background: #fff;
+      color: #000;
+      min-height: 100vh;
+    }
+
+    #nav-container { position: relative; z-index: 10; }
+
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    .page-header {
+      border-bottom: 3px solid #000;
+      padding-bottom: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .page-header h1 {
+      font-size: 2rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .page-subtitle {
+      font-size: 0.85rem;
+      color: #555;
+      letter-spacing: 0.05em;
+      margin-top: 0.4rem;
+    }
+
+    /* ── NFT teaser banner ── */
+    .nft-teaser {
+      background: #0d0d1a;
+      color: #e0e0e0;
+      border: 2px solid #000;
+      padding: 0.9rem 1.2rem;
+      margin: 1.5rem 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .nft-teaser-left { font-size: 0.8rem; letter-spacing: 0.05em; }
+    .nft-teaser-left strong { color: #e94560; display: block; font-size: 1rem; letter-spacing: 0.08em; margin-bottom: 0.2rem; }
+    .nft-teaser-badge {
+      background: #e94560;
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+      padding: 0.3rem 0.8rem;
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+
+    /* ── Form sections ── */
+    .form-section {
+      margin-bottom: 2.5rem;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-bottom: 2px solid #000;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.2rem;
+    }
+
+    /* ── Character picker ── */
+    .char-pickers {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .char-picker-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .char-picker-label .selected-name {
+      font-weight: bold;
+      color: #000;
+    }
+
+    .char-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+
+    .char-thumb {
+      border: 2px solid #ccc;
+      cursor: pointer;
+      aspect-ratio: 1;
+      overflow: hidden;
+      background: #f5f5f5;
+      transition: border-color 0.15s, transform 0.1s;
+    }
+
+    .char-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      padding: 4px;
+      filter: grayscale(30%);
+      transition: filter 0.15s;
+    }
+
+    .char-thumb:hover { border-color: #888; }
+    .char-thumb:hover img { filter: grayscale(0%); }
+    .char-thumb.selected { border-color: #000; border-width: 3px; }
+    .char-thumb.selected img { filter: grayscale(0%); }
+    .char-thumb.disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
+
+    /* ── Title ── */
+    .field-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+
+    input[type="text"], input[type="email"], textarea {
+      width: 100%;
+      border: 2px solid #000;
+      padding: 0.6rem 0.75rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      background: #fff;
+      color: #000;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
+      border-color: #555;
+    }
+
+    textarea { resize: vertical; min-height: 80px; }
+
+    .field-group { margin-bottom: 1rem; }
+
+    /* ── Panel blocks ── */
+    .panel-block {
+      border: 2px solid #000;
+      margin-bottom: 1.2rem;
+    }
+
+    .panel-header {
+      background: #000;
+      color: #fff;
+      padding: 0.4rem 0.75rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .panel-body { padding: 0.75rem; }
+
+    .dialog-row {
+      display: grid;
+      grid-template-columns: 140px 1fr auto;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    select {
+      border: 2px solid #000;
+      padding: 0.5rem 0.4rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.82rem;
+      background: #fff;
+      color: #000;
+      outline: none;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .dialog-text {
+      border: 2px solid #000;
+      padding: 0.5rem 0.6rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.88rem;
+      background: #fff;
+      color: #000;
+      outline: none;
+      width: 100%;
+      text-transform: uppercase;
+    }
+
+    .dialog-text:focus, select:focus { border-color: #555; }
+
+    .btn-remove-line {
+      background: none;
+      border: 2px solid #ccc;
+      color: #999;
+      font-size: 1rem;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .btn-remove-line:hover { border-color: #000; color: #000; }
+
+    .btn-add-line {
+      background: none;
+      border: 2px dashed #ccc;
+      color: #aaa;
+      font-family: 'Courier New', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      padding: 0.35rem 0.75rem;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+      transition: border-color 0.15s, color 0.15s;
+      margin-top: 0.25rem;
+    }
+
+    .btn-add-line:hover { border-color: #000; color: #000; }
+
+    .panel-note {
+      font-size: 0.7rem;
+      color: #888;
+      letter-spacing: 0.06em;
+      margin-top: 0.3rem;
+      font-style: italic;
+    }
+
+    /* ── Pre-intro toggle ── */
+    .optional-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .btn-toggle-optional {
+      background: none;
+      border: 2px solid #000;
+      font-family: 'Courier New', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.9rem;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .btn-toggle-optional:hover, .btn-toggle-optional.active {
+      background: #000;
+      color: #fff;
+    }
+
+    .optional-note { font-size: 0.72rem; color: #888; letter-spacing: 0.05em; }
+
+    #pre-intro-block { display: none; }
+
+    /* ── Details section ── */
+    /* ── Consent ── */
+    .consent-block {
+      border: 2px solid #000;
+      padding: 1rem 1.2rem;
+      display: flex;
+      gap: 0.9rem;
+      align-items: flex-start;
+      cursor: pointer;
+    }
+
+    .consent-block input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      cursor: pointer;
+      accent-color: #000;
+    }
+
+    .consent-text {
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: #333;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Submit ── */
+    #submit-btn {
+      width: 100%;
+      background: #000;
+      color: #fff;
+      border: none;
+      padding: 1.1rem;
+      font-family: 'Courier New', monospace;
+      font-size: 1rem;
+      font-weight: bold;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 2rem;
+    }
+
+    #submit-btn:hover { background: #222; }
+    #submit-btn:disabled { background: #aaa; cursor: not-allowed; }
+
+    /* ── Status messages ── */
+    #form-status {
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      display: none;
+    }
+
+    #form-status.success { border: 2px solid #000; background: #f5f5f5; }
+    #form-status.error   { border: 2px solid #e94560; color: #e94560; }
+
+    /* ── Mobile ── */
+    @media (max-width: 640px) {
+      .page { padding: 1.5rem 1rem 3rem; }
+      .char-pickers { grid-template-columns: 1fr; }
+      .char-grid { grid-template-columns: repeat(6, 1fr); }
+      .dialog-row { grid-template-columns: 1fr auto; }
+      .dialog-row select { grid-column: 1 / -1; }
+      .nft-teaser { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-container"></div>
+
+  <div class="page">
+
+    <div class="page-header">
+      <h1>Builder</h1>
+      <p class="page-subtitle">Write a Holy Chip story. We review every submission.</p>
+    </div>
+
+    <!-- NFT Holder teaser -->
+    <div class="nft-teaser">
+      <div class="nft-teaser-left">
+        <strong>Have a Holy Chip NFT?</strong>
+        NFT holders use their own character and earn 20% of the first sale if their story is minted.
+      </div>
+      <div class="nft-teaser-badge">NFT Track — Coming Soon</div>
+    </div>
+
+    <form id="builder-form" novalidate>
+
+      <!-- SECTION 1: Characters -->
+      <div class="form-section">
+        <div class="section-title">1 — Characters</div>
+        <div class="char-pickers">
+          <div>
+            <div class="char-picker-label">Character A — Left <span class="selected-name" id="char-a-name"></span></div>
+            <div class="char-grid" id="char-a-grid"></div>
+          </div>
+          <div>
+            <div class="char-picker-label">Character B — Right <span class="selected-name" id="char-b-name"></span></div>
+            <div class="char-grid" id="char-b-grid"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 2: Script -->
+      <div class="form-section">
+        <div class="section-title">2 — The Script</div>
+
+        <div class="field-group">
+          <label class="field-label" for="story-title">Story Title</label>
+          <input type="text" id="story-title" placeholder="e.g. THE UPGRADE" maxlength="80" autocomplete="off"/>
+        </div>
+
+        <!-- Panel 1 -->
+        <div class="panel-block">
+          <div class="panel-header">
+            <span>Panel 1</span>
+          </div>
+          <div class="panel-body" id="panel-1-body">
+            <!-- dialog rows injected by JS -->
+          </div>
+        </div>
+
+        <!-- Panel 2 -->
+        <div class="panel-block">
+          <div class="panel-header">
+            <span>Panel 2</span>
+          </div>
+          <div class="panel-body" id="panel-2-body">
+          </div>
+        </div>
+
+        <!-- Panel 3 (punchline) -->
+        <div class="panel-block">
+          <div class="panel-header">
+            <span>Panel 3 — Punchline</span>
+          </div>
+          <div class="panel-body" id="panel-3-body">
+          </div>
+        </div>
+
+        <!-- Pre-intro (optional) -->
+        <div class="optional-toggle">
+          <button type="button" class="btn-toggle-optional" id="btn-toggle-preintro">+ Pre-Intro</button>
+          <span class="optional-note">Optional — a single-character intro panel before the story</span>
+        </div>
+        <div id="pre-intro-block">
+          <div class="panel-block">
+            <div class="panel-header">
+              <span>Pre-Intro</span>
+            </div>
+            <div class="panel-body" id="panel-pre-body">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 3: Details -->
+      <div class="form-section">
+        <div class="section-title">3 — Your Details</div>
+        <div class="field-group">
+          <label class="field-label" for="submitter-email">Email <span style="color:#e94560">*</span></label>
+          <input type="email" id="submitter-email" placeholder="your@email.com" autocomplete="email"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="story-pitch">Story Pitch <span style="color:#888;font-size:0.65rem">(optional)</span></label>
+          <textarea id="story-pitch" placeholder="2–3 sentences about the idea behind this story..."></textarea>
+        </div>
+      </div>
+
+      <!-- SECTION 4: Agreement -->
+      <div class="form-section">
+        <div class="section-title">4 — Agreement</div>
+        <label class="consent-block">
+          <input type="checkbox" id="consent-check"/>
+          <span class="consent-text">I understand that Holy Chip retains full and exclusive rights to this story, including the right to use, modify, publish, monetize, or reject it without any obligation or compensation to me. I make no claim to any revenue generated from this submission.</span>
+        </label>
+      </div>
+
+      <button type="submit" id="submit-btn">Submit Story</button>
+      <div id="form-status"></div>
+
+    </form>
+  </div>
+
+  <script src="assets/nav.js"></script>
+  <script>
+    const CHARACTERS = [
+      { id: 'Chip_0',    label: 'Chip 0'    },
+      { id: 'Chip_1',    label: 'Chip 1'    },
+      { id: 'Chip_100',  label: 'Chip 100'  },
+      { id: 'Chip_101',  label: 'Chip 101'  },
+      { id: 'Chip_110',  label: 'Chip 110'  },
+      { id: 'Chip_111',  label: 'Chip 111'  },
+      { id: 'Chip_1000', label: 'Chip 1000' },
+      { id: 'Chip_1001', label: 'Chip 1001' },
+      { id: 'Chip_1010', label: 'Chip 1010' },
+      { id: 'Chip_1011', label: 'Chip 1011' },
+      { id: 'Chip_1100', label: 'Chip 1100' },
+      { id: 'Chip_1101', label: 'Chip 1101' },
+    ];
+
+    let selectedA = null;
+    let selectedB = null;
+
+    // ── Character grids ─────────────────────────────────────
+    function buildCharGrids() {
+      ['a', 'b'].forEach(side => {
+        const grid = document.getElementById(`char-${side}-grid`);
+        grid.innerHTML = '';
+        CHARACTERS.forEach(char => {
+          const div = document.createElement('div');
+          div.className = 'char-thumb';
+          div.dataset.id = char.id;
+          div.dataset.label = char.label;
+          div.title = char.label;
+          div.innerHTML = `<img src="characters/${char.id}.png" alt="${char.label}" loading="lazy"/>`;
+          div.addEventListener('click', () => selectChar(side, char));
+          grid.appendChild(div);
+        });
+      });
+    }
+
+    function selectChar(side, char) {
+      if (side === 'a') selectedA = char;
+      else              selectedB = char;
+
+      // Update selected state
+      ['a', 'b'].forEach(s => {
+        const other = s === 'a' ? selectedB : selectedA;
+        document.querySelectorAll(`#char-${s}-grid .char-thumb`).forEach(el => {
+          el.classList.toggle('selected', el.dataset.id === (s === 'a' ? selectedA?.id : selectedB?.id));
+          el.classList.toggle('disabled', other && el.dataset.id === other.id);
+        });
+        const name = s === 'a' ? selectedA?.label : selectedB?.label;
+        document.getElementById(`char-${s}-name`).textContent = name ? `— ${name}` : '';
+      });
+
+      updateSpeakerOptions();
+      saveDraft();
+    }
+
+    // ── Speaker options ──────────────────────────────────────
+    function speakerOptions(includeNarration = true) {
+      const a = selectedA?.label || 'Character A';
+      const b = selectedB?.label || 'Character B';
+      let opts = `<option value="A">${a}</option><option value="B">${b}</option>`;
+      if (includeNarration) opts += `<option value="N">Narration</option>`;
+      return opts;
+    }
+
+    function updateSpeakerOptions() {
+      document.querySelectorAll('.speaker-select').forEach(sel => {
+        const val = sel.value;
+        sel.innerHTML = speakerOptions(!sel.dataset.noPanelN);
+        sel.value = val;
+      });
+    }
+
+    // ── Dialog rows ──────────────────────────────────────────
+    function makeDialogRow(panelId, removable = true) {
+      const row = document.createElement('div');
+      row.className = 'dialog-row';
+      row.innerHTML = `
+        <select class="speaker-select" data-panel="${panelId}">${speakerOptions(panelId !== 'pre')}</select>
+        <input class="dialog-text" type="text" placeholder="DIALOG LINE..." maxlength="120" autocomplete="off"/>
+        ${removable ? `<button type="button" class="btn-remove-line" title="Remove line">✕</button>` : `<div></div>`}
+      `;
+      if (removable) {
+        row.querySelector('.btn-remove-line').addEventListener('click', () => {
+          row.remove();
+          saveDraft();
+        });
+      }
+      row.querySelector('.dialog-text').addEventListener('input', saveDraft);
+      row.querySelector('.speaker-select').addEventListener('change', saveDraft);
+      return row;
+    }
+
+    function buildPanel(panelBodyId, maxLines, startLines, addable, punchline = false) {
+      const body = document.getElementById(panelBodyId);
+      body.innerHTML = '';
+
+      for (let i = 0; i < startLines; i++) {
+        body.appendChild(makeDialogRow(panelBodyId, i > 0 || maxLines > 1));
+      }
+
+      if (addable) {
+        const addBtn = document.createElement('button');
+        addBtn.type = 'button';
+        addBtn.className = 'btn-add-line';
+        addBtn.textContent = '+ Add line';
+        addBtn.addEventListener('click', () => {
+          const rows = body.querySelectorAll('.dialog-row');
+          if (rows.length >= maxLines) return;
+          body.insertBefore(makeDialogRow(panelBodyId, true), addBtn);
+          saveDraft();
+        });
+        body.appendChild(addBtn);
+      }
+
+      if (punchline) {
+        const note = document.createElement('div');
+        note.className = 'panel-note';
+        note.textContent = 'This is the punchline — one line, maximum impact.';
+        body.appendChild(note);
+      }
+    }
+
+    function buildPreIntro() {
+      const body = document.getElementById('panel-pre-body');
+      body.innerHTML = '';
+      // Speaker selector (only A or B, no narration)
+      const speakerRow = document.createElement('div');
+      speakerRow.className = 'dialog-row';
+      speakerRow.innerHTML = `
+        <select class="speaker-select" data-panel="pre" data-no-panel-n="1">${speakerOptions(false)}</select>
+        <input class="dialog-text" type="text" placeholder="LINE 1..." maxlength="100" autocomplete="off"/>
+        <div></div>
+      `;
+      const line2 = document.createElement('div');
+      line2.className = 'dialog-row';
+      line2.innerHTML = `
+        <div style="font-size:0.7rem;color:#aaa;letter-spacing:0.08em;padding:0.5rem 0">Line 2 (optional)</div>
+        <input class="dialog-text" type="text" placeholder="LINE 2..." maxlength="100" autocomplete="off"/>
+        <div></div>
+      `;
+      speakerRow.querySelector('.dialog-text').addEventListener('input', saveDraft);
+      speakerRow.querySelector('.speaker-select').addEventListener('change', saveDraft);
+      line2.querySelector('.dialog-text').addEventListener('input', saveDraft);
+      body.appendChild(speakerRow);
+      body.appendChild(line2);
+    }
+
+    // ── Pre-intro toggle ─────────────────────────────────────
+    let preIntroVisible = false;
+    document.getElementById('btn-toggle-preintro').addEventListener('click', () => {
+      preIntroVisible = !preIntroVisible;
+      document.getElementById('pre-intro-block').style.display = preIntroVisible ? 'block' : 'none';
+      document.getElementById('btn-toggle-preintro').classList.toggle('active', preIntroVisible);
+      document.getElementById('btn-toggle-preintro').textContent = preIntroVisible ? '− Pre-Intro' : '+ Pre-Intro';
+      saveDraft();
+    });
+
+    // ── Draft save / restore ─────────────────────────────────
+    const DRAFT_KEY = 'hc-builder-draft';
+
+    function readForm() {
+      const panels = ['panel-1-body', 'panel-2-body', 'panel-3-body'].map(id => {
+        return Array.from(document.querySelectorAll(`#${id} .dialog-row`)).map(row => ({
+          speaker: row.querySelector('.speaker-select')?.value || 'A',
+          text: row.querySelector('.dialog-text')?.value || ''
+        }));
+      });
+      const preRows = Array.from(document.querySelectorAll('#panel-pre-body .dialog-row'));
+      const pre = preRows.length > 0 ? {
+        speaker: preRows[0].querySelector('.speaker-select')?.value || 'A',
+        line1: preRows[0].querySelector('.dialog-text')?.value || '',
+        line2: preRows[1]?.querySelector('.dialog-text')?.value || ''
+      } : null;
+
+      return {
+        charA: selectedA?.id || null,
+        charB: selectedB?.id || null,
+        title: document.getElementById('story-title').value,
+        panels,
+        preIntroVisible,
+        pre,
+        email: document.getElementById('submitter-email').value,
+        pitch: document.getElementById('story-pitch').value,
+        consent: document.getElementById('consent-check').checked
+      };
+    }
+
+    function saveDraft() {
+      try { localStorage.setItem(DRAFT_KEY, JSON.stringify(readForm())); } catch(e) {}
+    }
+
+    function restoreDraft() {
+      try {
+        const raw = localStorage.getItem(DRAFT_KEY);
+        if (!raw) return;
+        const d = JSON.parse(raw);
+
+        if (d.charA) { const c = CHARACTERS.find(x => x.id === d.charA); if (c) selectChar('a', c); }
+        if (d.charB) { const c = CHARACTERS.find(x => x.id === d.charB); if (c) selectChar('b', c); }
+
+        if (d.title) document.getElementById('story-title').value = d.title;
+        if (d.email) document.getElementById('submitter-email').value = d.email;
+        if (d.pitch) document.getElementById('story-pitch').value = d.pitch;
+
+        // Restore panel dialogs
+        ['panel-1-body', 'panel-2-body'].forEach((id, pi) => {
+          const rows = d.panels?.[pi] || [];
+          const body = document.getElementById(id);
+          const addBtn = body.querySelector('.btn-add-line');
+          // Clear existing rows
+          body.querySelectorAll('.dialog-row').forEach(r => r.remove());
+          rows.forEach((row, i) => {
+            const el = makeDialogRow(id, i > 0);
+            el.querySelector('.speaker-select').value = row.speaker;
+            el.querySelector('.dialog-text').value = row.text;
+            body.insertBefore(el, addBtn);
+          });
+        });
+
+        // Panel 3
+        const p3 = d.panels?.[2]?.[0];
+        if (p3) {
+          const body = document.getElementById('panel-3-body');
+          const row = body.querySelector('.dialog-row');
+          if (row) {
+            row.querySelector('.speaker-select').value = p3.speaker;
+            row.querySelector('.dialog-text').value = p3.text;
+          }
+        }
+
+        // Pre-intro
+        if (d.preIntroVisible) {
+          document.getElementById('btn-toggle-preintro').click();
+          if (d.pre) {
+            const rows = document.querySelectorAll('#panel-pre-body .dialog-row');
+            if (rows[0]) {
+              rows[0].querySelector('.speaker-select').value = d.pre.speaker;
+              rows[0].querySelector('.dialog-text').value = d.pre.line1;
+            }
+            if (rows[1]) rows[1].querySelector('.dialog-text').value = d.pre.line2;
+          }
+        }
+      } catch(e) {}
+    }
+
+    // ── Validation ───────────────────────────────────────────
+    function validate(data) {
+      if (!data.charA || !data.charB) return 'Please select both characters.';
+      if (!data.title.trim()) return 'Please enter a story title.';
+      for (let i = 0; i < 3; i++) {
+        const panel = data.panels[i];
+        if (!panel.length || !panel[0].text.trim()) return `Panel ${i + 1} needs at least one dialog line.`;
+      }
+      if (!data.email.trim() || !data.email.includes('@')) return 'Please enter a valid email.';
+      if (!data.consent) return 'Please accept the agreement to submit.';
+      return null;
+    }
+
+    // ── Submit ───────────────────────────────────────────────
+    document.getElementById('builder-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = readForm();
+      const err = validate(data);
+      const statusEl = document.getElementById('form-status');
+
+      if (err) {
+        statusEl.className = 'error';
+        statusEl.textContent = err;
+        statusEl.style.display = 'block';
+        statusEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        return;
+      }
+
+      const btn = document.getElementById('submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+      statusEl.style.display = 'none';
+
+      try {
+        const res = await fetch('/.netlify/functions/submit-story', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            track: 'open',
+            char_a: data.charA,
+            char_b: data.charB,
+            title: data.title.trim(),
+            panels: data.panels,
+            pre_intro: data.preIntroVisible && data.pre ? data.pre : null,
+            email: data.email.trim(),
+            pitch: data.pitch.trim()
+          })
+        });
+
+        if (res.ok) {
+          // Clear draft
+          try { localStorage.removeItem(DRAFT_KEY); } catch(e) {}
+          // Show success
+          document.getElementById('builder-form').style.display = 'none';
+          statusEl.className = 'success';
+          statusEl.innerHTML = `
+            <strong style="display:block;font-size:1rem;margin-bottom:0.5rem;letter-spacing:0.1em">STORY RECEIVED</strong>
+            We review every submission carefully. You'll hear from us at <strong>${data.email}</strong> if your story moves forward.<br><br>
+            <a href="stories.html" style="color:#000;text-decoration:underline;letter-spacing:0.05em">Browse existing stories →</a>
+          `;
+          statusEl.style.display = 'block';
+        } else {
+          throw new Error(await res.text());
+        }
+      } catch (err) {
+        statusEl.className = 'error';
+        statusEl.textContent = 'Submission failed. Please try again or email us directly.';
+        statusEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Submit Story';
+      }
+    });
+
+    // ── Save on input ────────────────────────────────────────
+    ['story-title', 'submitter-email', 'story-pitch'].forEach(id => {
+      document.getElementById(id)?.addEventListener('input', saveDraft);
+    });
+    document.getElementById('consent-check').addEventListener('change', saveDraft);
+
+    // ── Boot ─────────────────────────────────────────────────
+    buildCharGrids();
+    buildPanel('panel-1-body', 3, 1, true);
+    buildPanel('panel-2-body', 3, 1, true);
+    buildPanel('panel-3-body', 1, 1, false, true);
+    buildPreIntro();
+    restoreDraft();
+  </script>
+</body>
+</html>

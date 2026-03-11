@@ -5,10 +5,11 @@
   const pathPrefix = inSubdir ? '../' : '';
 
   const navItems = [
-    { label: 'Store',   href: 'store.html'  },
-    { label: 'NFTs',    href: 'nfts.html'   },
-    { label: 'Stories', href: 'stories.html'},
-    { label: 'History', href: 'history/'    }
+    { label: 'Store',   href: 'store.html'   },
+    { label: 'NFTs',    href: 'nfts.html'    },
+    { label: 'Stories', href: 'stories.html' },
+    { label: 'Builder', href: 'builder.html', accent: true },
+    { label: 'History', href: 'history/'     }
   ];
 
   const pathname    = window.location.pathname;
@@ -28,7 +29,7 @@
           const isActive = currentPage === item.href ||
                            (item.href === 'history/' && pathname.includes('history'));
           return `<li class="nav-item">
-            <a href="${pathPrefix}${item.href}" class="nav-link${isActive ? ' active' : ''}">${item.label}</a>
+            <a href="${pathPrefix}${item.href}" class="nav-link${isActive ? ' active' : ''}${item.accent ? ' accent' : ''}">${item.label}</a>
           </li>`;
         }).join('')}
       </ul>
