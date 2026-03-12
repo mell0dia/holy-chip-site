@@ -658,10 +658,10 @@
       document.querySelectorAll('.dialog-row').forEach(updateRowImage);
     }
 
-    function makeDialogRow(panelId, removable = true) {
+    function makeDialogRow(panelId, removable = true, defaultSpeaker = 'A') {
       const row = document.createElement('div');
       row.className = 'dialog-row';
-      const src = charImgSrc('A');
+      const src = charImgSrc(defaultSpeaker);
       row.innerHTML = `
         <img class="dialog-char-img${src ? '' : ' empty'}" ${src ? `src="${src}"` : ''} alt=""/>
         <select class="speaker-select" data-panel="${panelId}">${speakerOptions(panelId !== 'pre')}</select>
@@ -674,6 +674,7 @@
           saveDraft();
         });
       }
+      row.querySelector('.speaker-select').value = defaultSpeaker;
       row.querySelector('.dialog-text').addEventListener('input', saveDraft);
       row.querySelector('.speaker-select').addEventListener('change', () => {
         updateRowImage(row);
@@ -682,12 +683,13 @@
       return row;
     }
 
-    function buildPanel(panelBodyId, maxLines, startLines, addable, punchline = false) {
+    function buildPanel(panelBodyId, maxLines, startLines, addable, punchline = false, alternate = false) {
       const body = document.getElementById(panelBodyId);
       body.innerHTML = '';
 
       for (let i = 0; i < startLines; i++) {
-        body.appendChild(makeDialogRow(panelBodyId, i > 0 || maxLines > 1));
+        const speaker = alternate ? (i % 2 === 0 ? 'A' : 'B') : 'A';
+        body.appendChild(makeDialogRow(panelBodyId, i > 0 || maxLines > 1, speaker));
       }
 
       if (addable) {
@@ -698,7 +700,8 @@
         addBtn.addEventListener('click', () => {
           const rows = body.querySelectorAll('.dialog-row');
           if (rows.length >= maxLines) return;
-          body.insertBefore(makeDialogRow(panelBodyId, true), addBtn);
+          const speaker = alternate ? (rows.length % 2 === 0 ? 'A' : 'B') : 'A';
+          body.insertBefore(makeDialogRow(panelBodyId, true, speaker), addBtn);
           saveDraft();
         });
         body.appendChild(addBtn);
@@ -924,8 +927,8 @@
 
     // ── Boot ─────────────────────────────────────────────────
     buildCharGrids();
-    buildPanel('panel-1-body', 3, 2, true);
-    buildPanel('panel-2-body', 3, 2, true);
+    buildPanel('panel-1-body', 3, 2, true, false, true);
+    buildPanel('panel-2-body', 3, 2, true, false, true);
     buildPanel('panel-3-body', 1, 1, false, true);
     buildPreIntro();
     restoreDraft();
