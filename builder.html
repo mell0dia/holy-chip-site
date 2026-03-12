@@ -84,59 +84,75 @@
       margin-bottom: 1.2rem;
     }
 
-    /* ── Character picker ── */
-    .char-pickers {
+    /* ── Two-column Steps 1 + 2 ── */
+    .form-two-col {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
+      grid-template-columns: 200px 1fr;
+      border: 2px solid #000;
+      margin-bottom: 2.5rem;
     }
 
-    .char-picker-label {
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
+    .col-left {
+      border-right: 2px solid #000;
+      padding: 1rem 0.9rem;
+    }
+
+    .col-right {
+      padding: 1rem;
+      min-width: 0;
+    }
+
+    .col-section-title {
+      font-size: 0.68rem;
+      font-weight: bold;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: #555;
-      margin-bottom: 0.6rem;
+      border-bottom: 1px solid #000;
+      padding-bottom: 0.35rem;
+      margin-bottom: 0.9rem;
+    }
+
+    /* ── Compact char select ── */
+    .char-select-block {
+      margin-bottom: 1.1rem;
+    }
+
+    .char-select-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 0.35rem;
+    }
+
+    .char-preview-wrap {
+      width: 100%;
+      aspect-ratio: 1;
+      border: 2px solid #ccc;
+      background: #f5f5f5;
+      margin-bottom: 0.4rem;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-    }
-
-    .char-picker-label .selected-name {
-      font-weight: bold;
-      color: #000;
-    }
-
-    .char-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 6px;
-    }
-
-    .char-thumb {
-      border: 2px solid #ccc;
-      cursor: pointer;
-      aspect-ratio: 1;
+      justify-content: center;
       overflow: hidden;
-      background: #f5f5f5;
-      transition: border-color 0.15s, transform 0.1s;
+      transition: border-color 0.15s;
     }
 
-    .char-thumb img {
+    .char-preview-wrap.has-char { border-color: #000; }
+
+    .char-preview-img {
       width: 100%;
       height: 100%;
       object-fit: contain;
-      display: block;
-      padding: 4px;
-      filter: grayscale(30%);
-      transition: filter 0.15s;
+      padding: 6px;
+      display: none;
     }
 
-    .char-thumb:hover { border-color: #888; }
-    .char-thumb:hover img { filter: grayscale(0%); }
-    .char-thumb.selected { border-color: #000; border-width: 3px; }
-    .char-thumb.selected img { filter: grayscale(0%); }
-    .char-thumb.disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
+    .char-preview-empty {
+      font-size: 1.8rem;
+      color: #ccc;
+    }
 
     /* ── Title ── */
     .field-label {
@@ -420,10 +436,10 @@
     /* ── Mobile ── */
     @media (max-width: 640px) {
       .page { padding: 1.5rem 1rem 3rem; }
-      .char-pickers { grid-template-columns: 1fr; }
-      .char-grid { grid-template-columns: repeat(6, 1fr); }
-      .dialog-row { grid-template-columns: 1fr auto; }
-      .dialog-row select { grid-column: 1 / -1; }
+      .form-two-col { grid-template-columns: 1fr; }
+      .col-left { border-right: none; border-bottom: 2px solid #000; }
+      .char-pickers-inline { flex-direction: column; }
+      .dialog-row { grid-template-columns: 28px 1fr auto; }
       .nft-teaser { flex-direction: column; align-items: flex-start; }
     }
   </style>
@@ -450,84 +466,88 @@
 
     <form id="builder-form" novalidate>
 
-      <!-- SECTION 1: Characters -->
-      <div class="form-section">
-        <div class="section-title">Step 1 — Characters</div>
-        <div class="char-pickers">
-          <div>
-            <div class="char-picker-label">Character A — Left <span class="selected-name" id="char-a-name"></span></div>
-            <div class="char-grid" id="char-a-grid"></div>
-          </div>
-          <div>
-            <div class="char-picker-label">Character B — Right <span class="selected-name" id="char-b-name"></span></div>
-            <div class="char-grid" id="char-b-grid"></div>
-          </div>
-        </div>
-      </div>
+      <!-- STEPS 1 + 2: two-column panel -->
+      <div class="form-two-col">
 
-      <!-- SECTION 2: Script -->
-      <div class="form-section">
-        <div class="section-title">Step 2 — The Script</div>
+        <!-- LEFT: Step 1 — Characters -->
+        <div class="col-left">
+          <div class="col-section-title">Step 1 — Characters</div>
 
-        <!-- Panel reference image -->
-        <div class="panel-reference">
-          <div class="panel-reference-img-wrap">
-            <img src="stories/HC009.png" alt="Story panel layout reference"/>
-            <div class="panel-ref-label" style="top:7%;left:50%;transform:translateX(-50%)">Banner</div>
-            <div class="panel-ref-label" style="top:25%">Panel 1</div>
-            <div class="panel-ref-label" style="top:54%">Panel 2</div>
-            <div class="panel-ref-label" style="top:81%">Panel 3</div>
+          <div class="char-select-block">
+            <div class="char-select-label">A — Left</div>
+            <div class="char-preview-wrap" id="char-a-wrap">
+              <img class="char-preview-img" id="char-a-img" alt="Character A"/>
+              <span class="char-preview-empty" id="char-a-empty">?</span>
+            </div>
+            <select class="char-select" id="char-a-select">
+              <option value="">— pick —</option>
+            </select>
           </div>
-          <p class="panel-reference-note">A story has 3 panels. Panels 1 & 2 carry the conversation. Panel 3 is the punchline — one line, one character, maximum impact.</p>
-        </div>
 
-        <div class="field-group">
-          <label class="field-label" for="story-title">Story Title</label>
-          <input type="text" id="story-title" placeholder="e.g. THE UPGRADE" maxlength="80" autocomplete="off"/>
-        </div>
-
-        <!-- Panel 1 -->
-        <div class="panel-block">
-          <div class="panel-header">
-            <span>Panel 1</span>
-          </div>
-          <div class="panel-body" id="panel-1-body">
-            <!-- dialog rows injected by JS -->
+          <div class="char-select-block">
+            <div class="char-select-label">B — Right</div>
+            <div class="char-preview-wrap" id="char-b-wrap">
+              <img class="char-preview-img" id="char-b-img" alt="Character B"/>
+              <span class="char-preview-empty" id="char-b-empty">?</span>
+            </div>
+            <select class="char-select" id="char-b-select">
+              <option value="">— pick —</option>
+            </select>
           </div>
         </div>
 
-        <!-- Panel 2 -->
-        <div class="panel-block">
-          <div class="panel-header">
-            <span>Panel 2</span>
-          </div>
-          <div class="panel-body" id="panel-2-body">
-          </div>
-        </div>
+        <!-- RIGHT: Step 2 — Script -->
+        <div class="col-right">
+          <div class="col-section-title">Step 2 — The Script</div>
 
-        <!-- Panel 3 (punchline) -->
-        <div class="panel-block">
-          <div class="panel-header">
-            <span>Panel 3 — Punchline</span>
+          <!-- Panel reference -->
+          <div class="panel-reference" style="margin-bottom:1rem">
+            <div class="panel-reference-img-wrap">
+              <img src="stories/HC009.png" alt="Story panel layout reference"/>
+              <div class="panel-ref-label" style="top:7%;left:50%;transform:translateX(-50%)">Banner</div>
+              <div class="panel-ref-label" style="top:25%">Panel 1</div>
+              <div class="panel-ref-label" style="top:54%">Panel 2</div>
+              <div class="panel-ref-label" style="top:81%">Panel 3</div>
+            </div>
+            <p class="panel-reference-note">3 panels. Panels 1 & 2 are the conversation. Panel 3 is the punchline — one line, maximum impact.</p>
           </div>
-          <div class="panel-body" id="panel-3-body">
-          </div>
-        </div>
 
-        <!-- Pre-intro (optional) -->
-        <div class="optional-toggle">
-          <button type="button" class="btn-toggle-optional" id="btn-toggle-preintro">+ Pre-Intro</button>
-          <span class="optional-note">Optional — a single-character intro panel before the story</span>
-        </div>
-        <div id="pre-intro-block">
+          <div class="field-group">
+            <label class="field-label" for="story-title">Story Title</label>
+            <input type="text" id="story-title" placeholder="e.g. THE UPGRADE" maxlength="80" autocomplete="off"/>
+          </div>
+
+          <!-- Panel 1 -->
           <div class="panel-block">
-            <div class="panel-header">
-              <span>Pre-Intro</span>
-            </div>
-            <div class="panel-body" id="panel-pre-body">
+            <div class="panel-header"><span>Panel 1</span></div>
+            <div class="panel-body" id="panel-1-body"></div>
+          </div>
+
+          <!-- Panel 2 -->
+          <div class="panel-block">
+            <div class="panel-header"><span>Panel 2</span></div>
+            <div class="panel-body" id="panel-2-body"></div>
+          </div>
+
+          <!-- Panel 3 -->
+          <div class="panel-block">
+            <div class="panel-header"><span>Panel 3 — Punchline</span></div>
+            <div class="panel-body" id="panel-3-body"></div>
+          </div>
+
+          <!-- Pre-intro -->
+          <div class="optional-toggle">
+            <button type="button" class="btn-toggle-optional" id="btn-toggle-preintro">+ Pre-Intro</button>
+            <span class="optional-note">Optional — a single-character intro panel before the story</span>
+          </div>
+          <div id="pre-intro-block">
+            <div class="panel-block">
+              <div class="panel-header"><span>Pre-Intro</span></div>
+              <div class="panel-body" id="panel-pre-body"></div>
             </div>
           </div>
         </div>
+
       </div>
 
       <!-- SECTION 3: Details -->
@@ -578,20 +598,19 @@
     let selectedA = null;
     let selectedB = null;
 
-    // ── Character grids ─────────────────────────────────────
-    function buildCharGrids() {
+    // ── Character selects ────────────────────────────────────
+    function buildCharSelects() {
       ['a', 'b'].forEach(side => {
-        const grid = document.getElementById(`char-${side}-grid`);
-        grid.innerHTML = '';
+        const sel = document.getElementById(`char-${side}-select`);
         CHARACTERS.forEach(char => {
-          const div = document.createElement('div');
-          div.className = 'char-thumb';
-          div.dataset.id = char.id;
-          div.dataset.label = char.label;
-          div.title = char.label;
-          div.innerHTML = `<img src="characters/${char.id}.png" alt="${char.label}" loading="lazy"/>`;
-          div.addEventListener('click', () => selectChar(side, char));
-          grid.appendChild(div);
+          const opt = document.createElement('option');
+          opt.value = char.id;
+          opt.textContent = char.label;
+          sel.appendChild(opt);
+        });
+        sel.addEventListener('change', () => {
+          const char = CHARACTERS.find(c => c.id === sel.value) || null;
+          selectChar(side, char);
         });
       });
     }
@@ -600,15 +619,27 @@
       if (side === 'a') selectedA = char;
       else              selectedB = char;
 
-      // Update selected state
+      // Update preview images + disable cross-selection
       ['a', 'b'].forEach(s => {
+        const c = s === 'a' ? selectedA : selectedB;
         const other = s === 'a' ? selectedB : selectedA;
-        document.querySelectorAll(`#char-${s}-grid .char-thumb`).forEach(el => {
-          el.classList.toggle('selected', el.dataset.id === (s === 'a' ? selectedA?.id : selectedB?.id));
-          el.classList.toggle('disabled', other && el.dataset.id === other.id);
+        const img   = document.getElementById(`char-${s}-img`);
+        const empty = document.getElementById(`char-${s}-empty`);
+        const wrap  = document.getElementById(`char-${s}-wrap`);
+        if (c) {
+          img.src = `characters/${c.id}.png`;
+          img.style.display = 'block';
+          empty.style.display = 'none';
+          wrap.classList.add('has-char');
+        } else {
+          img.style.display = 'none';
+          empty.style.display = '';
+          wrap.classList.remove('has-char');
+        }
+        // Disable the other character's option in this select
+        document.querySelectorAll(`#char-${s}-select option`).forEach(opt => {
+          opt.disabled = opt.value && other && opt.value === other.id;
         });
-        const name = s === 'a' ? selectedA?.label : selectedB?.label;
-        document.getElementById(`char-${s}-name`).textContent = name ? `— ${name}` : '';
       });
 
       updateSpeakerOptions();
@@ -789,8 +820,14 @@
         if (!raw) return;
         const d = JSON.parse(raw);
 
-        if (d.charA) { const c = CHARACTERS.find(x => x.id === d.charA); if (c) selectChar('a', c); }
-        if (d.charB) { const c = CHARACTERS.find(x => x.id === d.charB); if (c) selectChar('b', c); }
+        if (d.charA) {
+          const c = CHARACTERS.find(x => x.id === d.charA);
+          if (c) { document.getElementById('char-a-select').value = c.id; selectChar('a', c); }
+        }
+        if (d.charB) {
+          const c = CHARACTERS.find(x => x.id === d.charB);
+          if (c) { document.getElementById('char-b-select').value = c.id; selectChar('b', c); }
+        }
 
         if (d.title) document.getElementById('story-title').value = d.title;
         if (d.email) document.getElementById('submitter-email').value = d.email;
@@ -925,7 +962,7 @@
     document.getElementById('consent-check').addEventListener('change', saveDraft);
 
     // ── Boot ─────────────────────────────────────────────────
-    buildCharGrids();
+    buildCharSelects();
     buildPanel('panel-1-body', 3, 2, true, false, true);
     buildPanel('panel-2-body', 3, 2, true, false, true);
     buildPanel('panel-3-body', 1, 1, false, true);
