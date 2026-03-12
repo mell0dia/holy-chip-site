@@ -168,6 +168,56 @@
 
     .field-group { margin-bottom: 1rem; }
 
+    /* ── Panel reference image ── */
+    .panel-reference {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      border: 2px dashed #ccc;
+      background: #fafafa;
+    }
+
+    .panel-reference-img-wrap {
+      position: relative;
+      flex-shrink: 0;
+      width: 140px;
+    }
+
+    .panel-reference-img-wrap img {
+      width: 100%;
+      display: block;
+      border: 2px solid #000;
+      filter: grayscale(20%);
+    }
+
+    .panel-ref-label {
+      position: absolute;
+      left: -46px;
+      background: #000;
+      color: #fff;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 2px 5px;
+      white-space: nowrap;
+    }
+
+    .panel-reference-note {
+      font-size: 0.8rem;
+      line-height: 1.7;
+      color: #444;
+      letter-spacing: 0.02em;
+      padding-top: 0.25rem;
+    }
+
+    @media (max-width: 640px) {
+      .panel-reference { flex-direction: column; }
+      .panel-reference-img-wrap { width: 100px; }
+      .panel-ref-label { left: -42px; }
+    }
+
     /* ── Panel blocks ── */
     .panel-block {
       border: 2px solid #000;
@@ -387,7 +437,7 @@
 
       <!-- SECTION 1: Characters -->
       <div class="form-section">
-        <div class="section-title">1 — Characters</div>
+        <div class="section-title">Step 1 — Characters</div>
         <div class="char-pickers">
           <div>
             <div class="char-picker-label">Character A — Left <span class="selected-name" id="char-a-name"></span></div>
@@ -402,7 +452,19 @@
 
       <!-- SECTION 2: Script -->
       <div class="form-section">
-        <div class="section-title">2 — The Script</div>
+        <div class="section-title">Step 2 — The Script</div>
+
+        <!-- Panel reference image -->
+        <div class="panel-reference">
+          <div class="panel-reference-img-wrap">
+            <img src="stories/HC009.png" alt="Story panel layout reference"/>
+            <div class="panel-ref-label" style="top:7%;left:50%;transform:translateX(-50%)">Banner</div>
+            <div class="panel-ref-label" style="top:25%">Panel 1</div>
+            <div class="panel-ref-label" style="top:54%">Panel 2</div>
+            <div class="panel-ref-label" style="top:81%">Panel 3</div>
+          </div>
+          <p class="panel-reference-note">A story has 3 panels. Panels 1 & 2 carry the conversation. Panel 3 is the punchline — one line, one character, maximum impact.</p>
+        </div>
 
         <div class="field-group">
           <label class="field-label" for="story-title">Story Title</label>
@@ -455,7 +517,7 @@
 
       <!-- SECTION 3: Details -->
       <div class="form-section">
-        <div class="section-title">3 — Your Details</div>
+        <div class="section-title">Step 3 — Your Details</div>
         <div class="field-group">
           <label class="field-label" for="submitter-email">Email <span style="color:#e94560">*</span></label>
           <input type="email" id="submitter-email" placeholder="your@email.com" autocomplete="email"/>
@@ -468,7 +530,7 @@
 
       <!-- SECTION 4: Agreement -->
       <div class="form-section">
-        <div class="section-title">4 — Agreement</div>
+        <div class="section-title">Step 4 — Agreement</div>
         <label class="consent-block">
           <input type="checkbox" id="consent-check"/>
           <span class="consent-text">I understand that Holy Chip retains full and exclusive rights to this story, including the right to use, modify, publish, monetize, or reject it without any obligation or compensation to me. I make no claim to any revenue generated from this submission.</span>
@@ -817,8 +879,8 @@
 
     // ── Boot ─────────────────────────────────────────────────
     buildCharGrids();
-    buildPanel('panel-1-body', 3, 1, true);
-    buildPanel('panel-2-body', 3, 1, true);
+    buildPanel('panel-1-body', 3, 2, true);
+    buildPanel('panel-2-body', 3, 2, true);
     buildPanel('panel-3-body', 1, 1, false, true);
     buildPreIntro();
     restoreDraft();
