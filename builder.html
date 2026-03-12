@@ -113,10 +113,8 @@
       margin-bottom: 0.9rem;
     }
 
-    /* ── Compact char select ── */
-    .char-select-block {
-      margin-bottom: 1.1rem;
-    }
+    /* ── Compact char image-select ── */
+    .char-select-block { margin-bottom: 1.1rem; }
 
     .char-select-label {
       font-size: 0.65rem;
@@ -126,33 +124,70 @@
       margin-bottom: 0.35rem;
     }
 
-    .char-preview-wrap {
-      width: 100%;
-      aspect-ratio: 1;
+    .char-custom-select { position: relative; }
+
+    .char-trigger {
       border: 2px solid #ccc;
-      background: #f5f5f5;
-      margin-bottom: 0.4rem;
+      padding: 0.35rem 0.45rem;
+      cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: center;
-      overflow: hidden;
+      gap: 0.45rem;
+      background: #fff;
+      user-select: none;
       transition: border-color 0.15s;
     }
+    .char-trigger:hover, .char-trigger.open { border-color: #000; }
 
-    .char-preview-wrap.has-char { border-color: #000; }
-
-    .char-preview-img {
-      width: 100%;
-      height: 100%;
+    .char-trigger-img {
+      width: 32px; height: 32px;
       object-fit: contain;
-      padding: 6px;
+      flex-shrink: 0;
       display: none;
     }
-
-    .char-preview-empty {
-      font-size: 1.8rem;
-      color: #ccc;
+    .char-trigger-placeholder {
+      width: 32px; height: 32px;
+      border: 1px dashed #ccc;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; color: #ccc;
     }
+    .char-trigger-name {
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      flex: 1;
+      color: #000;
+    }
+    .char-trigger-empty { font-size: 0.75rem; color: #aaa; flex: 1; }
+    .char-trigger-arrow { font-size: 0.6rem; color: #888; flex-shrink: 0; }
+
+    .char-dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0; right: 0;
+      background: #fff;
+      border: 2px solid #000;
+      border-top: none;
+      z-index: 200;
+      max-height: 240px;
+      overflow-y: auto;
+    }
+    .char-dropdown.open { display: block; }
+
+    .char-option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.3rem 0.45rem;
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+    .char-option:hover { background: #f0f0f0; }
+    .char-option.selected { background: #000; color: #fff; }
+    .char-option.disabled { opacity: 0.3; pointer-events: none; }
+    .char-option img { width: 36px; height: 36px; object-fit: contain; flex-shrink: 0; }
+    .char-option span { font-size: 0.78rem; letter-spacing: 0.04em; }
 
     /* ── Title ── */
     .field-label {
@@ -210,7 +245,7 @@
 
     .panel-ref-label {
       position: absolute;
-      left: -46px;
+      right: -50px;
       background: #000;
       color: #fff;
       font-size: 0.6rem;
@@ -475,24 +510,30 @@
 
           <div class="char-select-block">
             <div class="char-select-label">A — Left</div>
-            <div class="char-preview-wrap" id="char-a-wrap">
-              <img class="char-preview-img" id="char-a-img" alt="Character A"/>
-              <span class="char-preview-empty" id="char-a-empty">?</span>
+            <div class="char-custom-select" id="char-a-picker">
+              <div class="char-trigger" id="char-a-trigger">
+                <div class="char-trigger-placeholder" id="char-a-ph">?</div>
+                <img class="char-trigger-img" id="char-a-img" alt=""/>
+                <span class="char-trigger-empty" id="char-a-empty">— pick —</span>
+                <span class="char-trigger-name" id="char-a-name" style="display:none"></span>
+                <span class="char-trigger-arrow">▾</span>
+              </div>
+              <div class="char-dropdown" id="char-a-dropdown"></div>
             </div>
-            <select class="char-select" id="char-a-select">
-              <option value="">— pick —</option>
-            </select>
           </div>
 
           <div class="char-select-block">
             <div class="char-select-label">B — Right</div>
-            <div class="char-preview-wrap" id="char-b-wrap">
-              <img class="char-preview-img" id="char-b-img" alt="Character B"/>
-              <span class="char-preview-empty" id="char-b-empty">?</span>
+            <div class="char-custom-select" id="char-b-picker">
+              <div class="char-trigger" id="char-b-trigger">
+                <div class="char-trigger-placeholder" id="char-b-ph">?</div>
+                <img class="char-trigger-img" id="char-b-img" alt=""/>
+                <span class="char-trigger-empty" id="char-b-empty">— pick —</span>
+                <span class="char-trigger-name" id="char-b-name" style="display:none"></span>
+                <span class="char-trigger-arrow">▾</span>
+              </div>
+              <div class="char-dropdown" id="char-b-dropdown"></div>
             </div>
-            <select class="char-select" id="char-b-select">
-              <option value="">— pick —</option>
-            </select>
           </div>
         </div>
 
@@ -502,14 +543,14 @@
 
           <!-- Panel reference -->
           <div class="panel-reference" style="margin-bottom:1rem">
-            <div class="panel-reference-img-wrap">
+            <p class="panel-reference-note">3 panels. Panels 1 & 2 carry the conversation. Panel 3 is the punchline — one line, one character, maximum impact.</p>
+            <div class="panel-reference-img-wrap" style="margin-left:auto">
               <img src="stories/HC009.png" alt="Story panel layout reference"/>
-              <div class="panel-ref-label" style="top:7%;left:50%;transform:translateX(-50%)">Banner</div>
+              <div class="panel-ref-label" style="top:7%;right:-50px;left:auto">Banner</div>
               <div class="panel-ref-label" style="top:25%">Panel 1</div>
               <div class="panel-ref-label" style="top:54%">Panel 2</div>
               <div class="panel-ref-label" style="top:81%">Panel 3</div>
             </div>
-            <p class="panel-reference-note">3 panels. Panels 1 & 2 are the conversation. Panel 3 is the punchline — one line, maximum impact.</p>
           </div>
 
           <div class="field-group">
@@ -598,47 +639,80 @@
     let selectedA = null;
     let selectedB = null;
 
-    // ── Character selects ────────────────────────────────────
+    // ── Character image-dropdowns ────────────────────────────
     function buildCharSelects() {
       ['a', 'b'].forEach(side => {
-        const sel = document.getElementById(`char-${side}-select`);
+        const dropdown = document.getElementById(`char-${side}-dropdown`);
+        const trigger  = document.getElementById(`char-${side}-trigger`);
+
         CHARACTERS.forEach(char => {
-          const opt = document.createElement('option');
-          opt.value = char.id;
-          opt.textContent = char.label;
-          sel.appendChild(opt);
+          const opt = document.createElement('div');
+          opt.className = 'char-option';
+          opt.dataset.id = char.id;
+          opt.innerHTML = `<img src="characters/${char.id}.png" loading="lazy"/><span>${char.label}</span>`;
+          opt.addEventListener('click', () => {
+            selectChar(side, char);
+            closePicker(side);
+          });
+          dropdown.appendChild(opt);
         });
-        sel.addEventListener('change', () => {
-          const char = CHARACTERS.find(c => c.id === sel.value) || null;
-          selectChar(side, char);
+
+        trigger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          togglePicker(side);
         });
       });
+
+      document.addEventListener('click', () => {
+        ['a', 'b'].forEach(s => closePicker(s));
+      });
+    }
+
+    function togglePicker(side) {
+      const isOpen = document.getElementById(`char-${side}-dropdown`).classList.contains('open');
+      ['a', 'b'].forEach(s => closePicker(s));
+      if (!isOpen) {
+        document.getElementById(`char-${side}-dropdown`).classList.add('open');
+        document.getElementById(`char-${side}-trigger`).classList.add('open');
+      }
+    }
+
+    function closePicker(side) {
+      document.getElementById(`char-${side}-dropdown`).classList.remove('open');
+      document.getElementById(`char-${side}-trigger`).classList.remove('open');
     }
 
     function selectChar(side, char) {
       if (side === 'a') selectedA = char;
       else              selectedB = char;
 
-      // Update preview images + disable cross-selection
       ['a', 'b'].forEach(s => {
-        const c = s === 'a' ? selectedA : selectedB;
+        const c     = s === 'a' ? selectedA : selectedB;
         const other = s === 'a' ? selectedB : selectedA;
         const img   = document.getElementById(`char-${s}-img`);
+        const ph    = document.getElementById(`char-${s}-ph`);
         const empty = document.getElementById(`char-${s}-empty`);
-        const wrap  = document.getElementById(`char-${s}-wrap`);
+        const name  = document.getElementById(`char-${s}-name`);
+
+        // Update trigger display
         if (c) {
           img.src = `characters/${c.id}.png`;
           img.style.display = 'block';
+          ph.style.display = 'none';
           empty.style.display = 'none';
-          wrap.classList.add('has-char');
+          name.textContent = c.label;
+          name.style.display = '';
         } else {
           img.style.display = 'none';
+          ph.style.display = '';
           empty.style.display = '';
-          wrap.classList.remove('has-char');
+          name.style.display = 'none';
         }
-        // Disable the other character's option in this select
-        document.querySelectorAll(`#char-${s}-select option`).forEach(opt => {
-          opt.disabled = opt.value && other && opt.value === other.id;
+
+        // Update dropdown option states
+        document.querySelectorAll(`#char-${s}-dropdown .char-option`).forEach(opt => {
+          opt.classList.toggle('selected', c && opt.dataset.id === c.id);
+          opt.classList.toggle('disabled', other && opt.dataset.id === other.id);
         });
       });
 
@@ -820,14 +894,8 @@
         if (!raw) return;
         const d = JSON.parse(raw);
 
-        if (d.charA) {
-          const c = CHARACTERS.find(x => x.id === d.charA);
-          if (c) { document.getElementById('char-a-select').value = c.id; selectChar('a', c); }
-        }
-        if (d.charB) {
-          const c = CHARACTERS.find(x => x.id === d.charB);
-          if (c) { document.getElementById('char-b-select').value = c.id; selectChar('b', c); }
-        }
+        if (d.charA) { const c = CHARACTERS.find(x => x.id === d.charA); if (c) selectChar('a', c); }
+        if (d.charB) { const c = CHARACTERS.find(x => x.id === d.charB); if (c) selectChar('b', c); }
 
         if (d.title) document.getElementById('story-title').value = d.title;
         if (d.email) document.getElementById('submitter-email').value = d.email;
