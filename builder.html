@@ -98,9 +98,21 @@
     }
 
     .col-right {
-      padding: 1rem 1rem 1rem 3.5rem;
+      padding: 1rem;
       min-width: 0;
       overflow: visible;
+    }
+
+    .instr-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      align-items: start;
+    }
+
+    .instr-inner .panel-reference-img-wrap {
+      margin-left: 54px;
+      width: auto;
     }
 
     .col-section-title {
@@ -292,26 +304,67 @@
 
     .dialog-row {
       display: grid;
-      grid-template-columns: 36px 140px 1fr auto;
+      grid-template-columns: 160px 1fr auto;
       gap: 0.5rem;
       align-items: center;
       margin-bottom: 0.5rem;
     }
 
-    .dialog-char-img {
-      width: 36px;
-      height: 36px;
-      object-fit: contain;
-      border: 2px solid #000;
-      background: #f5f5f5;
-      display: block;
-      padding: 2px;
-    }
+    /* ── Dialog speaker custom picker ── */
+    .dialog-speaker-picker { position: relative; }
 
-    .dialog-char-img.empty {
-      border: 2px dashed #ccc;
-      background: #fafafa;
+    .dialog-speaker-trigger {
+      border: 2px solid #ccc;
+      padding: 0.3rem 0.4rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #fff;
+      user-select: none;
+      transition: border-color 0.15s;
     }
+    .dialog-speaker-trigger:hover,
+    .dialog-speaker-trigger.open { border-color: #000; }
+
+    .dialog-speaker-img {
+      width: 28px; height: 28px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+    .dialog-speaker-ph {
+      width: 28px; height: 28px;
+      border: 1px dashed #ccc;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem; color: #aaa; flex-shrink: 0;
+    }
+    .dialog-speaker-name {
+      flex: 1; font-size: 0.75rem; letter-spacing: 0.03em;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .dialog-speaker-arrow { font-size: 0.6rem; color: #888; flex-shrink: 0; }
+
+    .dialog-speaker-dropdown {
+      display: none;
+      position: absolute;
+      top: 100%; left: 0; right: 0;
+      background: #fff;
+      border: 2px solid #000;
+      border-top: none;
+      z-index: 300;
+    }
+    .dialog-speaker-dropdown.open { display: block; }
+
+    .dialog-speaker-option {
+      display: flex; align-items: center; gap: 0.4rem;
+      padding: 0.25rem 0.4rem;
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+    .dialog-speaker-option:hover { background: #f0f0f0; }
+    .dialog-speaker-option.selected { background: #000; color: #fff; }
+    .dialog-speaker-option img { width: 28px; height: 28px; object-fit: contain; flex-shrink: 0; }
+    .dialog-speaker-option span { font-size: 0.78rem; }
 
     select {
       border: 2px solid #000;
@@ -344,33 +397,28 @@
       border: 2px solid #ccc;
       color: #999;
       font-size: 1rem;
-      width: 30px;
-      height: 30px;
+      width: 30px; height: 30px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
       transition: border-color 0.15s, color 0.15s;
     }
-
     .btn-remove-line:hover { border-color: #000; color: #000; }
 
     .btn-add-line {
       background: none;
-      border: 2px dashed #ccc;
-      color: #aaa;
-      font-family: 'Courier New', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      padding: 0.35rem 0.75rem;
+      border: 1px solid #ddd;
+      color: #bbb;
+      font-size: 1rem;
+      width: 22px; height: 22px;
+      border-radius: 50%;
       cursor: pointer;
-      width: 100%;
-      text-align: left;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0;
+      margin-top: 0.2rem;
+      line-height: 1;
       transition: border-color 0.15s, color 0.15s;
-      margin-top: 0.25rem;
     }
-
     .btn-add-line:hover { border-color: #000; color: #000; }
 
     .panel-note {
@@ -474,8 +522,9 @@
       .page { padding: 1.5rem 1rem 3rem; }
       .form-two-col { grid-template-columns: 1fr; }
       .col-left { border-right: none; border-bottom: 2px solid #000; }
-      .char-pickers-inline { flex-direction: column; }
-      .dialog-row { grid-template-columns: 28px 1fr auto; }
+      .instr-inner { grid-template-columns: 1fr; }
+      .instr-inner .panel-reference-img-wrap { margin-left: 54px; }
+      .dialog-row { grid-template-columns: 130px 1fr auto; }
       .nft-teaser { flex-direction: column; align-items: flex-start; }
     }
   </style>
@@ -538,16 +587,18 @@
           </div>
         </div>
 
-        <!-- RIGHT: Instructions image -->
+        <!-- RIGHT: Instructions -->
         <div class="col-right">
           <div class="col-section-title">Instructions</div>
-          <div class="panel-reference-img-wrap">
-            <img src="stories/HC009.png" alt="Story panel layout reference"/>
-            <div class="panel-ref-label" style="top:25%">Panel 1</div>
-            <div class="panel-ref-label" style="top:54%">Panel 2</div>
-            <div class="panel-ref-label" style="top:81%">Panel 3</div>
+          <div class="instr-inner">
+            <p class="panel-reference-note">A story has 3 panels.<br><br>Panels 1 & 2 carry the conversation — characters go back and forth.<br><br>Panel 3 is the punchline — one line, one character, maximum impact.</p>
+            <div class="panel-reference-img-wrap">
+              <img src="stories/HC009.png" alt="Story panel layout reference"/>
+              <div class="panel-ref-label" style="top:25%">Panel 1</div>
+              <div class="panel-ref-label" style="top:54%">Panel 2</div>
+              <div class="panel-ref-label" style="top:81%">Panel 3</div>
+            </div>
           </div>
-          <p class="panel-reference-note" style="margin-top:0.75rem;font-size:0.75rem">Panels 1 & 2 carry the conversation. Panel 3 is the punchline — one line, maximum impact.</p>
         </div>
 
       </div>
@@ -666,6 +717,7 @@
 
       document.addEventListener('click', () => {
         ['a', 'b'].forEach(s => closePicker(s));
+        closeAllDialogPickers();
       });
     }
 
@@ -717,74 +769,149 @@
         });
       });
 
-      updateSpeakerOptions();
-      updateAllRowImages();
+      updateAllSpeakerPickers();
       saveDraft();
     }
 
-    // ── Speaker options ──────────────────────────────────────
-    function speakerOptions(includeNarration = true, selected = 'A') {
-      const a = selectedA?.label || 'Character A';
-      const b = selectedB?.label || 'Character B';
-      let opts = `<option value="A"${selected==='A'?' selected':''}>${a}</option>`;
-      opts += `<option value="B"${selected==='B'?' selected':''}>${b}</option>`;
-      if (includeNarration) opts += `<option value="N"${selected==='N'?' selected':''}>Narration</option>`;
-      return opts;
+    // ── Dialog speaker picker ────────────────────────────────
+    function refreshDialogTrigger(picker) {
+      const val = picker.dataset.speaker;
+      const c = val === 'A' ? selectedA : val === 'B' ? selectedB : null;
+      const label = c ? c.label : (val === 'N' ? 'Narration' : val === 'A' ? 'Char A' : 'Char B');
+      const trigger = picker.querySelector('.dialog-speaker-trigger');
+      trigger.innerHTML = '';
+      if (c) {
+        const img = document.createElement('img');
+        img.src = `characters/${c.id}.png`;
+        img.className = 'dialog-speaker-img';
+        trigger.appendChild(img);
+      } else {
+        const ph = document.createElement('div');
+        ph.className = 'dialog-speaker-ph';
+        ph.textContent = val;
+        trigger.appendChild(ph);
+      }
+      const nameEl = document.createElement('span');
+      nameEl.className = 'dialog-speaker-name';
+      nameEl.textContent = label;
+      trigger.appendChild(nameEl);
+      const arrow = document.createElement('span');
+      arrow.className = 'dialog-speaker-arrow';
+      arrow.textContent = '▾';
+      trigger.appendChild(arrow);
     }
 
-    function updateSpeakerOptions() {
-      document.querySelectorAll('.speaker-select').forEach(sel => {
-        const val = sel.value;
-        sel.innerHTML = speakerOptions(!sel.dataset.noPanelN, val);
+    function rebuildDialogDropdown(picker, includeNarration) {
+      const dropdown = picker.querySelector('.dialog-speaker-dropdown');
+      const current = picker.dataset.speaker;
+      dropdown.innerHTML = '';
+      const opts = [
+        { val: 'A', char: selectedA, label: selectedA?.label || 'Character A' },
+        { val: 'B', char: selectedB, label: selectedB?.label || 'Character B' },
+      ];
+      if (includeNarration) opts.push({ val: 'N', char: null, label: 'Narration' });
+      opts.forEach(({ val, char, label }) => {
+        const opt = document.createElement('div');
+        opt.className = 'dialog-speaker-option' + (val === current ? ' selected' : '');
+        opt.dataset.val = val;
+        if (char) {
+          const img = document.createElement('img');
+          img.src = `characters/${char.id}.png`;
+          opt.appendChild(img);
+        } else {
+          const ph = document.createElement('div');
+          ph.className = 'dialog-speaker-ph';
+          ph.textContent = val === 'N' ? '—' : val;
+          opt.appendChild(ph);
+        }
+        const nameEl = document.createElement('span');
+        nameEl.textContent = label;
+        opt.appendChild(nameEl);
+        opt.addEventListener('click', () => {
+          const p = opt.closest('.dialog-speaker-picker');
+          p.dataset.speaker = val;
+          refreshDialogTrigger(p);
+          p.querySelectorAll('.dialog-speaker-option').forEach(o =>
+            o.classList.toggle('selected', o.dataset.val === val)
+          );
+          closeAllDialogPickers();
+          saveDraft();
+        });
+        dropdown.appendChild(opt);
       });
+    }
+
+    function closeAllDialogPickers() {
+      document.querySelectorAll('.dialog-speaker-dropdown.open').forEach(d => d.classList.remove('open'));
+      document.querySelectorAll('.dialog-speaker-trigger.open').forEach(t => t.classList.remove('open'));
+    }
+
+    function updateAllSpeakerPickers() {
+      document.querySelectorAll('.dialog-speaker-picker').forEach(picker => {
+        const includeNarration = !picker.dataset.noNarration;
+        refreshDialogTrigger(picker);
+        rebuildDialogDropdown(picker, includeNarration);
+      });
+    }
+
+    function makeSpeakerPicker(defaultSpeaker, includeNarration = true) {
+      const picker = document.createElement('div');
+      picker.className = 'dialog-speaker-picker';
+      picker.dataset.speaker = defaultSpeaker;
+      if (!includeNarration) picker.dataset.noNarration = '1';
+
+      const trigger = document.createElement('div');
+      trigger.className = 'dialog-speaker-trigger';
+      const dropdown = document.createElement('div');
+      dropdown.className = 'dialog-speaker-dropdown';
+
+      picker.appendChild(trigger);
+      picker.appendChild(dropdown);
+
+      refreshDialogTrigger(picker);
+      rebuildDialogDropdown(picker, includeNarration);
+
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = dropdown.classList.contains('open');
+        closeAllDialogPickers();
+        if (!isOpen) {
+          dropdown.classList.add('open');
+          trigger.classList.add('open');
+        }
+      });
+
+      return picker;
     }
 
     // ── Dialog rows ──────────────────────────────────────────
-    function charImgSrc(speakerVal) {
-      if (speakerVal === 'A' && selectedA) return `characters/${selectedA.id}.png`;
-      if (speakerVal === 'B' && selectedB) return `characters/${selectedB.id}.png`;
-      return null;
-    }
-
-    function updateRowImage(row) {
-      const sel = row.querySelector('.speaker-select');
-      const img = row.querySelector('.dialog-char-img');
-      if (!sel || !img) return;
-      const src = charImgSrc(sel.value);
-      if (src) {
-        img.src = src;
-        img.classList.remove('empty');
-      } else {
-        img.removeAttribute('src');
-        img.classList.add('empty');
-      }
-    }
-
-    function updateAllRowImages() {
-      document.querySelectorAll('.dialog-row').forEach(updateRowImage);
-    }
-
     function makeDialogRow(panelId, removable = true, defaultSpeaker = 'A') {
       const row = document.createElement('div');
       row.className = 'dialog-row';
-      const src = charImgSrc(defaultSpeaker);
-      row.innerHTML = `
-        <img class="dialog-char-img${src ? '' : ' empty'}" ${src ? `src="${src}"` : ''} alt=""/>
-        <select class="speaker-select" data-panel="${panelId}">${speakerOptions(panelId !== 'pre', defaultSpeaker)}</select>
-        <input class="dialog-text" type="text" placeholder="DIALOG LINE..." maxlength="120" autocomplete="off"/>
-        ${removable ? `<button type="button" class="btn-remove-line" title="Remove line">✕</button>` : `<div></div>`}
-      `;
+
+      row.appendChild(makeSpeakerPicker(defaultSpeaker, panelId !== 'pre' && panelId !== 'panel-pre-body'));
+
+      const input = document.createElement('input');
+      input.className = 'dialog-text';
+      input.type = 'text';
+      input.placeholder = 'DIALOG LINE...';
+      input.maxLength = 120;
+      input.autocomplete = 'off';
+      input.addEventListener('input', saveDraft);
+      row.appendChild(input);
+
       if (removable) {
-        row.querySelector('.btn-remove-line').addEventListener('click', () => {
-          row.remove();
-          saveDraft();
-        });
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'btn-remove-line';
+        btn.title = 'Remove line';
+        btn.textContent = '✕';
+        btn.addEventListener('click', () => { row.remove(); saveDraft(); });
+        row.appendChild(btn);
+      } else {
+        row.appendChild(document.createElement('div'));
       }
-      row.querySelector('.dialog-text').addEventListener('input', saveDraft);
-      row.querySelector('.speaker-select').addEventListener('change', () => {
-        updateRowImage(row);
-        saveDraft();
-      });
+
       return row;
     }
 
@@ -801,7 +928,7 @@
         const addBtn = document.createElement('button');
         addBtn.type = 'button';
         addBtn.className = 'btn-add-line';
-        addBtn.textContent = '+ Add line';
+        addBtn.textContent = '+';
         addBtn.addEventListener('click', () => {
           const rows = body.querySelectorAll('.dialog-row');
           if (rows.length >= maxLines) return;
@@ -823,24 +950,30 @@
     function buildPreIntro() {
       const body = document.getElementById('panel-pre-body');
       body.innerHTML = '';
-      // Speaker selector (only A or B, no narration)
+
       const speakerRow = document.createElement('div');
       speakerRow.className = 'dialog-row';
-      speakerRow.innerHTML = `
-        <select class="speaker-select" data-panel="pre" data-no-panel-n="1">${speakerOptions(false)}</select>
-        <input class="dialog-text" type="text" placeholder="LINE 1..." maxlength="100" autocomplete="off"/>
-        <div></div>
-      `;
+      speakerRow.appendChild(makeSpeakerPicker('A', false));
+      const input1 = document.createElement('input');
+      input1.className = 'dialog-text'; input1.type = 'text';
+      input1.placeholder = 'LINE 1...'; input1.maxLength = 100; input1.autocomplete = 'off';
+      input1.addEventListener('input', saveDraft);
+      speakerRow.appendChild(input1);
+      speakerRow.appendChild(document.createElement('div'));
+
       const line2 = document.createElement('div');
       line2.className = 'dialog-row';
-      line2.innerHTML = `
-        <div style="font-size:0.7rem;color:#aaa;letter-spacing:0.08em;padding:0.5rem 0">Line 2 (optional)</div>
-        <input class="dialog-text" type="text" placeholder="LINE 2..." maxlength="100" autocomplete="off"/>
-        <div></div>
-      `;
-      speakerRow.querySelector('.dialog-text').addEventListener('input', saveDraft);
-      speakerRow.querySelector('.speaker-select').addEventListener('change', saveDraft);
-      line2.querySelector('.dialog-text').addEventListener('input', saveDraft);
+      const lbl = document.createElement('div');
+      lbl.style.cssText = 'font-size:0.7rem;color:#aaa;letter-spacing:0.08em;padding:0.5rem 0';
+      lbl.textContent = 'Line 2 (optional)';
+      line2.appendChild(lbl);
+      const input2 = document.createElement('input');
+      input2.className = 'dialog-text'; input2.type = 'text';
+      input2.placeholder = 'LINE 2...'; input2.maxLength = 100; input2.autocomplete = 'off';
+      input2.addEventListener('input', saveDraft);
+      line2.appendChild(input2);
+      line2.appendChild(document.createElement('div'));
+
       body.appendChild(speakerRow);
       body.appendChild(line2);
     }
@@ -858,16 +991,30 @@
     // ── Draft save / restore ─────────────────────────────────
     const DRAFT_KEY = 'hc-builder-draft';
 
+    function getRowSpeaker(row) {
+      return row.querySelector('.dialog-speaker-picker')?.dataset.speaker || 'A';
+    }
+
+    function setRowSpeaker(row, val) {
+      const picker = row.querySelector('.dialog-speaker-picker');
+      if (!picker) return;
+      picker.dataset.speaker = val;
+      refreshDialogTrigger(picker);
+      picker.querySelectorAll('.dialog-speaker-option').forEach(o =>
+        o.classList.toggle('selected', o.dataset.val === val)
+      );
+    }
+
     function readForm() {
       const panels = ['panel-1-body', 'panel-2-body', 'panel-3-body'].map(id => {
         return Array.from(document.querySelectorAll(`#${id} .dialog-row`)).map(row => ({
-          speaker: row.querySelector('.speaker-select')?.value || 'A',
+          speaker: getRowSpeaker(row),
           text: row.querySelector('.dialog-text')?.value || ''
         }));
       });
       const preRows = Array.from(document.querySelectorAll('#panel-pre-body .dialog-row'));
       const pre = preRows.length > 0 ? {
-        speaker: preRows[0].querySelector('.speaker-select')?.value || 'A',
+        speaker: getRowSpeaker(preRows[0]),
         line1: preRows[0].querySelector('.dialog-text')?.value || '',
         line2: preRows[1]?.querySelector('.dialog-text')?.value || ''
       } : null;
@@ -910,8 +1057,7 @@
           // Clear existing rows
           body.querySelectorAll('.dialog-row').forEach(r => r.remove());
           rows.forEach((row, i) => {
-            const el = makeDialogRow(id, i > 0);
-            el.querySelector('.speaker-select').value = row.speaker;
+            const el = makeDialogRow(id, i > 0, row.speaker || 'A');
             el.querySelector('.dialog-text').value = row.text;
             body.insertBefore(el, addBtn);
           });
@@ -923,7 +1069,7 @@
           const body = document.getElementById('panel-3-body');
           const row = body.querySelector('.dialog-row');
           if (row) {
-            row.querySelector('.speaker-select').value = p3.speaker;
+            setRowSpeaker(row, p3.speaker || 'A');
             row.querySelector('.dialog-text').value = p3.text;
           }
         }
@@ -934,7 +1080,7 @@
           if (d.pre) {
             const rows = document.querySelectorAll('#panel-pre-body .dialog-row');
             if (rows[0]) {
-              rows[0].querySelector('.speaker-select').value = d.pre.speaker;
+              setRowSpeaker(rows[0], d.pre.speaker || 'A');
               rows[0].querySelector('.dialog-text').value = d.pre.line1;
             }
             if (rows[1]) rows[1].querySelector('.dialog-text').value = d.pre.line2;
