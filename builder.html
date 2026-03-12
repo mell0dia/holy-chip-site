@@ -407,19 +407,20 @@
 
     .btn-add-line {
       background: none;
-      border: 1px solid #ddd;
-      color: #bbb;
+      border: 2px solid #aaa;
+      color: #666;
       font-size: 1rem;
-      width: 22px; height: 22px;
+      font-weight: bold;
+      width: 26px; height: 26px;
       border-radius: 50%;
       cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       padding: 0;
-      margin-top: 0.2rem;
+      margin-top: 0.3rem;
       line-height: 1;
-      transition: border-color 0.15s, color 0.15s;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
     }
-    .btn-add-line:hover { border-color: #000; color: #000; }
+    .btn-add-line:hover { background: #000; border-color: #000; color: #fff; }
 
     .panel-note {
       font-size: 0.7rem;
@@ -1181,6 +1182,7 @@
     buildPanel('panel-1-body', 3, 2, true, false, true);
     buildPanel('panel-2-body', 3, 2, true, false, true);
     buildPanel('panel-3-body', 1, 1, false, true);
+    document.querySelector('#panel-3-body .dialog-text').value = 'HOLY CHIP !!';
     buildPreIntro();
     restoreDraft();
   </script>
