@@ -240,10 +240,25 @@
 
     .dialog-row {
       display: grid;
-      grid-template-columns: 140px 1fr auto;
+      grid-template-columns: 36px 140px 1fr auto;
       gap: 0.5rem;
       align-items: center;
       margin-bottom: 0.5rem;
+    }
+
+    .dialog-char-img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      border: 2px solid #000;
+      background: #f5f5f5;
+      display: block;
+      padding: 2px;
+    }
+
+    .dialog-char-img.empty {
+      border: 2px dashed #ccc;
+      background: #fafafa;
     }
 
     select {
@@ -597,6 +612,7 @@
       });
 
       updateSpeakerOptions();
+      updateAllRowImages();
       saveDraft();
     }
 
@@ -618,10 +634,36 @@
     }
 
     // ── Dialog rows ──────────────────────────────────────────
+    function charImgSrc(speakerVal) {
+      if (speakerVal === 'A' && selectedA) return `characters/${selectedA.id}.png`;
+      if (speakerVal === 'B' && selectedB) return `characters/${selectedB.id}.png`;
+      return null;
+    }
+
+    function updateRowImage(row) {
+      const sel = row.querySelector('.speaker-select');
+      const img = row.querySelector('.dialog-char-img');
+      if (!sel || !img) return;
+      const src = charImgSrc(sel.value);
+      if (src) {
+        img.src = src;
+        img.classList.remove('empty');
+      } else {
+        img.removeAttribute('src');
+        img.classList.add('empty');
+      }
+    }
+
+    function updateAllRowImages() {
+      document.querySelectorAll('.dialog-row').forEach(updateRowImage);
+    }
+
     function makeDialogRow(panelId, removable = true) {
       const row = document.createElement('div');
       row.className = 'dialog-row';
+      const src = charImgSrc('A');
       row.innerHTML = `
+        <img class="dialog-char-img${src ? '' : ' empty'}" ${src ? `src="${src}"` : ''} alt=""/>
         <select class="speaker-select" data-panel="${panelId}">${speakerOptions(panelId !== 'pre')}</select>
         <input class="dialog-text" type="text" placeholder="DIALOG LINE..." maxlength="120" autocomplete="off"/>
         ${removable ? `<button type="button" class="btn-remove-line" title="Remove line">✕</button>` : `<div></div>`}
@@ -633,7 +675,10 @@
         });
       }
       row.querySelector('.dialog-text').addEventListener('input', saveDraft);
-      row.querySelector('.speaker-select').addEventListener('change', saveDraft);
+      row.querySelector('.speaker-select').addEventListener('change', () => {
+        updateRowImage(row);
+        saveDraft();
+      });
       return row;
     }
 
