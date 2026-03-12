@@ -617,19 +617,19 @@
     }
 
     // ── Speaker options ──────────────────────────────────────
-    function speakerOptions(includeNarration = true) {
+    function speakerOptions(includeNarration = true, selected = 'A') {
       const a = selectedA?.label || 'Character A';
       const b = selectedB?.label || 'Character B';
-      let opts = `<option value="A">${a}</option><option value="B">${b}</option>`;
-      if (includeNarration) opts += `<option value="N">Narration</option>`;
+      let opts = `<option value="A"${selected==='A'?' selected':''}>${a}</option>`;
+      opts += `<option value="B"${selected==='B'?' selected':''}>${b}</option>`;
+      if (includeNarration) opts += `<option value="N"${selected==='N'?' selected':''}>Narration</option>`;
       return opts;
     }
 
     function updateSpeakerOptions() {
       document.querySelectorAll('.speaker-select').forEach(sel => {
         const val = sel.value;
-        sel.innerHTML = speakerOptions(!sel.dataset.noPanelN);
-        sel.value = val;
+        sel.innerHTML = speakerOptions(!sel.dataset.noPanelN, val);
       });
     }
 
@@ -664,7 +664,7 @@
       const src = charImgSrc(defaultSpeaker);
       row.innerHTML = `
         <img class="dialog-char-img${src ? '' : ' empty'}" ${src ? `src="${src}"` : ''} alt=""/>
-        <select class="speaker-select" data-panel="${panelId}">${speakerOptions(panelId !== 'pre')}</select>
+        <select class="speaker-select" data-panel="${panelId}">${speakerOptions(panelId !== 'pre', defaultSpeaker)}</select>
         <input class="dialog-text" type="text" placeholder="DIALOG LINE..." maxlength="120" autocomplete="off"/>
         ${removable ? `<button type="button" class="btn-remove-line" title="Remove line">✕</button>` : `<div></div>`}
       `;
@@ -674,7 +674,6 @@
           saveDraft();
         });
       }
-      row.querySelector('.speaker-select').value = defaultSpeaker;
       row.querySelector('.dialog-text').addEventListener('input', saveDraft);
       row.querySelector('.speaker-select').addEventListener('change', () => {
         updateRowImage(row);
