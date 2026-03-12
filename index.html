@@ -411,7 +411,7 @@
       function next() {
         if (i < text.length) {
           el.textContent += text[i++];
-          setTimeout(next, fixedSpeed !== undefined ? fixedSpeed : 65 + Math.random() * 55);
+          setTimeout(next, fixedSpeed !== undefined ? fixedSpeed : 32 + Math.random() * 27);
         } else if (onDone) {
           onDone();
         }
