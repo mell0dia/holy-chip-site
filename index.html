@@ -441,10 +441,10 @@
     let allStories = [];    // { num, src, pre } — populated once on load
     let currentStory = null;
 
-    // Probe HC001–HC050 for existing stories
+    // Probe HC000–HC050 for existing stories
     async function discoverStories() {
       const checks = [];
-      for (let n = 1; n <= 50; n++) {
+      for (let n = 0; n <= 50; n++) {
         const src = `stories/HC${PAD(n)}.png`;
         const pre = `stories/HC${PAD(n)}.pre.png`;
         checks.push(

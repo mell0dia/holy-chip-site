@@ -333,11 +333,11 @@
       });
     }
 
-    // ── Auto-discover HC001 … HC200 ─────────────────────────
+    // ── Auto-discover HC000 … HC200 ─────────────────────────
     async function discover() {
       const found = [];
       const checks = [];
-      for (let n = 1; n <= 200; n++) {
+      for (let n = 0; n <= 200; n++) {
         const main = `${BASE}HC${PAD(n)}.png`;
         const pre  = `${BASE}HC${PAD(n)}.pre.png`;
         checks.push(
