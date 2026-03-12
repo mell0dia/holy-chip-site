@@ -98,8 +98,9 @@
     }
 
     .col-right {
-      padding: 1rem;
+      padding: 1rem 1rem 1rem 3.5rem;
       min-width: 0;
+      overflow: visible;
     }
 
     .col-section-title {
@@ -245,7 +246,7 @@
 
     .panel-ref-label {
       position: absolute;
-      right: -50px;
+      left: -52px;
       background: #000;
       color: #fff;
       font-size: 0.6rem;
@@ -537,58 +538,58 @@
           </div>
         </div>
 
-        <!-- RIGHT: Step 2 — Script -->
+        <!-- RIGHT: Instructions image -->
         <div class="col-right">
-          <div class="col-section-title">Step 2 — The Script</div>
-
-          <!-- Panel reference -->
-          <div class="panel-reference" style="margin-bottom:1rem">
-            <p class="panel-reference-note">3 panels. Panels 1 & 2 carry the conversation. Panel 3 is the punchline — one line, one character, maximum impact.</p>
-            <div class="panel-reference-img-wrap" style="margin-left:auto">
-              <img src="stories/HC009.png" alt="Story panel layout reference"/>
-              <div class="panel-ref-label" style="top:7%;right:-50px;left:auto">Banner</div>
-              <div class="panel-ref-label" style="top:25%">Panel 1</div>
-              <div class="panel-ref-label" style="top:54%">Panel 2</div>
-              <div class="panel-ref-label" style="top:81%">Panel 3</div>
-            </div>
+          <div class="col-section-title">Instructions</div>
+          <div class="panel-reference-img-wrap">
+            <img src="stories/HC009.png" alt="Story panel layout reference"/>
+            <div class="panel-ref-label" style="top:25%">Panel 1</div>
+            <div class="panel-ref-label" style="top:54%">Panel 2</div>
+            <div class="panel-ref-label" style="top:81%">Panel 3</div>
           </div>
-
-          <div class="field-group">
-            <label class="field-label" for="story-title">Story Title</label>
-            <input type="text" id="story-title" placeholder="e.g. THE UPGRADE" maxlength="80" autocomplete="off"/>
-          </div>
-
-          <!-- Panel 1 -->
-          <div class="panel-block">
-            <div class="panel-header"><span>Panel 1</span></div>
-            <div class="panel-body" id="panel-1-body"></div>
-          </div>
-
-          <!-- Panel 2 -->
-          <div class="panel-block">
-            <div class="panel-header"><span>Panel 2</span></div>
-            <div class="panel-body" id="panel-2-body"></div>
-          </div>
-
-          <!-- Panel 3 -->
-          <div class="panel-block">
-            <div class="panel-header"><span>Panel 3 — Punchline</span></div>
-            <div class="panel-body" id="panel-3-body"></div>
-          </div>
-
-          <!-- Pre-intro -->
-          <div class="optional-toggle">
-            <button type="button" class="btn-toggle-optional" id="btn-toggle-preintro">+ Pre-Intro</button>
-            <span class="optional-note">Optional — a single-character intro panel before the story</span>
-          </div>
-          <div id="pre-intro-block">
-            <div class="panel-block">
-              <div class="panel-header"><span>Pre-Intro</span></div>
-              <div class="panel-body" id="panel-pre-body"></div>
-            </div>
-          </div>
+          <p class="panel-reference-note" style="margin-top:0.75rem;font-size:0.75rem">Panels 1 & 2 carry the conversation. Panel 3 is the punchline — one line, maximum impact.</p>
         </div>
 
+      </div>
+
+      <!-- SECTION 2: Script (full width) -->
+      <div class="form-section">
+        <div class="section-title">Step 2 — The Script</div>
+
+        <div class="field-group">
+          <label class="field-label" for="story-title">Story Title</label>
+          <input type="text" id="story-title" placeholder="e.g. THE UPGRADE" maxlength="80" autocomplete="off"/>
+        </div>
+
+        <!-- Panel 1 -->
+        <div class="panel-block">
+          <div class="panel-header"><span>Panel 1</span></div>
+          <div class="panel-body" id="panel-1-body"></div>
+        </div>
+
+        <!-- Panel 2 -->
+        <div class="panel-block">
+          <div class="panel-header"><span>Panel 2</span></div>
+          <div class="panel-body" id="panel-2-body"></div>
+        </div>
+
+        <!-- Panel 3 -->
+        <div class="panel-block">
+          <div class="panel-header"><span>Panel 3 — Punchline</span></div>
+          <div class="panel-body" id="panel-3-body"></div>
+        </div>
+
+        <!-- Pre-intro -->
+        <div class="optional-toggle">
+          <button type="button" class="btn-toggle-optional" id="btn-toggle-preintro">+ Pre-Intro</button>
+          <span class="optional-note">Optional — a single-character intro panel before the story</span>
+        </div>
+        <div id="pre-intro-block">
+          <div class="panel-block">
+            <div class="panel-header"><span>Pre-Intro</span></div>
+            <div class="panel-body" id="panel-pre-body"></div>
+          </div>
+        </div>
       </div>
 
       <!-- SECTION 3: Details -->
