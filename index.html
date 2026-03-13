@@ -27,7 +27,7 @@
       position: absolute;
       object-fit: contain;
       filter: grayscale(100%);
-      animation: floatUp steps(8) infinite;
+      animation: floatUp steps(var(--steps, 8)) infinite;
       opacity: 0;
     }
 
@@ -394,7 +394,8 @@
         const dur     = 25 + Math.random() * 35;
         const delay   = Math.random() * -35;
         const opacity = 0.06 + Math.random() * 0.16;
-        img.style.cssText = `width:${size}px;height:${size}px;left:${left}%;animation-duration:${dur}s;animation-delay:${delay}s;--op:${opacity};`;
+        const steps   = 3 + Math.floor(Math.random() * 10);
+        img.style.cssText = `width:${size}px;height:${size}px;left:${left}%;animation-duration:${dur}s;animation-delay:${delay}s;--op:${opacity};--steps:${steps};`;
         layer.appendChild(img);
       }
     });
