@@ -32,10 +32,10 @@
     }
 
     @keyframes floatUp {
-      0%   { transform: translateY(110vh) rotate(0deg);       opacity: 0; }
+      0%   { transform: translateY(110vh);  opacity: 0; }
       5%   { opacity: var(--op); }
       90%  { opacity: var(--op); }
-      100% { transform: translateY(-20vh) rotate(var(--rot)); opacity: 0; }
+      100% { transform: translateY(-20vh); opacity: 0; }
     }
 
     #nav-container { position: relative; z-index: 10; }
@@ -394,8 +394,7 @@
         const dur     = 10 + Math.random() * 20;
         const delay   = Math.random() * -35;
         const opacity = 0.06 + Math.random() * 0.16;
-        const rot     = (Math.random() - 0.5) * 50 + 'deg';
-        img.style.cssText = `width:${size}px;height:${size}px;left:${left}%;animation-duration:${dur}s;animation-delay:${delay}s;--op:${opacity};--rot:${rot};`;
+        img.style.cssText = `width:${size}px;height:${size}px;left:${left}%;animation-duration:${dur}s;animation-delay:${delay}s;--op:${opacity};`;
         layer.appendChild(img);
       }
     });
