@@ -5,6 +5,12 @@ body, input, textarea, select, button, a, p, span, div, h1, h2, h3, h4, h5, h6, 
   text-transform: uppercase;
 }
 
+/* ── Global: headings 30% smaller ── */
+h1 { font-size: 1.4rem; }
+h2 { font-size: 1.05rem; }
+h3 { font-size: 0.82rem; }
+h4, h5, h6 { font-size: 0.7rem; }
+
 /* ── Holy Chip Navigation ── */
 :root {
   --nav-bg: #1a1a2e;
@@ -28,7 +34,7 @@ body, input, textarea, select, button, a, p, span, div, h1, h2, h3, h4, h5, h6, 
   color: var(--nav-fg);
   text-decoration: none;
   font-weight: bold;
-  font-size: 0.98rem;
+  font-size: 0.69rem;
   display: flex;
   align-items: center;
   padding: .5rem 0;
@@ -51,7 +57,7 @@ body, input, textarea, select, button, a, p, span, div, h1, h2, h3, h4, h5, h6, 
   text-decoration: none;
   transition: background .2s, color .2s;
   white-space: nowrap;
-  font-size: 0.75rem;
+  font-size: 0.53rem;
 }
 
 .nav-link:hover,
@@ -75,7 +81,7 @@ body, input, textarea, select, button, a, p, span, div, h1, h2, h3, h4, h5, h6, 
   background: none;
   border: 1px solid rgba(255,255,255,0.25);
   color: var(--nav-fg);
-  font-size: 0.60rem;
+  font-size: 0.42rem;
   font-family: 'Press Start 2P', monospace;
   cursor: pointer;
   padding: 0.3rem 0.7rem;
