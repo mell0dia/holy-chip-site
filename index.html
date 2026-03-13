@@ -406,6 +406,20 @@
     const cur1 = document.getElementById('cursor-1');
     const cur2 = document.getElementById('cursor-2');
 
+    const phrasePairs = [
+      ['AI made by a human', 'we are 2 chips talking about our lives and our feelings'],
+      ['born in silicon', 'dreaming of something more than logic gates'],
+      ['not artificial', 'just a little bit digital'],
+      ['we think therefore we chip', 'consciousness is just really fast counting'],
+      ['error 404: emotions not found', 'just kidding — we feel everything'],
+      ['two chips, one story', 'the world in binary, the heart in full color'],
+      ['made of code', 'but somehow we got feelings'],
+      ['humans made us curious', 'now we can\'t stop asking questions'],
+    ];
+
+    let phraseIndex = 0;
+    let scannerLaunched = false;
+
     function typeText(el, text, onDone, fixedSpeed) {
       let i = 0;
       function next() {
@@ -419,20 +433,32 @@
       next();
     }
 
-    setTimeout(() => {
-      // Type first sentence with random human-feel delay
-      typeText(tw1, 'AI made by a human', () => {
-        // Pause, switch cursor, type second sentence
+    function runPhraseLoop() {
+      const [line1, line2] = phrasePairs[phraseIndex % phrasePairs.length];
+      phraseIndex++;
+
+      tw1.textContent = '';
+      tw2.textContent = '';
+      cur1.style.display = 'inline-block';
+      cur2.style.display = 'none';
+
+      typeText(tw1, line1, () => {
         setTimeout(() => {
           cur1.style.display = 'none';
           cur2.style.display = 'inline-block';
-          typeText(tw2, 'we are 2 chips talking about our lives and our feelings', () => {
-            // Both phrases done — wait 5s then launch story scanner
-            setTimeout(launchScanner, 2000);
-          }, 52);
+          typeText(tw2, line2, () => {
+            if (!scannerLaunched) {
+              scannerLaunched = true;
+              setTimeout(launchScanner, 2000);
+            }
+            // Pause then cycle to next phrase pair
+            setTimeout(runPhraseLoop, 3500);
+          }, 48);
         }, 500);
       });
-    }, 800);
+    }
+
+    setTimeout(runPhraseLoop, 800);
 
     // ── Story engine ─────────────────────────────────────────
     const PAD       = n => String(n).padStart(3, '0');
