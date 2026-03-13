@@ -28,7 +28,7 @@ body, input, textarea, select, button, a, p, span, div, h1, h2, h3, h4, h5, h6, 
   color: var(--nav-fg);
   text-decoration: none;
   font-weight: bold;
-  font-size: 1.1rem;
+  font-size: 0.98rem;
   display: flex;
   align-items: center;
   padding: .5rem 0;
@@ -51,6 +51,7 @@ body, input, textarea, select, button, a, p, span, div, h1, h2, h3, h4, h5, h6, 
   text-decoration: none;
   transition: background .2s, color .2s;
   white-space: nowrap;
+  font-size: 0.75rem;
 }
 
 .nav-link:hover,
@@ -74,7 +75,7 @@ body, input, textarea, select, button, a, p, span, div, h1, h2, h3, h4, h5, h6, 
   background: none;
   border: 1px solid rgba(255,255,255,0.25);
   color: var(--nav-fg);
-  font-size: 0.72rem;
+  font-size: 0.60rem;
   font-family: 'Press Start 2P', monospace;
   cursor: pointer;
   padding: 0.3rem 0.7rem;
