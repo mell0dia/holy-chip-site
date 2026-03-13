@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 /* ── Holy Chip Navigation ── */
 :root {
   --nav-bg: #1a1a2e;
@@ -8,7 +10,7 @@
 
 .site-nav {
   background: var(--nav-bg);
-  font-family: system-ui, sans-serif;
+  font-family: 'Press Start 2P', monospace;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -68,7 +70,7 @@
   border: 1px solid rgba(255,255,255,0.25);
   color: var(--nav-fg);
   font-size: 0.72rem;
-  font-family: system-ui, sans-serif;
+  font-family: 'Press Start 2P', monospace;
   cursor: pointer;
   padding: 0.3rem 0.7rem;
   border-radius: 3px;
@@ -86,7 +88,7 @@
   transform: translateX(-50%) translateY(2rem);
   background: #1a1a2e;
   color: #e0e0e0;
-  font-family: system-ui, sans-serif;
+  font-family: 'Press Start 2P', monospace;
   font-size: 0.8rem;
   letter-spacing: 0.08em;
   padding: 0.55rem 1.2rem;
