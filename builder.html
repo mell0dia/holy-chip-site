@@ -122,8 +122,8 @@
       text-transform: uppercase;
       color: #555;
       border-bottom: 1px solid #000;
-      padding-bottom: 0.35rem;
-      margin-bottom: 0.9rem;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.6rem;
     }
 
     /* ── Compact char image-select ── */
@@ -438,26 +438,6 @@
       margin-bottom: 1rem;
     }
 
-    .btn-toggle-optional {
-      background: none;
-      border: 2px solid #000;
-      font-family: 'Press Start 2P', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.35rem 0.9rem;
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s;
-    }
-
-    .btn-toggle-optional:hover, .btn-toggle-optional.active {
-      background: #000;
-      color: #fff;
-    }
-
-    .optional-note { font-size: 0.72rem; color: #888; letter-spacing: 0.05em; }
-
-    #pre-intro-block { display: none; }
 
     /* ── Details section ── */
     /* ── Consent ── */
@@ -631,17 +611,6 @@
           <div class="panel-body" id="panel-3-body"></div>
         </div>
 
-        <!-- Pre-intro -->
-        <div class="optional-toggle">
-          <button type="button" class="btn-toggle-optional" id="btn-toggle-preintro">+ Pre-Intro</button>
-          <span class="optional-note">Optional — a single-character intro panel before the story</span>
-        </div>
-        <div id="pre-intro-block">
-          <div class="panel-block">
-            <div class="panel-header"><span>Pre-Intro</span></div>
-            <div class="panel-body" id="panel-pre-body"></div>
-          </div>
-        </div>
       </div>
 
       <!-- SECTION 3: Details -->
@@ -979,15 +948,6 @@
       body.appendChild(line2);
     }
 
-    // ── Pre-intro toggle ─────────────────────────────────────
-    let preIntroVisible = false;
-    document.getElementById('btn-toggle-preintro').addEventListener('click', () => {
-      preIntroVisible = !preIntroVisible;
-      document.getElementById('pre-intro-block').style.display = preIntroVisible ? 'block' : 'none';
-      document.getElementById('btn-toggle-preintro').classList.toggle('active', preIntroVisible);
-      document.getElementById('btn-toggle-preintro').textContent = preIntroVisible ? '− Pre-Intro' : '+ Pre-Intro';
-      saveDraft();
-    });
 
     // ── Draft save / restore ─────────────────────────────────
     const DRAFT_KEY = 'hc-builder-draft';
