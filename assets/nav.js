@@ -20,9 +20,7 @@
   const navHTML = `
     <nav class="site-nav">
       <a href="${pathPrefix}index.html" class="nav-logo">
-        <img src="${pathPrefix}assets/logo.jpg" alt="Holy Chip"
-             style="height:36px;vertical-align:middle;margin-right:.5rem;border-radius:4px;"/>
-        Holy Chip
+        Holy Chip !!
       </a>
       <ul class="nav-list" id="nav-list">
         ${navItems.map(item => {
