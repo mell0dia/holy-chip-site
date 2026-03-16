@@ -65,6 +65,7 @@ h4, h5, h6 { font-size: 0.7rem; }
 .nav-link.active { background: #e94560; color: #fff; }
 .nav-link.accent { color: #e94560; font-weight: bold; }
 .nav-link.accent:hover { background: #e94560; color: #fff; }
+.nav-link.active.accent { background: #e94560; color: #fff; }
 
 /* ── Nav right cluster (share + toggle) ── */
 .nav-right {
