@@ -34,7 +34,7 @@ h4, h5, h6 { font-size: 0.7rem; }
   color: var(--nav-fg);
   text-decoration: none;
   font-weight: bold;
-  font-size: 0.69rem;
+  font-size: 0.94rem;
   display: flex;
   align-items: center;
   padding: .5rem 0;
@@ -57,7 +57,7 @@ h4, h5, h6 { font-size: 0.7rem; }
   text-decoration: none;
   transition: background .2s, color .2s;
   white-space: nowrap;
-  font-size: 0.53rem;
+  font-size: 0.78rem;
 }
 
 .nav-link:hover,
@@ -82,7 +82,7 @@ h4, h5, h6 { font-size: 0.7rem; }
   background: none;
   border: 1px solid rgba(255,255,255,0.25);
   color: var(--nav-fg);
-  font-size: 0.42rem;
+  font-size: 0.67rem;
   font-family: 'Press Start 2P', monospace;
   cursor: pointer;
   padding: 0.3rem 0.7rem;
