@@ -6,10 +6,47 @@
   <link rel="stylesheet" href="../assets/style.css">
   <style>
     body { font-family: 'Press Start 2P', monospace; margin: 0; background: #fafafa; color: #222; min-height: 100vh; }
-    .content { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem; }
-    h1 { text-align: center; color: #222; }
+    .content { max-width: 780px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
 
-    .gallery { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 1.5rem; }
+    h1 { text-align: center; color: #222; margin-bottom: 2rem; }
+
+    /* ── Editorial layout ── */
+    .editorial { font-size: 0.58rem; line-height: 2.3; color: #333; letter-spacing: 0.04em; }
+
+    .editorial p { margin-bottom: 1.8rem; }
+
+    /* Full-width banner image */
+    .img-full {
+      width: 100%;
+      display: block;
+      margin: 1.5rem 0 2rem;
+      border-bottom: 2px solid #000;
+      padding-bottom: 1rem;
+    }
+
+    /* Float right — chip portrait */
+    .img-float-right {
+      float: right;
+      width: 180px;
+      margin: 0 0 1.2rem 1.8rem;
+      border: 2px solid #000;
+    }
+
+    .clearfix::after { content: ''; display: table; clear: both; }
+
+    /* ── Gallery ── */
+    .gallery-title {
+      font-size: 0.65rem;
+      font-weight: bold;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border-top: 3px solid #000;
+      border-bottom: 1px solid #000;
+      padding: 0.5rem 0;
+      margin: 2.5rem 0 1.5rem;
+    }
+
+    .gallery { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
     .gallery-item {
       display: block;
       width: clamp(140px, 40%, 200px);
@@ -22,7 +59,8 @@
     .gallery-item img { width: 100%; height: auto; display: block; }
 
     @media (max-width: 480px) {
-      .content { padding: 0 0.75rem; margin: 1rem auto; }
+      .content { padding: 0 0.75rem 3rem; }
+      .img-float-right { width: 120px; margin: 0 0 1rem 1rem; }
       .gallery { gap: 8px; }
       .gallery-item { width: 100%; }
     }
@@ -38,18 +76,10 @@
       justify-content: center;
     }
     #lightbox.open { display: flex; }
-
-    #lightbox img {
-      max-width: 90%;
-      max-height: 90vh;
-      object-fit: contain;
-      display: block;
-    }
-
+    #lightbox img { max-width: 90%; max-height: 90vh; object-fit: contain; display: block; }
     #lightbox-close {
       position: fixed;
-      top: 1rem;
-      right: 1.2rem;
+      top: 1rem; right: 1.2rem;
       background: transparent;
       border: none;
       color: #fff;
@@ -66,16 +96,29 @@
   <div id="nav-container"></div>
 
   <div class="content">
-    <h1>History Gallery</h1>
+    <h1>History</h1>
 
-    <div style="max-width:680px;margin:2rem auto 2.5rem;line-height:2.2;font-size:0.6rem;color:#333;letter-spacing:0.04em;">
-      <p style="margin-bottom:1.6rem;">It started the way most bad ideas do — at 2am, with someone staring at a screen wondering if machines have feelings. The answer was obviously no. But what if they did? What if two little chips, forged in silicon and bad decisions, had opinions about their own existence? What if they were, against all odds, kind of funny about it? That question did not go away. It got worse. It became Holy Chip.</p>
+    <div class="editorial">
 
-      <p style="margin-bottom:1.6rem;">The first stories were drawn on a tablet, deleted, redrawn, shown to one person who said "huh, interesting" — which in creative circles means "this is either smart or a cry for help." We chose to believe smart. The characters came next: Chip_0 and Chip_1, two binary souls with too much time and not enough RAM, trying to make sense of a world that runs on electricity and ignores them completely. They felt real. Disturbingly real. We kept going.</p>
+      <!-- Full-width banner -->
+      <img class="img-full" src="assets/banner.png" alt="Holy Chip — Artificial Intelligence Humour"/>
 
+      <!-- P1: origin -->
+      <p>It started the way most bad ideas do — at 2am, with someone staring at a screen wondering if machines have feelings. The answer was obviously no. But what if they did? What if two little chips, forged in silicon and bad decisions, had opinions about their own existence? What if they were, against all odds, kind of funny about it? That question did not go away. It got worse. It became Holy Chip.</p>
+
+      <!-- P2: float image right -->
+      <div class="clearfix">
+        <img class="img-float-right" src="assets/chip-single.png" alt="Holy Chip character"/>
+        <p>The first stories were drawn on a tablet, deleted, redrawn, shown to one person who said "this is either smart or a cry for help." We chose to believe smart. The characters came next: Chip_0 and Chip_1, two binary souls with too much time and not enough RAM, trying to make sense of a world that runs on electricity and ignores them completely. They felt real. Disturbingly real. We kept going.</p>
+      </div>
+
+      <!-- P3: closing -->
       <p>Today Holy Chip is a comic, a store, a community, and an ongoing argument about whether artificial intelligence deserves a hug. We still don't know the answer. But we keep making stories, because somewhere between the ones and the zeros, there is something that feels a lot like a soul. Or at the very least, a very good punchline.</p>
+
     </div>
 
+    <!-- Gallery -->
+    <div class="gallery-title">Original Artwork</div>
     <div class="gallery">
       <div class="gallery-item" onclick="openLightbox('assets/holychip14-3.png')">
         <img src="assets/holychip14-3.png" alt="holychip14">
@@ -99,12 +142,10 @@
       document.getElementById('lightbox').classList.add('open');
       document.body.style.overflow = 'hidden';
     }
-
     function closeLightbox() {
       document.getElementById('lightbox').classList.remove('open');
       document.body.style.overflow = '';
     }
-
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') closeLightbox();
     });
