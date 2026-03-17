@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chip Animation Test — Holy Chip</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #fff;
+      color: #000;
+      font-family: 'Press Start 2P', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    #chips-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .chip {
+      position: absolute;
+      object-fit: contain;
+      filter: grayscale(100%);
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .note {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 3rem 2rem;
+      font-size: 0.75rem;
+      line-height: 2.2;
+      color: #555;
+    }
+    .note a {
+      color: #0A6821;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="chips-layer"></div>
+
+  <div class="note">
+    <p>Chip animation test</p>
+    <br>
+    <p>Each chip picks a random spot, stays 3s, fades out, reappears elsewhere.</p>
+    <br>
+    <a href="index.html">← Back to homepage</a>
+  </div>
+
+  <script>
+    const chipFiles = [
+      'Chip_0','Chip_1','Chip_100','Chip_101','Chip_110','Chip_111',
+      'Chip_1000','Chip_1001','Chip_1010','Chip_1011','Chip_1100','Chip_1101',
+      'Chip_10000','Chip_10001','Chip_10010','Chip_10011','Chip_10100',
+      'Chip_10101','Chip_10111','Chip_1111'
+    ];
+
+    const layer = document.getElementById('chips-layer');
+
+    function animateChip(img) {
+      function appear() {
+        // New random position and size each time
+        const size    = 40 + Math.random() * 50;
+        const left    = 2  + Math.random() * 88;
+        const top     = 5  + Math.random() * 80;
+        const opacity = 0.10 + Math.random() * 0.20;
+
+        img.style.width  = size + 'px';
+        img.style.height = size + 'px';
+        img.style.left   = left + '%';
+        img.style.top    = top  + '%';
+
+        // Fade in
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => { img.style.opacity = opacity; });
+        });
+
+        // After 3s visible → fade out → reposition
+        setTimeout(() => {
+          img.style.opacity = '0';
+          setTimeout(appear, 600 + Math.random() * 2000);
+        }, 3000);
+      }
+
+      // Stagger initial appearances so they don't all pop in at once
+      setTimeout(appear, Math.random() * 6000);
+    }
+
+    chipFiles.forEach(name => {
+      const img = document.createElement('img');
+      img.src = `characters/${name}.png`;
+      img.className = 'chip';
+      layer.appendChild(img);
+      animateChip(img);
+    });
+  </script>
+</body>
+</html>
