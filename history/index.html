@@ -5,31 +5,100 @@
   <title>History — Holy Chip</title>
   <link rel="stylesheet" href="../assets/style.css">
   <style>
-    body {font-family:system-ui,sans-serif;margin:0;background:#fafafa;color:#222;min-height:100vh;}
-    .content {max-width:900px;margin:2rem auto;padding:0 1.5rem;}
-    h1 {text-align:center;color:#222;}
-    .gallery {display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:1.5rem;}
-    .gallery a {display:block;width:clamp(140px,40%,200px);height:auto;overflow:hidden;}
-    .gallery img {width:100%;height:auto;display:block;border:2px solid #ddd;}
-    @media (max-width:480px) {
-      .content {padding:0 0.75rem; margin:1rem auto;}
-      .gallery {gap:8px;}
-      .gallery a {width:100%;}
+    body { font-family: 'Press Start 2P', monospace; margin: 0; background: #fafafa; color: #222; min-height: 100vh; }
+    .content { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem; }
+    h1 { text-align: center; color: #222; }
+
+    .gallery { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 1.5rem; }
+    .gallery-item {
+      display: block;
+      width: clamp(140px, 40%, 200px);
+      cursor: pointer;
+      overflow: hidden;
+      border: 2px solid #ddd;
+      transition: border-color 0.15s, transform 0.15s;
     }
+    .gallery-item:hover { border-color: #000; transform: translate(-2px,-2px); }
+    .gallery-item img { width: 100%; height: auto; display: block; }
+
+    @media (max-width: 480px) {
+      .content { padding: 0 0.75rem; margin: 1rem auto; }
+      .gallery { gap: 8px; }
+      .gallery-item { width: 100%; }
+    }
+
+    /* ── Lightbox ── */
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(0,0,0,0.92);
+      align-items: center;
+      justify-content: center;
+    }
+    #lightbox.open { display: flex; }
+
+    #lightbox img {
+      max-width: 90%;
+      max-height: 90vh;
+      object-fit: contain;
+      display: block;
+    }
+
+    #lightbox-close {
+      position: fixed;
+      top: 1rem;
+      right: 1.2rem;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+      line-height: 1;
+    }
+    #lightbox-close:hover { opacity: 1; }
   </style>
 </head>
 <body>
-  <!-- Navigation injected here -->
   <div id="nav-container"></div>
 
   <div class="content">
-  <h1>History Gallery</h1>
-  <div class="gallery">
-    <a href="assets/holychip14-3.png"><img src="assets/holychip14-3.png" alt="holychip14"></a>
-    <a href="assets/holychip15-PT.png"><img src="assets/holychip15-PT.png" alt="holychip15 PT"></a>
+    <h1>History Gallery</h1>
+    <div class="gallery">
+      <div class="gallery-item" onclick="openLightbox('assets/holychip14-3.png')">
+        <img src="assets/holychip14-3.png" alt="holychip14">
+      </div>
+      <div class="gallery-item" onclick="openLightbox('assets/holychip15-PT.png')">
+        <img src="assets/holychip15-PT.png" alt="holychip15 PT">
+      </div>
+    </div>
   </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" onclick="closeLightbox()">
+    <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+    <img id="lightbox-img" src="" alt=""/>
   </div>
 
   <script src="../assets/nav.js"></script>
+  <script>
+    function openLightbox(src) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
 </body>
 </html>
