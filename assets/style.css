@@ -6,10 +6,15 @@ body, input, textarea, select, button, a, p, span, div, h1, h2, h3, h4, h5, h6, 
 }
 
 /* ── Global: headings 30% smaller ── */
-h1 { font-size: 1.4rem; }
-h2 { font-size: 1.05rem; }
-h3 { font-size: 0.82rem; }
-h4, h5, h6 { font-size: 0.7rem; }
+h1 { font-size: 1.4rem; line-height: 1.8; }
+h2 { font-size: 1.05rem; line-height: 1.8; }
+h3 { font-size: 0.82rem; line-height: 1.8; }
+h4, h5, h6 { font-size: 0.7rem; line-height: 1.8; }
+
+/* ── Global: readable line-height for wrapped text ── */
+p, .page-subtitle, .step-title, label, li {
+  line-height: 2;
+}
 
 /* ── Holy Chip Navigation ── */
 :root {
