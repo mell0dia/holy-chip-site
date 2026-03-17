@@ -765,7 +765,7 @@
           `;
         }
 
-        const colorInfo = style.colors ? `<div style="font-size: 0.85rem; color: #888; margin-bottom: 0.5rem;">Colors: ${style.colors.join(', ')} | Sizes: ${style.sizes.join(', ')}</div>` : '';
+        const colorInfo = style.colors ? `<div style="font-size: 0.6rem; color: #888; margin-bottom: 0.5rem;">Colors: ${style.colors.join(', ')} | Sizes: ${style.sizes.join(', ')}</div>` : '';
 
         const sizeSelector = style.type === 'T-Shirt' ? `
           <div class="size-selector">
@@ -783,7 +783,6 @@
         card.innerHTML = `
           ${productImagesHTML}
           <div class="product-title">${chip} ${style.type} - ${style.name}</div>
-          <div class="product-description">${style.description}</div>
           ${colorInfo}
           <div class="product-price">USD $${style.price.toFixed(2)}</div>
           ${sizeSelector}
