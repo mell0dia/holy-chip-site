@@ -430,14 +430,14 @@
       cur2.style.display = 'none';
 
       typeText(tw1, line1, () => {
+        if (!scannerLaunched) {
+          scannerLaunched = true;
+          launchScanner();
+        }
         setTimeout(() => {
           cur1.style.display = 'none';
           cur2.style.display = 'inline-block';
           typeText(tw2, line2, () => {
-            if (!scannerLaunched) {
-              scannerLaunched = true;
-              setTimeout(launchScanner, 2000);
-            }
             // Pause then cycle to next phrase pair
             setTimeout(runPhraseLoop, 3500);
           }, 48);
