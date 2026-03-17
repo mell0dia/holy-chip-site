@@ -13,7 +13,7 @@ h4, h5, h6 { font-size: 0.7rem; }
 
 /* ── Holy Chip Navigation ── */
 :root {
-  --nav-bg: #1a1a2e;
+  --nav-bg: #000000;
   --nav-fg: #e0e0e0;
   --nav-hover: #16213e;
   --nav-padding: 1rem 1.5rem;
