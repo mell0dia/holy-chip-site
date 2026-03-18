@@ -38,12 +38,12 @@ async function getProductVariant(productId, size, productType) {
     let variant;
 
     if (productType === 'Mug') {
-      // Mugs: format is "Size / Color" (e.g., "11oz / Black")
-      variant = product.variants.find(v => {
-        const title = v.title;
-        const sizeMatch = size || '11oz'; // Default to 11oz if no size specified
-        return title === `${sizeMatch} / ${color}`;
-      });
+      // Mugs: Duplium format is "Color / Size" (e.g., "Black / 11oz")
+      // Harrier legacy format was "Size / Color" — try both
+      const sizeMatch = size || '11oz';
+      variant = product.variants.find(v =>
+        v.title === `${color} / ${sizeMatch}` || v.title === `${sizeMatch} / ${color}`
+      );
     } else {
       // T-Shirts: check if it's a ringer (format: "Color1/Color2 / Size")
       const isRinger = product.variants.some(v => v.title.includes('/') && v.title.split('/').length > 2);
