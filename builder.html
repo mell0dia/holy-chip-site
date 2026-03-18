@@ -946,7 +946,7 @@
 
     function buildPreIntro() {
       const body = document.getElementById('panel-pre-body');
-      body.innerHTML = '';
+      if (!body) return;
 
       const speakerRow = document.createElement('div');
       speakerRow.className = 'dialog-row';
@@ -1006,6 +1006,7 @@
         line1: preRows[0].querySelector('.dialog-text')?.value || '',
         line2: preRows[1]?.querySelector('.dialog-text')?.value || ''
       } : null;
+      const preIntroVisible = !!document.getElementById('panel-pre-body');
 
       return {
         charA: selectedA?.id || null,
