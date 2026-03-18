@@ -458,6 +458,8 @@
     document.getElementById('btn-close').addEventListener('click', e => { e.stopPropagation(); closeReader(); });
     document.getElementById('btn-prev').addEventListener('click', e => { e.stopPropagation(); navigateReader(-1); });
     document.getElementById('btn-next').addEventListener('click', e => { e.stopPropagation(); navigateReader(1); });
+    document.getElementById('btn-prev').addEventListener('touchend', e => { e.stopPropagation(); e.preventDefault(); navigateReader(-1); });
+    document.getElementById('btn-next').addEventListener('touchend', e => { e.stopPropagation(); e.preventDefault(); navigateReader(1); });
     document.getElementById('btn-share-reader').addEventListener('click', e => {
       e.stopPropagation();
       const story = STORIES[currentIdx];
