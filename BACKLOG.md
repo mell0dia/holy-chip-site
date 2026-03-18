@@ -62,6 +62,15 @@ _Things to build, improve, and explore._
 
 ---
 
+## 🧪 Needs Testing
+
+- [ ] **SGen — Test JSON import/load flow** (Mar 18, 2026)
+  - Save a new story via the correct flow: fill form → generate → Save Story → Export JSON
+  - Re-import that JSON file via "Import JSON" in the library
+  - Click Load Story → verify all fields restore correctly (ID, title, year, dialogs, image, faces)
+
+---
+
 ## 🔥 High Priority
 
 ### 🎯 Story Submission System — `/submit` (NFT-Gated)
