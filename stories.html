@@ -216,6 +216,8 @@
     #btn-close:hover { opacity: 1; }
 
     /* ── Reader prev / next ──────────────────────────────── */
+    .reader-nav-row { display: contents; } /* desktop: let buttons be absolute */
+
     .reader-nav {
       position: absolute;
       top: 50%;
@@ -242,11 +244,23 @@
     #btn-next { right: -60px; }
 
     @media (max-width: 900px) {
-      #btn-prev { left: 0; }
-      #btn-next { right: 0; }
-    }
-    @media (max-width: 480px) {
-      .reader-nav { width: 36px; height: 56px; font-size: 1.2rem; opacity: 0.7; }
+      .reader-nav-row {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        width: 100%;
+        margin-top: 0.5rem;
+      }
+      .reader-nav {
+        position: static;
+        transform: none;
+        width: 56px;
+        height: 56px;
+        font-size: 1.4rem;
+        opacity: 0.8;
+        flex-shrink: 0;
+      }
+      .reader-nav.hidden { display: none; }
     }
 
     /* ── Reader footer (label + share) ──────────────────── */
@@ -295,10 +309,12 @@
   <div id="reader" class="hidden">
     <div class="reader-inner">
       <button id="btn-close">✕</button>
-      <button id="btn-prev" class="reader-nav">&#8592;</button>
-      <button id="btn-next" class="reader-nav">&#8594;</button>
       <div class="reader-images">
         <img id="reader-story" src="" alt="Story"/>
+      </div>
+      <div class="reader-nav-row">
+        <button id="btn-prev" class="reader-nav">&#8592;</button>
+        <button id="btn-next" class="reader-nav">&#8594;</button>
       </div>
       <div class="reader-footer">
         <div style="color:#555;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;" id="reader-label"></div>
