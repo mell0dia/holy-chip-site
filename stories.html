@@ -215,6 +215,40 @@
 
     #btn-close:hover { opacity: 1; }
 
+    /* ── Reader prev / next ──────────────────────────────── */
+    .reader-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      font-size: 1.6rem;
+      line-height: 1;
+      width: 48px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s, opacity 0.2s;
+      opacity: 0.5;
+      z-index: 10;
+      user-select: none;
+    }
+    .reader-nav:hover { background: rgba(255,255,255,0.22); opacity: 1; }
+    .reader-nav.hidden { opacity: 0; pointer-events: none; }
+    #btn-prev { left: -60px; }
+    #btn-next { right: -60px; }
+
+    @media (max-width: 900px) {
+      #btn-prev { left: 0; }
+      #btn-next { right: 0; }
+    }
+    @media (max-width: 480px) {
+      .reader-nav { width: 36px; height: 56px; font-size: 1.2rem; opacity: 0.7; }
+    }
+
     /* ── Reader footer (label + share) ──────────────────── */
     .reader-footer {
       display: flex;
@@ -261,6 +295,8 @@
   <div id="reader" class="hidden">
     <div class="reader-inner">
       <button id="btn-close">✕</button>
+      <button id="btn-prev" class="reader-nav">&#8592;</button>
+      <button id="btn-next" class="reader-nav">&#8594;</button>
       <div class="reader-images">
         <img id="reader-story" src="" alt="Story"/>
       </div>
@@ -377,7 +413,6 @@
     function openReader(idx) {
       currentIdx = idx;
       renderReader();
-      history.replaceState(null, '', '?story=HC' + PAD(STORIES[idx].num));
       document.getElementById('reader').classList.remove('hidden');
       document.body.style.overflow = 'hidden';
     }
@@ -391,10 +426,22 @@
     function renderReader() {
       const story = STORIES[currentIdx];
       document.getElementById('reader-story').src = story.main;
-      document.getElementById('reader-label').textContent = `HC${PAD(story.num)}`;
+      document.getElementById('reader-label').textContent = `HC${PAD(story.num)} — ${currentIdx + 1} / ${STORIES.length}`;
+      document.getElementById('btn-prev').classList.toggle('hidden', currentIdx === 0);
+      document.getElementById('btn-next').classList.toggle('hidden', currentIdx === STORIES.length - 1);
+      history.replaceState(null, '', '?story=HC' + PAD(story.num));
+    }
+
+    function navigateReader(dir) {
+      const next = currentIdx + dir;
+      if (next < 0 || next >= STORIES.length) return;
+      currentIdx = next;
+      renderReader();
     }
 
     document.getElementById('btn-close').addEventListener('click', e => { e.stopPropagation(); closeReader(); });
+    document.getElementById('btn-prev').addEventListener('click', e => { e.stopPropagation(); navigateReader(-1); });
+    document.getElementById('btn-next').addEventListener('click', e => { e.stopPropagation(); navigateReader(1); });
     document.getElementById('btn-share-reader').addEventListener('click', e => {
       e.stopPropagation();
       const story = STORIES[currentIdx];
@@ -403,7 +450,20 @@
     document.getElementById('reader').addEventListener('click', closeReader);
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeReader();
+      if (e.key === 'ArrowLeft')  navigateReader(-1);
+      if (e.key === 'ArrowRight') navigateReader(1);
     });
+
+    // ── Swipe support (mobile) ───────────────────────────────
+    let touchStartX = 0;
+    document.getElementById('reader').addEventListener('touchstart', e => {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    document.getElementById('reader').addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 50) { navigateReader(dx < 0 ? 1 : -1); }
+      else closeReader();
+    }, { passive: true });
   </script>
 </body>
 </html>
