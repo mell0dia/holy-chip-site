@@ -228,6 +228,16 @@
       border-color: #555;
     }
 
+    /* ── Field error states ── */
+    .field-error input,
+    .field-error textarea,
+    input.field-error,
+    textarea.field-error { border-color: #c00 !important; background: #fff8f8 !important; }
+    .field-error .char-trigger { border-color: #c00 !important; background: #fff8f8 !important; }
+    .field-error .consent-text { color: #c00; }
+    .field-error input[type="checkbox"] { outline: 2px solid #c00; }
+    .field-error .dialog-text { border-color: #c00 !important; background: #fff8f8 !important; }
+
     textarea { resize: vertical; min-height: 80px; }
 
     .field-group { margin-bottom: 1rem; }
@@ -638,7 +648,7 @@
         </label>
       </div>
 
-      <button type="submit" id="submit-btn">Submit Story</button>
+      <button type="button" id="submit-btn">Submit Story</button>
       <div id="form-status"></div>
 
     </form>
@@ -1067,22 +1077,49 @@
       } catch(e) {}
     }
 
-    // ── Validation ───────────────────────────────────────────
+    // ── Field error helpers ──────────────────────────────────
+    function clearErrors() {
+      document.querySelectorAll('.field-error').forEach(el => el.classList.remove('field-error'));
+      document.querySelectorAll('input.field-error, textarea.field-error').forEach(el => el.classList.remove('field-error'));
+    }
+
+    function markError(selector) {
+      const el = typeof selector === 'string' ? document.querySelector(selector) : selector;
+      if (el) el.classList.add('field-error');
+    }
+
+    // ── Validation with field highlighting ───────────────────
     function validate(data) {
-      if (!data.charA || !data.charB) return 'Please select both characters.';
-      if (!data.title.trim()) return 'Please enter a story title.';
+      clearErrors();
+      let firstError = null;
+
+      if (!data.charA) { markError('#char-a-picker'); firstError = firstError || 'Please select Character A.'; }
+      if (!data.charB) { markError('#char-b-picker'); firstError = firstError || 'Please select Character B.'; }
+      if (!data.title.trim()) { markError('#story-title'); firstError = firstError || 'Please enter a story title.'; }
+
       for (let i = 0; i < 3; i++) {
         const panel = data.panels[i];
-        if (!panel.length || !panel[0].text.trim()) return `Panel ${i + 1} needs at least one dialog line.`;
+        if (!panel.length || !panel[0].text.trim()) {
+          const body = document.getElementById(`panel-${i + 1}-body`);
+          if (body) body.querySelectorAll('.dialog-text').forEach(t => { if (!t.value.trim()) t.classList.add('field-error'); });
+          firstError = firstError || `Panel ${i + 1} needs at least one dialog line.`;
+        }
       }
-      if (!data.email.trim() || !data.email.includes('@')) return 'Please enter a valid email.';
-      if (!data.consent) return 'Please accept the agreement to submit.';
-      return null;
+
+      if (!data.email.trim() || !data.email.includes('@')) {
+        markError('#submitter-email');
+        firstError = firstError || 'Please enter a valid email address.';
+      }
+      if (!data.consent) {
+        markError(document.querySelector('.consent-block'));
+        firstError = firstError || 'Please accept the agreement to submit.';
+      }
+
+      return firstError;
     }
 
     // ── Submit ───────────────────────────────────────────────
-    document.getElementById('builder-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
+    async function handleSubmit() {
       const data = readForm();
       const err = validate(data);
       const statusEl = document.getElementById('form-status');
@@ -1091,9 +1128,13 @@
         statusEl.className = 'error';
         statusEl.textContent = '⚠ ' + err;
         statusEl.style.display = 'block';
-        statusEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Scroll to first red field
+        const firstBad = document.querySelector('.field-error, input.field-error, textarea.field-error');
+        if (firstBad) firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return;
       }
+
+      statusEl.style.display = 'none';
 
       const btn = document.getElementById('submit-btn');
       btn.disabled = true;
@@ -1142,6 +1183,15 @@
         btn.disabled = false;
         btn.textContent = 'Submit Story';
       }
+    }
+
+    document.getElementById('submit-btn').addEventListener('click', handleSubmit);
+
+    // Clear red highlight when user fixes a field
+    document.getElementById('submitter-email').addEventListener('input', function() { this.classList.remove('field-error'); });
+    document.getElementById('story-title').addEventListener('input', function() { this.classList.remove('field-error'); });
+    document.getElementById('consent-check').addEventListener('change', function() {
+      document.querySelector('.consent-block')?.classList.remove('field-error');
     });
 
     // ── Save on input ────────────────────────────────────────
