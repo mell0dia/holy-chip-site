@@ -642,6 +642,20 @@
       <div id="form-status"></div>
 
     </form>
+
+    <!-- Success screen (outside form so it stays visible) -->
+    <div id="submit-success" style="display:none; text-align:center; padding: 3rem 1rem;">
+      <div style="font-size:2.5rem; margin-bottom:1.5rem;">✓</div>
+      <h2 style="font-size:1rem; letter-spacing:0.15em; margin-bottom:1.2rem;">STORY RECEIVED</h2>
+      <p style="font-size:0.7rem; line-height:2; color:#444; max-width:480px; margin:0 auto 1.5rem;">
+        Thank you for your submission.<br>
+        We review every story personally. If yours moves forward, we'll be in touch at <strong id="success-email"></strong>.
+      </p>
+      <a href="stories.html" style="display:inline-block; border:2px solid #000; padding:0.6rem 1.4rem; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; text-decoration:none; color:#000;">
+        Browse Stories →
+      </a>
+    </div>
+
   </div>
 
   <script src="assets/nav.js"></script>
@@ -1075,9 +1089,9 @@
 
       if (err) {
         statusEl.className = 'error';
-        statusEl.textContent = err;
+        statusEl.textContent = '⚠ ' + err;
         statusEl.style.display = 'block';
-        statusEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        statusEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return;
       }
 
@@ -1113,15 +1127,11 @@
         if (res.ok) {
           // Clear draft
           try { localStorage.removeItem(DRAFT_KEY); } catch(e) {}
-          // Show success
+          // Show success screen
           document.getElementById('builder-form').style.display = 'none';
-          statusEl.className = 'success';
-          statusEl.innerHTML = `
-            <strong style="display:block;font-size:1rem;margin-bottom:0.5rem;letter-spacing:0.1em">STORY RECEIVED</strong>
-            We review every submission carefully. You'll hear from us at <strong>${data.email}</strong> if your story moves forward.<br><br>
-            <a href="stories.html" style="color:#000;text-decoration:underline;letter-spacing:0.05em">Browse existing stories →</a>
-          `;
-          statusEl.style.display = 'block';
+          document.getElementById('success-email').textContent = data.email.trim();
+          document.getElementById('submit-success').style.display = 'block';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
           throw new Error(await res.text());
         }
