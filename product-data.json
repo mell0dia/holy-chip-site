@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-18T00:00:00.000Z",
+  "lastUpdated": "2026-03-18T13:00:00.000Z",
   "mugs": {
     "settings": {
       "blueprint": 1301,
@@ -21,122 +21,122 @@
       {
         "chip": "Chip_0",
         "productId": "69bb03687f70b930660a85a1",
-        "stripePriceId": "price_1TBlvXJZLzX0hJCSPNbc10PB",
-        "price": 15
+        "stripePriceId": "price_1TCS1wJZLzX0hJCSeUk3OJ0V",
+        "price": 18.9
       },
       {
         "chip": "Chip_1",
         "productId": "69bb036670c0cc8cdf0bbada",
-        "stripePriceId": "price_1TBlvXJZLzX0hJCSPNbc10PB",
-        "price": 15
+        "stripePriceId": "price_1TCS1wJZLzX0hJCSeUk3OJ0V",
+        "price": 18.9
       },
       {
         "chip": "Chip_100",
         "productId": "69bb036433cd55128a0c69cc",
-        "stripePriceId": "price_1TBlvXJZLzX0hJCSPNbc10PB",
-        "price": 15
+        "stripePriceId": "price_1TCS1wJZLzX0hJCSeUk3OJ0V",
+        "price": 18.9
       },
       {
         "chip": "Chip_101",
         "productId": "69bb035f33cd55128a0c69cb",
-        "stripePriceId": "price_1TBlvXJZLzX0hJCSPNbc10PB",
-        "price": 15
+        "stripePriceId": "price_1TCS1wJZLzX0hJCSeUk3OJ0V",
+        "price": 18.9
       },
       {
         "chip": "Chip_110",
         "productId": "69bb035cb1302e4f0f006330",
-        "stripePriceId": "price_1TBlvXJZLzX0hJCSPNbc10PB",
-        "price": 15
+        "stripePriceId": "price_1TCS1wJZLzX0hJCSeUk3OJ0V",
+        "price": 18.9
       },
       {
         "chip": "Chip_111",
         "productId": "69bb035b91c6aab79502e205",
-        "stripePriceId": "price_1TBlvXJZLzX0hJCSPNbc10PB",
-        "price": 15
+        "stripePriceId": "price_1TCS1wJZLzX0hJCSeUk3OJ0V",
+        "price": 18.9
       },
       {
         "chip": "Chip_1000",
         "productId": "69bb03599042b8f7460c6e50",
-        "stripePriceId": "price_1TBlvXJZLzX0hJCSPNbc10PB",
-        "price": 15
+        "stripePriceId": "price_1TCS1wJZLzX0hJCSeUk3OJ0V",
+        "price": 18.9
       },
       {
         "chip": "Chip_1001",
         "productId": "69bb03574b83b5b9cb027fdd",
-        "stripePriceId": "price_1TBlvXJZLzX0hJCSPNbc10PB",
-        "price": 15
+        "stripePriceId": "price_1TCS1wJZLzX0hJCSeUk3OJ0V",
+        "price": 18.9
       },
       {
         "chip": "Chip_1010",
         "productId": "69bb03557f70b930660a859f",
-        "stripePriceId": "price_1TBlvXJZLzX0hJCSPNbc10PB",
-        "price": 15
+        "stripePriceId": "price_1TCS1wJZLzX0hJCSeUk3OJ0V",
+        "price": 18.9
       },
       {
         "chip": "Chip_1011",
         "productId": "69bb0354ce334b1ddd0849da",
-        "stripePriceId": "price_1TBlvXJZLzX0hJCSPNbc10PB",
-        "price": 15
+        "stripePriceId": "price_1TCS1wJZLzX0hJCSeUk3OJ0V",
+        "price": 18.9
       },
       {
         "chip": "Chip_1100",
         "productId": "69bb0352ce334b1ddd0849d9",
-        "stripePriceId": "price_1TBlvXJZLzX0hJCSPNbc10PB",
-        "price": 15
+        "stripePriceId": "price_1TCS1wJZLzX0hJCSeUk3OJ0V",
+        "price": 18.9
       },
       {
         "chip": "Chip_1101",
         "productId": "69bb035091c6aab79502e204",
-        "stripePriceId": "price_1TBlvXJZLzX0hJCSPNbc10PB",
-        "price": 15
+        "stripePriceId": "price_1TCS1wJZLzX0hJCSeUk3OJ0V",
+        "price": 18.9
       },
       {
         "chip": "Chip_10000",
         "productId": "69bb034f6291a03e26048c00",
-        "stripePriceId": "price_1TBlvXJZLzX0hJCSPNbc10PB",
-        "price": 15
+        "stripePriceId": "price_1TCS1wJZLzX0hJCSeUk3OJ0V",
+        "price": 18.9
       },
       {
         "chip": "Chip_10001",
         "productId": "69bb034d4b83b5b9cb027fdb",
-        "stripePriceId": "price_1TBlvXJZLzX0hJCSPNbc10PB",
-        "price": 15
+        "stripePriceId": "price_1TCS1wJZLzX0hJCSeUk3OJ0V",
+        "price": 18.9
       },
       {
         "chip": "Chip_10010",
         "productId": "69bb034b85cabbb8db065eed",
-        "stripePriceId": "price_1TBlvXJZLzX0hJCSPNbc10PB",
-        "price": 15
+        "stripePriceId": "price_1TCS1wJZLzX0hJCSeUk3OJ0V",
+        "price": 18.9
       },
       {
         "chip": "Chip_10011",
         "productId": "69bb034985cabbb8db065eec",
-        "stripePriceId": "price_1TBlvXJZLzX0hJCSPNbc10PB",
-        "price": 15
+        "stripePriceId": "price_1TCS1wJZLzX0hJCSeUk3OJ0V",
+        "price": 18.9
       },
       {
         "chip": "Chip_10100",
         "productId": "69bb034685cabbb8db065eea",
-        "stripePriceId": "price_1TBlvXJZLzX0hJCSPNbc10PB",
-        "price": 15
+        "stripePriceId": "price_1TCS1wJZLzX0hJCSeUk3OJ0V",
+        "price": 18.9
       },
       {
         "chip": "Chip_10101",
         "productId": "69bb0344c0f4772284064539",
-        "stripePriceId": "price_1TBlvXJZLzX0hJCSPNbc10PB",
-        "price": 15
+        "stripePriceId": "price_1TCS1wJZLzX0hJCSeUk3OJ0V",
+        "price": 18.9
       },
       {
         "chip": "Chip_10111",
         "productId": "69bb034184da5a5d1d0780e1",
-        "stripePriceId": "price_1TBlvXJZLzX0hJCSPNbc10PB",
-        "price": 15
+        "stripePriceId": "price_1TCS1wJZLzX0hJCSeUk3OJ0V",
+        "price": 18.9
       },
       {
         "chip": "Chip_1111",
         "productId": "69bb033fcca660a21e0adcc7",
-        "stripePriceId": "price_1TBlvXJZLzX0hJCSPNbc10PB",
-        "price": 15
+        "stripePriceId": "price_1TCS1wJZLzX0hJCSeUk3OJ0V",
+        "price": 18.9
       }
     ]
   },
