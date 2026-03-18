@@ -613,7 +613,10 @@
       <div class="cart-total">
         Total: USD $<span id="cartTotal">0.00</span>
       </div>
-      <button class="checkout-btn" onclick="checkout()">Checkout</button>
+      <div style="display:flex;gap:0.5rem;margin-top:1rem;">
+        <button onclick="clearCart()" style="flex:0 0 auto;padding:0.75rem 1rem;background:none;border:1px solid #ccc;color:#666;font-size:0.75rem;letter-spacing:0.1em;cursor:pointer;">CLEAR</button>
+        <button class="checkout-btn" style="flex:1;margin-top:0;" onclick="checkout()">Checkout</button>
+      </div>
     </div>
   </div>
 
@@ -1022,6 +1025,14 @@
       localStorage.setItem('holyChipCart', JSON.stringify(cart));
       updateCartCount();
       openCart(); // Refresh cart display
+    }
+
+    // Clear entire cart
+    function clearCart() {
+      cart = [];
+      localStorage.setItem('holyChipCart', JSON.stringify(cart));
+      updateCartCount();
+      openCart();
     }
 
     // Checkout
