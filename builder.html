@@ -205,11 +205,33 @@
     .wallet-disconnect:hover { border-color: #fff; color: #fff; }
 
     /* ── NFT Picker Grid ── */
+    .nft-picker-wrap {
+      max-height: 320px;
+      overflow-y: auto;
+      border: 2px solid #eee;
+      padding: 0.5rem;
+      margin-top: 0.4rem;
+    }
+    .nft-picker-search {
+      width: 100%;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      padding: 0.4rem 0.5rem;
+      border: 2px solid #ccc;
+      background: #fff;
+      outline: none;
+      margin-bottom: 0.3rem;
+    }
+    .nft-picker-search:focus { border-color: #000; }
+    .nft-picker-count {
+      font-size: 0.45rem;
+      color: #999;
+      margin-bottom: 0.4rem;
+    }
     .nft-picker-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
       gap: 0.6rem;
-      margin-top: 0.6rem;
     }
     .nft-pick-card {
       border: 2px solid #ddd;
@@ -1160,6 +1182,24 @@
         return;
       }
 
+      container.innerHTML = '';
+
+      // Search input
+      const search = document.createElement('input');
+      search.className = 'nft-picker-search';
+      search.type = 'text';
+      search.placeholder = 'Search by name or character...';
+      container.appendChild(search);
+
+      // Count
+      const count = document.createElement('div');
+      count.className = 'nft-picker-count';
+      count.textContent = `${nfts.length} NFTs`;
+      container.appendChild(count);
+
+      // Scrollable wrapper
+      const wrap = document.createElement('div');
+      wrap.className = 'nft-picker-wrap';
       const grid = document.createElement('div');
       grid.className = 'nft-picker-grid';
 
@@ -1167,6 +1207,7 @@
         const card = document.createElement('div');
         card.className = 'nft-pick-card';
         card.dataset.mint = nft.mintAddress;
+        card.dataset.search = `${nft.name} ${nft.character}`.toLowerCase();
         card.innerHTML = `
           <img src="${nft.image}" alt="${nft.name}" loading="lazy">
           <div class="nft-pick-name">${nft.name}</div>
@@ -1175,8 +1216,20 @@
         grid.appendChild(card);
       });
 
-      container.innerHTML = '';
-      container.appendChild(grid);
+      wrap.appendChild(grid);
+      container.appendChild(wrap);
+
+      // Filter on search
+      search.addEventListener('input', () => {
+        const q = search.value.toLowerCase();
+        let visible = 0;
+        grid.querySelectorAll('.nft-pick-card').forEach(card => {
+          const match = !q || card.dataset.search.includes(q);
+          card.style.display = match ? '' : 'none';
+          if (match) visible++;
+        });
+        count.textContent = q ? `${visible} of ${nfts.length} NFTs` : `${nfts.length} NFTs`;
+      });
     }
 
     function selectNft(side, nft, containerId) {
@@ -1190,14 +1243,15 @@
 
       // Show selected confirmation below the picker
       const label = side === 'a' ? 'Character A' : 'Character B';
-      let confirm = document.getElementById(`nft-confirm-${side}`);
-      if (!confirm) {
-        confirm = document.createElement('div');
-        confirm.id = `nft-confirm-${side}`;
-        confirm.style.cssText = 'font-size:0.55rem;padding:0.5rem 0;color:#0A6821;letter-spacing:0.06em;display:flex;align-items:center;gap:0.5rem;margin-top:0.4rem;';
-        document.getElementById(containerId).appendChild(confirm);
+      let confirmEl = document.getElementById(`nft-confirm-${side}`);
+      if (!confirmEl) {
+        confirmEl = document.createElement('div');
+        confirmEl.id = `nft-confirm-${side}`;
+        confirmEl.style.cssText = 'font-size:0.55rem;padding:0.5rem 0;color:#0A6821;letter-spacing:0.06em;display:flex;align-items:center;gap:0.5rem;margin-top:0.4rem;';
+        const pickerContainer = document.getElementById(containerId);
+        pickerContainer.appendChild(confirmEl);
       }
-      confirm.innerHTML = `<img src="${nft.image}" style="width:28px;height:28px;object-fit:cover;border:2px solid #0A6821;"> ${label}: <strong>${nft.name}</strong>`;
+      confirmEl.innerHTML = `<img src="${nft.image}" style="width:28px;height:28px;object-fit:cover;border:2px solid #0A6821;"> ${label}: <strong>${nft.name}</strong>`;
 
       // Update speaker pickers in the panels
       if (currentTrack === 'nft') updateAllSpeakerPickers();
