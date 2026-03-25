@@ -727,6 +727,87 @@
       .track-card { padding: 1.2rem 1rem; }
       .nft-picker-grid { grid-template-columns: repeat(3, 1fr); }
     }
+
+    /* ── Help Button + Tooltip + Modal ── */
+    .help-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      padding: 0.4rem 0.7rem;
+      background: #000;
+      color: #fff;
+      border: 2px solid #000;
+      cursor: pointer;
+      margin-bottom: 1rem;
+    }
+    .help-btn:hover { background: #333; }
+    .help-btn .help-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px; height: 16px;
+      border: 1.5px solid #fff;
+      border-radius: 50%;
+      font-size: 0.5rem;
+      font-weight: bold;
+    }
+    .help-tooltip {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 0;
+      width: 180px;
+      background: #fff;
+      border: 2px solid #000;
+      box-shadow: 4px 4px 0 rgba(0,0,0,0.15);
+      padding: 4px;
+      z-index: 20;
+      pointer-events: none;
+    }
+    .help-tooltip img { width: 100%; display: block; }
+    .help-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 16px;
+      border: 6px solid transparent;
+      border-top-color: #000;
+    }
+    .help-btn:hover .help-tooltip { display: block; }
+
+    .help-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    .help-modal-overlay.open { display: flex; }
+    .help-modal {
+      background: #fff;
+      border: 3px solid #000;
+      padding: 1.5rem;
+      max-width: 600px;
+      width: 90%;
+      max-height: 85vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    .help-modal-close {
+      position: absolute;
+      top: 0.5rem; right: 0.7rem;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.8rem;
+      background: none; border: none;
+      cursor: pointer;
+      color: #000;
+    }
+    .help-modal-close:hover { color: #888; }
   </style>
 </head>
 <body>
@@ -834,13 +915,28 @@
       </div>
     </div>
 
-    <!-- Instructions panel for NFT track -->
+    <!-- Instructions help button for NFT track -->
     <div id="nft-instructions" style="display:none">
-      <div style="border:2px solid #000; margin-bottom:1.5rem; padding:1rem;">
-        <div class="col-section-title">Instructions</div>
-        <div style="display:flex;gap:1.5rem;align-items:start;">
-          <p class="panel-reference-note" style="flex:1;min-width:180px;font-size:0.55rem;">A story has 3 panels.<br><br>Panels 1 & 2 carry the conversation — characters go back and forth.<br><br>Panel 3 is the punchline — one line, one character, maximum impact.</p>
-          <div class="panel-reference-img-wrap" style="margin-left:0;width:200px;min-width:200px;">
+      <button class="help-btn" onclick="document.getElementById('help-modal').classList.add('open')">
+        <span class="help-icon">?</span> How it works
+        <div class="help-tooltip">
+          <img src="stories/HC009.png" alt="Story panel preview"/>
+        </div>
+      </button>
+    </div>
+
+    <!-- Instructions modal (shared) -->
+    <div class="help-modal-overlay" id="help-modal" onclick="if(event.target===this)this.classList.remove('open')">
+      <div class="help-modal">
+        <button class="help-modal-close" onclick="document.getElementById('help-modal').classList.remove('open')">&times;</button>
+        <div class="col-section-title" style="margin-bottom:1rem;">Instructions</div>
+        <div style="display:flex;gap:1.5rem;align-items:start;flex-wrap:wrap;">
+          <div style="flex:1;min-width:200px;font-size:0.55rem;line-height:1.8;">
+            A story has 3 panels.<br><br>
+            Panels 1 & 2 carry the conversation — characters go back and forth.<br><br>
+            Panel 3 is the punchline — one line, one character, maximum impact.
+          </div>
+          <div class="panel-reference-img-wrap" style="margin-left:0;width:220px;min-width:220px;">
             <img src="stories/HC009.png" alt="Story panel layout reference" style="width:100%;"/>
             <div class="panel-ref-label" style="top:25%">Panel 1</div>
             <div class="panel-ref-label" style="top:54%">Panel 2</div>
