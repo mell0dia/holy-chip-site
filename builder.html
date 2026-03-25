@@ -42,31 +42,139 @@
       margin-top: 0.4rem;
     }
 
-    /* ── NFT teaser banner ── */
-    .nft-teaser {
-      background: #0d0d1a;
-      color: #e0e0e0;
-      border: 2px solid #000;
-      padding: 0.9rem 1.2rem;
+    /* ── Track Selector ── */
+    .track-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
       margin: 1.5rem 0 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      flex-wrap: wrap;
+      border: 2px solid #000;
     }
-
-    .nft-teaser-left { font-size: 0.784rem; letter-spacing: 0.05em; line-height: 2; }
-    .nft-teaser-left strong { color: #0A6821; display: block; font-size: 1.008rem; letter-spacing: 0.08em; margin-bottom: 0.2rem; }
-    .nft-teaser-badge {
-      background: #0A6821;
-      color: #fff;
-      font-size: 0.98rem;
+    .track-card {
+      padding: 1rem 1.2rem;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      border: none;
+      font-family: 'Press Start 2P', monospace;
+      text-align: left;
+      background: #fff;
+      color: #000;
+    }
+    .track-card:first-child { border-right: 2px solid #000; }
+    .track-card.active { background: #000; color: #fff; }
+    .track-card-title {
+      font-size: 0.72rem;
       font-weight: bold;
       letter-spacing: 0.1em;
-      padding: 0.6rem 1.4rem;
-      white-space: nowrap;
       text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .track-card-desc {
+      font-size: 0.6rem;
+      line-height: 1.8;
+      opacity: 0.7;
+    }
+    .track-card.active .track-card-desc { opacity: 0.9; }
+    .track-badge {
+      display: inline-block;
+      background: #0A6821;
+      color: #fff;
+      font-size: 0.55rem;
+      padding: 0.2rem 0.5rem;
+      letter-spacing: 0.08em;
+      margin-top: 0.4rem;
+    }
+    .track-card.active .track-badge { background: #0f0; color: #000; }
+
+    /* ── Wallet Connect ── */
+    .wallet-section {
+      border: 2px solid #000;
+      padding: 1.2rem;
+      margin-bottom: 2rem;
+      background: #0d0d1a;
+      color: #e0e0e0;
+    }
+    .wallet-section.hidden { display: none; }
+    .wallet-connect-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.7rem;
+      padding: 0.8rem 1.5rem;
+      background: #ab9ff2;
+      color: #000;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.08em;
+    }
+    .wallet-connect-btn:hover { background: #c4b5fd; }
+    .wallet-connect-btn:disabled { opacity: 0.5; cursor: default; }
+    .wallet-status {
+      font-size: 0.65rem;
+      margin-top: 0.6rem;
+      line-height: 1.8;
+    }
+    .wallet-status a { color: #ab9ff2; }
+    .wallet-address {
+      font-size: 0.6rem;
+      color: #0f0;
+      word-break: break-all;
+    }
+    .wallet-disconnect {
+      background: none;
+      border: 1px solid #666;
+      color: #999;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      padding: 0.3rem 0.6rem;
+      cursor: pointer;
+      margin-left: 0.5rem;
+    }
+    .wallet-disconnect:hover { border-color: #fff; color: #fff; }
+
+    /* ── NFT Picker Grid ── */
+    .nft-picker-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 0.6rem;
+      margin-top: 0.6rem;
+    }
+    .nft-pick-card {
+      border: 2px solid #ddd;
+      cursor: pointer;
+      transition: all 0.15s;
+      background: #fff;
+      overflow: hidden;
+    }
+    .nft-pick-card:hover { border-color: #000; transform: translateY(-2px); }
+    .nft-pick-card.selected { border-color: #0A6821; box-shadow: 0 0 0 2px #0A6821; }
+    .nft-pick-card img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+      background: #eee;
+    }
+    .nft-pick-card .nft-pick-name {
+      font-size: 0.45rem;
+      padding: 0.3rem;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #333;
+    }
+    .nft-picker-empty {
+      font-size: 0.6rem;
+      color: #888;
+      padding: 1rem;
+      text-align: center;
+      border: 2px dashed #ddd;
+    }
+    .nft-picker-empty a { color: #0A6821; }
+    .nft-picker-loading {
+      font-size: 0.6rem;
+      color: #888;
+      padding: 1rem;
+      text-align: center;
     }
 
     /* ── Form sections ── */
@@ -516,10 +624,9 @@
       .instr-inner { grid-template-columns: 1fr; }
       .instr-inner .panel-reference-img-wrap { margin-left: 54px; }
       .dialog-row { grid-template-columns: 130px 1fr auto; }
-      .nft-teaser { flex-direction: column; align-items: flex-start; }
-      .nft-teaser-left { font-size: 0.58rem; line-height: 1.9; }
-      .nft-teaser-left strong { font-size: 0.72rem; }
-      .nft-teaser-badge { font-size: 0.65rem; padding: 0.5rem 1rem; }
+      .track-selector { grid-template-columns: 1fr; }
+      .track-card:first-child { border-right: none; border-bottom: 2px solid #000; }
+      .nft-picker-grid { grid-template-columns: repeat(3, 1fr); }
     }
   </style>
 </head>
@@ -534,13 +641,50 @@
       <p class="page-subtitle">Write a Holy Chip story. We review every submission.</p>
     </div>
 
-    <!-- NFT Holder teaser -->
-    <div class="nft-teaser">
-      <div class="nft-teaser-left">
-        <strong>Have a Holy Chip NFT?</strong>
-        Our NFT holders are essential to the Holy Chip universe. As a holder, you can submit original stories and feature your own character in the comic dialogues. If your story is selected and minted, you will earn 20% of the primary sale.
+    <!-- Track Selector -->
+    <div class="track-selector">
+      <button class="track-card active" id="track-open-btn" onclick="selectTrack('open')">
+        <div class="track-card-title">Open Submission</div>
+        <div class="track-card-desc">Anyone can submit. Pick from 12 characters. No wallet needed.</div>
+      </button>
+      <button class="track-card" id="track-nft-btn" onclick="selectTrack('nft')">
+        <div class="track-card-title">NFT Holder</div>
+        <div class="track-card-desc">Connect wallet. Feature your NFT in the story.</div>
+        <div class="track-badge">20% Revenue Share</div>
+      </button>
+    </div>
+
+    <!-- Wallet Connect (hidden by default) -->
+    <div class="wallet-section hidden" id="wallet-section">
+      <div id="wallet-not-connected">
+        <button class="wallet-connect-btn" id="wallet-connect-btn" onclick="connectWallet()">Connect Phantom Wallet</button>
+        <div class="wallet-status" id="wallet-status">Connect your Phantom wallet to verify NFT ownership.</div>
       </div>
-      <div class="nft-teaser-badge">NFT Track — Coming Soon</div>
+      <div id="wallet-connected" style="display:none">
+        <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+          <span style="font-size:0.6rem;color:#888;">Connected:</span>
+          <span class="wallet-address" id="wallet-address-display"></span>
+          <button class="wallet-disconnect" onclick="disconnectWallet()">Disconnect</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- NFT Character Pickers (hidden by default, shown when wallet connected in NFT track) -->
+    <div id="nft-pickers" style="display:none">
+      <div class="form-two-col" style="margin-bottom:2rem">
+        <div class="col-left">
+          <div class="col-section-title">Your NFT (Character A)</div>
+          <div id="nft-picker-a">
+            <div class="nft-picker-loading">Loading your NFTs...</div>
+          </div>
+        </div>
+        <div class="col-right">
+          <div class="col-section-title">Available NFT (Character B)</div>
+          <div id="nft-picker-b">
+            <div class="nft-picker-loading">Loading available NFTs...</div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <form id="builder-form" novalidate>
@@ -639,12 +783,28 @@
         </div>
       </div>
 
-      <!-- SECTION 4: Agreement -->
-      <div class="form-section">
+      <!-- SECTION 4: Agreement (Track A) -->
+      <div class="form-section" id="agreement-open">
         <div class="section-title">Step 4 — Agreement</div>
         <label class="consent-block">
           <input type="checkbox" id="consent-check"/>
           <span class="consent-text">I understand that Holy Chip retains full and exclusive rights to this story, including the right to use, modify, publish, monetize, or reject it without any obligation or compensation to me. I make no claim to any revenue generated from this submission.</span>
+        </label>
+      </div>
+
+      <!-- SECTION 4: Agreement (Track B — NFT) -->
+      <div class="form-section" id="agreement-nft" style="display:none">
+        <div class="section-title">Step 4 — Agreement</div>
+        <div style="background:#0d0d1a;color:#0f0;padding:0.7rem 1rem;font-size:0.6rem;line-height:1.8;margin-bottom:1rem;border:2px solid #0A6821;">
+          As an NFT holder, you earn <strong style="color:#fff">20% of the primary sale</strong> if your story is selected and minted. Revenue is sent to your connected wallet.
+        </div>
+        <label class="consent-block" style="margin-bottom:1rem">
+          <input type="checkbox" id="consent-revenue"/>
+          <span class="consent-text">I understand that if this story is selected, minted, and sold, I will receive 20% of the primary sale revenue sent to my connected wallet. Holy Chip retains full rights to the story, all creative assets, and the remaining revenue. Selection is not guaranteed.</span>
+        </label>
+        <label class="consent-block">
+          <input type="checkbox" id="consent-rights"/>
+          <span class="consent-text">I grant Holy Chip the right to use my NFT's character in this story and any derivative works. I confirm I am the rightful owner of the connected wallet and the selected NFT.</span>
         </label>
       </div>
 
@@ -657,7 +817,7 @@
     <div id="submit-success" style="display:none; text-align:center; padding: 3rem 1rem;">
       <div style="font-size:2.5rem; margin-bottom:1.5rem;">✓</div>
       <h2 style="font-size:1rem; letter-spacing:0.15em; margin-bottom:1.2rem;">STORY RECEIVED</h2>
-      <p style="font-size:0.7rem; line-height:2; color:#444; max-width:480px; margin:0 auto 1.5rem;">
+      <p style="font-size:0.7rem; line-height:2; color:#444; max-width:480px; margin:0 auto 1.5rem;" id="success-message">
         Thank you for your submission.<br>
         We review every story personally. We'll be in touch.
       </p>
@@ -670,6 +830,231 @@
 
   <script src="assets/nav.js"></script>
   <script>
+    // ── Track & Wallet State ──────────────────────────────────
+    const PROXY = 'https://holychip.netlify.app/.netlify/functions';
+    let currentTrack = 'open';
+    let walletAddress = null;
+    let walletSignature = null;
+    let walletMessage = null;
+    let ownedNFTs = [];
+    let availableNFTs = [];
+    let selectedNftA = null;
+    let selectedNftB = null;
+
+    // ── Track Switching ─────────────────────────────────────────
+    function selectTrack(track) {
+      currentTrack = track;
+      document.getElementById('track-open-btn').classList.toggle('active', track === 'open');
+      document.getElementById('track-nft-btn').classList.toggle('active', track === 'nft');
+
+      // Show/hide wallet section
+      document.getElementById('wallet-section').classList.toggle('hidden', track === 'open');
+
+      // Show/hide character pickers
+      const openChars = document.querySelector('.form-two-col');
+      if (openChars) openChars.style.display = track === 'open' ? '' : 'none';
+
+      // Show/hide NFT pickers (only if wallet connected)
+      document.getElementById('nft-pickers').style.display = (track === 'nft' && walletAddress) ? '' : 'none';
+
+      // Show/hide appropriate agreement
+      document.getElementById('agreement-open').style.display = track === 'open' ? '' : 'none';
+      document.getElementById('agreement-nft').style.display = track === 'nft' ? '' : 'none';
+
+      // Show/hide form (Track B needs wallet connected first)
+      const formSections = document.querySelectorAll('#builder-form .form-section, #builder-form .form-two-col');
+      if (track === 'nft' && !walletAddress) {
+        // Hide the form but keep track selector visible
+        document.getElementById('builder-form').querySelectorAll('.form-section').forEach(s => {
+          if (s.id !== 'agreement-nft') s.style.display = 'none';
+          else s.style.display = 'none';
+        });
+        document.querySelectorAll('#builder-form .form-two-col').forEach(s => s.style.display = 'none');
+        document.getElementById('submit-btn').style.display = 'none';
+      } else {
+        // Show form
+        document.querySelectorAll('#builder-form .form-section').forEach(s => {
+          if (s.id === 'agreement-open') s.style.display = track === 'open' ? '' : 'none';
+          else if (s.id === 'agreement-nft') s.style.display = track === 'nft' ? '' : 'none';
+          else s.style.display = '';
+        });
+        document.querySelectorAll('#builder-form .form-two-col').forEach(s => s.style.display = track === 'open' ? '' : 'none');
+        document.getElementById('submit-btn').style.display = '';
+      }
+
+      saveDraft();
+    }
+
+    // ── Phantom Wallet Connect ──────────────────────────────────
+    async function connectWallet() {
+      const statusEl = document.getElementById('wallet-status');
+      const btn = document.getElementById('wallet-connect-btn');
+
+      if (!window.solana?.isPhantom) {
+        statusEl.innerHTML = 'Phantom wallet not found. <a href="https://phantom.app" target="_blank">Install Phantom</a> and refresh.';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Connecting...';
+
+      try {
+        const resp = await window.solana.connect();
+        const pubKey = resp.publicKey.toString();
+
+        // Sign a message to prove ownership
+        const msg = `Holy Chip Builder: ${Date.now()}`;
+        const encodedMsg = new TextEncoder().encode(msg);
+        const signed = await window.solana.signMessage(encodedMsg, 'utf8');
+
+        // Convert signature to base58
+        const sigBase58 = toBase58(signed.signature);
+
+        walletAddress = pubKey;
+        walletSignature = sigBase58;
+        walletMessage = msg;
+
+        // Show connected state
+        document.getElementById('wallet-not-connected').style.display = 'none';
+        document.getElementById('wallet-connected').style.display = '';
+        document.getElementById('wallet-address-display').textContent = pubKey;
+
+        // Fetch NFTs
+        await fetchNFTs();
+
+        // Show pickers and form
+        selectTrack('nft');
+
+      } catch (err) {
+        statusEl.textContent = err.message === 'User rejected the request.'
+          ? 'Connection cancelled. Click to try again.'
+          : 'Connection failed: ' + err.message;
+        btn.disabled = false;
+        btn.textContent = 'Connect Phantom Wallet';
+      }
+    }
+
+    function disconnectWallet() {
+      walletAddress = null;
+      walletSignature = null;
+      walletMessage = null;
+      ownedNFTs = [];
+      availableNFTs = [];
+      selectedNftA = null;
+      selectedNftB = null;
+
+      document.getElementById('wallet-not-connected').style.display = '';
+      document.getElementById('wallet-connected').style.display = 'none';
+      document.getElementById('wallet-connect-btn').disabled = false;
+      document.getElementById('wallet-connect-btn').textContent = 'Connect Phantom Wallet';
+      document.getElementById('wallet-status').textContent = 'Connect your Phantom wallet to verify NFT ownership.';
+      document.getElementById('nft-pickers').style.display = 'none';
+
+      selectTrack('nft');
+      if (window.solana?.disconnect) window.solana.disconnect().catch(() => {});
+    }
+
+    // Base58 encode for signature
+    const B58_ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+    function toBase58(bytes) {
+      const digits = [0];
+      for (let i = 0; i < bytes.length; i++) {
+        let carry = bytes[i];
+        for (let j = 0; j < digits.length; j++) {
+          carry += digits[j] << 8;
+          digits[j] = carry % 58;
+          carry = (carry / 58) | 0;
+        }
+        while (carry > 0) {
+          digits.push(carry % 58);
+          carry = (carry / 58) | 0;
+        }
+      }
+      let str = '';
+      for (let i = 0; i < bytes.length && bytes[i] === 0; i++) str += '1';
+      for (let i = digits.length - 1; i >= 0; i--) str += B58_ALPHABET[digits[i]];
+      return str;
+    }
+
+    // ── Fetch NFTs via verify-wallet function ───────────────────
+    async function fetchNFTs() {
+      document.getElementById('nft-picker-a').innerHTML = '<div class="nft-picker-loading">Loading your NFTs...</div>';
+      document.getElementById('nft-picker-b').innerHTML = '<div class="nft-picker-loading">Loading available NFTs...</div>';
+
+      try {
+        const res = await fetch(`${PROXY}/verify-wallet`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            wallet: walletAddress,
+            signature: walletSignature,
+            message: walletMessage
+          })
+        });
+
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.error || 'Verification failed');
+        }
+
+        const data = await res.json();
+        ownedNFTs = data.owned || [];
+        availableNFTs = data.available || [];
+
+        renderNftPicker('nft-picker-a', ownedNFTs, 'a');
+        renderNftPicker('nft-picker-b', availableNFTs, 'b');
+
+      } catch (err) {
+        document.getElementById('nft-picker-a').innerHTML = `<div class="nft-picker-empty">Failed to load NFTs: ${err.message}</div>`;
+        document.getElementById('nft-picker-b').innerHTML = `<div class="nft-picker-empty">Failed to load NFTs: ${err.message}</div>`;
+      }
+    }
+
+    function renderNftPicker(containerId, nfts, side) {
+      const container = document.getElementById(containerId);
+
+      if (nfts.length === 0) {
+        if (side === 'a') {
+          container.innerHTML = '<div class="nft-picker-empty">You don\'t own any Holy Chip NFTs.<br><a href="https://magiceden.us/marketplace/holy_chip" target="_blank">Buy one on Magic Eden</a></div>';
+        } else {
+          container.innerHTML = '<div class="nft-picker-empty">No available NFTs at the moment.</div>';
+        }
+        return;
+      }
+
+      const grid = document.createElement('div');
+      grid.className = 'nft-picker-grid';
+
+      nfts.forEach(nft => {
+        const card = document.createElement('div');
+        card.className = 'nft-pick-card';
+        card.dataset.mint = nft.mintAddress;
+        card.innerHTML = `
+          <img src="${nft.image}" alt="${nft.name}" loading="lazy">
+          <div class="nft-pick-name">${nft.name}</div>
+        `;
+        card.addEventListener('click', () => selectNft(side, nft, containerId));
+        grid.appendChild(card);
+      });
+
+      container.innerHTML = '';
+      container.appendChild(grid);
+    }
+
+    function selectNft(side, nft, containerId) {
+      if (side === 'a') selectedNftA = nft;
+      else selectedNftB = nft;
+
+      // Update visual selection
+      document.querySelectorAll(`#${containerId} .nft-pick-card`).forEach(card => {
+        card.classList.toggle('selected', card.dataset.mint === nft.mintAddress);
+      });
+
+      // Update speaker pickers if Track B
+      if (currentTrack === 'nft') updateAllSpeakerPickers();
+      saveDraft();
+    }
+
     const CHARACTERS = [
       { id: 'Chip_0',    label: 'Chip 0'    },
       { id: 'Chip_1',    label: 'Chip 1'    },
@@ -771,15 +1156,24 @@
     }
 
     // ── Dialog speaker picker ────────────────────────────────
+    function getCharForSpeaker(val) {
+      if (currentTrack === 'nft') {
+        if (val === 'A' && selectedNftA) return { id: selectedNftA.mintAddress, label: selectedNftA.name, img: selectedNftA.image };
+        if (val === 'B' && selectedNftB) return { id: selectedNftB.mintAddress, label: selectedNftB.name, img: selectedNftB.image };
+        return null;
+      }
+      return val === 'A' ? selectedA : val === 'B' ? selectedB : null;
+    }
+
     function refreshDialogTrigger(picker) {
       const val = picker.dataset.speaker;
-      const c = val === 'A' ? selectedA : val === 'B' ? selectedB : null;
+      const c = getCharForSpeaker(val);
       const label = c ? c.label : (val === 'N' ? 'Narration' : val === 'A' ? 'Char A' : 'Char B');
       const trigger = picker.querySelector('.dialog-speaker-trigger');
       trigger.innerHTML = '';
       if (c) {
         const img = document.createElement('img');
-        img.src = `characters/${c.id}.png`;
+        img.src = c.img || `characters/${c.id}.png`;
         img.className = 'dialog-speaker-img';
         trigger.appendChild(img);
       } else {
@@ -802,9 +1196,11 @@
       const dropdown = picker.querySelector('.dialog-speaker-dropdown');
       const current = picker.dataset.speaker;
       dropdown.innerHTML = '';
+      const charA = getCharForSpeaker('A');
+      const charB = getCharForSpeaker('B');
       const opts = [
-        { val: 'A', char: selectedA, label: selectedA?.label || 'Character A' },
-        { val: 'B', char: selectedB, label: selectedB?.label || 'Character B' },
+        { val: 'A', char: charA, label: charA?.label || 'Character A' },
+        { val: 'B', char: charB, label: charB?.label || 'Character B' },
       ];
       if (includeNarration) opts.push({ val: 'N', char: null, label: 'Narration' });
       opts.forEach(({ val, char, label }) => {
@@ -813,7 +1209,7 @@
         opt.dataset.val = val;
         if (char) {
           const img = document.createElement('img');
-          img.src = `characters/${char.id}.png`;
+          img.src = char.img || `characters/${char.id}.png`;
           opt.appendChild(img);
         } else {
           const ph = document.createElement('div');
@@ -1009,15 +1405,19 @@
       const preIntroVisible = !!document.getElementById('panel-pre-body');
 
       return {
-        charA: selectedA?.id || null,
-        charB: selectedB?.id || null,
+        track: currentTrack,
+        charA: currentTrack === 'nft' ? (selectedNftA?.mintAddress || null) : (selectedA?.id || null),
+        charB: currentTrack === 'nft' ? (selectedNftB?.mintAddress || null) : (selectedB?.id || null),
         title: document.getElementById('story-title').value,
         panels,
         preIntroVisible,
         pre,
         email: document.getElementById('submitter-email').value,
         pitch: document.getElementById('story-pitch').value,
-        consent: document.getElementById('consent-check').checked
+        consent: currentTrack === 'open' ? document.getElementById('consent-check').checked : null,
+        consentRevenue: currentTrack === 'nft' ? document.getElementById('consent-revenue').checked : null,
+        consentRights: currentTrack === 'nft' ? document.getElementById('consent-rights').checked : null,
+        wallet: currentTrack === 'nft' ? walletAddress : null
       };
     }
 
@@ -1094,8 +1494,15 @@
       clearErrors();
       let firstError = null;
 
-      if (!data.charA) { markError('#char-a-picker'); firstError = firstError || 'Please select Character A.'; }
-      if (!data.charB) { markError('#char-b-picker'); firstError = firstError || 'Please select Character B.'; }
+      if (data.track === 'nft') {
+        if (!data.wallet) { firstError = firstError || 'Please connect your wallet first.'; }
+        if (!data.charA) { firstError = firstError || 'Please select your NFT (Character A).'; }
+        if (!data.charB) { firstError = firstError || 'Please select an available NFT (Character B).'; }
+      } else {
+        if (!data.charA) { markError('#char-a-picker'); firstError = firstError || 'Please select Character A.'; }
+        if (!data.charB) { markError('#char-b-picker'); firstError = firstError || 'Please select Character B.'; }
+      }
+
       if (!data.title.trim()) { markError('#story-title'); firstError = firstError || 'Please enter a story title.'; }
 
       for (let i = 0; i < 3; i++) {
@@ -1111,9 +1518,21 @@
         markError('#submitter-email');
         firstError = firstError || 'Please enter a valid email address.';
       }
-      if (!data.consent) {
-        markError(document.querySelector('.consent-block'));
-        firstError = firstError || 'Please accept the agreement to submit.';
+
+      if (data.track === 'nft') {
+        if (!data.consentRevenue) {
+          markError(document.querySelector('#agreement-nft .consent-block'));
+          firstError = firstError || 'Please accept the revenue share agreement.';
+        }
+        if (!data.consentRights) {
+          markError(document.querySelectorAll('#agreement-nft .consent-block')[1]);
+          firstError = firstError || 'Please accept the rights grant.';
+        }
+      } else {
+        if (!data.consent) {
+          markError(document.querySelector('#agreement-open .consent-block'));
+          firstError = firstError || 'Please accept the agreement to submit.';
+        }
       }
 
       return firstError;
@@ -1146,6 +1565,19 @@
       const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndleGRia3V3ZnhnaW11dWJlZHZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyNjUyNjYsImV4cCI6MjA4ODg0MTI2Nn0.hdFwhtk9gzjjwCnBftHt1BxDhsGcoSRXLyKyd3jm0ek';
 
       try {
+        const payload = {
+          track: data.track,
+          char_a: data.charA,
+          char_b: data.charB,
+          title: data.title.trim(),
+          panels: data.panels,
+          pre_intro: data.preIntroVisible && data.pre ? data.pre : null,
+          email: data.email.trim(),
+          pitch: data.pitch.trim() || null,
+          wallet: data.wallet || null,
+          nft_mint_address: data.track === 'nft' ? data.charA : null
+        };
+
         const res = await fetch(`${SUPABASE_URL}/rest/v1/submissions`, {
           method: 'POST',
           headers: {
@@ -1154,16 +1586,7 @@
             'apikey': SUPABASE_ANON,
             'Prefer': 'return=minimal'
           },
-          body: JSON.stringify({
-            track: 'open',
-            char_a: data.charA,
-            char_b: data.charB,
-            title: data.title.trim(),
-            panels: data.panels,
-            pre_intro: data.preIntroVisible && data.pre ? data.pre : null,
-            email: data.email.trim(),
-            pitch: data.pitch.trim() || null
-          })
+          body: JSON.stringify(payload)
         });
 
         if (res.ok) {
@@ -1171,7 +1594,13 @@
           try { localStorage.removeItem(DRAFT_KEY); } catch(e) {}
           // Show success screen
           document.getElementById('builder-form').style.display = 'none';
-          document.getElementById('success-email').textContent = data.email.trim();
+          document.querySelector('.track-selector').style.display = 'none';
+          document.getElementById('wallet-section').style.display = 'none';
+          document.getElementById('nft-pickers').style.display = 'none';
+          if (data.track === 'nft') {
+            document.getElementById('success-message').innerHTML =
+              'Thank you for your NFT holder submission.<br>If selected, you\'ll earn 20% of the primary sale sent to your wallet.<br>We review every story personally. We\'ll be in touch.';
+          }
           document.getElementById('submit-success').style.display = 'block';
           window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
@@ -1192,7 +1621,13 @@
     document.getElementById('submitter-email').addEventListener('input', function() { this.classList.remove('field-error'); });
     document.getElementById('story-title').addEventListener('input', function() { this.classList.remove('field-error'); });
     document.getElementById('consent-check').addEventListener('change', function() {
-      document.querySelector('.consent-block')?.classList.remove('field-error');
+      document.querySelector('#agreement-open .consent-block')?.classList.remove('field-error');
+    });
+    document.getElementById('consent-revenue')?.addEventListener('change', function() {
+      this.closest('.consent-block')?.classList.remove('field-error');
+    });
+    document.getElementById('consent-rights')?.addEventListener('change', function() {
+      this.closest('.consent-block')?.classList.remove('field-error');
     });
 
     // ── Save on input ────────────────────────────────────────
@@ -1200,6 +1635,8 @@
       document.getElementById(id)?.addEventListener('input', saveDraft);
     });
     document.getElementById('consent-check').addEventListener('change', saveDraft);
+    document.getElementById('consent-revenue')?.addEventListener('change', saveDraft);
+    document.getElementById('consent-rights')?.addEventListener('change', saveDraft);
 
     // ── Boot ─────────────────────────────────────────────────
     buildCharSelects();

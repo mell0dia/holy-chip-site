@@ -39,7 +39,7 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: 'Invalid JSON' };
   }
 
-  const { track, char_a, char_b, title, panels, pre_intro, email, pitch } = body;
+  const { track, char_a, char_b, title, panels, pre_intro, email, pitch, wallet, nft_mint_address } = body;
 
   // Basic server-side validation
   if (!email || !email.includes('@')) {
@@ -47,6 +47,42 @@ exports.handler = async (event) => {
   }
   if (!track || !title || !panels || panels.length < 3) {
     return { statusCode: 400, body: 'Missing required fields' };
+  }
+
+  // ── NFT Track: verify wallet still owns the claimed NFT ──────
+  const ME_API = 'https://api-mainnet.magiceden.dev';
+  const COLLECTION = 'holy_chip';
+  const CREATOR_WALLET = process.env.CREATOR_HOT_WALLET || '3FbzRU63fER4WQF6TZyhiAra917U5KAEfWRCBZHNwDko';
+
+  if (track === 'nft') {
+    if (!wallet || !char_a || !char_b) {
+      return { statusCode: 400, body: 'NFT track requires wallet, char_a (your NFT), and char_b (available NFT)' };
+    }
+
+    try {
+      // Verify user still owns char_a
+      const ownedRes = await fetch(`${ME_API}/v2/wallets/${wallet}/tokens?collection_symbol=${COLLECTION}&limit=500`);
+      if (ownedRes.ok) {
+        const owned = await ownedRes.json();
+        const ownsCharA = owned.some(t => t.mintAddress === char_a);
+        if (!ownsCharA) {
+          return { statusCode: 400, body: 'You no longer own the selected NFT (Character A). Please refresh and try again.' };
+        }
+      }
+
+      // Verify char_b is still in creator wallet
+      const creatorRes = await fetch(`${ME_API}/v2/wallets/${CREATOR_WALLET}/tokens?collection_symbol=${COLLECTION}&limit=500`);
+      if (creatorRes.ok) {
+        const creatorTokens = await creatorRes.json();
+        const creatorOwnsCharB = creatorTokens.some(t => t.mintAddress === char_b);
+        if (!creatorOwnsCharB) {
+          return { statusCode: 400, body: 'The selected available NFT (Character B) is no longer available. Please refresh and try again.' };
+        }
+      }
+    } catch (err) {
+      console.error('NFT verification error:', err);
+      // Non-blocking — allow submission if ME API is down
+    }
   }
 
   const supabaseUrl = process.env.SUPABASE_URL;
@@ -78,7 +114,8 @@ exports.handler = async (event) => {
         pre_intro: pre_intro || null,
         email,
         pitch: pitch || null,
-        wallet: null,
+        wallet: track === 'nft' ? wallet : null,
+        nft_mint_address: track === 'nft' ? (nft_mint_address || char_a) : null,
         status: 'pending'
       })
     });
@@ -99,18 +136,24 @@ exports.handler = async (event) => {
       `Panel ${i + 1}:\n` + p.map(d => `  ${d.speaker}: ${d.text}`).join('\n')
     ).join('\n\n');
 
+    const isNFT = track === 'nft';
+    const trackLabel = isNFT ? 'NFT Holder' : 'Open';
+    const walletInfo = isNFT ? `\nWallet: ${wallet}\nNFT (Char A): ${char_a}\nAvailable (Char B): ${char_b}` : '';
+
     const emails = [
       // Confirmation to submitter
       {
         to: email,
-        subject: 'Holy Chip — Story Received',
-        text: `Hi,\n\nYour story "${title}" has been received. We review every submission carefully.\n\nCharacters: ${char_a || '?'} + ${char_b || '?'}\n\nYou'll hear from us if it moves forward.\n\n— Holy Chip`
+        subject: isNFT ? 'Holy Chip — NFT Story Received' : 'Holy Chip — Story Received',
+        text: isNFT
+          ? `Hi,\n\nYour NFT holder story "${title}" has been received. We review every submission carefully.\n\nYour NFT: ${char_a}\nWallet: ${wallet}\n\nIf selected, you'll earn 20% of the primary sale sent to your wallet.\n\nYou'll hear from us soon.\n\n— Holy Chip`
+          : `Hi,\n\nYour story "${title}" has been received. We review every submission carefully.\n\nCharacters: ${char_a || '?'} + ${char_b || '?'}\n\nYou'll hear from us if it moves forward.\n\n— Holy Chip`
       },
       // Notification to Ricardo
       {
         to: notifyEmail,
-        subject: `[Open Submission] ${title}`,
-        text: `New story submission:\n\nTitle: ${title}\nCharacters: ${char_a} + ${char_b}\nEmail: ${email}\n\n${panelText}${pitch ? `\n\nPitch:\n${pitch}` : ''}\n\nReview in Supabase dashboard.`
+        subject: `[${trackLabel} Submission] ${title}`,
+        text: `New ${trackLabel.toLowerCase()} story submission:\n\nTitle: ${title}\nCharacters: ${char_a} + ${char_b}\nEmail: ${email}${walletInfo}\n\n${panelText}${pitch ? `\n\nPitch:\n${pitch}` : ''}\n\nReview in Supabase dashboard.`
       }
     ];
 
