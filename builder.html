@@ -1183,13 +1183,33 @@
       if (side === 'a') selectedNftA = nft;
       else selectedNftB = nft;
 
-      // Update visual selection
+      // Update visual selection on the picker card
       document.querySelectorAll(`#${containerId} .nft-pick-card`).forEach(card => {
         card.classList.toggle('selected', card.dataset.mint === nft.mintAddress);
       });
 
-      // Update speaker pickers if Track B
+      // Show selected confirmation below the picker
+      const label = side === 'a' ? 'Character A' : 'Character B';
+      let confirm = document.getElementById(`nft-confirm-${side}`);
+      if (!confirm) {
+        confirm = document.createElement('div');
+        confirm.id = `nft-confirm-${side}`;
+        confirm.style.cssText = 'font-size:0.55rem;padding:0.5rem 0;color:#0A6821;letter-spacing:0.06em;display:flex;align-items:center;gap:0.5rem;margin-top:0.4rem;';
+        document.getElementById(containerId).appendChild(confirm);
+      }
+      confirm.innerHTML = `<img src="${nft.image}" style="width:28px;height:28px;object-fit:cover;border:2px solid #0A6821;"> ${label}: <strong>${nft.name}</strong>`;
+
+      // Update speaker pickers in the panels
       if (currentTrack === 'nft') updateAllSpeakerPickers();
+
+      // If both characters selected, scroll to the script section
+      if (selectedNftA && selectedNftB) {
+        setTimeout(() => {
+          const scriptSection = document.querySelector('#builder-form .form-section');
+          if (scriptSection) scriptSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 300);
+      }
+
       saveDraft();
     }
 
