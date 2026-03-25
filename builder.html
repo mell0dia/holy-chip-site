@@ -847,7 +847,7 @@
           <div class="track-card-title">Open Submission</div>
           <div class="track-card-desc">No wallet needed.</div>
           <div class="track-detail">
-            <li>Pick 2 characters from the 12 Chips</li>
+            <li>Pick 2 Chips from the 12 available</li>
             <li>Write a 3-panel comic script</li>
             <li>We review every submission personally</li>
             <li>If selected, your story becomes a comic</li>
@@ -860,8 +860,8 @@
           <div class="track-badge">20% Revenue Share</div>
           <div class="track-detail">
             <li>Connect your Phantom wallet</li>
-            <li>Your NFT becomes Character A</li>
-            <li>Pick Character B from the 12 Chips</li>
+            <li>Your NFT becomes Chip A</li>
+            <li>Pick Chip B from the 12 available</li>
             <li>If selected, earn 20% of the primary sale</li>
           </div>
         </button>
@@ -897,7 +897,7 @@
     <div id="nft-pickers" style="display:none">
       <div style="border:2px solid #000; margin-bottom:1.5rem; padding:1rem;">
         <div class="col-section-title" style="font-size:0.8rem; color:#000; cursor:pointer;" onclick="togglePicker('a')">
-          Character A <span style="font-size:0.55rem;color:#888;font-weight:normal;">— Your NFT</span>
+          Chip A <span style="font-size:0.55rem;color:#888;font-weight:normal;">— Your NFT</span>
           <span id="picker-a-arrow" style="float:right;font-size:1.2rem;line-height:1;">▾</span>
         </div>
         <!-- Collapsed summary (hidden until selection) -->
@@ -924,7 +924,7 @@
     <div id="nft-char-b-picker" style="display:none">
       <div style="border:2px solid #000; margin-bottom:1.5rem; padding:1rem;">
         <div class="col-section-title" style="font-size:0.8rem; color:#000; cursor:pointer;" onclick="togglePicker('b')">
-          Character B <span style="font-size:0.55rem;color:#888;font-weight:normal;">— Pick from 12 Chips</span>
+          Chip B <span style="font-size:0.55rem;color:#888;font-weight:normal;">— Pick from the 12</span>
           <span id="picker-b-arrow" style="float:right;font-size:1.2rem;line-height:1;">▾</span>
         </div>
         <!-- Collapsed summary (hidden until selection) -->
@@ -963,8 +963,8 @@
         <div style="display:flex;gap:1.5rem;align-items:start;flex-wrap:wrap;">
           <div style="flex:1;min-width:200px;font-size:0.55rem;line-height:1.8;">
             A story has 3 panels.<br><br>
-            Panels 1 & 2 carry the conversation — characters go back and forth.<br><br>
-            Panel 3 is the punchline — one line, one character, maximum impact.
+            Panels 1 & 2 carry the conversation — Chips go back and forth.<br><br>
+            Panel 3 is the punchline — one line, one Chip, maximum impact.
           </div>
           <div class="panel-reference-img-wrap" style="margin-left:0;width:220px;min-width:220px;">
             <img src="stories/HC009.png" alt="Story panel layout reference" style="width:100%;"/>
@@ -983,7 +983,7 @@
 
         <!-- LEFT: Step 1 — Characters -->
         <div class="col-left">
-          <div class="col-section-title">Step 1 — Characters</div>
+          <div class="col-section-title">Step 1 — Pick your Chips</div>
 
           <div class="char-select-block">
             <div class="char-select-label">A — Left</div>
@@ -1018,7 +1018,7 @@
         <div class="col-right">
           <div class="col-section-title">Instructions</div>
           <div class="instr-inner">
-            <p class="panel-reference-note">A story has 3 panels.<br><br>Panels 1 & 2 carry the conversation — characters go back and forth.<br><br>Panel 3 is the punchline — one line, one character, maximum impact.</p>
+            <p class="panel-reference-note">A story has 3 panels.<br><br>Panels 1 & 2 carry the conversation — Chips go back and forth.<br><br>Panel 3 is the punchline — one line, one Chip, maximum impact.</p>
             <div class="panel-reference-img-wrap">
               <img src="stories/HC009.png" alt="Story panel layout reference"/>
               <div class="panel-ref-label" style="top:25%">Panel 1</div>
@@ -1093,7 +1093,7 @@
         </label>
         <label class="consent-block">
           <input type="checkbox" id="consent-rights"/>
-          <span class="consent-text">I grant Holy Chip the right to use my NFT's character in this story and any derivative works. I confirm I am the rightful owner of the connected wallet and the selected NFT.</span>
+          <span class="consent-text">I grant Holy Chip the right to use my NFT's Chip in this story and any derivative works. I confirm I am the rightful owner of the connected wallet and the selected NFT.</span>
         </label>
       </div>
 
@@ -1183,7 +1183,7 @@
 
       if (track === 'open') {
         document.getElementById('page-title').textContent = 'Open Submission';
-        document.getElementById('page-sub').textContent = 'Pick two characters, write a 3-panel script.';
+        document.getElementById('page-sub').textContent = 'Pick two Chips, write a 3-panel script.';
       } else {
         document.getElementById('page-title').textContent = 'NFT Holder';
         document.getElementById('page-sub').textContent = 'Connect your wallet, feature your NFT, earn 20% revenue share.';
@@ -1377,7 +1377,7 @@
       const search = document.createElement('input');
       search.className = 'nft-picker-search';
       search.type = 'text';
-      search.placeholder = 'Search by name or character...';
+      search.placeholder = 'Search by name or Chip...';
       container.appendChild(search);
 
       // Count
@@ -1604,7 +1604,7 @@
     function refreshDialogTrigger(picker) {
       const val = picker.dataset.speaker;
       const c = getCharForSpeaker(val);
-      const label = c ? c.label : (val === 'N' ? 'Narration' : val === 'A' ? 'Char A' : 'Char B');
+      const label = c ? c.label : (val === 'N' ? 'Narration' : val === 'A' ? 'Chip A' : 'Chip B');
       const trigger = picker.querySelector('.dialog-speaker-trigger');
       trigger.innerHTML = '';
       if (c) {
@@ -1635,8 +1635,8 @@
       const charA = getCharForSpeaker('A');
       const charB = getCharForSpeaker('B');
       const opts = [
-        { val: 'A', char: charA, label: charA?.label || 'Character A' },
-        { val: 'B', char: charB, label: charB?.label || 'Character B' },
+        { val: 'A', char: charA, label: charA?.label || 'Chip A' },
+        { val: 'B', char: charB, label: charB?.label || 'Chip B' },
       ];
       if (includeNarration) opts.push({ val: 'N', char: null, label: 'Narration' });
       opts.forEach(({ val, char, label }) => {
@@ -1932,11 +1932,11 @@
 
       if (data.track === 'nft') {
         if (!data.wallet) { firstError = firstError || 'Please connect your wallet first.'; }
-        if (!data.charA) { firstError = firstError || 'Please select your NFT (Character A).'; }
-        if (!data.charB) { markError('#char-b-picker'); firstError = firstError || 'Please select Character B.'; }
+        if (!data.charA) { firstError = firstError || 'Please select your NFT (Chip A).'; }
+        if (!data.charB) { markError('#char-b-picker'); firstError = firstError || 'Please select Chip B.'; }
       } else {
-        if (!data.charA) { markError('#char-a-picker'); firstError = firstError || 'Please select Character A.'; }
-        if (!data.charB) { markError('#char-b-picker'); firstError = firstError || 'Please select Character B.'; }
+        if (!data.charA) { markError('#char-a-picker'); firstError = firstError || 'Please select Chip A.'; }
+        if (!data.charB) { markError('#char-b-picker'); firstError = firstError || 'Please select Chip B.'; }
       }
 
       if (!data.title.trim()) { markError('#story-title'); firstError = firstError || 'Please enter a story title.'; }
