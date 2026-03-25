@@ -149,7 +149,7 @@
 
   <script src="assets/nav.js"></script>
   <script>
-    const ME_API = 'https://api-mainnet.magiceden.dev/v2';
+    const PROXY = 'https://holy-chip-site.netlify.app/.netlify/functions/me-proxy';
     const COLLECTION = 'holy_chip';
     const ME_ITEM_URL = 'https://magiceden.us/item-details';
     const PAGE_SIZE = 40;
@@ -168,7 +168,7 @@
 
     // Fetch all listings from ME API
     async function fetchListings(off = 0) {
-      const url = `${ME_API}/collections/${COLLECTION}/listings?offset=${off}&limit=20`;
+      const url = `${PROXY}?path=/v2/collections/${COLLECTION}/listings&offset=${off}&limit=20`;
       const res = await fetch(url);
       if (!res.ok) return [];
       return await res.json();
@@ -177,7 +177,7 @@
     // Fetch collection stats
     async function fetchStats() {
       try {
-        const res = await fetch(`${ME_API}/collections/${COLLECTION}/stats`);
+        const res = await fetch(`${PROXY}?path=/v2/collections/${COLLECTION}/stats`);
         if (!res.ok) return null;
         return await res.json();
       } catch { return null; }
