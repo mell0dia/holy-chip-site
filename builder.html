@@ -119,7 +119,7 @@
       width: 100%;
     }
     .track-card {
-      padding: 1.8rem 1.5rem;
+      padding: 1rem 1rem;
       cursor: pointer;
       transition: all 0.2s ease;
       border: 3px solid #000;
@@ -134,31 +134,47 @@
     }
     .track-card:active { transform: translateY(0); box-shadow: 2px 2px 0 #000; }
     .track-card-icon {
-      font-size: 2rem;
-      margin-bottom: 0.8rem;
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
       display: block;
     }
     .track-card-title {
-      font-size: 0.8rem;
+      font-size: 0.7rem;
       font-weight: bold;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.3rem;
     }
     .track-card-desc {
-      font-size: 0.55rem;
-      line-height: 2;
+      font-size: 0.5rem;
+      line-height: 1.8;
       color: #666;
     }
     .track-badge {
       display: inline-block;
       background: #0A6821;
       color: #fff;
-      font-size: 0.5rem;
-      padding: 0.25rem 0.6rem;
+      font-size: 0.45rem;
+      padding: 0.2rem 0.5rem;
       letter-spacing: 0.08em;
-      margin-top: 0.8rem;
+      margin-top: 0.5rem;
     }
+    .track-detail {
+      margin-top: 0.8rem;
+      padding: 0.6rem;
+      border: 1px solid #ddd;
+      background: #fafafa;
+      text-align: left;
+      font-size: 0.42rem;
+      line-height: 2.2;
+      color: #555;
+    }
+    .track-detail li {
+      list-style: none;
+      padding-left: 0.8rem;
+      text-indent: -0.6rem;
+    }
+    .track-detail li::before { content: '> '; color: #0A6821; }
 
     /* ── Wallet Connect ── */
     .wallet-section {
@@ -829,13 +845,25 @@
         <button class="track-card" onclick="choosePath('open')">
           <span class="track-card-icon">&#9998;</span>
           <div class="track-card-title">Open Submission</div>
-          <div class="track-card-desc">Anyone can submit. Pick from 12 characters. No wallet needed.</div>
+          <div class="track-card-desc">No wallet needed.</div>
+          <div class="track-detail">
+            <li>Pick 2 characters from the 12 Chips</li>
+            <li>Write a 3-panel comic script</li>
+            <li>We review every submission personally</li>
+            <li>If selected, your story becomes a comic</li>
+          </div>
         </button>
         <button class="track-card" onclick="choosePath('nft')">
           <span class="track-card-icon">&#9830;</span>
           <div class="track-card-title">NFT Holder</div>
-          <div class="track-card-desc">Connect your wallet. Feature your own NFT in the story.</div>
+          <div class="track-card-desc">Feature your NFT in the story.</div>
           <div class="track-badge">20% Revenue Share</div>
+          <div class="track-detail">
+            <li>Connect your Phantom wallet</li>
+            <li>Your NFT becomes Character A</li>
+            <li>Pick Character B from the 12 Chips</li>
+            <li>If selected, earn 20% of the primary sale</li>
+          </div>
         </button>
       </div>
     </div>
@@ -1100,13 +1128,13 @@
     let ownedNFTs = [];
     let selectedNftA = null;
 
-    // ── Floating Chips Animation ────────────────────────────────
+    // ── Floating Chips Animation (landing page only) ────────────
+    let chipTimers = [];
     (function spawnChips() {
       const allChips = [
         'Chip_0','Chip_1','Chip_100','Chip_101','Chip_110','Chip_111',
         'Chip_1000','Chip_1001','Chip_1010','Chip_1011','Chip_1100','Chip_1101'
       ];
-      // Use 1/3 of the characters — keep animation subtle while writing
       const chipFiles = allChips.sort(() => Math.random() - 0.5).slice(0, 4);
       const layer = document.getElementById('chips-layer');
       function animateChip(img) {
@@ -1119,12 +1147,15 @@
           requestAnimationFrame(() => {
             requestAnimationFrame(() => { img.style.opacity = 0.10 + Math.random() * 0.20; });
           });
-          setTimeout(() => {
+          const t1 = setTimeout(() => {
             img.style.opacity = '0';
-            setTimeout(appear, 600 + Math.random() * 2000);
+            const t2 = setTimeout(appear, 600 + Math.random() * 2000);
+            chipTimers.push(t2);
           }, 3000);
+          chipTimers.push(t1);
         }
-        setTimeout(appear, Math.random() * 6000);
+        const t = setTimeout(appear, Math.random() * 6000);
+        chipTimers.push(t);
       }
       chipFiles.forEach(name => {
         const img = document.createElement('img');
@@ -1135,9 +1166,17 @@
       });
     })();
 
+    function stopChips() {
+      chipTimers.forEach(t => clearTimeout(t));
+      chipTimers = [];
+      const layer = document.getElementById('chips-layer');
+      layer.querySelectorAll('.chip').forEach(c => { c.style.opacity = '0'; });
+    }
+
     // ── Path Choosing (Landing → Form) ──────────────────────────
     function choosePath(track) {
       currentTrack = track;
+      stopChips();
       document.getElementById('landing').style.display = 'none';
       const formPage = document.getElementById('form-page');
       formPage.classList.add('visible');
