@@ -787,9 +787,25 @@
     <!-- NFT Character A Picker (hidden by default, shown when wallet connected in NFT track) -->
     <div id="nft-pickers" style="display:none">
       <div style="border:2px solid #000; margin-bottom:1.5rem; padding:1rem;">
-        <div class="col-section-title" style="font-size:0.8rem; color:#000;">Character A <span style="font-size:0.55rem;color:#888;font-weight:normal;">— Your NFT</span></div>
-        <div id="nft-picker-a">
-          <div class="nft-picker-loading">Loading your NFTs...</div>
+        <div class="col-section-title" style="font-size:0.8rem; color:#000; cursor:pointer;" onclick="togglePicker('a')">
+          Character A <span style="font-size:0.55rem;color:#888;font-weight:normal;">— Your NFT</span>
+          <span id="picker-a-arrow" style="float:right;font-size:0.6rem;">▾</span>
+        </div>
+        <!-- Collapsed summary (hidden until selection) -->
+        <div id="picker-a-summary" style="display:none;cursor:pointer;" onclick="togglePicker('a')">
+          <div style="display:flex;align-items:center;gap:0.6rem;padding:0.3rem 0;">
+            <img id="picker-a-summary-img" src="" style="width:48px;height:48px;object-fit:cover;border:2px solid #0A6821;">
+            <div>
+              <div id="picker-a-summary-name" style="font-size:0.6rem;font-weight:bold;color:#0A6821;"></div>
+              <div style="font-size:0.4rem;color:#888;margin-top:0.2rem;">Click to change</div>
+            </div>
+          </div>
+        </div>
+        <!-- Expandable picker content -->
+        <div id="picker-a-content">
+          <div id="nft-picker-a">
+            <div class="nft-picker-loading">Loading your NFTs...</div>
+          </div>
         </div>
       </div>
     </div>
@@ -797,8 +813,24 @@
     <!-- Character B grid for NFT track (12 standard Chips) -->
     <div id="nft-char-b-picker" style="display:none">
       <div style="border:2px solid #000; margin-bottom:1.5rem; padding:1rem;">
-        <div class="col-section-title" style="font-size:0.8rem; color:#000;">Character B <span style="font-size:0.55rem;color:#888;font-weight:normal;">— Pick from 12 Chips</span></div>
-        <div class="nft-picker-grid" id="char-b-grid"></div>
+        <div class="col-section-title" style="font-size:0.8rem; color:#000; cursor:pointer;" onclick="togglePicker('b')">
+          Character B <span style="font-size:0.55rem;color:#888;font-weight:normal;">— Pick from 12 Chips</span>
+          <span id="picker-b-arrow" style="float:right;font-size:0.6rem;">▾</span>
+        </div>
+        <!-- Collapsed summary (hidden until selection) -->
+        <div id="picker-b-summary" style="display:none;cursor:pointer;" onclick="togglePicker('b')">
+          <div style="display:flex;align-items:center;gap:0.6rem;padding:0.3rem 0;">
+            <img id="picker-b-summary-img" src="" style="width:48px;height:48px;object-fit:cover;border:2px solid #0A6821;">
+            <div>
+              <div id="picker-b-summary-name" style="font-size:0.6rem;font-weight:bold;color:#0A6821;"></div>
+              <div style="font-size:0.4rem;color:#888;margin-top:0.2rem;">Click to change</div>
+            </div>
+          </div>
+        </div>
+        <!-- Expandable picker content -->
+        <div id="picker-b-content">
+          <div class="nft-picker-grid" id="char-b-grid"></div>
+        </div>
       </div>
     </div>
 
@@ -1252,6 +1284,31 @@
       });
     }
 
+    function collapsePicker(side, imgSrc, name) {
+      document.getElementById(`picker-${side}-summary-img`).src = imgSrc;
+      document.getElementById(`picker-${side}-summary-name`).textContent = name;
+      document.getElementById(`picker-${side}-summary`).style.display = '';
+      document.getElementById(`picker-${side}-content`).style.display = 'none';
+      document.getElementById(`picker-${side}-arrow`).textContent = '▸';
+    }
+
+    function togglePicker(side) {
+      const content = document.getElementById(`picker-${side}-content`);
+      const summary = document.getElementById(`picker-${side}-summary`);
+      const arrow = document.getElementById(`picker-${side}-arrow`);
+      const isCollapsed = content.style.display === 'none';
+      if (isCollapsed) {
+        content.style.display = '';
+        summary.style.display = 'none';
+        arrow.textContent = '▾';
+      } else if (summary.querySelector('img')?.src) {
+        // Only collapse if something is selected
+        content.style.display = 'none';
+        summary.style.display = '';
+        arrow.textContent = '▸';
+      }
+    }
+
     function selectNft(side, nft, containerId) {
       selectedNftA = nft;
 
@@ -1260,15 +1317,8 @@
         card.classList.toggle('selected', card.dataset.mint === nft.mintAddress);
       });
 
-      // Show selected confirmation below the picker
-      let confirmEl = document.getElementById('nft-confirm-a');
-      if (!confirmEl) {
-        confirmEl = document.createElement('div');
-        confirmEl.id = 'nft-confirm-a';
-        confirmEl.style.cssText = 'font-size:0.55rem;padding:0.5rem 0;color:#0A6821;letter-spacing:0.06em;display:flex;align-items:center;gap:0.5rem;margin-top:0.4rem;';
-        document.getElementById(containerId).appendChild(confirmEl);
-      }
-      confirmEl.innerHTML = `<img src="${nft.image}" style="width:28px;height:28px;object-fit:cover;border:2px solid #0A6821;"> Character A: <strong>${nft.name}</strong>`;
+      // Collapse picker and show summary
+      collapsePicker('a', nft.image, nft.name);
 
       // Update speaker pickers in the panels
       if (currentTrack === 'nft') updateAllSpeakerPickers();
@@ -1313,15 +1363,8 @@
           grid.querySelectorAll('.nft-pick-card').forEach(el => {
             el.classList.toggle('selected', el.dataset.id === c.id);
           });
-          // Show confirmation
-          let confirmEl = document.getElementById('nft-confirm-b');
-          if (!confirmEl) {
-            confirmEl = document.createElement('div');
-            confirmEl.id = 'nft-confirm-b';
-            confirmEl.style.cssText = 'font-size:0.55rem;padding:0.5rem 0;color:#0A6821;letter-spacing:0.06em;display:flex;align-items:center;gap:0.5rem;margin-top:0.4rem;';
-            grid.parentElement.appendChild(confirmEl);
-          }
-          confirmEl.innerHTML = `<img src="characters/${c.id}.png" style="width:28px;height:28px;object-fit:cover;border:2px solid #0A6821;"> Character B: <strong>${c.label}</strong>`;
+          // Collapse picker and show summary
+          collapsePicker('b', `characters/${c.id}.png`, c.label);
           if (currentTrack === 'nft') updateAllSpeakerPickers();
           saveDraft();
         });
