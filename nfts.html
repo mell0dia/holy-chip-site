@@ -9,17 +9,302 @@
     body { font-family: 'Press Start 2P', monospace; background:#fafafa; color:#222; margin:0; min-height:100vh; }
     .content { max-width:1200px; margin:2rem auto; padding:0 1.5rem; }
     h1 { color:#222; margin-bottom:0.5rem; }
+    .page-subtitle { color:#666; font-size:0.7rem; margin-bottom:1.5rem; }
+
+    /* Stats bar */
+    .stats-bar {
+      display:flex; gap:2rem; flex-wrap:wrap;
+      margin-bottom:2rem; padding:1rem;
+      background:#000; color:#0f0;
+      font-size:0.65rem; border-radius:4px;
+    }
+    .stat-item span { color:#fff; }
+
+    /* Filter bar */
+    .filter-bar {
+      display:flex; gap:1rem; flex-wrap:wrap; align-items:center;
+      margin-bottom:1.5rem; font-size:0.6rem;
+    }
+    .filter-bar select, .filter-bar input {
+      font-family:'Press Start 2P', monospace;
+      font-size:0.6rem; padding:0.5rem;
+      border:2px solid #000; background:#fff;
+    }
+    .filter-bar select { cursor:pointer; }
+
+    /* NFT Grid */
+    .nft-grid {
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap:1.2rem;
+      margin-bottom:2rem;
+    }
+    .nft-card {
+      border:2px solid #ddd;
+      background:#fff;
+      cursor:pointer;
+      transition: all 0.2s ease;
+      overflow:hidden;
+    }
+    .nft-card:hover {
+      transform:translateY(-4px);
+      box-shadow:4px 4px 0 #000;
+      border-color:#000;
+    }
+    .nft-card img {
+      width:100%; aspect-ratio:1; object-fit:cover;
+      display:block; background:#eee;
+    }
+    .nft-info {
+      padding:0.7rem;
+    }
+    .nft-name {
+      font-size:0.55rem; color:#222;
+      margin-bottom:0.4rem;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .nft-character {
+      font-size:0.5rem; color:#888;
+      margin-bottom:0.5rem;
+    }
+    .nft-price {
+      font-size:0.7rem; color:#0A6821; font-weight:bold;
+    }
+    .nft-unlisted {
+      font-size:0.55rem; color:#999;
+    }
+
+    /* Loading */
+    .loading {
+      text-align:center; padding:3rem;
+      font-size:0.7rem; color:#888;
+    }
+    .loading-spinner {
+      display:inline-block; width:20px; height:20px;
+      border:3px solid #ddd; border-top:3px solid #000;
+      border-radius:50%; animation:spin 1s linear infinite;
+      margin-bottom:1rem;
+    }
+    @keyframes spin { to { transform:rotate(360deg); } }
+
+    /* Load more button */
+    .load-more {
+      display:block; margin:2rem auto;
+      font-family:'Press Start 2P', monospace;
+      font-size:0.65rem; padding:1rem 2rem;
+      background:#000; color:#fff; border:none;
+      cursor:pointer;
+    }
+    .load-more:hover { background:#333; }
+    .load-more:disabled { background:#999; cursor:default; }
+
+    /* Responsive */
+    @media (max-width:768px) {
+      .nft-grid { grid-template-columns: repeat(2, 1fr); gap:0.8rem; }
+      .stats-bar { flex-direction:column; gap:0.8rem; }
+    }
   </style>
 </head>
 <body>
-  <!-- Navigation injected here -->
   <div id="nav-container"></div>
 
   <div class="content">
     <h1>NFTs</h1>
-    <p style="color:#666;">Holy Chip digital collectibles - coming soon.</p>
+    <p class="page-subtitle">Holy Chip digital collectibles on Solana</p>
+
+    <div class="stats-bar" id="stats-bar">
+      <div class="stat-item">Floor: <span id="stat-floor">--</span></div>
+      <div class="stat-item">Listed: <span id="stat-listed">--</span></div>
+      <div class="stat-item">Total: <span id="stat-total">--</span></div>
+      <div class="stat-item">
+        <a href="https://magiceden.us/marketplace/holy_chip" target="_blank"
+           style="color:#0f0;text-decoration:none;">View on Magic Eden</a>
+      </div>
+    </div>
+
+    <div class="filter-bar">
+      <select id="filter-character">
+        <option value="">All Characters</option>
+      </select>
+      <select id="filter-status">
+        <option value="">All</option>
+        <option value="listed">Listed</option>
+      </select>
+      <select id="filter-sort">
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="name-asc">Name: A-Z</option>
+      </select>
+    </div>
+
+    <div class="loading" id="loading">
+      <div class="loading-spinner"></div>
+      <br>Loading NFTs from Magic Eden...
+    </div>
+
+    <div class="nft-grid" id="nft-grid"></div>
+
+    <button class="load-more" id="load-more" style="display:none;">Load More</button>
   </div>
 
   <script src="assets/nav.js"></script>
+  <script>
+    const ME_API = 'https://api-mainnet.magiceden.dev/v2';
+    const COLLECTION = 'holy_chip';
+    const ME_ITEM_URL = 'https://magiceden.us/item-details';
+    const PAGE_SIZE = 40;
+
+    let allNFTs = [];
+    let displayedCount = 0;
+    let offset = 0;
+    let doneLoading = false;
+
+    const grid = document.getElementById('nft-grid');
+    const loading = document.getElementById('loading');
+    const loadMoreBtn = document.getElementById('load-more');
+    const filterChar = document.getElementById('filter-character');
+    const filterStatus = document.getElementById('filter-status');
+    const filterSort = document.getElementById('filter-sort');
+
+    // Fetch all listings from ME API
+    async function fetchListings(off = 0) {
+      const url = `${ME_API}/collections/${COLLECTION}/listings?offset=${off}&limit=20`;
+      const res = await fetch(url);
+      if (!res.ok) return [];
+      return await res.json();
+    }
+
+    // Fetch collection stats
+    async function fetchStats() {
+      try {
+        const res = await fetch(`${ME_API}/collections/${COLLECTION}/stats`);
+        if (!res.ok) return null;
+        return await res.json();
+      } catch { return null; }
+    }
+
+    // Extract character from NFT name (e.g. "Holy Chip #016 - MACACO-SPACE")
+    function getCharacter(name) {
+      const match = name.match(/- (.+)$/);
+      return match ? match[1] : 'Unknown';
+    }
+
+    // Render a single NFT card
+    function renderCard(nft) {
+      const card = document.createElement('a');
+      card.className = 'nft-card';
+      card.href = `${ME_ITEM_URL}/${nft.tokenMint}`;
+      card.target = '_blank';
+      card.style.textDecoration = 'none';
+      card.style.color = 'inherit';
+
+      const character = getCharacter(nft.extra?.name || nft.name || '');
+      const priceSOL = nft.price ? nft.price : null;
+
+      card.innerHTML = `
+        <img src="${nft.extra?.img || nft.image || ''}" alt="${nft.extra?.name || nft.name || 'Holy Chip NFT'}" loading="lazy">
+        <div class="nft-info">
+          <div class="nft-name">${nft.extra?.name || nft.name || 'Holy Chip'}</div>
+          <div class="nft-character">${character}</div>
+          ${priceSOL !== null
+            ? `<div class="nft-price">${priceSOL} SOL</div>`
+            : `<div class="nft-unlisted">Not Listed</div>`}
+        </div>
+      `;
+      return card;
+    }
+
+    // Get filtered + sorted NFTs
+    function getFilteredNFTs() {
+      let filtered = [...allNFTs];
+      const charVal = filterChar.value;
+      const statusVal = filterStatus.value;
+      const sortVal = filterSort.value;
+
+      if (charVal) {
+        filtered = filtered.filter(n => getCharacter(n.extra?.name || n.name || '') === charVal);
+      }
+      if (statusVal === 'listed') {
+        filtered = filtered.filter(n => n.price != null);
+      }
+
+      filtered.sort((a, b) => {
+        if (sortVal === 'price-asc') return (a.price || 999) - (b.price || 999);
+        if (sortVal === 'price-desc') return (b.price || 0) - (a.price || 0);
+        if (sortVal === 'name-asc') return (a.extra?.name || '').localeCompare(b.extra?.name || '');
+        return 0;
+      });
+
+      return filtered;
+    }
+
+    // Render the grid
+    function renderGrid() {
+      grid.innerHTML = '';
+      const filtered = getFilteredNFTs();
+      const toShow = filtered.slice(0, displayedCount || PAGE_SIZE);
+      toShow.forEach(nft => grid.appendChild(renderCard(nft)));
+      loadMoreBtn.style.display = toShow.length < filtered.length ? 'block' : 'none';
+    }
+
+    // Populate character filter dropdown
+    function populateCharFilter() {
+      const chars = new Set();
+      allNFTs.forEach(n => chars.add(getCharacter(n.extra?.name || n.name || '')));
+      const sorted = [...chars].sort();
+      sorted.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c;
+        opt.textContent = c;
+        filterChar.appendChild(opt);
+      });
+    }
+
+    // Load NFTs
+    async function loadNFTs() {
+      try {
+        // Fetch listings (paginated)
+        while (!doneLoading) {
+          const batch = await fetchListings(offset);
+          if (batch.length === 0) { doneLoading = true; break; }
+          allNFTs.push(...batch);
+          offset += 20;
+          // ME API free limit — brief pause
+          await new Promise(r => setTimeout(r, 500));
+          if (batch.length < 20) { doneLoading = true; break; }
+        }
+
+        loading.style.display = 'none';
+        displayedCount = PAGE_SIZE;
+        populateCharFilter();
+        renderGrid();
+
+        // Fetch stats
+        const stats = await fetchStats();
+        if (stats) {
+          document.getElementById('stat-floor').textContent = stats.floorPrice ? (stats.floorPrice + ' SOL') : '--';
+          document.getElementById('stat-listed').textContent = stats.listedCount || '--';
+          document.getElementById('stat-total').textContent = stats.totalCount || allNFTs.length;
+        }
+
+      } catch (err) {
+        loading.innerHTML = 'Error loading NFTs. <a href="https://magiceden.us/marketplace/holy_chip" target="_blank" style="color:#000;">View on Magic Eden</a>';
+        console.error(err);
+      }
+    }
+
+    // Events
+    loadMoreBtn.addEventListener('click', () => {
+      displayedCount += PAGE_SIZE;
+      renderGrid();
+    });
+
+    filterChar.addEventListener('change', () => { displayedCount = PAGE_SIZE; renderGrid(); });
+    filterStatus.addEventListener('change', () => { displayedCount = PAGE_SIZE; renderGrid(); });
+    filterSort.addEventListener('change', () => { displayedCount = PAGE_SIZE; renderGrid(); });
+
+    // Go
+    loadNFTs();
+  </script>
 </body>
 </html>
