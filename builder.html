@@ -936,10 +936,12 @@
 
     // ── Floating Chips Animation ────────────────────────────────
     (function spawnChips() {
-      const chipFiles = [
+      const allChips = [
         'Chip_0','Chip_1','Chip_100','Chip_101','Chip_110','Chip_111',
         'Chip_1000','Chip_1001','Chip_1010','Chip_1011','Chip_1100','Chip_1101'
       ];
+      // Use 1/3 of the characters — keep animation subtle while writing
+      const chipFiles = allChips.sort(() => Math.random() - 0.5).slice(0, 4);
       const layer = document.getElementById('chips-layer');
       function animateChip(img) {
         function appear() {
