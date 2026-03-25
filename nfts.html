@@ -149,7 +149,7 @@
 
   <script src="assets/nav.js"></script>
   <script>
-    const PROXY = 'https://holy-chip-site.netlify.app/.netlify/functions/me-proxy';
+    const PROXY = 'https://holychip.netlify.app/.netlify/functions/me-proxy';
     const COLLECTION = 'holy_chip';
     const ME_ITEM_URL = 'https://magiceden.us/item-details';
     const PAGE_SIZE = 40;
@@ -302,7 +302,7 @@
         // Fetch stats
         const stats = await fetchStats();
         if (stats) {
-          document.getElementById('stat-floor').textContent = stats.floorPrice ? (stats.floorPrice + ' SOL') : '--';
+          document.getElementById('stat-floor').textContent = stats.floorPrice ? ((stats.floorPrice / 1e9) + ' SOL') : '--';
           document.getElementById('stat-listed').textContent = stats.listedCount || '--';
           document.getElementById('stat-total').textContent = stats.totalCount || allNFTs.length;
         }
