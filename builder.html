@@ -794,10 +794,34 @@
       </div>
     </div>
 
+    <!-- Character B grid for NFT track (12 standard Chips) -->
+    <div id="nft-char-b-picker" style="display:none">
+      <div style="border:2px solid #000; margin-bottom:1.5rem; padding:1rem;">
+        <div class="col-section-title" style="font-size:0.8rem; color:#000;">Character B <span style="font-size:0.55rem;color:#888;font-weight:normal;">— Pick from 12 Chips</span></div>
+        <div class="nft-picker-grid" id="char-b-grid"></div>
+      </div>
+    </div>
+
+    <!-- Instructions panel for NFT track -->
+    <div id="nft-instructions" style="display:none">
+      <div style="border:2px solid #000; margin-bottom:1.5rem; padding:1rem;">
+        <div class="col-section-title">Instructions</div>
+        <div style="display:flex;gap:1.5rem;flex-wrap:wrap;align-items:start;">
+          <p class="panel-reference-note" style="flex:1;min-width:200px;">A story has 3 panels.<br><br>Panels 1 & 2 carry the conversation — characters go back and forth.<br><br>Panel 3 is the punchline — one line, one character, maximum impact.</p>
+          <div class="panel-reference-img-wrap" style="margin-left:0;width:auto;">
+            <img src="stories/HC009.png" alt="Story panel layout reference"/>
+            <div class="panel-ref-label" style="top:25%">Panel 1</div>
+            <div class="panel-ref-label" style="top:54%">Panel 2</div>
+            <div class="panel-ref-label" style="top:81%">Panel 3</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <form id="builder-form" novalidate>
 
-      <!-- STEPS 1 + 2: two-column panel -->
-      <div class="form-two-col">
+      <!-- STEPS 1 + 2: two-column panel (Open track only) -->
+      <div class="form-two-col" id="open-track-chars">
 
         <!-- LEFT: Step 1 — Characters -->
         <div class="col-left">
@@ -1007,28 +1031,22 @@
 
     function applyTrackVisibility() {
       const track = currentTrack;
+      const walletReady = track === 'nft' && walletAddress;
 
       // Wallet section
       document.getElementById('wallet-section').classList.toggle('hidden', track === 'open');
 
-      // Character pickers panel — always visible (both tracks use Character B dropdown)
-      document.querySelectorAll('#builder-form .form-two-col').forEach(s => s.style.display = '');
+      // Open track: show split panel with dropdowns. NFT track: hide it.
+      document.getElementById('open-track-chars').style.display = track === 'open' ? '' : 'none';
 
-      // In NFT track: hide Character A dropdown (replaced by NFT picker), show only Character B
-      const charABlock = document.querySelector('#char-a-picker')?.closest('.char-select-block');
-      const charALabel = charABlock?.querySelector('.char-select-label');
-      if (charABlock) {
-        charABlock.style.display = track === 'nft' ? 'none' : '';
-      }
-      // Update Character B label based on track
-      const charBBlock = document.querySelector('#char-b-picker')?.closest('.char-select-block');
-      const charBLabel = charBBlock?.querySelector('.char-select-label');
-      if (charBLabel) {
-        charBLabel.textContent = track === 'nft' ? 'Character B — Pick from 12 Chips' : 'B — Right';
-      }
+      // NFT picker for Character A (only if wallet connected)
+      document.getElementById('nft-pickers').style.display = walletReady ? '' : 'none';
 
-      // NFT picker for Character A (only if wallet connected in NFT track)
-      document.getElementById('nft-pickers').style.display = (track === 'nft' && walletAddress) ? '' : 'none';
+      // NFT Character B grid (12 Chips, only if wallet connected)
+      document.getElementById('nft-char-b-picker').style.display = walletReady ? '' : 'none';
+
+      // NFT Instructions panel
+      document.getElementById('nft-instructions').style.display = walletReady ? '' : 'none';
 
       // Agreements
       document.getElementById('agreement-open').style.display = track === 'open' ? '' : 'none';
@@ -1037,7 +1055,6 @@
       // For Track B without wallet: hide the form sections
       if (track === 'nft' && !walletAddress) {
         document.querySelectorAll('#builder-form .form-section').forEach(s => s.style.display = 'none');
-        document.querySelectorAll('#builder-form .form-two-col').forEach(s => s.style.display = 'none');
         document.getElementById('submit-btn').style.display = 'none';
       } else {
         document.querySelectorAll('#builder-form .form-section').forEach(s => {
@@ -1046,6 +1063,11 @@
           else s.style.display = '';
         });
         document.getElementById('submit-btn').style.display = '';
+      }
+
+      // Populate Character B grid for NFT track if not already done
+      if (walletReady && !document.getElementById('char-b-grid').hasChildNodes()) {
+        renderCharBGrid();
       }
     }
 
@@ -1271,6 +1293,41 @@
 
     let selectedA = null;
     let selectedB = null;
+
+    // ── Character B grid for NFT track (12 Chips as clickable cards) ──
+    function renderCharBGrid() {
+      const grid = document.getElementById('char-b-grid');
+      grid.innerHTML = '';
+      CHARACTERS.forEach(c => {
+        const card = document.createElement('div');
+        card.className = 'nft-pick-card';
+        card.dataset.id = c.id;
+        card.innerHTML = `
+          <img src="characters/${c.id}.png" alt="${c.label}" loading="lazy">
+          <div class="nft-pick-name">${c.label}</div>
+        `;
+        card.addEventListener('click', () => {
+          // Set selectedB (same variable used by open track)
+          selectedB = c;
+          // Highlight selected card
+          grid.querySelectorAll('.nft-pick-card').forEach(el => {
+            el.classList.toggle('selected', el.dataset.id === c.id);
+          });
+          // Show confirmation
+          let confirmEl = document.getElementById('nft-confirm-b');
+          if (!confirmEl) {
+            confirmEl = document.createElement('div');
+            confirmEl.id = 'nft-confirm-b';
+            confirmEl.style.cssText = 'font-size:0.55rem;padding:0.5rem 0;color:#0A6821;letter-spacing:0.06em;display:flex;align-items:center;gap:0.5rem;margin-top:0.4rem;';
+            grid.parentElement.appendChild(confirmEl);
+          }
+          confirmEl.innerHTML = `<img src="characters/${c.id}.png" style="width:28px;height:28px;object-fit:cover;border:2px solid #0A6821;"> Character B: <strong>${c.label}</strong>`;
+          if (currentTrack === 'nft') updateAllSpeakerPickers();
+          saveDraft();
+        });
+        grid.appendChild(card);
+      });
+    }
 
     // ── Character image-dropdowns ────────────────────────────
     function buildCharSelects() {
