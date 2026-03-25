@@ -5,11 +5,11 @@
   const pathPrefix = inSubdir ? '../' : '';
 
   const navItems = [
-    { label: 'Store',   href: 'store.html'   },
     { label: 'NFTs',    href: 'nfts.html'    },
     { label: 'Stories', href: 'stories.html' },
     { label: 'Builder', href: 'builder.html', accent: true },
-    { label: 'History', href: 'history/'     }
+    { label: 'History', href: 'history/'     },
+    { label: 'Store',   href: 'store.html'   }
   ];
 
   const pathname    = window.location.pathname;
