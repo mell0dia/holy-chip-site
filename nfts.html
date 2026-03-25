@@ -183,28 +183,48 @@
       } catch { return null; }
     }
 
-    // Extract character from NFT name (e.g. "Holy Chip #016 - MACACO-SPACE")
-    function getCharacter(name) {
-      const match = name.match(/- (.+)$/);
+    // Get NFT name from listing data
+    function getName(nft) {
+      return nft.token?.name || nft.extra?.name || nft.name || 'Holy Chip';
+    }
+
+    // Get NFT image from listing data
+    function getImage(nft) {
+      return nft.extra?.img || nft.token?.image || nft.image || '';
+    }
+
+    // Get character from attributes or name
+    function getCharacter(nft) {
+      const attrs = nft.token?.attributes || nft.attributes || [];
+      const charAttr = attrs.find(a => a.trait_type === 'Character');
+      if (charAttr) return charAttr.value;
+      const match = getName(nft).match(/- (.+)$/);
       return match ? match[1] : 'Unknown';
+    }
+
+    // Get mint address for ME link
+    function getMint(nft) {
+      return nft.tokenMint || nft.token?.mintAddress || '';
     }
 
     // Render a single NFT card
     function renderCard(nft) {
       const card = document.createElement('a');
       card.className = 'nft-card';
-      card.href = `${ME_ITEM_URL}/${nft.tokenMint}`;
+      card.href = `${ME_ITEM_URL}/${getMint(nft)}`;
       card.target = '_blank';
       card.style.textDecoration = 'none';
       card.style.color = 'inherit';
 
-      const character = getCharacter(nft.extra?.name || nft.name || '');
+      const name = getName(nft);
+      const image = getImage(nft);
+      const character = getCharacter(nft);
       const priceSOL = nft.price ? nft.price : null;
 
       card.innerHTML = `
-        <img src="${nft.extra?.img || nft.image || ''}" alt="${nft.extra?.name || nft.name || 'Holy Chip NFT'}" loading="lazy">
+        <img src="${image}" alt="${name}" loading="lazy">
         <div class="nft-info">
-          <div class="nft-name">${nft.extra?.name || nft.name || 'Holy Chip'}</div>
+          <div class="nft-name">${name}</div>
           <div class="nft-character">${character}</div>
           ${priceSOL !== null
             ? `<div class="nft-price">${priceSOL} SOL</div>`
@@ -222,7 +242,7 @@
       const sortVal = filterSort.value;
 
       if (charVal) {
-        filtered = filtered.filter(n => getCharacter(n.extra?.name || n.name || '') === charVal);
+        filtered = filtered.filter(n => getCharacter(n) === charVal);
       }
       if (statusVal === 'listed') {
         filtered = filtered.filter(n => n.price != null);
@@ -231,7 +251,7 @@
       filtered.sort((a, b) => {
         if (sortVal === 'price-asc') return (a.price || 999) - (b.price || 999);
         if (sortVal === 'price-desc') return (b.price || 0) - (a.price || 0);
-        if (sortVal === 'name-asc') return (a.extra?.name || '').localeCompare(b.extra?.name || '');
+        if (sortVal === 'name-asc') return getName(a).localeCompare(getName(b));
         return 0;
       });
 
@@ -250,7 +270,7 @@
     // Populate character filter dropdown
     function populateCharFilter() {
       const chars = new Set();
-      allNFTs.forEach(n => chars.add(getCharacter(n.extra?.name || n.name || '')));
+      allNFTs.forEach(n => chars.add(getCharacter(n)));
       const sorted = [...chars].sort();
       sorted.forEach(c => {
         const opt = document.createElement('option');
