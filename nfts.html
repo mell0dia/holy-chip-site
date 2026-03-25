@@ -152,12 +152,13 @@
     const PROXY = 'https://holychip.netlify.app/.netlify/functions/me-proxy';
     const COLLECTION = 'holy_chip';
     const ME_ITEM_URL = 'https://magiceden.us/item-details';
-    const PAGE_SIZE = 40;
+    const PAGE_SIZE = 20;
 
     let allNFTs = [];
     let displayedCount = 0;
     let offset = 0;
     let doneLoading = false;
+    let firstBatchShown = false;
 
     const grid = document.getElementById('nft-grid');
     const loading = document.getElementById('loading');
@@ -272,43 +273,65 @@
       const chars = new Set();
       allNFTs.forEach(n => chars.add(getCharacter(n)));
       const sorted = [...chars].sort();
+      const current = filterChar.value;
+      filterChar.innerHTML = '<option value="">All Characters</option>';
       sorted.forEach(c => {
         const opt = document.createElement('option');
         opt.value = c;
         opt.textContent = c;
         filterChar.appendChild(opt);
       });
+      filterChar.value = current;
     }
 
-    // Load NFTs
+    // Load NFTs — show first batch immediately, fetch rest in background
     async function loadNFTs() {
       try {
-        // Fetch listings (paginated)
-        while (!doneLoading) {
-          const batch = await fetchListings(offset);
-          if (batch.length === 0) { doneLoading = true; break; }
-          allNFTs.push(...batch);
-          offset += 20;
-          // ME API free limit — brief pause
-          await new Promise(r => setTimeout(r, 500));
-          if (batch.length < 20) { doneLoading = true; break; }
+        // Fetch stats in parallel with first batch
+        const [firstBatch, stats] = await Promise.all([
+          fetchListings(0),
+          fetchStats()
+        ]);
+
+        if (stats) {
+          document.getElementById('stat-floor').textContent = stats.floorPrice ? ((stats.floorPrice / 1e9) + ' SOL') : '--';
+          document.getElementById('stat-listed').textContent = stats.listedCount || '--';
+          document.getElementById('stat-total').textContent = stats.totalCount || '--';
         }
 
+        if (firstBatch.length === 0) {
+          loading.innerHTML = 'No NFTs listed. <a href="https://magiceden.us/marketplace/holy_chip" target="_blank" style="color:#000;">View on Magic Eden</a>';
+          return;
+        }
+
+        allNFTs.push(...firstBatch);
+        offset = 20;
+        if (firstBatch.length < 20) doneLoading = true;
+
+        // Show first batch immediately
         loading.style.display = 'none';
         displayedCount = PAGE_SIZE;
         populateCharFilter();
         renderGrid();
+        firstBatchShown = true;
 
-        // Fetch stats
-        const stats = await fetchStats();
-        if (stats) {
-          document.getElementById('stat-floor').textContent = stats.floorPrice ? ((stats.floorPrice / 1e9) + ' SOL') : '--';
-          document.getElementById('stat-listed').textContent = stats.listedCount || '--';
-          document.getElementById('stat-total').textContent = stats.totalCount || allNFTs.length;
+        // Fetch remaining in background
+        while (!doneLoading) {
+          await new Promise(r => setTimeout(r, 300));
+          const batch = await fetchListings(offset);
+          if (batch.length === 0) { doneLoading = true; break; }
+          allNFTs.push(...batch);
+          offset += 20;
+          if (batch.length < 20) doneLoading = true;
+          // Refresh character filter + grid with new data
+          populateCharFilter();
+          renderGrid();
         }
 
       } catch (err) {
-        loading.innerHTML = 'Error loading NFTs. <a href="https://magiceden.us/marketplace/holy_chip" target="_blank" style="color:#000;">View on Magic Eden</a>';
+        if (!firstBatchShown) {
+          loading.innerHTML = 'Error loading NFTs. <a href="https://magiceden.us/marketplace/holy_chip" target="_blank" style="color:#000;">View on Magic Eden</a>';
+        }
         console.error(err);
       }
     }
