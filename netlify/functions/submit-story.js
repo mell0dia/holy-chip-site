@@ -52,15 +52,14 @@ exports.handler = async (event) => {
   // ── NFT Track: verify wallet still owns the claimed NFT ──────
   const ME_API = 'https://api-mainnet.magiceden.dev';
   const COLLECTION = 'holy_chip';
-  const CREATOR_WALLET = process.env.CREATOR_HOT_WALLET || '3FbzRU63fER4WQF6TZyhiAra917U5KAEfWRCBZHNwDko';
 
   if (track === 'nft') {
     if (!wallet || !char_a || !char_b) {
-      return { statusCode: 400, body: 'NFT track requires wallet, char_a (your NFT), and char_b (available NFT)' };
+      return { statusCode: 400, body: 'NFT track requires wallet, char_a (your NFT), and char_b (standard character)' };
     }
 
     try {
-      // Verify user still owns char_a
+      // Verify user still owns char_a NFT
       const ownedRes = await fetch(`${ME_API}/v2/wallets/${wallet}/tokens?collection_symbol=${COLLECTION}&limit=500`);
       if (ownedRes.ok) {
         const owned = await ownedRes.json();
@@ -69,16 +68,7 @@ exports.handler = async (event) => {
           return { statusCode: 400, body: 'You no longer own the selected NFT (Character A). Please refresh and try again.' };
         }
       }
-
-      // Verify char_b is still in creator wallet
-      const creatorRes = await fetch(`${ME_API}/v2/wallets/${CREATOR_WALLET}/tokens?collection_symbol=${COLLECTION}&limit=500`);
-      if (creatorRes.ok) {
-        const creatorTokens = await creatorRes.json();
-        const creatorOwnsCharB = creatorTokens.some(t => t.mintAddress === char_b);
-        if (!creatorOwnsCharB) {
-          return { statusCode: 400, body: 'The selected available NFT (Character B) is no longer available. Please refresh and try again.' };
-        }
-      }
+      // char_b is a standard character (Chip_0, Chip_1, etc.) — no NFT verification needed
     } catch (err) {
       console.error('NFT verification error:', err);
       // Non-blocking — allow submission if ME API is down

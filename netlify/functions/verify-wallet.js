@@ -120,17 +120,14 @@ exports.handler = async (event) => {
     return { statusCode: 401, headers: CORS, body: JSON.stringify({ error: 'Signature verification failed: ' + err.message }) };
   }
 
-  // Fetch NFTs for both wallets in parallel
+  // Fetch user's Holy Chip NFTs
   try {
-    const [owned, creatorTokens] = await Promise.all([
-      fetchWalletTokens(wallet),
-      fetchWalletTokens(CREATOR_WALLET)
-    ]);
+    const owned = await fetchWalletTokens(wallet);
 
     return {
       statusCode: 200,
       headers: CORS,
-      body: JSON.stringify({ owned, available: creatorTokens })
+      body: JSON.stringify({ owned })
     };
   } catch (err) {
     return {

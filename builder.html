@@ -784,18 +784,12 @@
       </div>
     </div>
 
-    <!-- NFT Character Pickers (hidden by default, shown when wallet connected in NFT track) -->
+    <!-- NFT Character A Picker (hidden by default, shown when wallet connected in NFT track) -->
     <div id="nft-pickers" style="display:none">
-      <div style="border:2px solid #000; margin-bottom:1.2rem; padding:1rem;">
-        <div class="col-section-title" style="font-size:0.8rem; color:#000;">Step 1 — Pick Character A <span style="font-size:0.55rem;color:#888;font-weight:normal;">(Your NFT)</span></div>
+      <div style="border:2px solid #000; margin-bottom:1.5rem; padding:1rem;">
+        <div class="col-section-title" style="font-size:0.8rem; color:#000;">Character A <span style="font-size:0.55rem;color:#888;font-weight:normal;">— Your NFT</span></div>
         <div id="nft-picker-a">
           <div class="nft-picker-loading">Loading your NFTs...</div>
-        </div>
-      </div>
-      <div style="border:2px solid #000; margin-bottom:2rem; padding:1rem;">
-        <div class="col-section-title" style="font-size:0.8rem; color:#000;">Step 2 — Pick Character B <span style="font-size:0.55rem;color:#888;font-weight:normal;">(Available NFT)</span></div>
-        <div id="nft-picker-b">
-          <div class="nft-picker-loading">Loading available NFTs...</div>
         </div>
       </div>
     </div>
@@ -950,9 +944,7 @@
     let walletSignature = null;
     let walletMessage = null;
     let ownedNFTs = [];
-    let availableNFTs = [];
     let selectedNftA = null;
-    let selectedNftB = null;
 
     // ── Floating Chips Animation ────────────────────────────────
     (function spawnChips() {
@@ -1019,10 +1011,23 @@
       // Wallet section
       document.getElementById('wallet-section').classList.toggle('hidden', track === 'open');
 
-      // Open characters panel
-      document.querySelectorAll('#builder-form .form-two-col').forEach(s => s.style.display = track === 'open' ? '' : 'none');
+      // Character pickers panel — always visible (both tracks use Character B dropdown)
+      document.querySelectorAll('#builder-form .form-two-col').forEach(s => s.style.display = '');
 
-      // NFT pickers (only if wallet connected)
+      // In NFT track: hide Character A dropdown (replaced by NFT picker), show only Character B
+      const charABlock = document.querySelector('#char-a-picker')?.closest('.char-select-block');
+      const charALabel = charABlock?.querySelector('.char-select-label');
+      if (charABlock) {
+        charABlock.style.display = track === 'nft' ? 'none' : '';
+      }
+      // Update Character B label based on track
+      const charBBlock = document.querySelector('#char-b-picker')?.closest('.char-select-block');
+      const charBLabel = charBBlock?.querySelector('.char-select-label');
+      if (charBLabel) {
+        charBLabel.textContent = track === 'nft' ? 'Character B — Pick from 12 Chips' : 'B — Right';
+      }
+
+      // NFT picker for Character A (only if wallet connected in NFT track)
       document.getElementById('nft-pickers').style.display = (track === 'nft' && walletAddress) ? '' : 'none';
 
       // Agreements
@@ -1032,6 +1037,7 @@
       // For Track B without wallet: hide the form sections
       if (track === 'nft' && !walletAddress) {
         document.querySelectorAll('#builder-form .form-section').forEach(s => s.style.display = 'none');
+        document.querySelectorAll('#builder-form .form-two-col').forEach(s => s.style.display = 'none');
         document.getElementById('submit-btn').style.display = 'none';
       } else {
         document.querySelectorAll('#builder-form .form-section').forEach(s => {
@@ -1097,9 +1103,7 @@
       walletSignature = null;
       walletMessage = null;
       ownedNFTs = [];
-      availableNFTs = [];
       selectedNftA = null;
-      selectedNftB = null;
 
       document.getElementById('wallet-not-connected').style.display = '';
       document.getElementById('wallet-connected').style.display = 'none';
@@ -1137,7 +1141,6 @@
     // ── Fetch NFTs via verify-wallet function ───────────────────
     async function fetchNFTs() {
       document.getElementById('nft-picker-a').innerHTML = '<div class="nft-picker-loading">Loading your NFTs...</div>';
-      document.getElementById('nft-picker-b').innerHTML = '<div class="nft-picker-loading">Loading available NFTs...</div>';
 
       try {
         const res = await fetch(`${PROXY}/verify-wallet`, {
@@ -1157,14 +1160,11 @@
 
         const data = await res.json();
         ownedNFTs = data.owned || [];
-        availableNFTs = data.available || [];
 
         renderNftPicker('nft-picker-a', ownedNFTs, 'a');
-        renderNftPicker('nft-picker-b', availableNFTs, 'b');
 
       } catch (err) {
         document.getElementById('nft-picker-a').innerHTML = `<div class="nft-picker-empty">Failed to load NFTs: ${err.message}</div>`;
-        document.getElementById('nft-picker-b').innerHTML = `<div class="nft-picker-empty">Failed to load NFTs: ${err.message}</div>`;
       }
     }
 
@@ -1231,8 +1231,7 @@
     }
 
     function selectNft(side, nft, containerId) {
-      if (side === 'a') selectedNftA = nft;
-      else selectedNftB = nft;
+      selectedNftA = nft;
 
       // Update visual selection on the picker card
       document.querySelectorAll(`#${containerId} .nft-pick-card`).forEach(card => {
@@ -1240,27 +1239,17 @@
       });
 
       // Show selected confirmation below the picker
-      const label = side === 'a' ? 'Character A' : 'Character B';
-      let confirmEl = document.getElementById(`nft-confirm-${side}`);
+      let confirmEl = document.getElementById('nft-confirm-a');
       if (!confirmEl) {
         confirmEl = document.createElement('div');
-        confirmEl.id = `nft-confirm-${side}`;
+        confirmEl.id = 'nft-confirm-a';
         confirmEl.style.cssText = 'font-size:0.55rem;padding:0.5rem 0;color:#0A6821;letter-spacing:0.06em;display:flex;align-items:center;gap:0.5rem;margin-top:0.4rem;';
-        const pickerContainer = document.getElementById(containerId);
-        pickerContainer.appendChild(confirmEl);
+        document.getElementById(containerId).appendChild(confirmEl);
       }
-      confirmEl.innerHTML = `<img src="${nft.image}" style="width:28px;height:28px;object-fit:cover;border:2px solid #0A6821;"> ${label}: <strong>${nft.name}</strong>`;
+      confirmEl.innerHTML = `<img src="${nft.image}" style="width:28px;height:28px;object-fit:cover;border:2px solid #0A6821;"> Character A: <strong>${nft.name}</strong>`;
 
       // Update speaker pickers in the panels
       if (currentTrack === 'nft') updateAllSpeakerPickers();
-
-      // If both characters selected, scroll to the script section
-      if (selectedNftA && selectedNftB) {
-        setTimeout(() => {
-          const scriptSection = document.querySelector('#builder-form .form-section');
-          if (scriptSection) scriptSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 300);
-      }
 
       saveDraft();
     }
@@ -1369,7 +1358,7 @@
     function getCharForSpeaker(val) {
       if (currentTrack === 'nft') {
         if (val === 'A' && selectedNftA) return { id: selectedNftA.mintAddress, label: selectedNftA.name, img: selectedNftA.image };
-        if (val === 'B' && selectedNftB) return { id: selectedNftB.mintAddress, label: selectedNftB.name, img: selectedNftB.image };
+        if (val === 'B') return selectedB; // Standard 12 characters for Character B
         return null;
       }
       return val === 'A' ? selectedA : val === 'B' ? selectedB : null;
@@ -1617,7 +1606,7 @@
       return {
         track: currentTrack,
         charA: currentTrack === 'nft' ? (selectedNftA?.mintAddress || null) : (selectedA?.id || null),
-        charB: currentTrack === 'nft' ? (selectedNftB?.mintAddress || null) : (selectedB?.id || null),
+        charB: selectedB?.id || null,
         title: document.getElementById('story-title').value,
         panels,
         preIntroVisible,
@@ -1707,7 +1696,7 @@
       if (data.track === 'nft') {
         if (!data.wallet) { firstError = firstError || 'Please connect your wallet first.'; }
         if (!data.charA) { firstError = firstError || 'Please select your NFT (Character A).'; }
-        if (!data.charB) { firstError = firstError || 'Please select an available NFT (Character B).'; }
+        if (!data.charB) { markError('#char-b-picker'); firstError = firstError || 'Please select Character B.'; }
       } else {
         if (!data.charA) { markError('#char-a-picker'); firstError = firstError || 'Please select Character A.'; }
         if (!data.charB) { markError('#char-b-picker'); firstError = firstError || 'Please select Character B.'; }
