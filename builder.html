@@ -737,13 +737,13 @@
       font-family: 'Press Start 2P', monospace;
       font-size: 0.5rem;
       padding: 0.4rem 0.7rem;
-      background: #000;
+      background: #0A6821;
       color: #fff;
-      border: 2px solid #000;
+      border: 2px solid #0A6821;
       cursor: pointer;
       margin-bottom: 1rem;
     }
-    .help-btn:hover { background: #333; }
+    .help-btn:hover { background: #085a1b; }
     .help-btn .help-icon {
       display: inline-flex;
       align-items: center;
@@ -761,7 +761,7 @@
       left: 0;
       width: 180px;
       background: #fff;
-      border: 2px solid #000;
+      border: 2px solid #0A6821;
       box-shadow: 4px 4px 0 rgba(0,0,0,0.15);
       padding: 4px;
       z-index: 20;
@@ -774,7 +774,7 @@
       top: 100%;
       left: 16px;
       border: 6px solid transparent;
-      border-top-color: #000;
+      border-top-color: #0A6821;
     }
     .help-btn:hover .help-tooltip { display: block; }
 
@@ -873,13 +873,14 @@
           <span id="picker-a-arrow" style="float:right;font-size:0.6rem;">▾</span>
         </div>
         <!-- Collapsed summary (hidden until selection) -->
-        <div id="picker-a-summary" style="display:none;cursor:pointer;" onclick="togglePicker('a')">
-          <div style="display:flex;align-items:center;gap:0.6rem;padding:0.3rem 0;">
-            <img id="picker-a-summary-img" src="" style="width:48px;height:48px;object-fit:cover;border:2px solid #0A6821;">
-            <div>
-              <div id="picker-a-summary-name" style="font-size:0.6rem;font-weight:bold;color:#0A6821;"></div>
-              <div style="font-size:0.4rem;color:#888;margin-top:0.2rem;">Click to change</div>
+        <div id="picker-a-summary" style="display:none;cursor:pointer;border:2px solid #0A6821;padding:0.6rem;margin-top:0.5rem;transition:background 0.15s;" onclick="togglePicker('a')" onmouseenter="this.style.background='#f0fff4'" onmouseleave="this.style.background=''">
+          <div style="display:flex;align-items:center;gap:0.8rem;">
+            <img id="picker-a-summary-img" src="" style="width:64px;height:64px;object-fit:cover;border:2px solid #0A6821;">
+            <div style="flex:1;">
+              <div id="picker-a-summary-name" style="font-size:0.65rem;font-weight:bold;color:#0A6821;"></div>
+              <div style="font-size:0.45rem;color:#888;margin-top:0.3rem;">Click to change selection</div>
             </div>
+            <div style="font-size:0.7rem;color:#0A6821;">&#9998;</div>
           </div>
         </div>
         <!-- Expandable picker content -->
@@ -899,13 +900,14 @@
           <span id="picker-b-arrow" style="float:right;font-size:0.6rem;">▾</span>
         </div>
         <!-- Collapsed summary (hidden until selection) -->
-        <div id="picker-b-summary" style="display:none;cursor:pointer;" onclick="togglePicker('b')">
-          <div style="display:flex;align-items:center;gap:0.6rem;padding:0.3rem 0;">
-            <img id="picker-b-summary-img" src="" style="width:48px;height:48px;object-fit:cover;border:2px solid #0A6821;">
-            <div>
-              <div id="picker-b-summary-name" style="font-size:0.6rem;font-weight:bold;color:#0A6821;"></div>
-              <div style="font-size:0.4rem;color:#888;margin-top:0.2rem;">Click to change</div>
+        <div id="picker-b-summary" style="display:none;cursor:pointer;border:2px solid #0A6821;padding:0.6rem;margin-top:0.5rem;transition:background 0.15s;" onclick="togglePicker('b')" onmouseenter="this.style.background='#f0fff4'" onmouseleave="this.style.background=''">
+          <div style="display:flex;align-items:center;gap:0.8rem;">
+            <img id="picker-b-summary-img" src="" style="width:64px;height:64px;object-fit:cover;border:2px solid #0A6821;">
+            <div style="flex:1;">
+              <div id="picker-b-summary-name" style="font-size:0.65rem;font-weight:bold;color:#0A6821;"></div>
+              <div style="font-size:0.45rem;color:#888;margin-top:0.3rem;">Click to change selection</div>
             </div>
+            <div style="font-size:0.7rem;color:#0A6821;">&#9998;</div>
           </div>
         </div>
         <!-- Expandable picker content -->
@@ -1488,7 +1490,7 @@
 
         trigger.addEventListener('click', (e) => {
           e.stopPropagation();
-          togglePicker(side);
+          toggleCharDropdown(side);
         });
       });
 
@@ -1498,7 +1500,7 @@
       });
     }
 
-    function togglePicker(side) {
+    function toggleCharDropdown(side) {
       const isOpen = document.getElementById(`char-${side}-dropdown`).classList.contains('open');
       ['a', 'b'].forEach(s => closePicker(s));
       if (!isOpen) {
