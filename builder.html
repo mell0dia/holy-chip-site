@@ -13,14 +13,83 @@
       background: #fff;
       color: #000;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
     #nav-container { position: relative; z-index: 10; }
 
+    /* ── Floating Chips Background ── */
+    #chips-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .chip {
+      position: absolute;
+      object-fit: contain;
+      filter: grayscale(100%);
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    /* ── Landing Screen ── */
+    .landing {
+      position: relative;
+      z-index: 5;
+      min-height: calc(100vh - 60px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+    }
+    .landing-card {
+      background: rgba(255,255,255,0.96);
+      border: 3px solid #000;
+      padding: 2.5rem 2.5rem 2rem;
+      max-width: 720px;
+      width: 100%;
+      box-shadow: 8px 8px 0 #000;
+      animation: cardIn 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.3s both;
+      text-align: center;
+    }
+    @keyframes cardIn {
+      from { opacity: 0; transform: scale(0.88); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .landing-title {
+      font-size: 1.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+    .landing-subtitle {
+      font-size: 0.65rem;
+      color: #555;
+      line-height: 2;
+      margin-bottom: 2rem;
+    }
+    .landing-prompt {
+      font-size: 0.6rem;
+      color: #999;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+
     .page {
+      position: relative;
+      z-index: 5;
       max-width: 860px;
       margin: 0 auto;
       padding: 2.5rem 1.5rem 4rem;
+      display: none;
+    }
+    .page.visible { display: block; animation: fadeUp 0.4s ease both; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     .page-header {
@@ -42,49 +111,54 @@
       margin-top: 0.4rem;
     }
 
-    /* ── Track Selector ── */
+    /* ── Track Selector (Landing Cards) ── */
     .track-selector {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 0;
-      margin: 1.5rem 0 2rem;
-      border: 2px solid #000;
+      gap: 1.2rem;
+      width: 100%;
     }
     .track-card {
-      padding: 1rem 1.2rem;
+      padding: 1.8rem 1.5rem;
       cursor: pointer;
-      transition: background 0.15s, color 0.15s;
-      border: none;
+      transition: all 0.2s ease;
+      border: 3px solid #000;
       font-family: 'Press Start 2P', monospace;
-      text-align: left;
+      text-align: center;
       background: #fff;
       color: #000;
     }
-    .track-card:first-child { border-right: 2px solid #000; }
-    .track-card.active { background: #000; color: #fff; }
+    .track-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 6px 6px 0 #000;
+    }
+    .track-card:active { transform: translateY(0); box-shadow: 2px 2px 0 #000; }
+    .track-card-icon {
+      font-size: 2rem;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
     .track-card-title {
-      font-size: 0.72rem;
+      font-size: 0.8rem;
       font-weight: bold;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.6rem;
     }
     .track-card-desc {
-      font-size: 0.6rem;
-      line-height: 1.8;
-      opacity: 0.7;
+      font-size: 0.55rem;
+      line-height: 2;
+      color: #666;
     }
-    .track-card.active .track-card-desc { opacity: 0.9; }
     .track-badge {
       display: inline-block;
       background: #0A6821;
       color: #fff;
-      font-size: 0.55rem;
-      padding: 0.2rem 0.5rem;
+      font-size: 0.5rem;
+      padding: 0.25rem 0.6rem;
       letter-spacing: 0.08em;
-      margin-top: 0.4rem;
+      margin-top: 0.8rem;
     }
-    .track-card.active .track-badge { background: #0f0; color: #000; }
 
     /* ── Wallet Connect ── */
     .wallet-section {
@@ -624,37 +698,56 @@
       .instr-inner { grid-template-columns: 1fr; }
       .instr-inner .panel-reference-img-wrap { margin-left: 54px; }
       .dialog-row { grid-template-columns: 130px 1fr auto; }
-      .track-selector { grid-template-columns: 1fr; }
-      .track-card:first-child { border-right: none; border-bottom: 2px solid #000; }
+      .landing { padding: 1.5rem 1rem; min-height: calc(100vh - 50px); }
+      .landing-card { padding: 1.5rem 1rem; }
+      .landing-title { font-size: 1.1rem; }
+      .track-selector { grid-template-columns: 1fr; gap: 0.8rem; }
+      .track-card { padding: 1.2rem 1rem; }
       .nft-picker-grid { grid-template-columns: repeat(3, 1fr); }
     }
   </style>
 </head>
 <body>
 
+  <div id="chips-layer"></div>
   <div id="nav-container"></div>
 
-  <div class="page">
+  <!-- ── LANDING SCREEN ── -->
+  <div class="landing" id="landing">
+    <div class="landing-card">
+      <div class="landing-title">Builder</div>
+      <div class="landing-subtitle">
+        Write a Holy Chip story. We review every submission.<br>
+        Your script could become the next comic.
+      </div>
+      <div class="landing-prompt">Choose your path</div>
+
+      <div class="track-selector">
+        <button class="track-card" onclick="choosePath('open')">
+          <span class="track-card-icon">&#9998;</span>
+          <div class="track-card-title">Open Submission</div>
+          <div class="track-card-desc">Anyone can submit. Pick from 12 characters. No wallet needed.</div>
+        </button>
+        <button class="track-card" onclick="choosePath('nft')">
+          <span class="track-card-icon">&#9830;</span>
+          <div class="track-card-title">NFT Holder</div>
+          <div class="track-card-desc">Connect your wallet. Feature your own NFT in the story.</div>
+          <div class="track-badge">20% Revenue Share</div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FORM PAGE (hidden until track is chosen) ── -->
+  <div class="page" id="form-page">
 
     <div class="page-header">
-      <h1>Builder</h1>
-      <p class="page-subtitle">Write a Holy Chip story. We review every submission.</p>
+      <h1 id="page-title">Builder</h1>
+      <p class="page-subtitle" id="page-sub">Write a Holy Chip story. We review every submission.</p>
+      <button onclick="goBack()" style="background:none;border:none;font-family:'Press Start 2P',monospace;font-size:0.55rem;color:#888;cursor:pointer;margin-top:0.5rem;padding:0;letter-spacing:0.08em;">&#8592; Change track</button>
     </div>
 
-    <!-- Track Selector -->
-    <div class="track-selector">
-      <button class="track-card active" id="track-open-btn" onclick="selectTrack('open')">
-        <div class="track-card-title">Open Submission</div>
-        <div class="track-card-desc">Anyone can submit. Pick from 12 characters. No wallet needed.</div>
-      </button>
-      <button class="track-card" id="track-nft-btn" onclick="selectTrack('nft')">
-        <div class="track-card-title">NFT Holder</div>
-        <div class="track-card-desc">Connect wallet. Feature your NFT in the story.</div>
-        <div class="track-badge">20% Revenue Share</div>
-      </button>
-    </div>
-
-    <!-- Wallet Connect (hidden by default) -->
+    <!-- Wallet Connect (Track B only) -->
     <div class="wallet-section hidden" id="wallet-section">
       <div id="wallet-not-connected">
         <button class="wallet-connect-btn" id="wallet-connect-btn" onclick="connectWallet()">Connect Phantom Wallet</button>
@@ -841,48 +934,91 @@
     let selectedNftA = null;
     let selectedNftB = null;
 
-    // ── Track Switching ─────────────────────────────────────────
-    function selectTrack(track) {
-      currentTrack = track;
-      document.getElementById('track-open-btn').classList.toggle('active', track === 'open');
-      document.getElementById('track-nft-btn').classList.toggle('active', track === 'nft');
+    // ── Floating Chips Animation ────────────────────────────────
+    (function spawnChips() {
+      const chipFiles = [
+        'Chip_0','Chip_1','Chip_100','Chip_101','Chip_110','Chip_111',
+        'Chip_1000','Chip_1001','Chip_1010','Chip_1011','Chip_1100','Chip_1101'
+      ];
+      const layer = document.getElementById('chips-layer');
+      function animateChip(img) {
+        function appear() {
+          const size = 40 + Math.random() * 50;
+          img.style.width = size + 'px';
+          img.style.height = size + 'px';
+          img.style.left = (2 + Math.random() * 88) + '%';
+          img.style.top = (5 + Math.random() * 80) + '%';
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => { img.style.opacity = 0.10 + Math.random() * 0.20; });
+          });
+          setTimeout(() => {
+            img.style.opacity = '0';
+            setTimeout(appear, 600 + Math.random() * 2000);
+          }, 3000);
+        }
+        setTimeout(appear, Math.random() * 6000);
+      }
+      chipFiles.forEach(name => {
+        const img = document.createElement('img');
+        img.src = `characters/${name}.png`;
+        img.className = 'chip';
+        layer.appendChild(img);
+        animateChip(img);
+      });
+    })();
 
-      // Show/hide wallet section
+    // ── Path Choosing (Landing → Form) ──────────────────────────
+    function choosePath(track) {
+      currentTrack = track;
+      document.getElementById('landing').style.display = 'none';
+      const formPage = document.getElementById('form-page');
+      formPage.classList.add('visible');
+
+      if (track === 'open') {
+        document.getElementById('page-title').textContent = 'Open Submission';
+        document.getElementById('page-sub').textContent = 'Pick two characters, write a 3-panel script.';
+      } else {
+        document.getElementById('page-title').textContent = 'NFT Holder';
+        document.getElementById('page-sub').textContent = 'Connect your wallet, feature your NFT, earn 20% revenue share.';
+      }
+
+      applyTrackVisibility();
+    }
+
+    function goBack() {
+      document.getElementById('form-page').classList.remove('visible');
+      document.getElementById('landing').style.display = '';
+      window.scrollTo({ top: 0 });
+    }
+
+    function applyTrackVisibility() {
+      const track = currentTrack;
+
+      // Wallet section
       document.getElementById('wallet-section').classList.toggle('hidden', track === 'open');
 
-      // Show/hide character pickers
-      const openChars = document.querySelector('.form-two-col');
-      if (openChars) openChars.style.display = track === 'open' ? '' : 'none';
+      // Open characters panel
+      document.querySelectorAll('#builder-form .form-two-col').forEach(s => s.style.display = track === 'open' ? '' : 'none');
 
-      // Show/hide NFT pickers (only if wallet connected)
+      // NFT pickers (only if wallet connected)
       document.getElementById('nft-pickers').style.display = (track === 'nft' && walletAddress) ? '' : 'none';
 
-      // Show/hide appropriate agreement
+      // Agreements
       document.getElementById('agreement-open').style.display = track === 'open' ? '' : 'none';
       document.getElementById('agreement-nft').style.display = track === 'nft' ? '' : 'none';
 
-      // Show/hide form (Track B needs wallet connected first)
-      const formSections = document.querySelectorAll('#builder-form .form-section, #builder-form .form-two-col');
+      // For Track B without wallet: hide the form sections
       if (track === 'nft' && !walletAddress) {
-        // Hide the form but keep track selector visible
-        document.getElementById('builder-form').querySelectorAll('.form-section').forEach(s => {
-          if (s.id !== 'agreement-nft') s.style.display = 'none';
-          else s.style.display = 'none';
-        });
-        document.querySelectorAll('#builder-form .form-two-col').forEach(s => s.style.display = 'none');
+        document.querySelectorAll('#builder-form .form-section').forEach(s => s.style.display = 'none');
         document.getElementById('submit-btn').style.display = 'none';
       } else {
-        // Show form
         document.querySelectorAll('#builder-form .form-section').forEach(s => {
           if (s.id === 'agreement-open') s.style.display = track === 'open' ? '' : 'none';
           else if (s.id === 'agreement-nft') s.style.display = track === 'nft' ? '' : 'none';
           else s.style.display = '';
         });
-        document.querySelectorAll('#builder-form .form-two-col').forEach(s => s.style.display = track === 'open' ? '' : 'none');
         document.getElementById('submit-btn').style.display = '';
       }
-
-      saveDraft();
     }
 
     // ── Phantom Wallet Connect ──────────────────────────────────
@@ -923,7 +1059,7 @@
         await fetchNFTs();
 
         // Show pickers and form
-        selectTrack('nft');
+        applyTrackVisibility();
 
       } catch (err) {
         statusEl.textContent = err.message === 'User rejected the request.'
@@ -950,7 +1086,7 @@
       document.getElementById('wallet-status').textContent = 'Connect your Phantom wallet to verify NFT ownership.';
       document.getElementById('nft-pickers').style.display = 'none';
 
-      selectTrack('nft');
+      applyTrackVisibility();
       if (window.solana?.disconnect) window.solana.disconnect().catch(() => {});
     }
 
@@ -1594,9 +1730,9 @@
           try { localStorage.removeItem(DRAFT_KEY); } catch(e) {}
           // Show success screen
           document.getElementById('builder-form').style.display = 'none';
-          document.querySelector('.track-selector').style.display = 'none';
           document.getElementById('wallet-section').style.display = 'none';
           document.getElementById('nft-pickers').style.display = 'none';
+          document.querySelector('.page-header').style.display = 'none';
           if (data.track === 'nft') {
             document.getElementById('success-message').innerHTML =
               'Thank you for your NFT holder submission.<br>If selected, you\'ll earn 20% of the primary sale sent to your wallet.<br>We review every story personally. We\'ll be in touch.';
