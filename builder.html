@@ -758,7 +758,7 @@
       display: none;
       position: absolute;
       bottom: calc(100% + 8px);
-      left: 0;
+      right: 0;
       width: 180px;
       background: #fff;
       border: 2px solid #0A6821;
@@ -772,7 +772,7 @@
       content: '';
       position: absolute;
       top: 100%;
-      left: 16px;
+      right: 16px;
       border: 6px solid transparent;
       border-top-color: #0A6821;
     }
@@ -870,7 +870,7 @@
       <div style="border:2px solid #000; margin-bottom:1.5rem; padding:1rem;">
         <div class="col-section-title" style="font-size:0.8rem; color:#000; cursor:pointer;" onclick="togglePicker('a')">
           Character A <span style="font-size:0.55rem;color:#888;font-weight:normal;">— Your NFT</span>
-          <span id="picker-a-arrow" style="float:right;font-size:0.6rem;">▾</span>
+          <span id="picker-a-arrow" style="float:right;font-size:1.2rem;line-height:1;">▾</span>
         </div>
         <!-- Collapsed summary (hidden until selection) -->
         <div id="picker-a-summary" style="display:none;cursor:pointer;border:2px solid #0A6821;padding:0.6rem;margin-top:0.5rem;transition:background 0.15s;" onclick="togglePicker('a')" onmouseenter="this.style.background='#f0fff4'" onmouseleave="this.style.background=''">
@@ -897,7 +897,7 @@
       <div style="border:2px solid #000; margin-bottom:1.5rem; padding:1rem;">
         <div class="col-section-title" style="font-size:0.8rem; color:#000; cursor:pointer;" onclick="togglePicker('b')">
           Character B <span style="font-size:0.55rem;color:#888;font-weight:normal;">— Pick from 12 Chips</span>
-          <span id="picker-b-arrow" style="float:right;font-size:0.6rem;">▾</span>
+          <span id="picker-b-arrow" style="float:right;font-size:1.2rem;line-height:1;">▾</span>
         </div>
         <!-- Collapsed summary (hidden until selection) -->
         <div id="picker-b-summary" style="display:none;cursor:pointer;border:2px solid #0A6821;padding:0.6rem;margin-top:0.5rem;transition:background 0.15s;" onclick="togglePicker('b')" onmouseenter="this.style.background='#f0fff4'" onmouseleave="this.style.background=''">
@@ -918,7 +918,7 @@
     </div>
 
     <!-- Instructions help button for NFT track -->
-    <div id="nft-instructions" style="display:none">
+    <div id="nft-instructions" style="display:none;text-align:right;">
       <button class="help-btn" onclick="document.getElementById('help-modal').classList.add('open')">
         <span class="help-icon">?</span> How it works
         <div class="help-tooltip">
