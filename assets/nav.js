@@ -5,8 +5,8 @@
   const pathPrefix = inSubdir ? '../' : '';
 
   const navItems = [
-    { label: 'NFTs',    href: 'nfts.html'    },
     { label: 'Stories', href: 'stories.html' },
+    { label: 'NFTs',    href: 'nfts.html'    },
     { label: 'Builder', href: 'builder.html', accent: true },
     { label: 'History', href: 'history/'     },
     { label: 'Store',   href: 'store.html'   }
