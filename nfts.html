@@ -151,7 +151,6 @@
     const loading = document.getElementById('loading');
     const loadMoreBtn = document.getElementById('load-more');
     const filterChar = document.getElementById('filter-character');
-    const filterStatus = document.getElementById('filter-status');
     const filterSort = document.getElementById('filter-sort');
 
     // Fetch all listings from ME API
@@ -226,14 +225,10 @@
     function getFilteredNFTs() {
       let filtered = [...allNFTs];
       const charVal = filterChar.value;
-      const statusVal = filterStatus.value;
       const sortVal = filterSort.value;
 
       if (charVal) {
         filtered = filtered.filter(n => getCharacter(n) === charVal);
-      }
-      if (statusVal === 'listed') {
-        filtered = filtered.filter(n => n.price != null);
       }
 
       filtered.sort((a, b) => {
@@ -321,7 +316,6 @@
     });
 
     filterChar.addEventListener('change', () => { displayedCount = PAGE_SIZE; renderGrid(); });
-    filterStatus.addEventListener('change', () => { displayedCount = PAGE_SIZE; renderGrid(); });
     filterSort.addEventListener('change', () => { displayedCount = PAGE_SIZE; renderGrid(); });
 
     // Go
