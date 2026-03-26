@@ -11,6 +11,84 @@
     h1 { color:#222; margin-bottom:0.5rem; }
     .step-title { font-size:0.84rem; color:#666; margin:2rem 0 1rem; }
 
+    /* ── Product Showcase ── */
+    .showcase {
+      margin: 2rem 0 2.5rem;
+    }
+    .showcase-title {
+      font-size: 0.9rem;
+      color: #0A6821;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .showcase-card {
+      background: #fff;
+      border: 2px solid #eee;
+      padding: 1.2rem;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+    .showcase-card:hover {
+      border-color: #0A6821;
+      box-shadow: 0 4px 16px rgba(10,104,33,0.12);
+      transform: translateY(-3px);
+    }
+    .showcase-card img {
+      width: 100%;
+      max-height: 220px;
+      object-fit: contain;
+      margin-bottom: 0.8rem;
+    }
+    .showcase-card-name {
+      font-size: 0.72rem;
+      font-weight: bold;
+      color: #222;
+      margin-bottom: 0.3rem;
+    }
+    .showcase-card-desc {
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 0.85rem;
+      color: #888;
+      margin-bottom: 0.5rem;
+    }
+    .showcase-card-price {
+      font-size: 0.8rem;
+      color: #0A6821;
+      font-weight: bold;
+    }
+    .showcase-cta {
+      text-align: center;
+      margin: 1.5rem 0 0.5rem;
+    }
+    .showcase-cta-btn {
+      display: inline-block;
+      background: #0A6821;
+      color: #fff;
+      border: none;
+      padding: 0.9rem 2rem;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.7rem;
+      cursor: pointer;
+      letter-spacing: 0.06em;
+      transition: background 0.2s;
+    }
+    .showcase-cta-btn:hover {
+      background: #085a1b;
+    }
+    @media (max-width: 768px) {
+      .showcase-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+    }
+    @media (max-width: 480px) {
+      .showcase-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .showcase-card img { max-height: 180px; }
+    }
+
     /* Cart Button */
     .cart-btn {
       position: fixed;
@@ -587,12 +665,42 @@
   <div class="toast-container" id="toastContainer"></div>
 
   <div class="content">
-    <h1>Store — Products</h1>
-    <p style="color:#666;">Choose your Chip and add products to cart!</p>
+    <h1 style="color:#0A6821;">Store</h1>
+    <p style="color:#666;font-size:0.65rem;margin-bottom:0.5rem;">Wear your favorite Chip. Every product is printed on demand.</p>
 
-    <!-- Step 1: Choose Chip -->
-    <div id="chipSelection">
-      <div class="step-title">Choose Your Chip</div>
+    <!-- Product Showcase -->
+    <div class="showcase" id="showcase">
+      <div class="showcase-title">What We Sell</div>
+      <div class="showcase-grid">
+        <div class="showcase-card">
+          <img src="assets/mockups/Chip_0_style5_white_front.png" alt="Fitted T-Shirt">
+          <div class="showcase-card-name">Fitted T-Shirt</div>
+          <div class="showcase-card-desc">Chip on front, brand on back</div>
+          <div class="showcase-card-price">$25.00</div>
+        </div>
+        <div class="showcase-card">
+          <img src="assets/mockups/Chip_1_ringer_white_front.png" alt="Cotton Ringer T-Shirt">
+          <div class="showcase-card-name">Cotton Ringer</div>
+          <div class="showcase-card-desc">Retro style with contrast trim</div>
+          <div class="showcase-card-price">$25.00</div>
+        </div>
+        <div class="showcase-card">
+          <img src="assets/mug-mockups/Chip_100_mug_front.png" alt="Mug">
+          <div class="showcase-card-name">Mug</div>
+          <div class="showcase-card-desc">Chip + brand side by side</div>
+          <div class="showcase-card-price">$18.90</div>
+        </div>
+      </div>
+      <div class="showcase-cta">
+        <button class="showcase-cta-btn" onclick="document.getElementById('showcase').style.display='none'; document.getElementById('chipSelection').style.display='block';">
+          Choose Your Chip &darr;
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 1: Choose Chip (hidden until CTA clicked) -->
+    <div id="chipSelection" style="display:none;">
+      <div class="step-title">Step 1 — Choose Your Chip</div>
       <div class="character-grid" id="characterGrid"></div>
     </div>
 
@@ -710,6 +818,7 @@
     // Select a chip
     function selectChip(chip) {
       selectedChip = chip;
+      document.getElementById('showcase').style.display = 'none';
       document.getElementById('chipSelection').style.display = 'none';
       document.getElementById('productsSection').classList.add('active');
       document.getElementById('selectedChipName').textContent = chip + ' Products';
