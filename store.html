@@ -8,86 +8,184 @@
   <style>
     body { font-family: 'Press Start 2P', monospace; background:#fafafa; color:#222; margin:0; min-height:100vh; }
     .content { max-width:1200px; margin:2rem auto; padding:0 1.5rem; }
-    h1 { color:#222; margin-bottom:0.5rem; }
-    .step-title { font-size:0.84rem; color:#666; margin:2rem 0 1rem; }
+    h1 { color:#0A6821; margin-bottom:0.5rem; }
+    .subtitle { color:#666; font-size:0.65rem; margin-bottom:1.5rem; }
 
-    /* ── Product Showcase ── */
-    .showcase {
-      margin: 2rem 0 2.5rem;
+    /* ── Chip Strip ── */
+    .chip-strip {
+      display: flex;
+      gap: 0.6rem;
+      overflow-x: auto;
+      padding: 0.5rem 0 1rem;
+      margin-bottom: 1.5rem;
+      scrollbar-width: thin;
     }
-    .showcase-title {
-      font-size: 0.9rem;
+    .chip-strip::-webkit-scrollbar { height: 4px; }
+    .chip-strip::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
+    .chip-thumb {
+      flex-shrink: 0;
+      width: 72px;
+      height: 72px;
+      border: 3px solid transparent;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #fff;
+      padding: 4px;
+      opacity: 0.5;
+    }
+    .chip-thumb:hover { opacity: 0.8; border-color: #ccc; }
+    .chip-thumb.selected {
+      border-color: #0A6821;
+      opacity: 1;
+      box-shadow: 0 0 0 2px rgba(10, 104, 33, 0.2);
+    }
+    .chip-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+    }
+
+    /* ── Selected Chip Name ── */
+    .selected-name {
+      font-size: 0.8rem;
       color: #0A6821;
       margin-bottom: 1.5rem;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
-    .showcase-grid {
+    .selected-name img {
+      width: 36px;
+      height: 36px;
+      mix-blend-mode: multiply;
+    }
+
+    /* ── Product Grid ── */
+    .product-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1.5rem;
       margin-bottom: 2rem;
     }
-    .showcase-card {
-      background: #fff;
+    .product-card {
       border: 2px solid #eee;
       padding: 1.2rem;
-      text-align: center;
-      transition: all 0.2s ease;
+      background: white;
+      transition: all 0.2s;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
-    .showcase-card {
-      cursor: default;
+    .product-card * {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
-    .showcase-card img {
-      width: 100%;
-      max-height: 220px;
-      object-fit: contain;
+    .product-card:hover {
+      border-color: #000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .product-images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.4rem;
       margin-bottom: 0.8rem;
     }
-    .showcase-card-name {
-      font-size: 0.72rem;
-      font-weight: bold;
-      color: #222;
-      margin-bottom: 0.3rem;
+    .product-image-box {
+      background: #f5f5f5;
+      border: 1px solid #eee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+      aspect-ratio: 1;
     }
-    .showcase-card-desc {
-      font-family: system-ui, -apple-system, sans-serif;
-      font-size: 0.85rem;
+    .product-image-box img {
+      max-width: 90%;
+      max-height: 85%;
+      object-fit: contain;
+      cursor: zoom-in;
+    }
+    .product-image-box .img-label {
+      font-size: 0.65rem;
+      color: #999;
+      margin-top: 0.25rem;
+      text-transform: uppercase;
+    }
+    .product-image-single {
+      background: #f5f5f5;
+      border: 1px solid #eee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+      aspect-ratio: 4/3;
+      margin-bottom: 0.8rem;
+    }
+    .product-image-single img {
+      max-width: 70%;
+      max-height: 80%;
+      object-fit: contain;
+      cursor: zoom-in;
+    }
+    .product-image-single .img-label {
+      font-size: 0.65rem;
+      color: #999;
+      margin-top: 0.25rem;
+    }
+    .product-name {
+      font-size: 0.82rem;
+      font-weight: bold;
+      margin-bottom: 0.2rem;
+      color: #222;
+    }
+    .product-desc {
+      font-size: 0.82rem;
       color: #888;
       margin-bottom: 0.5rem;
     }
-    .showcase-card-price {
-      font-size: 0.8rem;
+    .product-price {
+      font-size: 0.9rem;
       color: #0A6821;
       font-weight: bold;
+      margin-bottom: 0.8rem;
     }
-    .showcase-cta {
-      text-align: center;
-      margin: 1.5rem 0 0.5rem;
+    .size-row {
+      margin-bottom: 0.8rem;
     }
-    .showcase-cta-btn {
-      display: inline-block;
-      background: #0A6821;
-      color: #fff;
-      border: none;
-      padding: 0.9rem 2rem;
-      font-family: 'Press Start 2P', monospace;
-      font-size: 0.7rem;
+    .size-row label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 0.3rem;
+    }
+    .size-row select {
+      width: 100%;
+      padding: 0.6rem;
+      font-size: 0.9rem;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      border: 2px solid #ddd;
+      border-radius: 4px;
       cursor: pointer;
-      letter-spacing: 0.06em;
+    }
+    .size-row select:hover { border-color: #000; }
+    .size-row select:focus { outline: none; border-color: #000; }
+    .add-btn {
+      width: 100%;
+      padding: 0.85rem;
+      background: #000;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: bold;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       transition: background 0.2s;
     }
-    .showcase-cta-btn:hover {
-      background: #085a1b;
-    }
-    @media (max-width: 768px) {
-      .showcase-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
-    }
-    @media (max-width: 480px) {
-      .showcase-grid { grid-template-columns: 1fr; gap: 1rem; }
-      .showcase-card img { max-height: 180px; }
-    }
+    .add-btn:hover { background: #333; }
 
-    /* Cart Button */
+    /* ── Cart Button ── */
     .cart-btn {
       position: fixed;
       top: 80px;
@@ -102,12 +200,8 @@
       z-index: 100;
       transition: transform 0.3s ease;
     }
-    .cart-btn:hover {
-      background: #333;
-    }
-    .cart-btn.bounce {
-      animation: cartBounce 0.5s ease;
-    }
+    .cart-btn:hover { background: #333; }
+    .cart-btn.bounce { animation: cartBounce 0.5s ease; }
     @keyframes cartBounce {
       0%, 100% { transform: scale(1); }
       25% { transform: scale(1.15); }
@@ -123,166 +217,13 @@
       margin-left: 0.5rem;
       transition: all 0.3s ease;
     }
-    .cart-count.pulse {
-      animation: countPulse 0.5s ease;
-    }
+    .cart-count.pulse { animation: countPulse 0.5s ease; }
     @keyframes countPulse {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.3); background: #00ff00; }
     }
 
-    /* Character Grid */
-    .character-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    .character-grid.hidden {
-      display: none;
-    }
-    .character-card {
-      border: none;
-      padding: 0.5rem;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      background: transparent;
-    }
-    .character-card:hover {
-      transform: scale(1.05);
-      box-shadow: 4px 4px 0 #000;
-    }
-    .character-card img {
-      width: 100%;
-      height: auto;
-      display: block;
-      mix-blend-mode: multiply;
-    }
-
-    /* Product Cards */
-    .products-section {
-      display: none;
-    }
-    .products-section.active {
-      display: block;
-    }
-    .back-btn {
-      background: #000;
-      color: white;
-      border: none;
-      padding: 0.8rem 1.5rem;
-      cursor: pointer;
-      margin-bottom: 1rem;
-      font-size: 1rem;
-    }
-    .back-btn:hover {
-      background: #333;
-    }
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-    .product-card {
-      border: 2px solid #ddd;
-      padding: 1.5rem;
-      background: white;
-      transition: all 0.2s ease;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    }
-    .product-card * {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    }
-    .product-card:hover {
-      border-color: #000;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    .product-images {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-    }
-    .product-image {
-      width: 100%;
-      height: 200px;
-      background: #f5f5f5;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid #ddd;
-    }
-    .product-image img {
-      max-width: 90%;
-      max-height: 160px;
-      margin-bottom: 0.25rem;
-    }
-    .product-image .label {
-      font-size: 0.75rem;
-      color: #666;
-      text-transform: uppercase;
-    }
-    .product-title {
-      font-size: 0.77rem;
-      font-weight: bold;
-      margin-bottom: 0.5rem;
-    }
-    .product-description {
-      font-size: 0.9rem;
-      color: #666;
-      margin-bottom: 1rem;
-    }
-    .product-price {
-      font-size: 0.91rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
-    }
-    .size-selector {
-      margin-bottom: 1rem;
-    }
-    .size-selector label {
-      display: block;
-      font-size: 0.9rem;
-      font-weight: bold;
-      margin-bottom: 0.5rem;
-      color: #333;
-    }
-    .size-selector select {
-      width: 100%;
-      padding: 0.75rem;
-      font-size: 1rem;
-      border: 2px solid #ddd;
-      border-radius: 4px;
-      background: white;
-      cursor: pointer;
-      transition: border-color 0.2s ease;
-    }
-    .size-selector select:hover {
-      border-color: #000;
-    }
-    .size-selector select:focus {
-      outline: none;
-      border-color: #000;
-    }
-    .add-to-cart-btn {
-      width: 100%;
-      padding: 1rem;
-      background: #000;
-      color: white;
-      border: none;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: bold;
-      transition: all 0.2s ease;
-    }
-    .add-to-cart-btn:hover {
-      background: #333;
-    }
-
-    /* Toast Notifications */
+    /* ── Toast ── */
     .toast-container {
       position: fixed;
       top: 100px;
@@ -306,14 +247,8 @@
       position: relative;
       overflow: hidden;
     }
-    .toast.warning {
-      border-color: #ff6b00;
-      background: #fff8f0;
-    }
-    .toast.success {
-      border-color: #000;
-      background: white;
-    }
+    .toast.warning { border-color: #ff6b00; background: #fff8f0; }
+    .toast.success { border-color: #000; background: white; }
     .toast::before {
       content: '';
       position: absolute;
@@ -324,93 +259,33 @@
       background: #000;
       animation: shrink var(--toast-duration, 3s) linear;
     }
-    .toast.warning::before {
-      background: #ff6b00;
-    }
-    @keyframes slideIn {
-      from {
-        transform: translateX(400px);
-        opacity: 0;
-      }
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
-    }
-    @keyframes slideOut {
-      from {
-        transform: translateX(0);
-        opacity: 1;
-      }
-      to {
-        transform: translateX(400px);
-        opacity: 0;
-      }
-    }
-    @keyframes shrink {
-      from { width: 100%; }
-      to { width: 0%; }
-    }
-    .toast.hiding {
-      animation: slideOut 0.3s ease;
-    }
-    .toast-logo {
-      width: 40px;
-      height: 40px;
-      flex-shrink: 0;
-    }
-    .toast-content {
-      flex: 1;
-    }
-    .toast-title {
-      font-weight: bold;
-      font-size: 1rem;
-      margin-bottom: 0.25rem;
-      color: #000;
-    }
-    .toast-message {
-      font-size: 0.9rem;
-      color: #666;
-      line-height: 1.4;
-    }
-    .toast-close {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: #999;
-      padding: 0;
-      width: 24px;
-      height: 24px;
-      line-height: 1;
-      flex-shrink: 0;
-    }
-    .toast-close:hover {
-      color: #000;
-    }
+    .toast.warning::before { background: #ff6b00; }
+    @keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(400px); opacity: 0; } }
+    @keyframes shrink { from { width: 100%; } to { width: 0%; } }
+    .toast.hiding { animation: slideOut 0.3s ease; }
+    .toast-logo { width: 40px; height: 40px; flex-shrink: 0; }
+    .toast-content { flex: 1; }
+    .toast-title { font-weight: bold; font-size: 1rem; margin-bottom: 0.25rem; color: #000; }
+    .toast-message { font-size: 0.9rem; color: #666; line-height: 1.4; }
+    .toast-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #999; padding: 0; width: 24px; height: 24px; line-height: 1; flex-shrink: 0; }
+    .toast-close:hover { color: #000; }
 
-    /* Cart Modal — system font throughout */
-    .cart-content,
-    .cart-content * {
+    /* ── Cart Modal ── */
+    .cart-content, .cart-content * {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
-
-    /* Cart Modal */
     .cart-modal {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: rgba(0,0,0,0.5);
       z-index: 1000;
       align-items: center;
       justify-content: center;
     }
-    .cart-modal.active {
-      display: flex;
-    }
+    .cart-modal.active { display: flex; }
     .cart-content {
       background: white;
       max-width: 600px;
@@ -420,18 +295,8 @@
       padding: 2rem;
       position: relative;
     }
-    .cart-close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: none;
-      border: none;
-      font-size: 2rem;
-      cursor: pointer;
-    }
-    .cart-items {
-      margin: 2rem 0;
-    }
+    .cart-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 2rem; cursor: pointer; }
+    .cart-items { margin: 2rem 0; }
     .shipping-warning {
       background: #fff8f0;
       border: 2px solid #ff6b00;
@@ -442,23 +307,10 @@
       align-items: flex-start;
       gap: 1rem;
     }
-    .shipping-warning-icon {
-      font-size: 1.5rem;
-      flex-shrink: 0;
-    }
-    .shipping-warning-content {
-      flex: 1;
-    }
-    .shipping-warning-title {
-      font-weight: bold;
-      color: #ff6b00;
-      margin-bottom: 0.25rem;
-    }
-    .shipping-warning-message {
-      font-size: 0.9rem;
-      color: #666;
-      line-height: 1.4;
-    }
+    .shipping-warning-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .shipping-warning-content { flex: 1; }
+    .shipping-warning-title { font-weight: bold; color: #ff6b00; margin-bottom: 0.25rem; }
+    .shipping-warning-message { font-size: 0.9rem; color: #666; line-height: 1.4; }
     .cart-item {
       display: flex;
       align-items: center;
@@ -466,102 +318,44 @@
       padding: 1rem;
       border-bottom: 1px solid #ddd;
     }
-    .cart-item-image {
-      width: 60px;
-      height: 60px;
-      object-fit: cover;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-    }
-    .cart-item-info {
-      flex: 1;
-    }
-    .cart-item-quantity {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+    .cart-item-image { width: 60px; height: 60px; object-fit: cover; border: 1px solid #ddd; border-radius: 4px; }
+    .cart-item-info { flex: 1; }
+    .cart-item-quantity { display: flex; align-items: center; gap: 0.5rem; }
     .qty-btn {
-      background: #000;
-      color: white;
-      border: none;
-      width: 28px;
-      height: 28px;
-      cursor: pointer;
-      font-size: 1.2rem;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      background: #000; color: white; border: none;
+      width: 28px; height: 28px; cursor: pointer;
+      font-size: 1.2rem; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
     }
-    .qty-btn:hover {
-      background: #333;
-    }
-    .qty-input {
-      width: 50px;
-      text-align: center;
-      padding: 0.4rem;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 1rem;
-    }
-    .cart-item-subtotal {
-      font-weight: bold;
-      min-width: 70px;
-      text-align: right;
-    }
+    .qty-btn:hover { background: #333; }
+    .qty-input { width: 50px; text-align: center; padding: 0.4rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem; }
+    .cart-item-subtotal { font-weight: bold; min-width: 70px; text-align: right; }
     .cart-item-remove {
-      background: #0A6821;
-      color: white;
-      border: none;
-      width: 32px;
-      height: 32px;
-      cursor: pointer;
-      font-size: 1.5rem;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      background: #0A6821; color: white; border: none;
+      width: 32px; height: 32px; cursor: pointer;
+      font-size: 1.5rem; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
     }
-    .cart-item-remove:hover {
-      background: #085a1c;
-    }
-    .cart-total {
-      font-size: 1.05rem;
-      font-weight: bold;
-      text-align: right;
-      margin: 2rem 0;
-    }
+    .cart-item-remove:hover { background: #085a1c; }
+    .cart-total { font-size: 1.05rem; font-weight: bold; text-align: right; margin: 2rem 0; }
     .checkout-btn {
-      width: 100%;
-      padding: 1.5rem;
-      background: #000;
-      color: white;
-      border: none;
-      font-size: 0.84rem;
-      font-weight: bold;
-      cursor: pointer;
+      width: 100%; padding: 1.5rem; background: #000; color: white;
+      border: none; font-size: 0.84rem; font-weight: bold; cursor: pointer;
     }
-    .checkout-btn:hover {
-      background: #333;
-    }
+    .checkout-btn:hover { background: #333; }
 
-    /* Image Lightbox */
+    /* ── Image Lightbox ── */
     .image-lightbox {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: rgba(0,0,0,0.9);
       z-index: 2000;
       align-items: center;
       justify-content: center;
     }
-    .image-lightbox.active {
-      display: flex;
-    }
+    .image-lightbox.active { display: flex; }
     .lightbox-content {
       max-width: 90%;
       max-height: 90vh;
@@ -570,83 +364,48 @@
       align-items: center;
       gap: 2rem;
     }
-    .lightbox-content img {
-      max-width: 100%;
-      max-height: 90vh;
-      display: block;
-      margin: 0 auto;
-    }
+    .lightbox-content img { max-width: 100%; max-height: 90vh; display: block; margin: 0 auto; }
     .lightbox-close {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: white;
-      color: #000;
-      border: none;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      font-size: 1.5rem;
-      cursor: pointer;
-      z-index: 2001;
+      position: absolute; top: 20px; right: 20px;
+      background: white; color: #000; border: none;
+      width: 40px; height: 40px; border-radius: 50%;
+      font-size: 1.5rem; cursor: pointer; z-index: 2001;
     }
     .lightbox-nav {
-      background: rgba(255,255,255,0.9);
-      color: #000;
-      border: none;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      font-size: 1.5rem;
-      cursor: pointer;
-      flex-shrink: 0;
+      background: rgba(255,255,255,0.9); color: #000; border: none;
+      width: 50px; height: 50px; border-radius: 50%;
+      font-size: 1.5rem; cursor: pointer; flex-shrink: 0;
     }
-    .lightbox-nav:hover {
-      background: white;
-    }
-    .lightbox-nav:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
+    .lightbox-nav:hover { background: white; }
+    .lightbox-nav:disabled { opacity: 0.3; cursor: not-allowed; }
     .lightbox-counter {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255,255,255,0.9);
-      color: #000;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      font-size: 0.9rem;
-    }
-    .product-image img {
-      cursor: zoom-in;
+      position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+      background: rgba(255,255,255,0.9); color: #000;
+      padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;
     }
 
     /* ── Responsive ── */
-    @media (max-width: 768px) {
-      .character-grid { grid-template-columns: repeat(3, 1fr); }
-      .product-grid   { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; }
-      .cart-btn       { top: auto; bottom: 1.2rem; right: 1rem; padding: 0.75rem 1.2rem; font-size: 0.9rem; }
-      .toast-container{ top: auto; bottom: 5rem; right: 1rem; left: 1rem; max-width: 100%; }
-      .cart-content   { padding: 1.2rem; max-height: 90vh; }
-      .lightbox-content { gap: 0.5rem; max-width: 98%; }
+    @media (max-width: 900px) {
+      .product-grid { grid-template-columns: 1fr 1fr; }
     }
-
-    @media (max-width: 480px) {
-      .content        { padding: 0 0.75rem; margin-top: 1rem; }
-      .character-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
-
-      .product-grid   { grid-template-columns: 1fr; gap: 1rem; }
-      .product-images { grid-template-columns: 1fr 1fr; }
-      .product-image  { height: 160px; }
-      .cart-item      { flex-wrap: wrap; gap: 0.5rem; }
-      .cart-item-image{ width: 48px; height: 48px; }
-      .qty-btn        { width: 44px; height: 44px; font-size: 1.4rem; }
+    @media (max-width: 768px) {
+      .cart-btn { top: auto; bottom: 1.2rem; right: 1rem; padding: 0.75rem 1.2rem; font-size: 0.9rem; }
+      .toast-container { top: auto; bottom: 5rem; right: 1rem; left: 1rem; max-width: 100%; }
+      .cart-content { padding: 1.2rem; max-height: 90vh; }
+      .chip-thumb { width: 60px; height: 60px; }
+    }
+    @media (max-width: 560px) {
+      .content { padding: 0 0.75rem; margin-top: 1rem; }
+      .product-grid { grid-template-columns: 1fr; }
+      .chip-thumb { width: 54px; height: 54px; }
+      .cart-item { flex-wrap: wrap; gap: 0.5rem; }
+      .cart-item-image { width: 48px; height: 48px; }
+      .qty-btn { width: 44px; height: 44px; font-size: 1.4rem; }
       .cart-item-remove { width: 44px; height: 44px; }
-      .cart-total     { font-size: 1.2rem; }
-      .checkout-btn   { padding: 1rem; font-size: 1rem; }
-      .lightbox-nav   { width: 40px; height: 40px; font-size: 1.2rem; }
+      .cart-total { font-size: 1.2rem; }
+      .checkout-btn { padding: 1rem; font-size: 1rem; }
+      .lightbox-content { gap: 0.5rem; max-width: 98%; }
+      .lightbox-nav { width: 40px; height: 40px; font-size: 1.2rem; }
     }
   </style>
 </head>
@@ -663,57 +422,23 @@
   <div class="toast-container" id="toastContainer"></div>
 
   <div class="content">
-    <h1 style="color:#0A6821;">Store</h1>
-    <p style="color:#666;font-size:0.65rem;margin-bottom:0.5rem;">Wear your favorite Chip. Every product is printed on demand.</p>
+    <h1>Store</h1>
+    <p class="subtitle">Wear your favorite Chip. Every product is printed on demand.</p>
 
-    <!-- Product Showcase -->
-    <div class="showcase" id="showcase">
-      <div class="showcase-title">What We Sell</div>
-      <div class="showcase-grid">
-        <div class="showcase-card">
-          <img src="assets/mockups/Chip_0_style5_white_front.png" alt="Fitted T-Shirt">
-          <div class="showcase-card-name">Fitted T-Shirt</div>
-          <div class="showcase-card-desc">Chip on front, brand on back</div>
-          <div class="showcase-card-price">US $25.00</div>
-        </div>
-        <div class="showcase-card">
-          <img src="assets/mockups/Chip_1_ringer_white_front.png" alt="Cotton Ringer T-Shirt">
-          <div class="showcase-card-name">Cotton Ringer</div>
-          <div class="showcase-card-desc">Retro style with contrast trim</div>
-          <div class="showcase-card-price">US $25.00</div>
-        </div>
-        <div class="showcase-card">
-          <img src="assets/mug-mockups/Chip_100_mug_front.png" alt="Mug">
-          <div class="showcase-card-name">Mug</div>
-          <div class="showcase-card-desc">Chip + brand side by side</div>
-          <div class="showcase-card-price">US $18.90</div>
-        </div>
-      </div>
-      <div class="showcase-cta">
-        <button class="showcase-cta-btn" onclick="document.getElementById('showcase').style.display='none'; document.getElementById('chipSelection').style.display='block';">
-          Step 1 — Choose Your Chip &darr;
-        </button>
-      </div>
-    </div>
+    <!-- Chip Strip -->
+    <div class="chip-strip" id="chipStrip"></div>
 
-    <!-- Step 1: Choose Chip (hidden until CTA clicked) -->
-    <div id="chipSelection" style="display:none;">
-      <div class="step-title">Step 1 — Choose Your Chip</div>
-      <div class="character-grid" id="characterGrid"></div>
-    </div>
+    <!-- Selected Chip Indicator -->
+    <div class="selected-name" id="selectedName"></div>
 
-    <!-- Step 2: Product Cards for Selected Chip -->
-    <div class="products-section" id="productsSection">
-      <button class="back-btn" onclick="goBack()">← Back to Chips</button>
-      <h2 id="selectedChipName"></h2>
-      <div class="product-grid" id="productGrid"></div>
-    </div>
+    <!-- Product Cards -->
+    <div class="product-grid" id="productGrid"></div>
   </div>
 
   <!-- Cart Modal -->
   <div class="cart-modal" id="cartModal">
     <div class="cart-content">
-      <button class="cart-close" onclick="closeCart()">×</button>
+      <button class="cart-close" onclick="closeCart()">&#215;</button>
       <h2>Your Cart</h2>
       <div class="cart-items" id="cartItems"></div>
       <div class="cart-total">
@@ -728,17 +453,16 @@
 
   <!-- Image Lightbox -->
   <div class="image-lightbox" id="imageLightbox" onclick="closeLightbox()">
-    <button class="lightbox-close" onclick="closeLightbox()">×</button>
+    <button class="lightbox-close" onclick="closeLightbox()">&#215;</button>
     <div class="lightbox-content" onclick="event.stopPropagation()">
-      <button class="lightbox-nav" id="lightboxPrev" onclick="showPrevImage()">‹</button>
+      <button class="lightbox-nav" id="lightboxPrev" onclick="showPrevImage()">&#8249;</button>
       <img id="lightboxImage" src="" alt="">
-      <button class="lightbox-nav" id="lightboxNext" onclick="showNextImage()">›</button>
+      <button class="lightbox-nav" id="lightboxNext" onclick="showNextImage()">&#8250;</button>
     </div>
     <div class="lightbox-counter" id="lightboxCounter">1 of 2</div>
   </div>
 
   <script>
-    // Characters
     const characters = [
       'Chip_0', 'Chip_1',
       'Chip_100', 'Chip_101', 'Chip_110', 'Chip_111',
@@ -748,92 +472,53 @@
       'Chip_10100', 'Chip_10101', 'Chip_10111'
     ];
 
-    // Product definitions - T-shirts and Mugs
     const productStyles = [
-      {
-        id: 'style5',
-        name: 'Fitted',
-        description: 'Front: Chip | Back: Brand',
-        price: 25.00,
-        type: 'T-Shirt',
-        category: 'tshirt'
-      },
-      {
-        id: 'ringer',
-        name: 'Cotton Ringer',
-        description: 'Classic retro style with contrast trim',
-        price: 25.00,
-        type: 'T-Shirt',
-        category: 'tshirt'
-      },
-      {
-        id: 'mug',
-        name: 'Mug',
-        description: 'Chip + Brand side by side',
-        price: 18.90,
-        type: 'Mug',
-        category: 'mug',
-        colors: ['Black', 'Red', 'Navy'],
-        sizes: ['11oz', '15oz']
-      }
+      { id: 'style5', name: 'Fitted', description: 'Chip on front, brand on back', price: 25.00, type: 'T-Shirt', category: 'tshirt' },
+      { id: 'ringer', name: 'Cotton Ringer', description: 'Retro style with contrast trim', price: 25.00, type: 'T-Shirt', category: 'tshirt' },
+      { id: 'mug', name: 'Mug', description: 'Chip + brand side by side', price: 18.90, type: 'Mug', category: 'mug' }
     ];
 
-    // Cart state
     let cart = JSON.parse(localStorage.getItem('holyChipCart') || '[]');
-    let selectedChip = null;
-    let productData = null; // Will hold product-data.json with Stripe Price IDs
+    let selectedChip = characters[0];
+    let productData = null;
 
-    // Initialize
+    // Init
     loadProductData();
-    loadCharacterGrid();
+    buildChipStrip();
+    selectChip(selectedChip);
     updateCartCount();
 
-    // Load product data with Stripe Price IDs
     async function loadProductData() {
       try {
         const response = await fetch('product-data.json');
         productData = await response.json();
-        console.log('Product data loaded:', productData);
       } catch (error) {
         console.error('Failed to load product data:', error);
       }
     }
 
-    // Load character grid
-    function loadCharacterGrid() {
-      const grid = document.getElementById('characterGrid');
-      characters.forEach(char => {
-        const card = document.createElement('div');
-        card.className = 'character-card';
-        card.innerHTML = `
-          <img src="characters/${char}.png" alt="${char}">
-        `;
-        card.onclick = () => selectChip(char);
-        grid.appendChild(card);
+    function buildChipStrip() {
+      const strip = document.getElementById('chipStrip');
+      characters.forEach(chip => {
+        const el = document.createElement('div');
+        el.className = 'chip-thumb' + (chip === selectedChip ? ' selected' : '');
+        el.innerHTML = `<img src="characters/${chip}.png" alt="${chip}">`;
+        el.onclick = () => selectChip(chip);
+        el.id = 'thumb-' + chip;
+        strip.appendChild(el);
       });
     }
 
-    // Select a chip
     function selectChip(chip) {
+      document.querySelectorAll('.chip-thumb').forEach(el => el.classList.remove('selected'));
+      document.getElementById('thumb-' + chip).classList.add('selected');
       selectedChip = chip;
-      document.getElementById('showcase').style.display = 'none';
-      document.getElementById('chipSelection').style.display = 'none';
-      document.getElementById('productsSection').classList.add('active');
-      document.getElementById('selectedChipName').textContent = chip + ' Products';
-
-      // Load products for this chip
-      loadProducts(chip);
+      document.getElementById('thumb-' + chip).scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      document.getElementById('selectedName').innerHTML = `<img src="characters/${chip}.png" alt="${chip}"> ${chip}`;
+      buildProducts(chip);
     }
 
-    // Go back to chip selection
-    function goBack() {
-      document.getElementById('chipSelection').style.display = 'block';
-      document.getElementById('productsSection').classList.remove('active');
-      selectedChip = null;
-    }
-
-    // Load product cards
-    function loadProducts(chip) {
+    function buildProducts(chip) {
       const grid = document.getElementById('productGrid');
       grid.innerHTML = '';
 
@@ -841,56 +526,42 @@
         const card = document.createElement('div');
         card.className = 'product-card';
 
-        let productImagesHTML = '';
+        let imagesHTML = '';
 
         if (style.category === 'tshirt') {
-          // T-shirts: Front and back images
-          const frontImage = `assets/mockups/${chip}_${style.id}_white_front.png`;
-          const backImage = `assets/mockups/${chip}_${style.id}_white_back.png`;
-
-          productImagesHTML = `
+          const front = `assets/mockups/${chip}_${style.id}_white_front.png`;
+          const back = `assets/mockups/${chip}_${style.id}_white_back.png`;
+          imagesHTML = `
             <div class="product-images">
-              <div class="product-image">
-                <img src="${frontImage}" alt="${chip} ${style.name} Front"
-                     onerror="this.src='characters/${chip}.png'"
-                     onclick="openLightbox(['${frontImage}', '${backImage}'], 0)">
-                <div class="label">Front</div>
+              <div class="product-image-box">
+                <img src="${front}" alt="Front" onerror="this.src='characters/${chip}.png'"
+                     onclick="openLightbox(['${front}', '${back}'], 0)">
+                <div class="img-label">Front</div>
               </div>
-              <div class="product-image">
-                <img src="${backImage}" alt="${chip} ${style.name} Back"
-                     onerror="this.src='assets/brand.png'"
-                     onclick="openLightbox(['${frontImage}', '${backImage}'], 1)">
-                <div class="label">Back</div>
+              <div class="product-image-box">
+                <img src="${back}" alt="Back" onerror="this.src='assets/brand.png'"
+                     onclick="openLightbox(['${front}', '${back}'], 1)">
+                <div class="img-label">Back</div>
               </div>
-            </div>
-          `;
-        } else if (style.category === 'mug') {
-          // Mugs: Show front view, lightbox has all 6 angles
+            </div>`;
+        } else {
           const mugFront = `assets/mug-mockups/${chip}_mug_front.png`;
           const mugBack = `assets/mug-mockups/${chip}_mug_back.png`;
           const mugLeft = `assets/mug-mockups/${chip}_mug_left.png`;
           const mugRight = `assets/mug-mockups/${chip}_mug_right.png`;
-          const mugContext1 = `assets/mug-mockups/${chip}_mug_context1.png`;
-          const mugContext2 = `assets/mug-mockups/${chip}_mug_context2.png`;
-
-          const mugAngles = [mugFront, mugBack, mugLeft, mugRight, mugContext1, mugContext2];
-
-          productImagesHTML = `
-            <div class="product-image" style="height: 250px; margin-bottom: 1rem;">
-              <img src="${mugFront}" alt="${chip} Mug"
-                   onerror="this.src='characters/${chip}.png'"
-                   onclick="openLightbox(['${mugFront}', '${mugBack}', '${mugLeft}', '${mugRight}', '${mugContext1}', '${mugContext2}'], 0)"
-                   style="max-height: 230px; cursor: pointer;">
-              <div class="label" style="margin-top: 0.5rem; font-size: 0.8rem; color: #666;">Click to see all angles</div>
-            </div>
-          `;
+          const mugCtx1 = `assets/mug-mockups/${chip}_mug_context1.png`;
+          const mugCtx2 = `assets/mug-mockups/${chip}_mug_context2.png`;
+          imagesHTML = `
+            <div class="product-image-single">
+              <img src="${mugFront}" alt="Mug" onerror="this.src='characters/${chip}.png'"
+                   onclick="openLightbox(['${mugFront}', '${mugBack}', '${mugLeft}', '${mugRight}', '${mugCtx1}', '${mugCtx2}'], 0)">
+              <div class="img-label">Click to see all angles</div>
+            </div>`;
         }
 
-        const colorInfo = style.colors ? `<div style="font-size: 0.6rem; color: #888; margin-bottom: 0.5rem;">Colors: ${style.colors.join(', ')} | Sizes: ${style.sizes.join(', ')}</div>` : '';
-
-        const sizeSelector = style.type === 'T-Shirt' ? `
-          <div class="size-selector">
-            <label for="size-${chip}-${style.id}">Select Size:</label>
+        const sizeHTML = style.type === 'T-Shirt' ? `
+          <div class="size-row">
+            <label>Size</label>
             <select id="size-${chip}-${style.id}">
               <option value="S">Small (S)</option>
               <option value="M" selected>Medium (M)</option>
@@ -898,156 +569,107 @@
               <option value="XL">X-Large (XL)</option>
               <option value="2XL">2X-Large (2XL)</option>
             </select>
-          </div>
-        ` : '';
+          </div>` : '';
 
         card.innerHTML = `
-          ${productImagesHTML}
-          <div class="product-title">${chip} ${style.type} - ${style.name}</div>
-          ${colorInfo}
-          <div class="product-price">USD $${style.price.toFixed(2)}</div>
-          ${sizeSelector}
-          <button class="add-to-cart-btn" onclick='addToCartWithSize("${chip}", "${style.id}", "${style.name}", ${style.price}, "${style.type}")'>
-            Add to Cart
-          </button>
+          ${imagesHTML}
+          <div class="product-name">${style.name}</div>
+          <div class="product-desc">${style.description}</div>
+          <div class="product-price">US $${style.price.toFixed(2)}</div>
+          ${sizeHTML}
+          <button class="add-btn" onclick='addToCartFromCard("${chip}", "${style.id}", "${style.name}", ${style.price}, "${style.type}")'>Add to Cart</button>
         `;
         grid.appendChild(card);
       });
     }
 
-    // Add to cart with size selection
-    function addToCartWithSize(chip, styleId, styleName, price, productType = 'T-Shirt') {
+    function addToCartFromCard(chip, styleId, styleName, price, productType) {
       let size = null;
-
-      // Get selected size for t-shirts
       if (productType === 'T-Shirt') {
-        const sizeSelect = document.getElementById(`size-${chip}-${styleId}`);
-        if (sizeSelect) {
-          size = sizeSelect.value;
-        } else {
-          showToast('Size Required', 'Please select a size for your t-shirt.', 'warning');
-          return;
-        }
+        const sel = document.getElementById(`size-${chip}-${styleId}`);
+        if (sel) size = sel.value;
+        else { showToast('Size Required', 'Please select a size.', 'warning'); return; }
       }
 
-      addToCart(chip, styleId, styleName, price, productType, size);
-    }
-
-    // Add to cart
-    function addToCart(chip, styleId, styleName, price, productType = 'T-Shirt', size = null) {
-      // Get product image
       let productImage = '';
       if (productType === 'T-Shirt') {
         productImage = `assets/mockups/${chip}_${styleId}_white_front.png`;
-      } else if (productType === 'Mug') {
+      } else {
         productImage = `assets/mug-mockups/${chip}_mug_front.png`;
       }
 
-      // Find Stripe Price ID and Printify Product ID from product data
       let stripePriceId = null;
       let productId = null;
       if (productData) {
         if (productType === 'Mug') {
-          const mugProduct = productData.mugs.products.find(p => p.chip === chip);
-          stripePriceId = mugProduct?.stripePriceId;
-          productId = mugProduct?.productId;
-        } else if (productType === 'T-Shirt') {
-          const tshirtProduct = productData.tshirts.products.find(
-            p => p.chip === chip && p.style === styleId
-          );
-          stripePriceId = tshirtProduct?.stripePriceId;
-          productId = tshirtProduct?.productId;
+          const p = productData.mugs.products.find(p => p.chip === chip);
+          stripePriceId = p?.stripePriceId;
+          productId = p?.productId;
+        } else {
+          const p = productData.tshirts.products.find(p => p.chip === chip && p.style === styleId);
+          stripePriceId = p?.stripePriceId;
+          productId = p?.productId;
         }
       }
 
       if (!stripePriceId || !productId) {
         showToast('Error', 'Product not found. Please contact support.', 'warning');
-        console.error('Missing product data for:', { chip, styleId, productType });
+        console.error('Missing product data:', { chip, styleId, productType });
         return;
       }
 
       const item = {
-        chip: chip,
-        styleId: styleId,
-        styleName: styleName,
-        price: price,
-        productType: productType,
+        chip, styleId, styleName: styleName, price, productType,
         productName: `${chip} ${productType} - ${styleName}${size ? ` (${size})` : ''}`,
-        productImage: productImage,
-        stripePriceId: stripePriceId,
-        productId: productId, // Printify product ID for shipping calculation
-        size: size,
-        quantity: 1
+        productImage, stripePriceId, productId, size, quantity: 1
       };
 
-      // Check if item already exists in cart (including size)
       const existingIndex = cart.findIndex(i =>
         i.chip === chip && i.styleId === styleId && i.productType === productType && i.size === size
       );
 
       if (existingIndex >= 0) {
-        // Increase quantity if already in cart
         cart[existingIndex].quantity++;
       } else {
-        // Add new item
         cart.push(item);
       }
 
       localStorage.setItem('holyChipCart', JSON.stringify(cart));
       updateCartCount();
-      animateCart(); // Animate cart button instead of toast
+      animateCart();
     }
 
-    // Update cart count
     function updateCartCount() {
-      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-      document.getElementById('cartCount').textContent = totalItems;
+      const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.getElementById('cartCount').textContent = total;
     }
 
-    // Animate cart button when item added
     function animateCart() {
-      const cartBtn = document.querySelector('.cart-btn');
-      const cartCount = document.getElementById('cartCount');
-
-      // Add bounce animation to button
-      cartBtn.classList.add('bounce');
-      setTimeout(() => cartBtn.classList.remove('bounce'), 500);
-
-      // Add pulse animation to count badge
-      cartCount.classList.add('pulse');
-      setTimeout(() => cartCount.classList.remove('pulse'), 500);
+      const btn = document.querySelector('.cart-btn');
+      const count = document.getElementById('cartCount');
+      btn.classList.add('bounce');
+      setTimeout(() => btn.classList.remove('bounce'), 500);
+      count.classList.add('pulse');
+      setTimeout(() => count.classList.remove('pulse'), 500);
     }
 
-    // Show toast notification
     function showToast(title, message, type = 'success', duration = 3000) {
       const container = document.getElementById('toastContainer');
-
       const toast = document.createElement('div');
       toast.className = `toast ${type}`;
-
       toast.innerHTML = `
         <img src="assets/brand.png" alt="Holy Chip" class="toast-logo">
         <div class="toast-content">
           <div class="toast-title">${title}</div>
           <div class="toast-message">${message}</div>
         </div>
-        <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+        <button class="toast-close" onclick="this.parentElement.remove()">&#215;</button>
       `;
-
       container.appendChild(toast);
-
-      // Set animation duration for progress bar
-      const durationInSeconds = duration / 1000;
-      toast.style.setProperty('--toast-duration', `${durationInSeconds}s`);
-
-      // Auto-remove after specified duration
-      setTimeout(() => {
-        toast.classList.add('hiding');
-        setTimeout(() => toast.remove(), 300);
-      }, duration);
+      toast.style.setProperty('--toast-duration', `${duration / 1000}s`);
+      setTimeout(() => { toast.classList.add('hiding'); setTimeout(() => toast.remove(), 300); }, duration);
     }
 
-    // Open cart
     function openCart() {
       const modal = document.getElementById('cartModal');
       const itemsDiv = document.getElementById('cartItems');
@@ -1055,26 +677,18 @@
       if (cart.length === 0) {
         itemsDiv.innerHTML = '<p style="text-align:center;color:#666;">Your cart is empty</p>';
       } else {
-        // Check for mixed basket (shirts + mugs)
-        const hasShirts = cart.some(item => item.productType === 'T-Shirt');
-        const hasMugs = cart.some(item => item.productType === 'Mug');
-        const isMixed = hasShirts && hasMugs;
-
-        // Add shipping warning if mixed
-        const shippingWarning = isMixed ? `
+        const hasShirts = cart.some(i => i.productType === 'T-Shirt');
+        const hasMugs = cart.some(i => i.productType === 'Mug');
+        const warning = (hasShirts && hasMugs) ? `
           <div class="shipping-warning">
-            <div class="shipping-warning-icon">⚠️</div>
+            <div class="shipping-warning-icon">&#9888;&#65039;</div>
             <div class="shipping-warning-content">
-              <div class="shipping-warning-title">Higher Shipping Costs for Mixed Orders</div>
-              <div class="shipping-warning-message">
-                Orders with both shirts and mugs ship separately, resulting in higher shipping costs.
-                Consider ordering items of the same type together to save on shipping!
-              </div>
+              <div class="shipping-warning-title">Higher Shipping for Mixed Orders</div>
+              <div class="shipping-warning-message">Shirts and mugs ship separately. Order same type together to save on shipping.</div>
             </div>
-          </div>
-        ` : '';
+          </div>` : '';
 
-        itemsDiv.innerHTML = shippingWarning + cart.map((item, index) => `
+        itemsDiv.innerHTML = warning + cart.map((item, i) => `
           <div class="cart-item">
             <img src="${item.productImage}" alt="${item.productName}" class="cart-item-image"
                  onerror="this.src='characters/${item.chip}.png'">
@@ -1083,58 +697,45 @@
               <span style="color:#666;">USD $${item.price.toFixed(2)} each</span>
             </div>
             <div class="cart-item-quantity">
-              <button onclick="updateQuantity(${index}, -1)" class="qty-btn">-</button>
+              <button onclick="updateQuantity(${i}, -1)" class="qty-btn">-</button>
               <input type="number" value="${item.quantity}" min="1"
-                     onchange="setQuantity(${index}, this.value)"
-                     class="qty-input">
-              <button onclick="updateQuantity(${index}, 1)" class="qty-btn">+</button>
+                     onchange="setQuantity(${i}, this.value)" class="qty-input">
+              <button onclick="updateQuantity(${i}, 1)" class="qty-btn">+</button>
             </div>
-            <div class="cart-item-subtotal">
-              USD $${(item.price * item.quantity).toFixed(2)}
-            </div>
-            <button class="cart-item-remove" onclick="removeFromCart(${index})">×</button>
+            <div class="cart-item-subtotal">USD $${(item.price * item.quantity).toFixed(2)}</div>
+            <button class="cart-item-remove" onclick="removeFromCart(${i})">&#215;</button>
           </div>
         `).join('');
       }
 
-      // Calculate total
       const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
       document.getElementById('cartTotal').textContent = total.toFixed(2);
-
       modal.classList.add('active');
     }
 
-    // Close cart
-    function closeCart() {
-      document.getElementById('cartModal').classList.remove('active');
-    }
+    function closeCart() { document.getElementById('cartModal').classList.remove('active'); }
 
-    // Update quantity
     function updateQuantity(index, change) {
       cart[index].quantity = Math.max(1, cart[index].quantity + change);
       localStorage.setItem('holyChipCart', JSON.stringify(cart));
       updateCartCount();
-      openCart(); // Refresh cart display
+      openCart();
     }
 
-    // Set quantity directly
     function setQuantity(index, value) {
-      const qty = parseInt(value) || 1;
-      cart[index].quantity = Math.max(1, qty);
+      cart[index].quantity = Math.max(1, parseInt(value) || 1);
       localStorage.setItem('holyChipCart', JSON.stringify(cart));
       updateCartCount();
-      openCart(); // Refresh cart display
+      openCart();
     }
 
-    // Remove from cart
     function removeFromCart(index) {
       cart.splice(index, 1);
       localStorage.setItem('holyChipCart', JSON.stringify(cart));
       updateCartCount();
-      openCart(); // Refresh cart display
+      openCart();
     }
 
-    // Clear entire cart
     function clearCart() {
       cart = [];
       localStorage.setItem('holyChipCart', JSON.stringify(cart));
@@ -1142,18 +743,15 @@
       openCart();
     }
 
-    // Checkout
     function checkout() {
       if (cart.length === 0) {
-        showToast('Cart Empty', 'Please add some items to your cart before checking out.', 'warning');
+        showToast('Cart Empty', 'Add items before checking out.', 'warning');
         return;
       }
-
-      // Redirect to custom checkout page
       window.location.href = 'checkout.html';
     }
 
-    // Image Lightbox functions
+    // Lightbox
     let lightboxImages = [];
     let currentLightboxIndex = 0;
 
@@ -1165,48 +763,22 @@
     }
 
     function showLightboxImage() {
-      const lightboxImage = document.getElementById('lightboxImage');
-      const counter = document.getElementById('lightboxCounter');
-      const prevBtn = document.getElementById('lightboxPrev');
-      const nextBtn = document.getElementById('lightboxNext');
-
-      lightboxImage.src = lightboxImages[currentLightboxIndex];
-      counter.textContent = `${currentLightboxIndex + 1} of ${lightboxImages.length}`;
-
-      // Enable/disable navigation buttons
-      prevBtn.disabled = currentLightboxIndex === 0;
-      nextBtn.disabled = currentLightboxIndex === lightboxImages.length - 1;
+      document.getElementById('lightboxImage').src = lightboxImages[currentLightboxIndex];
+      document.getElementById('lightboxCounter').textContent = `${currentLightboxIndex + 1} of ${lightboxImages.length}`;
+      document.getElementById('lightboxPrev').disabled = currentLightboxIndex === 0;
+      document.getElementById('lightboxNext').disabled = currentLightboxIndex === lightboxImages.length - 1;
     }
 
-    function showPrevImage() {
-      if (currentLightboxIndex > 0) {
-        currentLightboxIndex--;
-        showLightboxImage();
-      }
-    }
+    function showPrevImage() { if (currentLightboxIndex > 0) { currentLightboxIndex--; showLightboxImage(); } }
+    function showNextImage() { if (currentLightboxIndex < lightboxImages.length - 1) { currentLightboxIndex++; showLightboxImage(); } }
+    function closeLightbox() { document.getElementById('imageLightbox').classList.remove('active'); }
 
-    function showNextImage() {
-      if (currentLightboxIndex < lightboxImages.length - 1) {
-        currentLightboxIndex++;
-        showLightboxImage();
-      }
-    }
-
-    function closeLightbox() {
-      document.getElementById('imageLightbox').classList.remove('active');
-    }
-
-    // Keyboard navigation
-    document.addEventListener('keydown', function(event) {
-      const lightbox = document.getElementById('imageLightbox');
-      if (lightbox.classList.contains('active')) {
-        if (event.key === 'Escape') {
-          closeLightbox();
-        } else if (event.key === 'ArrowLeft') {
-          showPrevImage();
-        } else if (event.key === 'ArrowRight') {
-          showNextImage();
-        }
+    document.addEventListener('keydown', function(e) {
+      const lb = document.getElementById('imageLightbox');
+      if (lb.classList.contains('active')) {
+        if (e.key === 'Escape') closeLightbox();
+        else if (e.key === 'ArrowLeft') showPrevImage();
+        else if (e.key === 'ArrowRight') showNextImage();
       }
     });
   </script>
