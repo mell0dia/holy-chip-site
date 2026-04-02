@@ -1,22 +1,52 @@
 printify-config.js
 printify-products.json
 .vercel
+.netlify
+.DS_Store
 
 # Environment files with secrets
 .env.check
 .env.production.local
 
-# Test scripts with API keys
-create-stripe-prices-*.js
-update-swiftpod-in-stripe.js
-test-fulfillment-dryrun.js
-*-shipping*.js
-create-*-mugs.js
-create-*-ringers.js
-create-*-swiftpod*.js
-update-*-stripe.js
+# Dependencies
+node_modules/
+netlify/functions/node_modules/
+
+# Local utility/debug scripts
+check-*.js
+create-*.js
+delete-*.js
+debug-*.html
+download-*.js
+fetch-*.js
+find-*.js
+fix-*.js
+get-*.js
+list-*.js
+publish-*.js
+replicate-*.js
+smart-update.js
+submit-order-*.js
+test-*.js
+test-*.html
+update-*.js
+verify-*.js
+full-inventory.js
 fulfill-orders.js
 rebuild-all-products.js
+*-shipping*.js
 
-# Local Netlify folder
-.netlify
+# Local data/config dumps
+*.log
+cotton-ringers.json
+printify-choice-mugs*.json
+processed-orders.json
+swiftpod-*.json
+template-*.json
+trigger-netlify-deploy.txt
+
+# Old assets
+assets/mockups-old/
+
+# Supabase local
+supabase/
