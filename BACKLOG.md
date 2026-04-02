@@ -110,11 +110,18 @@ _Things to build, improve, and explore._
 
 ---
 
-### Email Notifications (Store)
-- [ ] Implement email confirmations for customers (SendGrid)
-- [ ] Order confirmation email after payment
-- [ ] Shipping notification email (from Printify)
-- [ ] Admin notification when new order is placed
+### ✅ Email Notifications (Store) — DONE (Apr 1, 2026)
+- [x] Buyer confirmation email after payment (via Resend, orders@holy-chip.com)
+- [x] Printify shipping notification enabled (buyer gets tracking when order ships)
+- [x] Admin notification on every checkout (success + failure alerts)
+- [x] Alert emails on missing config, Printify failures, webhook crashes
+- [x] Retry logic on Printify order creation failure
+- [x] Stripe live webhook configured → holychip.netlify.app/.netlify/functions/stripe-webhook
+
+### ✅ Stripe-Printify Pipeline Fix (Apr 1, 2026)
+- [x] Live Stripe webhook was missing — created and connected
+- [x] Missing Netlify env vars added: STRIPE_WEBHOOK_SECRET, PRINTIFY_API_TOKEN, PRINTIFY_SHOP_ID, RESEND_API_KEY
+- [x] Manually created Printify order for pi_3TFIUuJZLzX0hJCS0SpdYMME ($63.78, 2x Ringer L)
 
 ### Order Tracking
 - [ ] Build order tracking page
@@ -183,6 +190,31 @@ _Things to build, improve, and explore._
 
 > All NFT tasks are tracked here. See `HolyChip/nft/NFT-PLAN.md` for full roadmap and on-chain details.
 
+### ✅ COMPLETED — Image Consolidation (2026-03-24)
+
+**251 images copied** from Google Drive to `HolyChip/nft/Characters/` with 8-bit binary filenames.
+- Binary range: `00000001.png` to `11111011.png`
+- Images are **randomly shuffled** — consecutive IDs come from different characters
+- `manifest.json` maps each binary name → character + original filename + parsed attributes
+- Script: `HolyChip/nft/copy-images.js` (Fisher-Yates shuffle)
+- 24 character folders found, 22 with images (APOCALYPTIC and _TRUMP-MULTIVERSO have 0)
+- [ ] **Delete originals from Google Drive** (pending Ricardo's confirmation)
+
+**Image Counts by Character:**
+| Character | Count | | Character | Count |
+|-----------|-------|-|-----------|-------|
+| ASTRONAUTA | 15 | | JASON-MAD | 12 |
+| BABY | 8 | | MACACO-SPACE | 19 |
+| BOT1 | 13 | | MACHINE | 14 |
+| BOT2 | 11 | | MADMAX | 10 |
+| BUDA-MONGE-V1 | 8 | | MEDICO-V1 | 7 |
+| CICLOPE | 21 | | PIRATA | 7 |
+| CONTADOR | 14 | | POLICE-V1 | 18 |
+| ESPIROCADO | 9 | | ROBOT | 10 |
+| EYES-OF-LOVE | 8 | | TRUMP | 10 |
+| IRMAO-DO-PIRATA | 10 | | VISION | 7 |
+| JASON | 13 | | ZURETA | 7 |
+
 ### ⏳ Waiting On User
 - [ ] **2nd creator public key** (25% royalty split) — needed before next batch config
 
@@ -191,7 +223,7 @@ _Things to build, improve, and explore._
 - [ ] **List 1 test NFT on Magic Eden** — verify metadata, image, attributes display correctly
 - [ ] **Top up hot wallet** — need ~0.8–1 SOL for 300 cNFT mint (~0.063 SOL currently)
 - [ ] **Update Candy Machine config** — set 75/25 creator split (cold wallet 75% + 2nd key 25%)
-- [ ] **Prepare 300 images + metadata** — batch metadata generation with attribute/rarity structure
+- [ ] **Prepare 300 images + metadata** — batch metadata generation with attribute/rarity structure (use manifest.json from image consolidation)
 - [ ] **Mint 300 cNFTs on Mainnet** — new Candy Machine with updated creator split
 
 ### 💡 Medium Priority
@@ -204,12 +236,13 @@ _Things to build, improve, and explore._
 - ✅ Format: Compressed NFTs (cNFTs) for 300+ scale
 - ✅ First 5 NFTs minted (Chip_0 → Chip_110) — kept as-is, no creator split change
 - ✅ New batches will use 75/25 creator split
+- ✅ Binary filenames (8-bit) + manifest.json for traceability (decided 2026-03-23)
 
 ---
 
 ## 🚫 Not Doing (Decided Against)
 
-- ❌ **Automatic webhook fulfillment** - Manual approval preferred for quality control
+- ❌ **Auto-submit Printify orders to production** - Orders created as DRAFT, manual approval preferred for quality control
 - ❌ **Color selection for t-shirts** - Brand requires white shirts only
 - ❌ **Printify store integration** - Custom checkout provides better UX
 
@@ -220,17 +253,22 @@ _Things to build, improve, and explore._
 **Current System Status:**
 - ✅ Live store on GitHub Pages
 - ✅ Netlify functions for checkout
-- ✅ Manual fulfillment workflow
-- ✅ 12 characters × 3 t-shirt styles + mugs
+- ✅ Stripe → Webhook → Printify order pipeline (live, with email alerts)
+- ✅ Buyer confirmation email + Printify shipping notifications
+- ✅ 12 characters × 2 t-shirt styles + mugs
 - ✅ Size selection for t-shirts
 - ✅ Dynamic shipping calculation
 
+**Netlify Env Vars:**
+- `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `PRINTIFY_API_TOKEN`, `PRINTIFY_SHOP_ID`, `RESEND_API_KEY`, `CREATOR_HOT_WALLET`
+
 **Platform:**
 - Frontend: GitHub Pages
-- Backend: Netlify Functions ($19/month)
+- Backend: Netlify Functions
 - Payment: Stripe (2.9% + $0.30 per transaction)
 - Fulfillment: Printify (pay per order)
+- Email: Resend (orders@holy-chip.com, stories@holy-chip.com)
 
 ---
 
-**Last Updated**: March 6, 2026
+**Last Updated**: April 1, 2026
