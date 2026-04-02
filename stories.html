@@ -450,22 +450,25 @@
       });
     }
 
-    // ── Auto-discover HC000 … HC200 ─────────────────────────
+    // ── Auto-discover HC000 … HC200 (batched to avoid rate-limits) ──
     async function discover() {
       const found = [];
-      const checks = [];
-      for (let n = 0; n <= 200; n++) {
-        const main = `${BASE}HC${PAD(n)}.png`;
-        const pre  = `${BASE}HC${PAD(n)}.pre.png`;
-        checks.push(
-          Promise.all([
-            fetch(main, { method: 'HEAD' }).then(r => r.ok ? main : null).catch(() => null),
-            fetch(pre,  { method: 'HEAD' }).then(r => r.ok ? pre  : null).catch(() => null),
-          ]).then(([m, p]) => m ? { num: n, main: m, pre: p } : null)
-        );
+      const BATCH = 20;
+      for (let start = 0; start <= 200; start += BATCH) {
+        const checks = [];
+        for (let n = start; n < Math.min(start + BATCH, 201); n++) {
+          const main = `${BASE}HC${PAD(n)}.png`;
+          const pre  = `${BASE}HC${PAD(n)}.pre.png`;
+          checks.push(
+            Promise.all([
+              fetch(main, { method: 'HEAD' }).then(r => r.ok ? main : null).catch(() => null),
+              fetch(pre,  { method: 'HEAD' }).then(r => r.ok ? pre  : null).catch(() => null),
+            ]).then(([m, p]) => m ? { num: n, main: m, pre: p } : null)
+          );
+        }
+        const results = await Promise.all(checks);
+        results.forEach(r => { if (r) found.push(r); });
       }
-      const results = await Promise.all(checks);
-      results.forEach(r => { if (r) found.push(r); });
       found.sort((a, b) => a.num - b.num);
       return found;
     }
