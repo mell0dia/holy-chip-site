@@ -12,12 +12,13 @@ const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const NOTIFY_EMAIL = 'rico.duoba@gmail.com';
 const FROM_EMAIL = 'orders@holy-chip.com';
 
-// Send email via Resend
-async function sendEmail(subject, htmlBody) {
+// Send email via Resend (to = string or array, defaults to NOTIFY_EMAIL)
+async function sendEmail(subject, htmlBody, to) {
   if (!RESEND_API_KEY) {
     console.error('RESEND_API_KEY not configured - skipping email');
     return;
   }
+  const recipients = to ? (Array.isArray(to) ? to : [to]) : [NOTIFY_EMAIL];
   try {
     const resp = await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -26,8 +27,8 @@ async function sendEmail(subject, htmlBody) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: FROM_EMAIL,
-        to: [NOTIFY_EMAIL],
+        from: `Holy Chip <${FROM_EMAIL}>`,
+        to: recipients,
         subject,
         html: htmlBody
       })
@@ -36,11 +37,73 @@ async function sendEmail(subject, htmlBody) {
       const err = await resp.text();
       console.error('Resend email failed:', resp.status, err);
     } else {
-      console.log('Email sent:', subject);
+      console.log('Email sent to', recipients.join(', '), ':', subject);
     }
   } catch (error) {
     console.error('Email send error:', error.message);
   }
+}
+
+// Build buyer confirmation email HTML
+function buyerConfirmationHtml(customerName, cart, amount, shippingCost, address) {
+  const itemRows = cart.map(item =>
+    `<tr>
+      <td style="padding:10px 12px;border-bottom:1px solid #eee;font-family:Calibri,sans-serif;font-size:14px;">
+        ${item.chip} - ${item.productType || 'T-Shirt'}
+      </td>
+      <td style="padding:10px 12px;border-bottom:1px solid #eee;font-family:Calibri,sans-serif;font-size:14px;text-align:center;">
+        ${item.size || 'One Size'}
+      </td>
+      <td style="padding:10px 12px;border-bottom:1px solid #eee;font-family:Calibri,sans-serif;font-size:14px;text-align:center;">
+        ${item.quantity}
+      </td>
+    </tr>`
+  ).join('');
+
+  return `<div style="max-width:560px;margin:0 auto;font-family:Calibri,sans-serif;color:#222;">
+    <div style="text-align:center;padding:24px 0 16px;">
+      <h1 style="font-family:'Courier New',monospace;font-size:22px;color:#0A6821;margin:0;">HOLY CHIP</h1>
+      <p style="font-size:13px;color:#888;margin:4px 0 0;">www.holy-chip.com</p>
+    </div>
+    <div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:28px;">
+      <h2 style="font-size:18px;color:#1e8449;margin:0 0 6px;">Order Confirmed!</h2>
+      <p style="font-size:14px;color:#555;margin:0 0 20px;">Hi ${customerName.split(' ')[0]}, thanks for your order. We're getting it ready!</p>
+
+      <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+        <tr style="background:#f8f8f8;">
+          <th style="padding:8px 12px;text-align:left;font-size:12px;color:#888;font-weight:600;">ITEM</th>
+          <th style="padding:8px 12px;text-align:center;font-size:12px;color:#888;font-weight:600;">SIZE</th>
+          <th style="padding:8px 12px;text-align:center;font-size:12px;color:#888;font-weight:600;">QTY</th>
+        </tr>
+        ${itemRows}
+      </table>
+
+      <table style="width:100%;font-size:14px;margin-bottom:20px;">
+        <tr>
+          <td style="padding:4px 0;color:#555;">Subtotal</td>
+          <td style="padding:4px 0;text-align:right;">$${(parseFloat(amount) - shippingCost).toFixed(2)}</td>
+        </tr>
+        <tr>
+          <td style="padding:4px 0;color:#555;">Shipping</td>
+          <td style="padding:4px 0;text-align:right;">$${shippingCost.toFixed(2)}</td>
+        </tr>
+        <tr style="border-top:2px solid #222;">
+          <td style="padding:8px 0 0;font-weight:bold;font-size:15px;">Total</td>
+          <td style="padding:8px 0 0;text-align:right;font-weight:bold;font-size:15px;">$${amount} USD</td>
+        </tr>
+      </table>
+
+      <div style="background:#f8f8f8;border-radius:6px;padding:14px 16px;margin-bottom:16px;">
+        <p style="font-size:12px;color:#888;margin:0 0 4px;font-weight:600;">SHIPPING TO</p>
+        <p style="font-size:14px;margin:0;">${formatAddress(address)}</p>
+      </div>
+
+      <p style="font-size:13px;color:#555;margin:0;">You'll receive another email with tracking info once your order ships. Print-on-demand items are typically produced and shipped within 3-7 business days.</p>
+    </div>
+    <div style="text-align:center;padding:16px 0;">
+      <p style="font-size:12px;color:#aaa;margin:0;">Holy Chip - www.holy-chip.com</p>
+    </div>
+  </div>`;
 }
 
 // Format cart items as HTML table
@@ -197,7 +260,7 @@ async function createPrintifyOrder(session) {
       label: `Holy Chip Order - ${session.id.slice(-8)}`,
       line_items: printifyItems,
       shipping_method: 1,
-      send_shipping_notification: false,
+      send_shipping_notification: true,
       address_to: printifyAddress
     };
 
@@ -349,8 +412,19 @@ exports.handler = async (event) => {
       const result = await createPrintifyOrder(session);
 
       if (result.success) {
-        // SUCCESS EMAIL
         console.log(`Printify order created: ${result.orderId}`);
+
+        // BUYER CONFIRMATION EMAIL
+        const shippingCostUsd = parseInt(session.metadata?.shippingCost || '0') / 100;
+        if (customerEmail && customerEmail !== 'Unknown') {
+          await sendEmail(
+            `Order Confirmed - Holy Chip`,
+            buyerConfirmationHtml(customerName, cart, amount, shippingCostUsd, address),
+            customerEmail
+          );
+        }
+
+        // ADMIN NOTIFICATION EMAIL
         await sendEmail(
           `Holy Chip Order - $${amount} - ${customerName}`,
           `<div style="font-family:Calibri;font-size:13px;">
