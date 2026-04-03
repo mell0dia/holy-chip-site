@@ -16,6 +16,7 @@
   const currentPage = pathname.split('/').pop() || 'index.html';
 
   const shareIcon = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>`;
+  const xIcon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`;
 
   const navHTML = `
     <nav class="site-nav">
@@ -32,6 +33,7 @@
         }).join('')}
       </ul>
       <div class="nav-right">
+        <a href="https://x.com/_holychip" target="_blank" rel="noopener noreferrer" class="nav-x-btn" title="Follow @_holychip on X">${xIcon} Follow</a>
         <button class="nav-share-btn" id="nav-share" title="Share this page">${shareIcon} Share</button>
         <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
       </div>
