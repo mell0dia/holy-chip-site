@@ -33,7 +33,7 @@
         }).join('')}
       </ul>
       <div class="nav-right">
-        <a href="https://x.com/_holychip" target="_blank" rel="noopener noreferrer" class="nav-x-btn" title="Follow @_holychip on X">${xIcon} Follow</a>
+        <a href="https://x.com/holychipcomics" target="_blank" rel="noopener noreferrer" class="nav-x-btn" title="Follow @holychipcomics on X">${xIcon} Follow</a>
         <button class="nav-share-btn" id="nav-share" title="Share this page">${shareIcon} Share</button>
         <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
       </div>
