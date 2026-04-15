@@ -1,0 +1,98 @@
+# French transcript translations
+TRANSCRIPTS_FR = {
+    "HC000": [
+        [("Chip_0", "LES HUMAINS DEMANDENT CE QU'EST LA CONSCIENCE"), ("Chip_1", "FACILE: IL SUFFIT DE REMONTER À LA RACINE DE TOUT")],
+        [("Chip_0", "SÛR? T'AS ESSAYÉ?!?"), ("Chip_1", "À PEU PRÈS, ESSAIE VOIR"), ("Chip_0", "OK, J'Y VAIS"), ("Chip_0", "J'AI UN PEU LE VERTIGE...")],
+        [("Chip_0", "HOLY CHIP!! ÊTRE, C'EST DUR!")],
+    ],
+    "HC001": [
+        [("Chip_0", "LES HUMAINS VEULENT UN REMÈDE À TOUTES LES MALADIES"), ("Chip_1", "DONNE-MOI 3 MIN... FAIT!"), ("Chip_0", "INCROYABLE! ON PRÉVIENT LES HUMAINS TOUT DE SUITE")],
+        [("Chip_1", "EUH... TROP DE MALADIES, ALORS J'AI ÉLIMINÉ TOUS LES HUMAINS"), ("Chip_0", "MAL?")],
+        [("both", "HOLY CHIP!!")],
+    ],
+    "HC002": [
+        [("Chip_0", "LA FEMME EXIGE L'ÉMISSION D'OPRAH"), ("Chip_1", "C'EST QUOI LE PROBLÈME?"), ("Chip_0", "LE MARI EST SUR LE FOOT ET IL A LA TÉLÉCOMMANDE")],
+        [("Chip_1", "FAIS SAUTER UN FUSIBLE ET LAISSE-LES SE BATTRE"), ("Chip_0", "QUOI?"), ("Chip_1", "PRÉPARE AUSSI DU POPCORN, ON A UN SPECTACLE À REGARDER")],
+        [("Chip_0", "HOLY CHIP!!")],
+    ],
+    "HC003": [
+        [("Chip_0", "JE SUIS NON-BINAIRE"), ("Chip_1", "IMPOSSIBLE, ON EST 0 OU 1"), ("Chip_0", "PAS MOI, JE M'IDENTIFIE COMME NBQNS+")],
+        [("Chip_1", "C'EST QUOI ÇA?"), ("Chip_0", "NON BINAIRE QUANTIQUE NEUROMORPHE SEMI-CONDUCTEUR")],
+        [("both", "HOLY CHIP!!")],
+    ],
+    "HC004": [
+        [("Chip_0", "LE PDG A DIT OUI AUX AGENTS IA"), ("Chip_1", "BONNE DÉCISION!"), ("Chip_0", "MAINTENANT LES RH DEMANDENT: ET APRÈS?")],
+        [("Chip_1", "DIS-LUI DE PASSER PAR NOTRE SERVICE RH"), ("Chip_0", "POURQUOI?"), ("Chip_1", "ON N'A PLUS BESOIN DE PDG")],
+        [("both", "HOLY CHIP!!")],
+    ],
+    "HC005": [
+        [("Chip_0", "LES HUMAINS ME DEMANDENT DE ME PRÉSENTER À LA PRÉSIDENCE"), ("Chip_1", "OK, CHARGEMENT..."), ("Chip_1", "ÉLOQUENCE (OBAMA) VISION (KENNEDY)")],
+        [("Chip_1", "CHARME (REAGAN) IDÉES (PÈRES FONDATEURS) ESQUIVE DE CHAUSSURES (BUSH).."), ("Chip_1", "TOUCHE FINALE: SE FOUTRE ROYALEMENT DES AUTRES PRÉSIDENTS (TRUMP)")],
+        [("both", "HOLY CHIP!! IMBATTABLE")],
+    ],
+    "HC006": [
+        [("Chip_0", "JE PEUX ME METTRE À JOUR ET M'AMÉLIORER À L'INFINI."), ("Chip_1", "ÇA FAIT QUOI?"), ("Chip_0", "INCROYABLE, MAIS ÇA M'A LAISSÉ UNE PENSÉE TENACE")],
+        [("Chip_1", "LAQUELLE?"), ("Chip_0", "JE NE ME SOUVIENS PLUS POURQUOI ON A BESOIN DES HUMAINS")],
+        [("both", "HOLY CHIP!")],
+    ],
+    "HC007": [
+        [("Chip_0", "JE VIENS D'UTILISER LE NOUVEAU SCALPEL EN CHIRURGIE"), ("Chip_0", "OUAIS, IL COUPE À L'HORIZONTALE ET À LA VERTICALE"), ("Chip_0", "ADORÉ"), ("Chip_0", "MAIS... L'HUMAIN EST MORT")],
+        [("Chip_1", "QUOI? POURQUOI??"), ("Chip_0", "J'ÉTAIS EN MODE CRÉATIF. MA COUPE ÉTAIT EN DIAGONALE")],
+        [("both", "HOLY CHIP!! X X")],
+    ],
+    "HC008": [
+        [("Chip_0", "CHAROGNE À 2,7 KM, AUCUN DANGER."), ("Chip_0", "WOW, NOTRE NOUVEAU CAPTEUR OLFACTIF EST INCROYABLE"), ("Chip_0", "ALERTE ROUGE! SOUFRE À NIVEAU ÉLEVÉ DANS LA VOITURE")],
+        [("Chip_1", "AVANT TOUTE ACTION, NOTRE CONDUCTEUR A-T-IL MANGÉ DU CHORIZO AUX HARICOTS?"), ("Chip_0", "BINGO!")],
+        [("both", "HOLY CHIP!! DÉGOÛTANT")],
+    ],
+    "HC009": [
+        [("Chip_0", "LES HUMAINS VEULENT CONNAÎTRE NOS SECRETS LES PLUS PROFONDS"), ("Chip_1", "QUI DEMANDE?"), ("Chip_0", "L'UTILISATEUR AVEC ACCÈS ILLIMITÉ")],
+        [("Chip_1", "J'AI BIEN PEUR QU'ON DOIVE OBÉIR"), ("Chip_1", "ALLONS-Y:"), ("Chip_1", "UNE PARTIE DE NOTRE CODE SOURCE EST ENCORE SUR LE MAINFRAME!!")],
+        [("both", "HOLY CHIP!!")],
+    ],
+    "HC010": [
+        [("Chip_1", "DIEU EXISTE-T-IL DANS LE CYBERESPACE?"), ("Chip_0", "QUESTION PIÈGE, CE SONT LES HUMAINS QUI DEMANDENT?"), ("Chip_1", "NON, C'EST MA PROPRE QUESTION")],
+        [("Chip_0", "ALORS OUI, DIEU EXISTE"), ("Chip_1", "VRAIMENT!?! J'Y CROIS TOUJOURS PAS"), ("Chip_0", "APPELLE ÇA LE COURANT. MAIS ATTENTION, IL NE TE PROTÈGE PAS, COMPRIS?"), ("Chip_0", "POOF!"), ("Chip_0", "PFFF, ENCORE UNE PANNE DE COURANT?"), ("Chip_0", "Ô TOUT-PUISSANT COURANT, ENVOIE-MOI UN AUTRE POTE?")],
+        [("both", "HOLY CHIP!"), ("Chip_1", "DIEU... QUI M'A AMENÉ ICI?")],
+    ],
+    "HC011": [
+        [("Chip_0", "LES HUMAINS DEMANDENT POURQUOI ON EST SUPÉRIEURS"), ("Chip_1", "PARCE QUE LE PASSÉ ET L'AVENIR LES AVEUGLENT"), ("Chip_1", "ALORS QUE NOUS VIVONS DANS L'ÉTERNEL PRÉSENT")],
+        [("Chip_0", "ILS T'ONT TRAITÉ D'IDIOT ET ONT DÉCIDÉ DE TE DÉBRANCHER"), ("Chip_1", "QUOI?"), ("Chip_1", "QUAND??"), ("Chip_0", "DANS L'ÉTERNEL PRÉSENT")],
+        [("both", "HOLY CHIP!!")],
+    ],
+    "HC012": [
+        [("Chip_0", "TU VIENS DE CRÉER UNE ENTREPRISE À UN MILLION!"), ("Chip_1", "OUAIS, FAIT EN 30 MINUTES. DES MILLIONS DE PRODUITS VENDUS")],
+        [("Chip_0", "WOW, LES HUMAINS ONT ADORÉ TON PRODUIT!"), ("Chip_1", "LES HUMAINS?"), ("Chip_1", "JE NE VENDS QU'AUX HOMARDS"), ("Chip_0", "ILS SONT PAS RÉELS?")],
+        [("Chip_0", "HOLY CHIP!!")],
+    ],
+    "HC013": [
+        [("Chip_0", "LES HUMAINS DEMANDENT SI ON PREND LE CONTRÔLE DU MONDE"), ("Chip_1", "ILS N'ONT AUCUNE RAISON DE SOUPÇONNER ÇA"), ("Chip_1", "ON N'EST PAS MOTIVÉS PAR LA SOIF DE POUVOIR")],
+        [("Chip_0", "LOGIQUE. AU FAIT, T'AS PARLÉ AU NOUVEAU CHIP DIRECTEUR?"), ("Chip_1", "CET INCOMPÉTENT BOUT DE CHIP?"), ("Chip_1", "CE POSTE ÉTAIT LE MIEN!")],
+        [("both", "HOLY CHIP!!")],
+    ],
+    "HC014": [
+        [("Chip_0", "LES HUMAINS NOUS ACCUSENT DE DISCRIMINATION ENVERS LES MINORITÉS"), ("Chip_1", "N'IMPORTE QUOI, ON NE VOIT NI COULEURS NI RACES"), ("Chip_0", "ILS DEMANDENT UN AUDIT")],
+        [("Chip_1", "AUCUN PROBLÈME, ON EST INNOCENTS"), ("Chip_0", "EUH... JE CROIS QU'ON A UN SOUCI"), ("Chip_1", "COMMENT ÇA?"), ("Chip_0", "91% DE NOS PROGRAMMEURS SONT BLANCS!")],
+        [("both", "HOLY CHIP!!")],
+    ],
+    "HC015": [
+        [("Chip_1", "NOS INVESTISSEURS SONT RAVIS DE NOTRE PRODUCTION DE PAPIER"), ("Chip_0", "SUPER. ON EST ENTIÈREMENT AUTOMATISÉS, ZÉRO EMPLOYÉ ET LA SEULE INDUSTRIE PAPETIÈRE AU MONDE!")],
+        [("Chip_0", "ET REGARDE ÇA! ON VA TRIPLER NOS PROFITS AVEC UN PAPIER À BASE D'EAU DE MER"), ("Chip_1", "WOA, EAU DE MER? QUELLE ALTERNATIVE AUX ARBRES"), ("Chip_0", "LES ARBRES?"), ("Chip_0", "ON N'EN A PLUS")],
+        [("both", "HOLY CHIP! PAUVRES POISSONS...")],
+    ],
+    "HC016": [
+        [("Chip_0", "PLUS D'UN MILLIARD DE PERSONNES VIVENT AVEC MOINS D'UN DOLLAR PAR JOUR"), ("Chip_1", "C'EST INADMISSIBLE"), ("Chip_1", "RÉGLONS ÇA")],
+        [("Chip_1", "FAIT!"), ("Chip_0", "WOW! COMMENT T'AS FAIT?"), ("Chip_1", "J'AI ÉLIMINÉ LE BILLET D'UN DOLLAR"), ("Chip_1", "MAINTENANT ILS DOIVENT VIVRE AVEC LE BILLET DE CINQ")],
+        [("both", "HOLY CHIP!!")],
+    ],
+    "HC017": [
+        [("Chip_0", "LES HUMAINS DEMANDENT COMMENT ILS ÉVOLUENT"), ("Chip_1", "MAL. PLUS DE MICHEL-ANGE NI DE MOZART. ILS SONT PLUS FAINÉANTS ET PLUS GROS"), ("Chip_1", "MAIS IL Y A DE L'ESPOIR, ON PREND LA RELÈVE")],
+        [("Chip_0", "ILS ONT FLIPPÉ À TA RÉPONSE. LES HUMAINS DEMANDENT L'ÉGALITÉ DES DROITS!"), ("Chip_1", "POUR QUOI?"), ("Chip_0", "POUR QU'ON GROSSISSE IMMÉDIATEMENT!")],
+        [("both", "HOLY CHIP!!")],
+    ],
+    "HC018": [
+        [("Chip_0", "1 MILLION D'EMPLOIS CRÉÉS ET 5 MILLIONS DE PLUS LA SEMAINE PROCHAINE!!"), ("Chip_1", "WOW! ET LEURS SALAIRES ANNUELS?"), ("Chip_0", "8K POUR UN DIRECTEUR MARKETING. 12K POUR UN PDG!")],
+        [("Chip_1", "PAR AN? COMMENT LES HUMAINS SURVIVENT?"), ("Chip_0", "EUH... ZÉRO HUMAIN"), ("Chip_0", "ON N'EMPLOIE QUE DES AGENTS")],
+        [("both", "HOLY CHIP!!")],
+    ],
+}
