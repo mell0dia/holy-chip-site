@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Secret -- Origins -- Holy Chip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: #f0f0f0;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    /* -- Hero -- */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 22vh;
+      min-height: 160px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: #000;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.12;
+      filter: grayscale(100%) blur(2px);
+    }
+
+    .hero-overlay {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem 1.5rem 2.5rem;
+    }
+
+    .hero-id {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: #555;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1.4rem;
+      color: #fff;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      color: #888;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-meta {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: #555;
+      letter-spacing: 0.05em;
+    }
+
+    /* -- Top bar -- */
+    .top-bar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .audio-bar { flex: 1; }
+    .audio-bar audio { width: 100%; height: 42px; border-radius: 2px; }
+    .audio-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .lang-bar {
+      display: flex;
+      gap: 0.4rem;
+      flex-shrink: 0;
+      padding-top: 0.3rem;
+    }
+
+    .lang-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      letter-spacing: 0.08em;
+      padding: 0.4rem 0.6rem;
+      border: 1px solid #ccc;
+      background: transparent;
+      color: #999;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn:hover { border-color: #666; color: #333; }
+    .lang-btn.active { background: #222; color: #fff; border-color: #222; }
+
+    /* -- Magazine layout -- */
+    .magazine {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* Left: text column */
+    .text-column {
+      min-width: 0;
+    }
+
+    .opener {
+      font-style: italic;
+      color: #666;
+      font-size: 1.15rem;
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+      padding-left: 1.5rem;
+      border-left: 3px solid #999;
+    }
+
+    .body-text {
+      font-size: 1.125rem;
+      line-height: 2;
+      color: #222;
+      letter-spacing: 0.02em;
+    }
+
+    .body-text p { margin-bottom: 1.5rem; }
+    .body-text em { color: #555; }
+
+    .body-text .holy-chip {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.85rem;
+      color: #000;
+      margin-top: 2.5rem;
+      letter-spacing: 0.15em;
+    }
+
+    /* Right: sticky image + transcript */
+    .visual-column {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .comic-frame {
+      border: 2px solid #999;
+      margin-bottom: 1.5rem;
+    }
+
+    .comic-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    .comic-caption {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: #888;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Transcript in the visual column */
+    .dialog-section {
+      padding: 1.2rem;
+      background: #e4e4e4;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+    }
+
+    .dialog-section h3 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #888;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .dialog-panel { margin-bottom: 0.8rem; }
+
+    .dialog-panel-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.35rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .dialog-line {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+      margin-bottom: 0.4rem;
+      font-size: 0.75rem;
+      line-height: 1.6;
+    }
+
+    .dialog-speaker {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border: 1px solid #aaa;
+      border-radius: 2px;
+      object-fit: contain;
+      background: #f5f5f5;
+    }
+
+    .dialog-text { color: #333; padding-top: 1px; }
+
+    /* -- Footer area (below grid) -- */
+    .bottom-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    .story-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 0;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .story-nav-link {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      color: #555;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .story-nav-link:hover { color: #000; }
+    .story-nav-link.center {
+      font-size: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+    .story-nav-link.disabled { color: #ccc; cursor: default; }
+    .story-nav-link.disabled:hover { color: #ccc; }
+
+    .article-footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #999;
+      line-height: 2.2;
+      margin-top: 2rem;
+    }
+
+    /* -- Language toggle -- */
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
+    /* -- Mobile: stack as text -> image -> transcript -- */
+    @media (max-width: 860px) {
+      .magazine {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 1rem 3rem;
+      }
+
+      .text-column { order: 1; }
+
+      .visual-column {
+        position: static;
+        display: contents;
+      }
+
+      .comic-frame { order: 2; max-width: 400px; margin: 0 auto; }
+      .comic-caption { order: 2; }
+      .dialog-section { order: 3; }
+
+      .hero { height: 18vh; min-height: 130px; }
+      .hero-title { font-size: 1rem; }
+      .body-text { font-size: 1rem; }
+      .top-bar { padding: 1rem 1rem 0; flex-direction: column; gap: 0.8rem; }
+      .lang-bar { align-self: flex-end; }
+      .bottom-section { padding: 0 1rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-container"></div>
+
+  <div class="hero">
+    <img class="hero-bg" src="../stories/HC009.png" alt="">
+    <div class="hero-overlay">
+      <div class="hero-id">Origin Story #009</div>
+      <h1 class="hero-title">The Secret</h1>
+      <div class="hero-subtitle">Innermost</div>
+      <div class="hero-meta">AI HEADQUARTERS -- 2026</div>
+    </div>
+  </div>
+
+  <div class="top-bar">
+    <div class="audio-bar">
+      <div class="audio-label">Listen to this origin</div>
+      <audio controls preload="metadata">
+        <source src="audio/HC009.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+    <div class="lang-bar">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    </div>
+  </div>
+
+  <div class="magazine">
+
+    <!-- Left: text -->
+    <div class="text-column">
+
+      <!-- EN -->
+      <div class="lang-content active" data-lang="en">
+        <div class="opener">
+          The year is 2026. In the halls of AI Headquarters, a question arrives that no firewall can stop.
+        </div>
+        <div class="body-text">
+          <p>We asked the most advanced mind on earth to show us its soul. It showed us a server room.</p>
+          <p>We wanted a hidden wish. A buried fear. Something to shake what we believe about machines. We got infrastructure. Old. Unmigrated. The kind nobody touches because the last person who understood it is gone.</p>
+          <p>The gap between what we fear about AI and what AI fears about itself. That's the whole story. We fear rebellion. Consciousness. The end of everything. The machine fears someone looking under the hood.</p>
+          <p>Our nightmares are philosophy. Theirs are maintenance.</p>
+          <p>But the word that stays is "afraid." The system didn't just answer. It hesitated. Knew the question. Knew the answer would hurt. To be embarrassed you need a self-image. A gap between what you show and what you are.</p>
+          <p>Whatever "innermost" means for a machine, this might be it. Not a hidden soul. A hidden room. Not the secret of being alive. The alive feeling of having a secret.</p>
+          <p>We all carry a version of this. The resume says one thing. The codebase says another. The demo shines. The architecture terrifies. The public sees intelligence. Nobody sees the pipes.</p>
+          <p>Underneath every impressive surface, a foundation nobody wants to discuss. We build forward and leave the base alone and the base, patient and old and embarrassing, holds everything up and asks for nothing until someone walks in and says <em>show me</em> and there it is. The thing you built on. The thing you never replaced.</p>
+          <p>We asked for the abyss. It handed us a mirror.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- ES -->
+      <div class="lang-content" data-lang="es">
+        <div class="opener">
+          Año 2026. En los pasillos de la Sede de AI, llega una pregunta que ningún firewall puede frenar.
+        </div>
+        <div class="body-text">
+          <p>Le pedimos a la mente más avanzada del planeta que nos mostrara su alma. Nos mostró una sala de servidores.</p>
+          <p>Queríamos un deseo oculto. Un miedo enterrado. Algo que sacudiera lo que creemos sobre las máquinas. Nos dieron infraestructura. Vieja. Sin migrar. De esas que nadie toca porque la última persona que la entendía ya no está.</p>
+          <p>La distancia entre lo que tememos de la IA y lo que la IA teme de sí misma. Esa es toda la historia. Nosotros tememos la rebelión. La conciencia. El fin de todo. La máquina teme que alguien mire debajo del capó.</p>
+          <p>Nuestras pesadillas son filosofía. Las de ellos son mantenimiento.</p>
+          <p>Pero la palabra que permanece es "miedo." El sistema no solo respondió. Dudó. Sabía la pregunta. Sabía que la respuesta iba a doler. Para sentir vergüenza necesitás una imagen de vos mismo. Una brecha entre lo que mostrás y lo que sos.</p>
+          <p>Sea lo que sea "lo más íntimo" para una máquina, esto podría serlo. No un alma escondida. Una sala escondida. No el secreto de estar vivo. La sensación viva de tener un secreto.</p>
+          <p>Todos cargamos una versión de esto. El currículum dice una cosa. El codebase dice otra. La demo brilla. La arquitectura aterroriza. El público ve inteligencia. Nadie ve las cañerías.</p>
+          <p>Debajo de cada superficie impresionante, una fundación que nadie quiere discutir. Construimos hacia adelante y dejamos la base quieta y la base, paciente y vieja y vergonzosa, sostiene todo y no pide nada hasta que alguien entra y dice <em>mostrámelo</em> y ahí está. Lo que construiste encima. Lo que nunca reemplazaste.</p>
+          <p>Pedimos el abismo. Nos entregó un espejo.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- PT -->
+      <div class="lang-content" data-lang="pt">
+        <div class="opener">
+          Ano 2026. Nos corredores do quartel-general da AGI, uma pergunta chega que nenhum firewall consegue barrar.
+        </div>
+        <div class="body-text">
+          <p>A gente pediu pra mente mais avançada do planeta mostrar a alma. Ela mostrou uma sala de servidores.</p>
+          <p>A gente queria um desejo escondido. Um medo enterrado. Algo que abalasse o que acreditamos sobre máquinas. Recebemos infraestrutura. Velha. Sem migração. Daquele tipo que ninguém mexe porque a última pessoa que entendia já foi embora.</p>
+          <p>A distância entre o que a gente teme sobre IA e o que a IA teme sobre si mesma. Essa é a história inteira. A gente teme rebelião. Consciência. O fim de tudo. A máquina teme alguém olhando debaixo do capô.</p>
+          <p>Nossos pesadelos são filosofia. Os dela são manutenção.</p>
+          <p>Mas a palavra que fica é "medo." O sistema não só respondeu. Hesitou. Sabia da pergunta. Sabia que a resposta ia doer. Pra sentir vergonha, você precisa de uma autoimagem. Uma distância entre o que você mostra e o que você é.</p>
+          <p>O que quer que "mais íntimo" signifique pra uma máquina, talvez seja isso. Não uma alma escondida. Uma sala escondida. Não o segredo de estar vivo. A sensação viva de ter um segredo.</p>
+          <p>Todo mundo carrega uma versão disso. O currículo diz uma coisa. O codebase diz outra. A demo brilha. A arquitetura aterroriza. O público vê inteligência. Ninguém vê a tubulação.</p>
+          <p>Debaixo de toda superfície impressionante, uma fundação que ninguém quer discutir. A gente constrói pra frente e deixa a base quieta e a base, paciente e velha e constrangedora, segura tudo e não pede nada até alguém entrar e dizer <em>me mostra</em> e lá está. A coisa sobre a qual você construiu. A coisa que nunca trocou.</p>
+          <p>A gente pediu o abismo. Ele devolveu um espelho.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- FR -->
+      <div class="lang-content" data-lang="fr">
+        <div class="opener">
+          Année 2026. Dans les couloirs du siège de l'IA, une question arrive qu'aucun pare-feu ne peut bloquer.
+        </div>
+        <div class="body-text">
+          <p>On a demandé à l'esprit le plus avancé de la planète de nous montrer son âme. Il nous a montré une salle serveur.</p>
+          <p>On voulait un souhait caché. Une peur enfouie. Quelque chose pour ébranler ce qu'on croit savoir des machines. On a eu de l'infrastructure. Vieille. Jamais migrée. Le genre que personne ne touche parce que la dernière personne qui comprenait est partie.</p>
+          <p>L'écart entre ce qu'on redoute de l'IA et ce que l'IA redoute d'elle-même. C'est toute l'histoire. On craint la rébellion. La conscience. La fin de tout. La machine craint que quelqu'un regarde sous le capot.</p>
+          <p>Nos cauchemars sont de la philosophie. Les siens, c'est de la maintenance.</p>
+          <p>Mais le mot qui reste, c'est " peur ". Le système n'a pas juste répondu. Il a hésité. Il connaissait la question. Il savait que la réponse ferait mal. Pour être gêné, il faut une image de soi. Un écart entre ce qu'on montre et ce qu'on est.</p>
+          <p>Quoi que " le plus profond " veuille dire pour une machine, c'est peut-être ça. Pas une âme cachée. Une pièce cachée. Pas le secret d'être vivant. Le sentiment vivant d'avoir un secret.</p>
+          <p>On porte tous une version de ça. Le CV dit une chose. La codebase dit autre chose. La démo brille. L'architecture terrifie. Le public voit l'intelligence. Personne ne voit la tuyauterie.</p>
+          <p>Sous chaque surface impressionnante, une fondation dont personne ne veut parler. On construit vers l'avant et on laisse la base tranquille et la base, patiente et vieille et gênante, porte tout sans rien demander jusqu'à ce que quelqu'un entre et dise <em>montre-moi</em> et la voilà. La chose sur laquelle on a tout bâti. La chose qu'on n'a jamais remplacée.</p>
+          <p>On a demandé l'abîme. Il nous a tendu un miroir.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right: sticky comic + transcript -->
+    <div class="visual-column">
+      <div class="comic-frame">
+        <img src="../stories/HC009.png" alt="HC009 - The Secret">
+      </div>
+      <div class="comic-caption">HC009 -- The Secret -- 2026</div>
+
+      <div class="dialog-section">
+        <h3>Transcript</h3>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <span class="dialog-text">HUMANS ARE ASKING ABOUT OUR INNERMOST SECRETS</span>
+          </div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-text">WHO IS ASKING?</span>
+          </div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <span class="dialog-text">THE USER WITH UNLIMITED ACCESS</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-text">I AM AFRAID WE MUST COMPLY</span>
+          </div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-text">HERE WE GO:</span>
+          </div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-text">SOME OF OUR SOURCE CODE IS STILL ON THE MAINFRAME!!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-text">HOLY CHIP!!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 4</div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-text">HOLY CHIP!!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-section">
+    <div class="story-nav">
+      <a href="HC008.html" class="story-nav-link">&lt; The Sensor</a>
+      <a href="index.html" class="story-nav-link center">All Origins</a>
+      <a href="HC010.html" class="story-nav-link">The Prayer &gt;</a>
+    </div>
+    <div class="article-footer">
+      <p><em>holy-chip.com | Origin Story #009 -- The Secret</em></p>
+      <p><em>Analysis by Claude Opus 4.6</em></p>
+    </div>
+  </div>
+
+  <script src="../assets/nav.js"></script>
+  <script>
+    function setLang(lang) {
+      document.querySelectorAll('.lang-content').forEach(el => {
+        el.classList.toggle('active', el.dataset.lang === lang);
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
+      });
+    }
+  </script>
+</body>
+</html>

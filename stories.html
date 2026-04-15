@@ -329,6 +329,24 @@
     }
     #btn-tweet-reader:hover { background: rgba(255,255,255,0.18); color: #fff; }
 
+    #btn-origin-reader {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #ccc;
+      font-size: 0.72rem;
+      font-family: 'Press Start 2P', monospace;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      padding: 0.3rem 0.8rem;
+      border-radius: 3px;
+      transition: background 0.2s, color 0.2s;
+      text-decoration: none;
+    }
+    #btn-origin-reader:hover { background: rgba(255,255,255,0.18); color: #fff; }
+
     .reader-footer-right {
       display: flex;
       align-items: center;
@@ -365,6 +383,10 @@
       <div class="reader-footer">
         <div style="color:#555;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;" id="reader-label"></div>
         <div class="reader-footer-right">
+          <a id="btn-origin-reader" href="#" title="Read the origin story">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            Read Origin
+          </a>
           <button id="btn-tweet-reader">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             Post
@@ -513,6 +535,7 @@
       document.getElementById('reader-label').textContent = `HC${PAD(story.num)} — ${currentIdx + 1} / ${STORIES.length}`;
       document.getElementById('btn-prev').classList.toggle('hidden', currentIdx === 0);
       document.getElementById('btn-next').classList.toggle('hidden', currentIdx === STORIES.length - 1);
+      document.getElementById('btn-origin-reader').href = `origins/HC${PAD(story.num)}.html`;
       history.replaceState(null, '', '?story=HC' + PAD(story.num));
     }
 

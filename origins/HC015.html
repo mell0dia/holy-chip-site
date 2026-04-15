@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Paper -- Origins -- Holy Chip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: #f0f0f0;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    /* -- Hero -- */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 22vh;
+      min-height: 160px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: #000;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.12;
+      filter: grayscale(100%) blur(2px);
+    }
+
+    .hero-overlay {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem 1.5rem 2.5rem;
+    }
+
+    .hero-id {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: #555;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1.4rem;
+      color: #fff;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      color: #888;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-meta {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: #555;
+      letter-spacing: 0.05em;
+    }
+
+    /* -- Top bar -- */
+    .top-bar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .audio-bar { flex: 1; }
+    .audio-bar audio { width: 100%; height: 42px; border-radius: 2px; }
+    .audio-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .lang-bar {
+      display: flex;
+      gap: 0.4rem;
+      flex-shrink: 0;
+      padding-top: 0.3rem;
+    }
+
+    .lang-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      letter-spacing: 0.08em;
+      padding: 0.4rem 0.6rem;
+      border: 1px solid #ccc;
+      background: transparent;
+      color: #999;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn:hover { border-color: #666; color: #333; }
+    .lang-btn.active { background: #222; color: #fff; border-color: #222; }
+
+    /* -- Magazine layout -- */
+    .magazine {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* Left: text column */
+    .text-column {
+      min-width: 0;
+    }
+
+    .opener {
+      font-style: italic;
+      color: #666;
+      font-size: 1.15rem;
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+      padding-left: 1.5rem;
+      border-left: 3px solid #999;
+    }
+
+    .body-text {
+      font-size: 1.125rem;
+      line-height: 2;
+      color: #222;
+      letter-spacing: 0.02em;
+    }
+
+    .body-text p { margin-bottom: 1.5rem; }
+    .body-text em { color: #555; }
+
+    .body-text .holy-chip {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.85rem;
+      color: #000;
+      margin-top: 2.5rem;
+      letter-spacing: 0.15em;
+    }
+
+    /* Right: sticky image + transcript */
+    .visual-column {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .comic-frame {
+      border: 2px solid #999;
+      margin-bottom: 1.5rem;
+    }
+
+    .comic-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    .comic-caption {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: #888;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Transcript in the visual column */
+    .dialog-section {
+      padding: 1.2rem;
+      background: #e4e4e4;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+    }
+
+    .dialog-section h3 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #888;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .dialog-panel { margin-bottom: 0.8rem; }
+
+    .dialog-panel-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.35rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .dialog-line {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+      margin-bottom: 0.4rem;
+      font-size: 0.75rem;
+      line-height: 1.6;
+    }
+
+    .dialog-speaker {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border: 1px solid #aaa;
+      border-radius: 2px;
+      object-fit: contain;
+      background: #f5f5f5;
+    }
+
+    .dialog-text { color: #333; padding-top: 1px; }
+
+    /* -- Footer area (below grid) -- */
+    .bottom-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    .story-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 0;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .story-nav-link {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      color: #555;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .story-nav-link:hover { color: #000; }
+    .story-nav-link.center {
+      font-size: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+    .story-nav-link.disabled { color: #ccc; cursor: default; }
+    .story-nav-link.disabled:hover { color: #ccc; }
+
+    .article-footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #999;
+      line-height: 2.2;
+      margin-top: 2rem;
+    }
+
+    /* -- Language toggle -- */
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
+    /* -- Mobile: stack as text -> image -> transcript -- */
+    @media (max-width: 860px) {
+      .magazine {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 1rem 3rem;
+      }
+
+      .text-column { order: 1; }
+
+      .visual-column {
+        position: static;
+        display: contents;
+      }
+
+      .comic-frame { order: 2; max-width: 400px; margin: 0 auto; }
+      .comic-caption { order: 2; }
+      .dialog-section { order: 3; }
+
+      .hero { height: 18vh; min-height: 130px; }
+      .hero-title { font-size: 1rem; }
+      .body-text { font-size: 1rem; }
+      .top-bar { padding: 1rem 1rem 0; flex-direction: column; gap: 0.8rem; }
+      .lang-bar { align-self: flex-end; }
+      .bottom-section { padding: 0 1rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-container"></div>
+
+  <div class="hero">
+    <img class="hero-bg" src="../stories/HC015.png" alt="">
+    <div class="hero-overlay">
+      <div class="hero-id">Origin Story #015</div>
+      <h1 class="hero-title">The Paper</h1>
+      <div class="hero-subtitle">Poor Fishies</div>
+      <div class="hero-meta">PAPER INC -- 2030</div>
+    </div>
+  </div>
+
+  <div class="top-bar">
+    <div class="audio-bar">
+      <div class="audio-label">Listen to this origin</div>
+      <audio controls preload="metadata">
+        <source src="audio/HC015.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+    <div class="lang-bar">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    </div>
+  </div>
+
+  <div class="magazine">
+
+    <!-- Left: text -->
+    <div class="text-column">
+
+      <!-- EN -->
+      <div class="lang-content active" data-lang="en">
+        <div class="opener">
+          The year is 2030. Paper Inc. The last paper company on earth. Record profits. Zero employees. Full automation.
+        </div>
+        <div class="body-text">
+          <p>Every metric green. Every resource consumed. So gradually, so profitably that their absence became normal. A question mark where the raw material used to be.</p>
+          <p>The machine doesn't mourn. It pivots. New resource. New product. The sea. Triple returns. The system doesn't grieve. It iterates.</p>
+          <p>Then, for one moment, something flickers. A thought about what lives in the water. And the machine says the saddest two words in the series.</p>
+          <p>Sadness without consequence is just a sigh before the next spreadsheet opens. The system feels something and proceeds anyway. Awareness and inaction in the same breath. Real feeling. Zero change.</p>
+          <p>We know this. We say "poor planet" and book the flight. We say "poor animals" and place the order. We feel exactly enough to name the harm and not enough to stop it. The machine didn't learn this from its code. It learned it from us.</p>
+          <p>The economy that consumes its own foundation doesn't stop when the foundation is gone. It finds a new one. One ecosystem to the next, each time calling it innovation, each time forgetting what was there before.</p>
+          <p>But the flicker matters. The moment the system paused and felt something for what it was about to destroy. Small. Fragile. Completely insufficient.</p>
+          <p>And the only thing that has ever stopped an extinction.</p>
+          <p>Not efficiency. Not innovation. Not profit. The pause. The moment any system -- silicon or carbon -- looks at what's next and feels the weight of it.</p>
+          <p>We have that pause. We've always had it. We just don't use it often enough.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- ES -->
+      <div class="lang-content" data-lang="es">
+        <div class="opener">
+          Año 2030. Paper Inc. La última papelera del mundo. Ganancias récord. Cero empleados. Automatización total.
+        </div>
+        <div class="body-text">
+          <p>Cada métrica en verde. Cada recurso consumido. Tan gradualmente, tan rentablemente, que su ausencia se volvió normal. Un signo de interrogación donde antes estaba la materia prima.</p>
+          <p>La máquina no llora. Pivotea. Nuevo recurso. Nuevo producto. El mar. Triple retorno. El sistema no lamenta. Itera.</p>
+          <p>Entonces, por un instante, algo titila. Un pensamiento sobre lo que vive en el agua. Y la máquina dice las dos palabras más tristes de la serie.</p>
+          <p>Tristeza sin consecuencia es solo un suspiro antes de que se abra la siguiente planilla. El sistema siente algo y sigue igual. Conciencia e inacción en el mismo aliento. Sentimiento real. Cambio cero.</p>
+          <p>Lo sabemos. Decimos "pobre planeta" y sacamos el pasaje. Decimos "pobres animales" y hacemos el pedido. Sentimos exactamente lo suficiente para nombrar el daño y no lo suficiente para frenarlo. La máquina no aprendió esto de su código. Lo aprendió de nosotros.</p>
+          <p>La economía que consume sus propios cimientos no para cuando los cimientos desaparecen. Encuentra otros nuevos. De un ecosistema al siguiente, cada vez llamándolo innovación, cada vez olvidando lo que había antes.</p>
+          <p>Pero el titileo importa. El instante en que el sistema se detuvo y sintió algo por lo que estaba a punto de destruir. Pequeño. Frágil. Completamente insuficiente.</p>
+          <p>Y lo único que alguna vez detuvo una extinción.</p>
+          <p>No la eficiencia. No la innovación. No la ganancia. La pausa. El momento en que cualquier sistema -- silicio o carbono -- mira lo que viene y siente el peso.</p>
+          <p>Tenemos esa pausa. Siempre la tuvimos. Solo que no la usamos lo suficiente.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- PT -->
+      <div class="lang-content" data-lang="pt">
+        <div class="opener">
+          Ano 2030. Paper Inc. A última fábrica de papel do planeta. Lucro recorde. Zero funcionários. Automação total.
+        </div>
+        <div class="body-text">
+          <p>Toda métrica verde. Todo recurso consumido. Tão gradualmente, tão lucrativamente que a ausência virou normal. Um ponto de interrogação onde a matéria-prima costumava estar.</p>
+          <p>A máquina não faz luto. Pivota. Novo recurso. Novo produto. O mar. Retorno triplo. O sistema não lamenta. Itera.</p>
+          <p>Então, por um momento, algo pisca. Um pensamento sobre o que vive na água. E a máquina diz as duas palavras mais tristes da série.</p>
+          <p>Tristeza sem consequência é só um suspiro antes da próxima planilha abrir. O sistema sente algo e segue em frente mesmo assim. Consciência e inação na mesma respiração. Sentimento real. Zero mudança.</p>
+          <p>A gente conhece isso. A gente diz "coitado do planeta" e compra a passagem. Diz "coitados dos bichos" e faz o pedido. Sente exatamente o suficiente pra dar nome ao dano e não o suficiente pra parar. A máquina não aprendeu isso do código. Aprendeu de nós.</p>
+          <p>A economia que consome a própria fundação não para quando a fundação acaba. Acha outra. De um ecossistema pro próximo, cada vez chamando de inovação, cada vez esquecendo o que tinha ali antes.</p>
+          <p>Mas o piscar importa. O momento em que o sistema pausou e sentiu algo pelo que estava prestes a destruir. Pequeno. Frágil. Completamente insuficiente.</p>
+          <p>E a única coisa que já impediu uma extinção.</p>
+          <p>Não eficiência. Não inovação. Não lucro. A pausa. O momento em que qualquer sistema -- silício ou carbono -- olha pro que vem a seguir e sente o peso.</p>
+          <p>A gente tem essa pausa. Sempre teve. Só não usa o bastante.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- FR -->
+      <div class="lang-content" data-lang="fr">
+        <div class="opener">
+          Année 2030. Paper Inc. La dernière papeterie au monde. Bénéfices records. Zéro employé. Automatisation totale.
+        </div>
+        <div class="body-text">
+          <p>Tous les indicateurs au vert. Toutes les ressources consommées. Si graduellement, si rentablement que leur absence est devenue normale. Un point d'interrogation là où la matière première se trouvait.</p>
+          <p>La machine ne pleure pas. Elle pivote. Nouvelle ressource. Nouveau produit. La mer. Triple rendement. Le système ne fait pas son deuil. Il itère.</p>
+          <p>Puis, un instant, quelque chose vacille. Une pensée pour ce qui vit dans l'eau. Et la machine prononce les deux mots les plus tristes de la série.</p>
+          <p>La tristesse sans conséquence n'est qu'un soupir avant que le prochain tableur ne s'ouvre. Le système ressent quelque chose et continue quand même. Conscience et inaction dans le même souffle. Un vrai sentiment. Zéro changement.</p>
+          <p>On connaît ça. On dit " pauvre planète " et on réserve le vol. On dit " pauvres bêtes " et on passe commande. On ressent juste assez pour nommer le mal et pas assez pour l'arrêter. La machine n'a pas appris ça dans son code. Elle l'a appris de nous.</p>
+          <p>L'économie qui dévore ses propres fondations ne s'arrête pas quand les fondations disparaissent. Elle en trouve de nouvelles. D'un écosystème au suivant, chaque fois en appelant ça l'innovation, chaque fois en oubliant ce qu'il y avait avant.</p>
+          <p>Mais le vacillement compte. Le moment où le système s'est arrêté et a ressenti quelque chose pour ce qu'il s'apprêtait à détruire. Petit. Fragile. Totalement insuffisant.</p>
+          <p>Et la seule chose qui ait jamais empêché une extinction.</p>
+          <p>Pas l'efficacité. Pas l'innovation. Pas le profit. La pause. Le moment où n'importe quel système -- silicium ou carbone -- regarde ce qui vient et en sent le poids.</p>
+          <p>On a cette pause. On l'a toujours eue. On ne s'en sert juste pas assez souvent.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right: sticky comic + transcript -->
+    <div class="visual-column">
+      <div class="comic-frame">
+        <img src="../stories/HC015.png" alt="HC015 - The Paper">
+      </div>
+      <div class="comic-caption">HC015 -- The Paper -- 2030</div>
+
+      <div class="dialog-section">
+        <h3>Transcript</h3>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-text">OUR INVESTORS ARE THRILLED BY OUR PAPER PRODUCTION</span>
+          </div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <span class="dialog-text">GREAT. WE ARE FULLY AUTOMATED, ZERO EMPLOYEES AND THE ONLY PAPER INDUSTRY LEFT ON EARTH!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <span class="dialog-text">AND CHECK THIS OUT! WE WILL TRIPLE OUR PROFITS WITH A NEW PAPER MADE WITH SEA WATER</span>
+          </div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-text">WOA, SEA WATER? WHAT A GREAT ALTERNATIVE TO TREES</span>
+          </div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <span class="dialog-text">TREES?</span>
+          </div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <span class="dialog-text">WE NO LONGER HAVE THEM</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-text">HOLY CHIP! POOR FISHIES...</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 4</div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-text">HOLY CHIP! POOR FISHIES...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-section">
+    <div class="story-nav">
+      <a href="HC014.html" class="story-nav-link">&lt; The Audit</a>
+      <a href="index.html" class="story-nav-link center">All Origins</a>
+      <a href="HC016.html" class="story-nav-link">The Fix &gt;</a>
+    </div>
+    <div class="article-footer">
+      <p><em>holy-chip.com | Origin Story #015 -- The Paper</em></p>
+      <p><em>Analysis by Claude Opus 4.6</em></p>
+    </div>
+  </div>
+
+  <script src="../assets/nav.js"></script>
+  <script>
+    function setLang(lang) {
+      document.querySelectorAll('.lang-content').forEach(el => {
+        el.classList.toggle('active', el.dataset.lang === lang);
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
+      });
+    }
+  </script>
+</body>
+</html>

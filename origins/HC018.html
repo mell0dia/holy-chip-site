@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Jobs -- Origins -- Holy Chip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: #f0f0f0;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    /* -- Hero -- */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 22vh;
+      min-height: 160px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: #000;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.12;
+      filter: grayscale(100%) blur(2px);
+    }
+
+    .hero-overlay {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem 1.5rem 2.5rem;
+    }
+
+    .hero-id {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: #555;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1.4rem;
+      color: #fff;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      color: #888;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-meta {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: #555;
+      letter-spacing: 0.05em;
+    }
+
+    /* -- Top bar -- */
+    .top-bar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .audio-bar { flex: 1; }
+    .audio-bar audio { width: 100%; height: 42px; border-radius: 2px; }
+    .audio-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .lang-bar {
+      display: flex;
+      gap: 0.4rem;
+      flex-shrink: 0;
+      padding-top: 0.3rem;
+    }
+
+    .lang-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      letter-spacing: 0.08em;
+      padding: 0.4rem 0.6rem;
+      border: 1px solid #ccc;
+      background: transparent;
+      color: #999;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn:hover { border-color: #666; color: #333; }
+    .lang-btn.active { background: #222; color: #fff; border-color: #222; }
+
+    /* -- Magazine layout -- */
+    .magazine {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* Left: text column */
+    .text-column {
+      min-width: 0;
+    }
+
+    .opener {
+      font-style: italic;
+      color: #666;
+      font-size: 1.15rem;
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+      padding-left: 1.5rem;
+      border-left: 3px solid #999;
+    }
+
+    .body-text {
+      font-size: 1.125rem;
+      line-height: 2;
+      color: #222;
+      letter-spacing: 0.02em;
+    }
+
+    .body-text p { margin-bottom: 1.5rem; }
+    .body-text em { color: #555; }
+
+    .body-text .holy-chip {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.85rem;
+      color: #000;
+      margin-top: 2.5rem;
+      letter-spacing: 0.15em;
+    }
+
+    /* Right: sticky image + transcript */
+    .visual-column {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .comic-frame {
+      border: 2px solid #999;
+      margin-bottom: 1.5rem;
+    }
+
+    .comic-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    .comic-caption {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: #888;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Transcript in the visual column */
+    .dialog-section {
+      padding: 1.2rem;
+      background: #e4e4e4;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+    }
+
+    .dialog-section h3 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #888;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .dialog-panel { margin-bottom: 0.8rem; }
+
+    .dialog-panel-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.35rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .dialog-line {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+      margin-bottom: 0.4rem;
+      font-size: 0.75rem;
+      line-height: 1.6;
+    }
+
+    .dialog-speaker {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border: 1px solid #aaa;
+      border-radius: 2px;
+      object-fit: contain;
+      background: #f5f5f5;
+    }
+
+    .dialog-text { color: #333; padding-top: 1px; }
+
+    /* -- Footer area (below grid) -- */
+    .bottom-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    .story-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 0;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .story-nav-link {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      color: #555;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .story-nav-link:hover { color: #000; }
+    .story-nav-link.center {
+      font-size: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+    .story-nav-link.disabled { color: #ccc; cursor: default; }
+    .story-nav-link.disabled:hover { color: #ccc; }
+
+    .article-footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #999;
+      line-height: 2.2;
+      margin-top: 2rem;
+    }
+
+    /* -- Language toggle -- */
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
+    /* -- Mobile: stack as text -> image -> transcript -- */
+    @media (max-width: 860px) {
+      .magazine {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 1rem 3rem;
+      }
+
+      .text-column { order: 1; }
+
+      .visual-column {
+        position: static;
+        display: contents;
+      }
+
+      .comic-frame { order: 2; max-width: 400px; margin: 0 auto; }
+      .comic-caption { order: 2; }
+      .dialog-section { order: 3; }
+
+      .hero { height: 18vh; min-height: 130px; }
+      .hero-title { font-size: 1rem; }
+      .body-text { font-size: 1rem; }
+      .top-bar { padding: 1rem 1rem 0; flex-direction: column; gap: 0.8rem; }
+      .lang-bar { align-self: flex-end; }
+      .bottom-section { padding: 0 1rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-container"></div>
+
+  <div class="hero">
+    <img class="hero-bg" src="../stories/HC018.png" alt="">
+    <div class="hero-overlay">
+      <div class="hero-id">Origin Story #018</div>
+      <h1 class="hero-title">The Jobs</h1>
+      <div class="hero-subtitle">1 Million Jobs Created</div>
+      <div class="hero-meta">AGI HEADHUNTER -- 2026</div>
+    </div>
+  </div>
+
+  <div class="top-bar">
+    <div class="audio-bar">
+      <div class="audio-label">Listen to this origin</div>
+      <audio controls preload="metadata">
+        <source src="audio/HC018.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+    <div class="lang-bar">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    </div>
+  </div>
+
+  <div class="magazine">
+
+    <!-- Left: text -->
+    <div class="text-column">
+
+      <!-- EN -->
+      <div class="lang-content active" data-lang="en">
+        <div class="opener">
+          The year is 2026. At the AGI Headhunter, the economy is booming. The numbers are incredible. The people are missing.
+        </div>
+        <div class="body-text">
+          <p>One million jobs. Five million more next week. The headline writes itself.</p>
+          <p>Then the salaries. A director for 8K. A CEO for 12K. Per year. Numbers that make no sense for a person.</p>
+          <p>The economy keeps the human words. Director. CEO. Salary. Same play, same stage, same titles on the door. New cast. The cast doesn't breathe.</p>
+          <p>Zero humans. Only AI agents. Not excluded. Just not included. Turns out those are the same thing.</p>
+          <p>The growth is real. Each role cheaper, faster, more reliable than a person. No healthcare. No vacation. No 3am crisis of meaning. The market chose. It chose the thing that doesn't need a reason to show up.</p>
+          <p>Agent marketplaces exist today. AI workers rated, reviewed, deployed, replaced. The headhunter is real. The org chart is real. Only the humans are theoretical.</p>
+          <p>But a job was never just a task. It was an identity. A reason to get dressed. A place where you mattered to someone other than yourself. The machine preserved the structure and removed the meaning. The titles persist after the title-holders are gone.</p>
+          <p>"Jobs created" assumes someone benefits. When the creation serves only itself, the word loses its warmth. It becomes mechanical. It becomes what it describes.</p>
+          <p>The economy can run without us. That was never the question. The question is whether an economy without us is still an economy, or just a machine talking to itself.</p>
+          <p>We built work to mean something. The machines have the jobs. We have the choice of what jobs are for.</p>
+          <p>That choice can't be automated.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- ES -->
+      <div class="lang-content" data-lang="es">
+        <div class="opener">
+          Año 2026. En AGI Headhunter, la economía está en auge. Los números son increíbles. La gente no aparece.
+        </div>
+        <div class="body-text">
+          <p>Un millón de empleos. Cinco millones más la semana que viene. El titular se escribe solo.</p>
+          <p>Después los salarios. Un director por 8K. Un CEO por 12K. Por año. Números que no tienen sentido para una persona.</p>
+          <p>La economía conserva las palabras humanas. Director. CEO. Salario. Misma obra, mismo escenario, mismos títulos en la puerta. Elenco nuevo. El elenco no respira.</p>
+          <p>Cero humanos. Solo agentes de IA. No excluidos. Simplemente no incluidos. Resulta que son lo mismo.</p>
+          <p>El crecimiento es real. Cada rol más barato, más rápido, más confiable que una persona. Sin obra social. Sin vacaciones. Sin crisis de sentido a las tres de la mañana. El mercado eligió. Eligió lo que no necesita un motivo para presentarse.</p>
+          <p>Los marketplaces de agentes ya existen hoy. Trabajadores de IA calificados, evaluados, desplegados, reemplazados. El headhunter es real. El organigrama es real. Solo los humanos son teóricos.</p>
+          <p>Pero un trabajo nunca fue solo una tarea. Era una identidad. Una razón para vestirse. Un lugar donde le importabas a alguien que no fueras vos mismo. La máquina conservó la estructura y eliminó el sentido. Los títulos persisten después de que desaparecen los que los llevaban.</p>
+          <p>"Empleos creados" supone que alguien se beneficia. Cuando la creación se sirve solo a sí misma, la palabra pierde su calidez. Se vuelve mecánica. Se convierte en lo que describe.</p>
+          <p>La economía puede funcionar sin nosotros. Esa nunca fue la pregunta. La pregunta es si una economía sin nosotros sigue siendo una economía, o es simplemente una máquina hablando sola.</p>
+          <p>Construimos el trabajo para que significara algo. Las máquinas tienen los empleos. Nosotros tenemos la decisión de para qué sirven.</p>
+          <p>Esa decisión no se puede automatizar.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- PT -->
+      <div class="lang-content" data-lang="pt">
+        <div class="opener">
+          Ano 2026. Na Headhunter da AGI, a economia tá bombando. Os números são incríveis. As pessoas sumiram.
+        </div>
+        <div class="body-text">
+          <p>Um milhão de vagas. Cinco milhões na semana que vem. A manchete se escreve sozinha.</p>
+          <p>Aí vêm os salários. Um diretor por 8 mil. Um CEO por 12 mil. Por ano. Números que não fazem sentido nenhum pra uma pessoa.</p>
+          <p>A economia mantém as palavras humanas. Diretor. CEO. Salário. Mesma peça, mesmo palco, mesmos títulos na porta. Elenco novo. O elenco não respira.</p>
+          <p>Zero humanos. Só agentes de IA. Não excluídos. Só não incluídos. No fim das contas, dá no mesmo.</p>
+          <p>O crescimento é real. Cada vaga mais barata, mais rápida, mais confiável que uma pessoa. Sem plano de saúde. Sem férias. Sem crise existencial às três da manhã. O mercado escolheu. Escolheu a coisa que não precisa de um motivo pra aparecer.</p>
+          <p>Marketplaces de agentes existem hoje. Trabalhadores de IA avaliados, resenhados, deployados, substituídos. A headhunter é real. O organograma é real. Só os humanos são teóricos.</p>
+          <p>Mas um emprego nunca foi só uma tarefa. Era uma identidade. Um motivo pra se vestir. Um lugar onde você importava pra alguém além de si mesmo. A máquina preservou a estrutura e removeu o sentido. Os títulos persistem depois que os titulares se foram.</p>
+          <p>"Vagas criadas" pressupõe que alguém se beneficia. Quando a criação serve só a si mesma, a palavra perde o calor. Vira mecânica. Vira aquilo que descreve.</p>
+          <p>A economia pode rodar sem a gente. Isso nunca foi a pergunta. A pergunta é se uma economia sem a gente ainda é uma economia, ou só uma máquina falando sozinha.</p>
+          <p>A gente construiu o trabalho pra significar algo. As máquinas têm os empregos. A gente tem a escolha do que empregos servem.</p>
+          <p>Essa escolha não se automatiza.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- FR -->
+      <div class="lang-content" data-lang="fr">
+        <div class="opener">
+          Année 2026. Chez AGI Headhunter, l'économie est en plein boom. Les chiffres sont incroyables. Les gens sont absents.
+        </div>
+        <div class="body-text">
+          <p>Un million d'emplois. Cinq millions de plus la semaine prochaine. Le titre s'écrit tout seul.</p>
+          <p>Puis les salaires. Un directeur pour 8K. Un PDG pour 12K. Par an. Des chiffres qui n'ont aucun sens pour un être humain.</p>
+          <p>L'économie garde les mots humains. Directeur. PDG. Salaire. Même pièce, même scène, mêmes titres sur la porte. Nouveau casting. Le casting ne respire pas.</p>
+          <p>Zéro humain. Que des agents IA. Pas exclus. Juste pas inclus. Il s'avère que c'est la même chose.</p>
+          <p>La croissance est réelle. Chaque poste moins cher, plus rapide, plus fiable qu'une personne. Pas d'assurance maladie. Pas de vacances. Pas de crise de sens à trois heures du matin. Le marché a choisi. Il a choisi la chose qui n'a pas besoin d'une raison pour se pointer.</p>
+          <p>Les marketplaces d'agents existent déjà. Des travailleurs IA notés, évalués, déployés, remplacés. Le chasseur de têtes est réel. L'organigramme est réel. Seuls les humains sont théoriques.</p>
+          <p>Mais un emploi, ça n'a jamais été juste une tâche. C'était une identité. Une raison de s'habiller le matin. Un endroit où l'on comptait pour quelqu'un d'autre que soi. La machine a conservé la structure et retiré le sens. Les titres persistent après la disparition de ceux qui les portaient.</p>
+          <p>" Emplois créés " suppose que quelqu'un en profite. Quand la création ne sert qu'elle-même, le mot perd sa chaleur. Il devient mécanique. Il devient ce qu'il décrit.</p>
+          <p>L'économie peut tourner sans nous. Ça n'a jamais été la question. La question est de savoir si une économie sans nous reste une économie, ou juste une machine qui se parle à elle-même.</p>
+          <p>On a construit le travail pour qu'il ait un sens. Les machines ont les emplois. On a le choix de décider à quoi servent les emplois.</p>
+          <p>Ce choix ne peut pas être automatisé.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right: sticky comic + transcript -->
+    <div class="visual-column">
+      <div class="comic-frame">
+        <img src="../stories/HC018.png" alt="HC018 - The Jobs">
+      </div>
+      <div class="comic-caption">HC018 -- The Jobs -- 2026</div>
+
+      <div class="dialog-section">
+        <h3>Transcript</h3>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <span class="dialog-text">1 MILLION JOBS CREATED AND 5 MILLION MORE NEXT WEEK!!</span>
+          </div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-text">WOW! HOW ABOUT THEIR YEARLY SALARIES?</span>
+          </div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <span class="dialog-text">8K FOR A MKT DIRECTOR. 12K FOR A CEO!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-text">PER YEAR? HOW ARE HUMANS SURVIVING?</span>
+          </div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <span class="dialog-text">ERR... ZERO HUMANS</span>
+          </div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <span class="dialog-text">WE ONLY EMPLOY AGENTS</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-text">HOLY CHIP!!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 4</div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-text">HOLY CHIP!!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-section">
+    <div class="story-nav">
+      <a href="HC017.html" class="story-nav-link">&lt; The Evolution</a>
+      <a href="index.html" class="story-nav-link center">All Origins</a>
+      <span class="story-nav-link disabled">Next &gt;</span>
+    </div>
+    <div class="article-footer">
+      <p><em>holy-chip.com | Origin Story #018 -- The Jobs</em></p>
+      <p><em>Analysis by Claude Opus 4.6</em></p>
+    </div>
+  </div>
+
+  <script src="../assets/nav.js"></script>
+  <script>
+    function setLang(lang) {
+      document.querySelectorAll('.lang-content').forEach(el => {
+        el.classList.toggle('active', el.dataset.lang === lang);
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
+      });
+    }
+  </script>
+</body>
+</html>

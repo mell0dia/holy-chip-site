@@ -1,11 +1,12 @@
 // Holy Chip - Shared Navigation Component
 
 (function() {
-  const inSubdir = window.location.pathname.includes('/history/');
+  const inSubdir = window.location.pathname.includes('/history/') || window.location.pathname.includes('/origins/');
   const pathPrefix = inSubdir ? '../' : '';
 
   const navItems = [
     { label: 'Stories', href: 'stories.html' },
+    { label: 'Origins', href: 'origins/'     },
     { label: 'NFTs',    href: 'nfts.html'    },
     { label: 'Builder', href: 'builder.html', accent: true },
     { label: 'History', href: 'history/'     },
@@ -26,7 +27,8 @@
       <ul class="nav-list" id="nav-list">
         ${navItems.map(item => {
           const isActive = currentPage === item.href ||
-                           (item.href === 'history/' && pathname.includes('history'));
+                           (item.href === 'history/' && pathname.includes('history')) ||
+                           (item.href === 'origins/' && pathname.includes('origins'));
           return `<li class="nav-item">
             <a href="${pathPrefix}${item.href}" class="nav-link${isActive ? ' active' : ''}${item.accent ? ' accent' : ''}">${item.label}</a>
           </li>`;

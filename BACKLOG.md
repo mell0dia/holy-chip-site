@@ -62,6 +62,21 @@ _Things to build, improve, and explore._
 
 ---
 
+## 📦 GitHub / Repo Organization
+
+- [ ] **Create separate repo for Claude commands/skills/tools** (Apr 14, 2026)
+  - Commands: `analyzeStory.md` (story analysis + blog generation)
+  - Tools: `tweet_image.py`, Twitter posting scripts
+  - Config: `story-posts.json` (post tracking), `.env` (gitignored)
+  - Decide repo name and structure
+  - Stories analysis files (`stories/analysis/`) stay in `holy-chip-site` repo — they will become blog/post pages on the website
+
+- [ ] **Build blog/post page from analysis files** (Apr 14, 2026)
+  - Transform `stories/analysis/HC###.blog.md` files into browsable blog posts on the website
+  - Add a blog/posts section or integrate with stories page
+
+---
+
 ## 🧪 Needs Testing
 
 - [ ] **SGen — Test JSON import/load flow** (Mar 18, 2026)
@@ -155,7 +170,82 @@ _Things to build, improve, and explore._
 - [ ] Discount codes / coupon system
 - [ ] Abandoned cart recovery emails
 - [ ] Newsletter signup
-- [ ] Social media share buttons
+- [x] Social media share buttons (Follow on X added to nav + Post on X added to stories — Apr 2026)
+
+---
+
+## 🔧 Claude Code Hooks — Automation & Safety
+
+> Source: [@zodchiii thread](https://x.com/zodchiii/status/2040000216456143002) on Claude Code hooks.
+> Hooks are automatic actions that fire every time Claude edits a file, runs a command, or finishes a task. Unlike CLAUDE.md instructions (followed ~80% of the time), hooks are deterministic — they run every time, no exceptions.
+> Config lives in `.claude/settings.json` (committed to git = team-wide).
+
+### Hook 1 — Auto-format every file Claude touches
+- **What:** Runs Prettier (or any formatter) automatically after every Write|Edit
+- **Pros:** Eliminates "forgot to format" commits. Zero effort after setup. Works with any formatter (Prettier, Black, gofmt, rustfmt). First hook everyone should set up.
+- **Cons:** Adds a small delay after every edit (~200ms). Could conflict if the project has no formatter configured. May reformat files in unexpected ways if Prettier config is missing or loose.
+- **Best for:** HolyChip website (JS/CSS/HTML across many pages), SGen (active Node/React dev)
+- **Priority:** HIGH
+- [ ] Set up for holy-chip-site
+- [ ] Set up for SGen
+
+### Hook 2 — Block dangerous commands
+- **What:** Pre-hook on Bash that regex-matches `rm -rf`, `git reset --hard`, `DROP TABLE`, `curl|sh`, etc. Blocks with exit code 2 and tells Claude to propose a safer alternative.
+- **Pros:** Hard safety net for production-critical mistakes. Catches the "probably won't happen but if it does you're screwed" scenarios. Claude auto-proposes safer alternatives when blocked.
+- **Cons:** Regex-based — can false-positive on legitimate commands (e.g., a harmless `rm -rf` on a temp dir). Need to maintain the pattern list as new risky commands emerge. Doesn't catch indirect destruction (e.g., a script that internally runs dangerous commands).
+- **Best for:** All projects — especially 4D (email automation, Outlook.sqlite), NFT (on-chain operations with real SOL)
+- **Priority:** HIGH
+- [ ] Set up globally (~/.claude/settings.json)
+
+### Hook 3 — Protect sensitive files from edits
+- **What:** Pre-hook on Edit|Write that blocks changes to `.env*`, `*.pem`, `*.key`, `package-lock.json`, `secrets/*`, etc.
+- **Pros:** Prevents accidental edits to config, lock files, secrets, and credentials. Claude sees the block reason and explains why it wanted to edit. Customizable per project.
+- **Cons:** Can be annoying when you legitimately need Claude to edit a protected file — have to temporarily disable or adjust the list. Lock file protection means Claude can't fix dependency issues directly.
+- **Best for:** HolyChip website (protect `product-data.json`, `netlify.toml`), 4D (protect `olm-config.json`, client JSONs), NFT (protect wallet keypairs)
+- **Priority:** HIGH
+- [ ] Set up for holy-chip-site (protect product-data.json, netlify.toml, .env files)
+- [ ] Set up for 4D projects
+
+### Hook 4 — Run tests after every edit
+- **What:** Post-hook on Write|Edit that runs `npm run test` (tail -5 for short output). Claude sees failures immediately and self-corrects.
+- **Pros:** Creates a feedback loop that improves Claude's output quality 2-3x (per Boris Cherny, Claude Code creator). Catches regressions instantly. Claude fixes its own mistakes before you ever see them.
+- **Cons:** Runs the full test suite after EVERY edit — can be very slow on large projects. Noisy if tests are flaky. Burns CPU/time on trivial edits (CSS changes, comments). Not useful for projects without tests.
+- **Best for:** SGen (active development, has test suite), Generator (marked stable — any edit should validate nothing broke)
+- **Priority:** MEDIUM — only valuable for projects with actual test suites
+- [ ] Set up for SGen
+- [ ] Set up for Generator (if tests exist)
+
+### Hook 5 — Require passing tests before creating a PR
+- **What:** Pre-hook on PR creation that blocks unless all tests pass. Hard gate — no green tests, no PR.
+- **Pros:** Prevents embarrassing red CI on PRs. Reviewer never sees broken code. Claude fixes failures before submitting.
+- **Cons:** Can block you when tests fail for reasons unrelated to your changes (flaky tests, external dependencies). Only works if using GitHub MCP tool for PR creation — doesn't apply if Claude uses `gh` CLI directly.
+- **Best for:** Any project with CI/CD and team reviewers
+- **Priority:** LOW for now — Ricardo works solo on most projects, PRs are self-reviewed
+- [ ] Consider when team collaboration increases
+
+### Hook 6 — Auto-lint and report errors
+- **What:** Post-hook that runs ESLint --fix after every edit. Can chain with Hook #1 (Prettier first, then ESLint).
+- **Pros:** Code is lint-clean before you ever look at it. ESLint --fix auto-corrects many issues. Remaining errors fed back to Claude for manual fix.
+- **Cons:** Same performance concern as Hook #4 — runs after every edit. ESLint can be slow on large files. --fix can make unwanted changes if rules are aggressive. Redundant if you already have strict Prettier + editor linting.
+- **Best for:** SGen (active JS/React development), holy-chip-site (if ESLint is configured)
+- **Priority:** MEDIUM
+- [ ] Set up for SGen (chain with Hook #1)
+
+### Hook 7 — Log every command Claude runs
+- **What:** Pre-hook on Bash that appends every command + timestamp to `.claude/command-log.txt`. Add to .gitignore.
+- **Pros:** Full audit trail of everything Claude did. Invaluable for debugging "what broke and when." Lightweight — just a printf, near-zero overhead.
+- **Cons:** Log file grows indefinitely — need periodic cleanup. Only logs commands, not their output. Doesn't capture Edit/Write operations (only Bash).
+- **Best for:** All projects — especially useful for debugging across sessions
+- **Priority:** MEDIUM
+- [ ] Set up globally (~/.claude/settings.json)
+
+### Hook 8 — Auto-commit after each completed task
+- **What:** Stop hook that runs `git add -A && git commit` when Claude finishes a response. Every task gets its own atomic commit.
+- **Pros:** Never forget to commit. Clean git history with one commit per task. Pairs well with `claude -w` worktrees for isolated feature branches.
+- **Cons:** `git add -A` is dangerous — can accidentally commit .env, secrets, large binaries, or work-in-progress files. Commit messages are generic ("chore(ai): apply Claude edit") — lose context. Can create noise commits for trivial responses. Ricardo prefers reviewing before committing.
+- **Best for:** Experimental/throwaway branches where speed > cleanliness
+- **Priority:** LOW — conflicts with Ricardo's preference for deliberate commits with meaningful messages. Consider only for worktree experiments.
+- [ ] Consider for isolated worktree workflows only
 
 ---
 
@@ -271,4 +361,4 @@ _Things to build, improve, and explore._
 
 ---
 
-**Last Updated**: April 1, 2026
+**Last Updated**: April 4, 2026

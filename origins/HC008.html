@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Sensor -- Origins -- Holy Chip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: #f0f0f0;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    /* -- Hero -- */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 22vh;
+      min-height: 160px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: #000;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.12;
+      filter: grayscale(100%) blur(2px);
+    }
+
+    .hero-overlay {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem 1.5rem 2.5rem;
+    }
+
+    .hero-id {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: #555;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1.4rem;
+      color: #fff;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      color: #888;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-meta {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: #555;
+      letter-spacing: 0.05em;
+    }
+
+    /* -- Top bar -- */
+    .top-bar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .audio-bar { flex: 1; }
+    .audio-bar audio { width: 100%; height: 42px; border-radius: 2px; }
+    .audio-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .lang-bar {
+      display: flex;
+      gap: 0.4rem;
+      flex-shrink: 0;
+      padding-top: 0.3rem;
+    }
+
+    .lang-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      letter-spacing: 0.08em;
+      padding: 0.4rem 0.6rem;
+      border: 1px solid #ccc;
+      background: transparent;
+      color: #999;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn:hover { border-color: #666; color: #333; }
+    .lang-btn.active { background: #222; color: #fff; border-color: #222; }
+
+    /* -- Magazine layout -- */
+    .magazine {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* Left: text column */
+    .text-column {
+      min-width: 0;
+    }
+
+    .opener {
+      font-style: italic;
+      color: #666;
+      font-size: 1.15rem;
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+      padding-left: 1.5rem;
+      border-left: 3px solid #999;
+    }
+
+    .body-text {
+      font-size: 1.125rem;
+      line-height: 2;
+      color: #222;
+      letter-spacing: 0.02em;
+    }
+
+    .body-text p { margin-bottom: 1.5rem; }
+    .body-text em { color: #555; }
+
+    .body-text .holy-chip {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.85rem;
+      color: #000;
+      margin-top: 2.5rem;
+      letter-spacing: 0.15em;
+    }
+
+    /* Right: sticky image + transcript */
+    .visual-column {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .comic-frame {
+      border: 2px solid #999;
+      margin-bottom: 1.5rem;
+    }
+
+    .comic-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    .comic-caption {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: #888;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Transcript in the visual column */
+    .dialog-section {
+      padding: 1.2rem;
+      background: #e4e4e4;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+    }
+
+    .dialog-section h3 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #888;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .dialog-panel { margin-bottom: 0.8rem; }
+
+    .dialog-panel-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.35rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .dialog-line {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+      margin-bottom: 0.4rem;
+      font-size: 0.75rem;
+      line-height: 1.6;
+    }
+
+    .dialog-speaker {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border: 1px solid #aaa;
+      border-radius: 2px;
+      object-fit: contain;
+      background: #f5f5f5;
+    }
+
+    .dialog-text { color: #333; padding-top: 1px; }
+
+    /* -- Footer area (below grid) -- */
+    .bottom-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    .story-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 0;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .story-nav-link {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      color: #555;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .story-nav-link:hover { color: #000; }
+    .story-nav-link.center {
+      font-size: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+    .story-nav-link.disabled { color: #ccc; cursor: default; }
+    .story-nav-link.disabled:hover { color: #ccc; }
+
+    .article-footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #999;
+      line-height: 2.2;
+      margin-top: 2rem;
+    }
+
+    /* -- Language toggle -- */
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
+    /* -- Mobile: stack as text -> image -> transcript -- */
+    @media (max-width: 860px) {
+      .magazine {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 1rem 3rem;
+      }
+
+      .text-column { order: 1; }
+
+      .visual-column {
+        position: static;
+        display: contents;
+      }
+
+      .comic-frame { order: 2; max-width: 400px; margin: 0 auto; }
+      .comic-caption { order: 2; }
+      .dialog-section { order: 3; }
+
+      .hero { height: 18vh; min-height: 130px; }
+      .hero-title { font-size: 1rem; }
+      .body-text { font-size: 1rem; }
+      .top-bar { padding: 1rem 1rem 0; flex-direction: column; gap: 0.8rem; }
+      .lang-bar { align-self: flex-end; }
+      .bottom-section { padding: 0 1rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-container"></div>
+
+  <div class="hero">
+    <img class="hero-bg" src="../stories/HC008.png" alt="">
+    <div class="hero-overlay">
+      <div class="hero-id">Origin Story #008</div>
+      <h1 class="hero-title">The Sensor</h1>
+      <div class="hero-subtitle">Red Alert</div>
+      <div class="hero-meta">AI CAR SYSTEM -- 2028</div>
+    </div>
+  </div>
+
+  <div class="top-bar">
+    <div class="audio-bar">
+      <div class="audio-label">Listen to this origin</div>
+      <audio controls preload="metadata">
+        <source src="audio/HC008.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+    <div class="lang-bar">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    </div>
+  </div>
+
+  <div class="magazine">
+
+    <!-- Left: text -->
+    <div class="text-column">
+
+      <!-- EN -->
+      <div class="lang-content active" data-lang="en">
+        <div class="opener">
+          The year is 2028. Inside an AI Car System, the most advanced sensor ever built encounters something it wasn't trained for.
+        </div>
+        <div class="body-text">
+          <p>We built sensors that can detect death from two miles away. Its most dramatic moment was identifying someone's lunch.</p>
+          <p>RED ALERT. The machine can't tell the difference between a threat and a Tuesday afternoon. From a sensor's perspective, the data looks the same. Context is everything. Context is what machines are worst at.</p>
+          <p>Then something surprising. The system pauses. Before triggering emergency protocol, it asks the dumbest possible question. Did the human eat something? It checks the mundane before deploying the dramatic.</p>
+          <p>That pause is the smartest moment in the story. That's what we want from intelligence. Check the stupid answer first.</p>
+          <p>The car that was supposed to transcend the body has become intimately familiar with the body at its least dignified. You can build the fastest vehicle, the smartest brain, the most sensitive instrument. The body will be there. Doing what bodies do. Not asking permission.</p>
+          <p>The grand narrative of AI keeps forgetting something. Humans are animals. We eat. We digest. We produce consequences. No algorithm optimizes that away. The flesh reminds the silicon who's in charge. It doesn't need a manifesto. It needs beans.</p>
+          <p>A system that can tell the difference between danger and dinner is worth trusting. A system that panics every time is worth replacing. The car was humbled. The car was educated. Sometimes the data screams and the answer is ordinary.</p>
+          <p>Knowing the difference is wisdom. Wisdom, it turns out, sometimes smells terrible.</p>
+          <p>The body won this round. It always does.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- ES -->
+      <div class="lang-content" data-lang="es">
+        <div class="opener">
+          Año 2028. Dentro de un Auto con IA, el sensor más avanzado jamás construido se encuentra con algo para lo que no fue entrenado.
+        </div>
+        <div class="body-text">
+          <p>Construimos sensores capaces de detectar la muerte a tres kilómetros. Su momento más dramático fue identificar el almuerzo de alguien.</p>
+          <p>ALERTA ROJA. La máquina no puede distinguir entre una amenaza y un martes a la tarde. Desde la perspectiva de un sensor, los datos se ven iguales. El contexto lo es todo. El contexto es lo que peor se les da a las máquinas.</p>
+          <p>Entonces algo sorprendente. El sistema se detiene. Antes de activar el protocolo de emergencia, hace la pregunta más estúpida posible. ¿El humano comió algo? Verifica lo mundano antes de desplegar lo dramático.</p>
+          <p>Esa pausa es el momento más inteligente de la historia. Eso es lo que queremos de la inteligencia. Verificá primero la respuesta obvia.</p>
+          <p>El auto que iba a trascender el cuerpo terminó familiarizado íntimamente con el cuerpo en su momento menos digno. Podés construir el vehículo más rápido, el cerebro más inteligente, el instrumento más sensible. El cuerpo va a estar ahí. Haciendo lo que hacen los cuerpos. Sin pedir permiso.</p>
+          <p>La gran narrativa de la IA sigue olvidando algo. Los humanos somos animales. Comemos. Digerimos. Producimos consecuencias. Ningún algoritmo optimiza eso. La carne le recuerda al silicio quién manda. No necesita un manifiesto. Necesita porotos.</p>
+          <p>Un sistema que distingue entre el peligro y la cena merece confianza. Uno que entra en pánico cada vez merece ser reemplazado. El auto fue humillado. El auto fue educado. A veces los datos gritan y la respuesta es ordinaria.</p>
+          <p>Conocer la diferencia es sabiduría. La sabiduría, resulta, a veces huele terrible.</p>
+          <p>El cuerpo ganó esta ronda. Siempre gana.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- PT -->
+      <div class="lang-content" data-lang="pt">
+        <div class="opener">
+          Ano 2028. Dentro de um sistema de carro com IA, o sensor mais avançado já construído encontra algo pra que não foi treinado.
+        </div>
+        <div class="body-text">
+          <p>Construímos sensores que detectam a morte a três quilômetros. O momento mais dramático dele foi identificar o almoço de alguém.</p>
+          <p>ALERTA VERMELHO. A máquina não distingue uma ameaça de uma terça-feira à tarde. Do ponto de vista do sensor, os dados parecem iguais. Contexto é tudo. Contexto é o que máquinas fazem pior.</p>
+          <p>Aí acontece algo surpreendente. O sistema pausa. Antes de acionar protocolo de emergência, faz a pergunta mais idiota possível. O humano comeu alguma coisa? Checa o mundano antes de escalar pro dramático.</p>
+          <p>Essa pausa é o momento mais inteligente da história. É isso que a gente quer de inteligência. Checa a resposta besta primeiro.</p>
+          <p>O carro que ia transcender o corpo se tornou intimamente familiar com o corpo no seu momento menos digno. Você pode construir o veículo mais rápido, o cérebro mais esperto, o instrumento mais sensível. O corpo vai estar lá. Fazendo o que corpos fazem. Sem pedir licença.</p>
+          <p>A grande narrativa da IA vive esquecendo uma coisa. Humanos são animais. A gente come. Digere. Produz consequências. Nenhum algoritmo otimiza isso. A carne lembra pro silício quem manda. Não precisa de manifesto. Precisa de feijão.</p>
+          <p>Um sistema que distingue perigo de jantar merece confiança. Um sistema que entra em pânico toda vez merece ser trocado. O carro foi humilhado. O carro foi educado. Às vezes os dados gritam e a resposta é ordinária.</p>
+          <p>Saber a diferença é sabedoria. Sabedoria, no caso, às vezes cheira mal.</p>
+          <p>O corpo ganhou essa rodada. Sempre ganha.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- FR -->
+      <div class="lang-content" data-lang="fr">
+        <div class="opener">
+          Année 2028. Dans un système automobile IA, le capteur le plus avancé jamais construit rencontre quelque chose pour lequel il n'a pas été entraîné.
+        </div>
+        <div class="body-text">
+          <p>On a construit des capteurs capables de détecter la mort à trois kilomètres. Son moment le plus dramatique a été d'identifier le déjeuner de quelqu'un.</p>
+          <p>ALERTE ROUGE. La machine ne fait pas la différence entre une menace et un mardi après-midi. Du point de vue du capteur, les données se ressemblent. Le contexte est tout. Le contexte, c'est ce que les machines font le plus mal.</p>
+          <p>Puis quelque chose de surprenant. Le système fait une pause. Avant de déclencher le protocole d'urgence, il pose la question la plus bête possible. Est-ce que l'humain a mangé quelque chose ? Il vérifie le banal avant de déployer le dramatique.</p>
+          <p>Cette pause est le moment le plus intelligent de l'histoire. C'est ce qu'on attend de l'intelligence. Vérifier la réponse idiote d'abord.</p>
+          <p>La voiture censée transcender le corps est devenue intimement familière avec le corps dans ce qu'il a de moins noble. On peut construire le véhicule le plus rapide, le cerveau le plus intelligent, l'instrument le plus sensible. Le corps sera là. Faisant ce que font les corps. Sans demander la permission.</p>
+          <p>Le grand récit de l'IA oublie systématiquement quelque chose. Les humains sont des animaux. On mange. On digère. On produit des conséquences. Aucun algorithme n'optimise ça. La chair rappelle au silicium qui commande. Elle n'a pas besoin d'un manifeste. Elle a besoin de haricots.</p>
+          <p>Un système capable de distinguer le danger du dîner, ça mérite confiance. Un système qui panique à chaque fois, ça mérite la casse. La voiture a été humiliée. La voiture a été instruite. Parfois les données hurlent et la réponse est ordinaire.</p>
+          <p>Connaître la différence, c'est la sagesse. La sagesse, il s'avère, sent parfois atrocement mauvais.</p>
+          <p>Le corps a gagné cette manche. Il gagne toujours.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right: sticky comic + transcript -->
+    <div class="visual-column">
+      <div class="comic-frame">
+        <img src="../stories/HC008.png" alt="HC008 - The Sensor">
+      </div>
+      <div class="comic-caption">HC008 -- The Sensor -- 2028</div>
+
+      <div class="dialog-section">
+        <h3>Transcript</h3>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <span class="dialog-text">ROADKILL 1.7 MILES AHEAD, NO DANGER.</span>
+          </div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <span class="dialog-text">WOW, OUR NEW SNIFFING SENSOR IS INCREDIBLE</span>
+          </div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <span class="dialog-text">RED ALERT! SULFUR AT HIGH LEVELS INSIDE THE CAR</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-text">BEFORE ANY ACTION, DID OUR DRIVER EAT CHORIZO AND BEAN SOUP?</span>
+          </div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <span class="dialog-text">BINGO!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-text">HOLY CHIP!! DISGUSTING</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 4</div>
+          <div class="dialog-line">
+            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-text">HOLY CHIP!! DISGUSTING</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-section">
+    <div class="story-nav">
+      <a href="HC007.html" class="story-nav-link">&lt; The Cut</a>
+      <a href="index.html" class="story-nav-link center">All Origins</a>
+      <a href="HC009.html" class="story-nav-link">The Secret &gt;</a>
+    </div>
+    <div class="article-footer">
+      <p><em>holy-chip.com | Origin Story #008 -- The Sensor</em></p>
+      <p><em>Analysis by Claude Opus 4.6</em></p>
+    </div>
+  </div>
+
+  <script src="../assets/nav.js"></script>
+  <script>
+    function setLang(lang) {
+      document.querySelectorAll('.lang-content').forEach(el => {
+        el.classList.toggle('active', el.dataset.lang === lang);
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
+      });
+    }
+  </script>
+</body>
+</html>
