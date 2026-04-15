@@ -2002,9 +2002,6 @@
       btn.textContent = 'Submitting...';
       statusEl.style.display = 'none';
 
-      const SUPABASE_URL = 'https://wexdbkuwfxgimuubedvc.supabase.co';
-      const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndleGRia3V3ZnhnaW11dWJlZHZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyNjUyNjYsImV4cCI6MjA4ODg0MTI2Nn0.hdFwhtk9gzjjwCnBftHt1BxDhsGcoSRXLyKyd3jm0ek';
-
       try {
         const payload = {
           track: data.track,
@@ -2019,13 +2016,10 @@
           nft_mint_address: data.track === 'nft' ? data.charA : null
         };
 
-        const res = await fetch(`${SUPABASE_URL}/rest/v1/submissions`, {
+        const res = await fetch('/.netlify/functions/submit-story', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${SUPABASE_ANON}`,
-            'apikey': SUPABASE_ANON,
-            'Prefer': 'return=minimal'
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify(payload)
         });
