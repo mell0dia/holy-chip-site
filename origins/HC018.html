@@ -101,23 +101,23 @@
 
     .lang-bar {
       display: flex;
-      gap: 0.4rem;
+      gap: 0.5rem;
       flex-shrink: 0;
       padding-top: 0.3rem;
     }
 
     .lang-btn {
       font-family: 'Press Start 2P', monospace;
-      font-size: 0.45rem;
+      font-size: 0.6rem;
       letter-spacing: 0.08em;
-      padding: 0.4rem 0.6rem;
-      border: 1px solid #ccc;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid #333;
       background: transparent;
-      color: #999;
+      color: #222;
       cursor: pointer;
       transition: all 0.2s;
     }
-    .lang-btn:hover { border-color: #666; color: #333; }
+    .lang-btn:hover { border-color: #000; color: #000; }
     .lang-btn.active { background: #222; color: #fff; border-color: #222; }
 
     /* -- Magazine layout -- */
@@ -182,8 +182,8 @@
 
     .comic-caption {
       font-family: 'Press Start 2P', monospace;
-      font-size: 0.4rem;
-      color: #888;
+      font-size: 0.45rem;
+      color: #222;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       text-align: center;
@@ -201,7 +201,7 @@
     .dialog-section h3 {
       font-family: 'Press Start 2P', monospace;
       font-size: 0.45rem;
-      color: #888;
+      color: #222;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       margin-bottom: 1rem;
@@ -222,19 +222,18 @@
       display: flex;
       gap: 0.5rem;
       align-items: flex-start;
-      margin-bottom: 0.4rem;
-      font-size: 0.75rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
       line-height: 1.6;
     }
 
-    .dialog-speaker {
+    .dialog-speaker-label {
       flex-shrink: 0;
-      width: 20px;
-      height: 20px;
-      border: 1px solid #aaa;
-      border-radius: 2px;
-      object-fit: contain;
-      background: #f5f5f5;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      padding-top: 4px;
+      min-width: 55px;
     }
 
     .dialog-text { color: #333; padding-top: 1px; }
@@ -434,62 +433,171 @@
 
     </div>
 
-    <!-- Right: sticky comic + transcript -->
+    <!-- Right: sticky transcript + comic -->
     <div class="visual-column">
-      <div class="comic-frame">
-        <img src="../stories/HC018.png" alt="HC018 - The Jobs">
-      </div>
-      <div class="comic-caption">HC018 -- The Jobs -- 2026</div>
-
       <div class="dialog-section">
-        <h3>Transcript</h3>
+        <h3 class="transcript-title" data-en="Transcript" data-es="Transcripción" data-pt="Transcrição" data-fr="Transcription">Transcript</h3>
+        <div class="lang-content active" data-lang="en">
         <div class="dialog-panel">
           <div class="dialog-panel-label">Panel 1</div>
           <div class="dialog-line">
-            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <span class="dialog-speaker-label">Chip 0</span>
             <span class="dialog-text">1 MILLION JOBS CREATED AND 5 MILLION MORE NEXT WEEK!!</span>
           </div>
           <div class="dialog-line">
-            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-speaker-label">Chip 1</span>
             <span class="dialog-text">WOW! HOW ABOUT THEIR YEARLY SALARIES?</span>
           </div>
           <div class="dialog-line">
-            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <span class="dialog-speaker-label">Chip 0</span>
             <span class="dialog-text">8K FOR A MKT DIRECTOR. 12K FOR A CEO!</span>
           </div>
         </div>
         <div class="dialog-panel">
           <div class="dialog-panel-label">Panel 2</div>
           <div class="dialog-line">
-            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-speaker-label">Chip 1</span>
             <span class="dialog-text">PER YEAR? HOW ARE HUMANS SURVIVING?</span>
           </div>
           <div class="dialog-line">
-            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <span class="dialog-speaker-label">Chip 0</span>
             <span class="dialog-text">ERR... ZERO HUMANS</span>
           </div>
           <div class="dialog-line">
-            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <span class="dialog-speaker-label">Chip 0</span>
             <span class="dialog-text">WE ONLY EMPLOY AGENTS</span>
           </div>
         </div>
         <div class="dialog-panel">
           <div class="dialog-panel-label">Panel 3</div>
           <div class="dialog-line">
-            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
-            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-speaker-label">Chip 0 + Chip 1</span>
             <span class="dialog-text">HOLY CHIP!!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="es">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">¡1 MILLÓN DE EMPLEOS CREADOS Y 5 MILLONES MÁS LA PRÓXIMA SEMANA!!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">¡WOW! ¿Y LOS SALARIOS ANUALES?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">8K PARA UN DIRECTOR DE MARKETING. ¡12K PARA UN CEO!</span>
           </div>
         </div>
         <div class="dialog-panel">
-          <div class="dialog-panel-label">Panel 4</div>
+          <div class="dialog-panel-label">Panel 2</div>
           <div class="dialog-line">
-            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
-            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">¿POR AÑO? ¿CÓMO SOBREVIVEN LOS HUMANOS?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">EHH... CERO HUMANOS</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">SÓLO CONTRATAMOS AGENTES</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0 + Chip 1</span>
             <span class="dialog-text">HOLY CHIP!!</span>
           </div>
         </div>
+        </div>
+        <div class="lang-content" data-lang="pt">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">1 MILHÃO DE EMPREGOS CRIADOS E 5 MILHÕES A MAIS NA SEMANA QUE VEM!!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">UAU! E OS SALÁRIOS ANUAIS?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">8 MIL PRA DIRETOR DE MARKETING. 12 MIL PRA CEO!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">POR ANO? COMO OS HUMANOS TÃO SOBREVIVENDO?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">É... ZERO HUMANOS</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A GENTE SÓ EMPREGA AGENTES</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0 + Chip 1</span>
+            <span class="dialog-text">HOLY CHIP!!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="fr">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">1 MILLION D'EMPLOIS CRÉÉS ET 5 MILLIONS DE PLUS LA SEMAINE PROCHAINE!!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">WOW! ET LEURS SALAIRES ANNUELS?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">8K POUR UN DIRECTEUR MARKETING. 12K POUR UN PDG!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">PAR AN? COMMENT LES HUMAINS SURVIVENT?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">EUH... ZÉRO HUMAIN</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ON N'EMPLOIE QUE DES AGENTS</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0 + Chip 1</span>
+            <span class="dialog-text">HOLY CHIP!!</span>
+          </div>
+        </div>
+        </div>
       </div>
+      <div class="comic-frame" style="margin-top:10px;">
+        <img src="../stories/HC018.png" alt="HC018 - The Jobs">
+      </div>
+      <div class="comic-caption">HC018 -- The Jobs -- 2026</div>
     </div>
 
   </div>
@@ -515,7 +623,28 @@
       document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
       });
+      var ab = document.querySelector('.audio-bar');
+      if (ab) ab.style.display = lang === 'en' ? '' : 'none';
+      var tt = document.querySelector('.transcript-title');
+      if (tt && tt.dataset[lang]) tt.textContent = tt.dataset[lang];
+      try { localStorage.setItem('hc-lang', lang); } catch(e) {}
     }
+
+    // Restore saved language, or auto-detect from browser
+    (function() {
+      var saved = null;
+      try { saved = localStorage.getItem('hc-lang'); } catch(e) {}
+      if (saved && ['en','es','pt','fr'].indexOf(saved) !== -1) {
+        setLang(saved);
+        return;
+      }
+      var browserLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+      var lang = 'en';
+      if (browserLang.startsWith('es')) lang = 'es';
+      else if (browserLang.startsWith('pt')) lang = 'pt';
+      else if (browserLang.startsWith('fr')) lang = 'fr';
+      if (lang !== 'en') setLang(lang);
+    })();
   </script>
 </body>
 </html>

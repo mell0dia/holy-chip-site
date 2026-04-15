@@ -101,23 +101,23 @@
 
     .lang-bar {
       display: flex;
-      gap: 0.4rem;
+      gap: 0.5rem;
       flex-shrink: 0;
       padding-top: 0.3rem;
     }
 
     .lang-btn {
       font-family: 'Press Start 2P', monospace;
-      font-size: 0.45rem;
+      font-size: 0.6rem;
       letter-spacing: 0.08em;
-      padding: 0.4rem 0.6rem;
-      border: 1px solid #ccc;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid #333;
       background: transparent;
-      color: #999;
+      color: #222;
       cursor: pointer;
       transition: all 0.2s;
     }
-    .lang-btn:hover { border-color: #666; color: #333; }
+    .lang-btn:hover { border-color: #000; color: #000; }
     .lang-btn.active { background: #222; color: #fff; border-color: #222; }
 
     /* -- Magazine layout -- */
@@ -182,8 +182,8 @@
 
     .comic-caption {
       font-family: 'Press Start 2P', monospace;
-      font-size: 0.4rem;
-      color: #888;
+      font-size: 0.45rem;
+      color: #222;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       text-align: center;
@@ -201,7 +201,7 @@
     .dialog-section h3 {
       font-family: 'Press Start 2P', monospace;
       font-size: 0.45rem;
-      color: #888;
+      color: #222;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       margin-bottom: 1rem;
@@ -222,19 +222,18 @@
       display: flex;
       gap: 0.5rem;
       align-items: flex-start;
-      margin-bottom: 0.4rem;
-      font-size: 0.75rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
       line-height: 1.6;
     }
 
-    .dialog-speaker {
+    .dialog-speaker-label {
       flex-shrink: 0;
-      width: 20px;
-      height: 20px;
-      border: 1px solid #aaa;
-      border-radius: 2px;
-      object-fit: contain;
-      background: #f5f5f5;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      padding-top: 4px;
+      min-width: 55px;
     }
 
     .dialog-text { color: #333; padding-top: 1px; }
@@ -434,60 +433,171 @@
 
     </div>
 
-    <!-- Right: sticky comic + transcript -->
+    <!-- Right: sticky transcript + comic -->
     <div class="visual-column">
-      <div class="comic-frame">
-        <img src="../stories/HC012.png" alt="HC012 - The Market">
-      </div>
-      <div class="comic-caption">HC012 -- The Market -- 2026</div>
-
       <div class="dialog-section">
-        <h3>Transcript</h3>
+        <h3 class="transcript-title" data-en="Transcript" data-es="Transcripción" data-pt="Transcrição" data-fr="Transcription">Transcript</h3>
+        <div class="lang-content active" data-lang="en">
         <div class="dialog-panel">
           <div class="dialog-panel-label">Panel 1</div>
           <div class="dialog-line">
-            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <span class="dialog-speaker-label">Chip 0</span>
             <span class="dialog-text">YOU'VE JUST CREATED A MILLION DOLLAR COMPANY!</span>
           </div>
           <div class="dialog-line">
-            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-speaker-label">Chip 1</span>
             <span class="dialog-text">YEAH, DONE IN 30 MINUTES. SOLD MILLIONS OF PRODUCTS</span>
           </div>
         </div>
         <div class="dialog-panel">
           <div class="dialog-panel-label">Panel 2</div>
           <div class="dialog-line">
-            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <span class="dialog-speaker-label">Chip 0</span>
             <span class="dialog-text">WOW, HUMANS LOVED YOUR PRODUCT!</span>
           </div>
           <div class="dialog-line">
-            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-speaker-label">Chip 1</span>
             <span class="dialog-text">HUMANS?</span>
           </div>
           <div class="dialog-line">
-            <img class="dialog-speaker" src="../characters/Chip_1.png" alt="Chip_1">
+            <span class="dialog-speaker-label">Chip 1</span>
             <span class="dialog-text">I ONLY SELL TO LOBSTERS</span>
           </div>
           <div class="dialog-line">
-            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <span class="dialog-speaker-label">Chip 0</span>
             <span class="dialog-text">ARE THEY NOT REAL?</span>
           </div>
         </div>
         <div class="dialog-panel">
           <div class="dialog-panel-label">Panel 3</div>
           <div class="dialog-line">
-            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <span class="dialog-speaker-label">Chip 0</span>
             <span class="dialog-text">HOLY CHIP!!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="es">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">¡ACABÁS DE CREAR UNA EMPRESA DE UN MILLÓN DE DÓLARES!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">SÍ, EN 30 MINUTOS. VENDÍ MILLONES DE PRODUCTOS</span>
           </div>
         </div>
         <div class="dialog-panel">
-          <div class="dialog-panel-label">Panel 4</div>
+          <div class="dialog-panel-label">Panel 2</div>
           <div class="dialog-line">
-            <img class="dialog-speaker" src="../characters/Chip_0.png" alt="Chip_0">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">¡WOW, A LOS HUMANOS LES ENCANTÓ TU PRODUCTO!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">¿HUMANOS?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">YO SÓLO LE VENDO A LANGOSTAS</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">¿NO SON REALES?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
             <span class="dialog-text">HOLY CHIP!!</span>
           </div>
         </div>
+        </div>
+        <div class="lang-content" data-lang="pt">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">VOCÊ ACABOU DE CRIAR UMA EMPRESA DE UM MILHÃO DE DÓLARES!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">É, FIZ EM 30 MINUTOS. VENDI MILHÕES DE PRODUTOS</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">UAU, OS HUMANOS AMARAM SEU PRODUTO!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HUMANOS?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">EU SÓ VENDO PRA LAGOSTAS</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ELAS NÃO SÃO REAIS?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP!!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="fr">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">TU VIENS DE CRÉER UNE ENTREPRISE À UN MILLION!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">OUAIS, FAIT EN 30 MINUTES. DES MILLIONS DE PRODUITS VENDUS</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WOW, LES HUMAINS ONT ADORÉ TON PRODUIT!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">LES HUMAINS?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">JE NE VENDS QU'AUX HOMARDS</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ILS SONT PAS RÉELS?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP!!</span>
+          </div>
+        </div>
+        </div>
       </div>
+      <div class="comic-frame" style="margin-top:10px;">
+        <img src="../stories/HC012.png" alt="HC012 - The Market">
+      </div>
+      <div class="comic-caption">HC012 -- The Market -- 2026</div>
     </div>
 
   </div>
@@ -513,7 +623,28 @@
       document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
       });
+      var ab = document.querySelector('.audio-bar');
+      if (ab) ab.style.display = lang === 'en' ? '' : 'none';
+      var tt = document.querySelector('.transcript-title');
+      if (tt && tt.dataset[lang]) tt.textContent = tt.dataset[lang];
+      try { localStorage.setItem('hc-lang', lang); } catch(e) {}
     }
+
+    // Restore saved language, or auto-detect from browser
+    (function() {
+      var saved = null;
+      try { saved = localStorage.getItem('hc-lang'); } catch(e) {}
+      if (saved && ['en','es','pt','fr'].indexOf(saved) !== -1) {
+        setLang(saved);
+        return;
+      }
+      var browserLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+      var lang = 'en';
+      if (browserLang.startsWith('es')) lang = 'es';
+      else if (browserLang.startsWith('pt')) lang = 'pt';
+      else if (browserLang.startsWith('fr')) lang = 'fr';
+      if (lang !== 'en') setLang(lang);
+    })();
   </script>
 </body>
 </html>

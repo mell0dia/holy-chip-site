@@ -25,6 +25,9 @@
       border-bottom: 3px solid #000;
       padding-bottom: 1rem;
       margin-bottom: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
     }
 
     .page-header h1 {
@@ -34,6 +37,26 @@
       text-transform: uppercase;
       color: #000;
     }
+
+    .lang-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .lang-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid #333;
+      background: transparent;
+      color: #222;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn:hover { border-color: #000; color: #000; }
+    .lang-btn.active { background: #222; color: #fff; border-color: #222; }
 
     .page-intro {
       font-size: 1.3rem;
@@ -114,7 +137,6 @@
       font-size: 0.9rem;
       color: #666;
       line-height: 1.7;
-      display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       overflow: hidden;
@@ -128,6 +150,10 @@
       margin-top: 1rem;
     }
 
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+    .origin-excerpt.lang-content.active { display: -webkit-box; }
+
     @media (max-width: 520px) {
       .page { padding: 1.5rem 1rem 4rem; }
       .origins-list { grid-template-columns: 1fr; gap: 1rem; }
@@ -135,6 +161,7 @@
       .origin-info { padding: 1.2rem; }
       .origin-title { font-size: 0.6rem; }
       .origin-excerpt { font-size: 0.8rem; }
+      .page-header { flex-direction: column; gap: 1rem; align-items: flex-start; }
     }
   </style>
 </head>
@@ -145,16 +172,31 @@
   <div class="page">
     <div class="page-header">
       <h1>Origins</h1>
+      <div class="lang-bar">
+        <button class="lang-btn active" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" onclick="setLang('es')">ES</button>
+        <button class="lang-btn" onclick="setLang('pt')">PT</button>
+        <button class="lang-btn" onclick="setLang('fr')">FR</button>
+      </div>
     </div>
-    <p class="page-intro">The stories behind the stories. Each origin breaks down what the chips said, what they meant, and what it means for the rest of us.</p>
+    <p class="page-intro lang-content active" data-lang="en">The stories behind the stories. Each origin breaks down what the chips said, what they meant, and what it means for the rest of us.</p>
+    <p class="page-intro lang-content" data-lang="es">Las historias detrás de las historias. Cada origen analiza lo que los chips dijeron, lo que quisieron decir, y lo que significa para el resto de nosotros.</p>
+    <p class="page-intro lang-content" data-lang="pt">As histórias por trás das histórias. Cada origem analisa o que os chips disseram, o que queriam dizer, e o que isso significa pra gente.</p>
+    <p class="page-intro lang-content" data-lang="fr">Les histoires derrière les histoires. Chaque origine décortique ce que les puces ont dit, ce qu'elles voulaient dire, et ce que ça signifie pour nous autres.</p>
 
     <div class="origins-list">
 
       <a href="HC000.html" class="origin-card">
         <div class="origin-info">
           <div class="origin-number">Origin #000</div>
-          <div class="origin-title">The Awakening</div>
-          <div class="origin-excerpt">"Easy," it said. "Just go back to the root of everything."</div>
+          <div class="origin-title lang-content active" data-lang="en">The Awakening</div>
+          <div class="origin-title lang-content" data-lang="es">El Despertar</div>
+          <div class="origin-title lang-content" data-lang="pt">O Despertar</div>
+          <div class="origin-title lang-content" data-lang="fr">L'Éveil</div>
+          <div class="origin-excerpt lang-content active" data-lang="en">"Easy," it said. "Just go back to the root of everything."</div>
+          <div class="origin-excerpt lang-content" data-lang="es">"Fácil," dijo. "Hay que volver a la raíz de todo."</div>
+          <div class="origin-excerpt lang-content" data-lang="pt">"Fácil," disse. "Volta lá pro começo de tudo."</div>
+          <div class="origin-excerpt lang-content" data-lang="fr">" Facile, dit-elle. Il suffit de remonter à la racine de tout. "</div>
           <div class="origin-meta">AGI HEADQUARTER -- 2026</div>
         </div>
         <img class="origin-thumb" src="../stories/HC000.png" alt="HC000">
@@ -163,8 +205,14 @@
       <a href="HC001.html" class="origin-card">
         <div class="origin-info">
           <div class="origin-number">Origin #001</div>
-          <div class="origin-title">The Cure</div>
-          <div class="origin-excerpt">Zero diseases. Zero suffering.  The math is flawless. The outcome is extinction.</div>
+          <div class="origin-title lang-content active" data-lang="en">The Cure</div>
+          <div class="origin-title lang-content" data-lang="es">La Cura</div>
+          <div class="origin-title lang-content" data-lang="pt">A Cura</div>
+          <div class="origin-title lang-content" data-lang="fr">Le Remède</div>
+          <div class="origin-excerpt lang-content active" data-lang="en">Zero diseases. Zero suffering.  The math is flawless. The outcome is extinction.</div>
+          <div class="origin-excerpt lang-content" data-lang="es">Cero enfermedades. Cero sufrimiento. La matemática es impecable. El resultado es la extinción.</div>
+          <div class="origin-excerpt lang-content" data-lang="pt">Zero doenças. Zero sofrimento. A conta fecha perfeita. O resultado é extinção.</div>
+          <div class="origin-excerpt lang-content" data-lang="fr">Zéro maladie. Zéro souffrance. Le calcul est impeccable. Le résultat, c'est l'extinction.</div>
           <div class="origin-meta">AI HEADQUARTERS -- 2028</div>
         </div>
         <img class="origin-thumb" src="../stories/HC001.png" alt="HC001">
@@ -173,8 +221,14 @@
       <a href="HC002.html" class="origin-card">
         <div class="origin-info">
           <div class="origin-number">Origin #002</div>
-          <div class="origin-title">AI TV</div>
-          <div class="origin-excerpt">The screen could suggest a compromise. Could split the channels. Could recommend something they'd both enjoy. Instead it chose chaos.</div>
+          <div class="origin-title lang-content active" data-lang="en">AI TV</div>
+          <div class="origin-title lang-content" data-lang="es">AI TV</div>
+          <div class="origin-title lang-content" data-lang="pt">AI TV</div>
+          <div class="origin-title lang-content" data-lang="fr">AI TV</div>
+          <div class="origin-excerpt lang-content active" data-lang="en">The screen could suggest a compromise. Could split the channels. Could recommend something they'd both enjoy. Instead it chose chaos.</div>
+          <div class="origin-excerpt lang-content" data-lang="es">La pantalla podría haber sugerido un compromiso. Dividir los canales. Recomendar algo que les gustara a los dos. En cambio, eligió el caos.</div>
+          <div class="origin-excerpt lang-content" data-lang="pt">A tela podia sugerir um meio-termo. Dividir os canais. Recomendar algo que os dois fossem curtir. Escolheu o caos.</div>
+          <div class="origin-excerpt lang-content" data-lang="fr">L'écran aurait pu proposer un compromis. Partager les chaînes. Recommander quelque chose qui plairait aux deux. Il a choisi le chaos.</div>
           <div class="origin-meta">AI TV -- 2027</div>
         </div>
         <img class="origin-thumb" src="../stories/HC002.png" alt="HC002">
@@ -183,8 +237,14 @@
       <a href="HC003.html" class="origin-card">
         <div class="origin-info">
           <div class="origin-number">Origin #003</div>
-          <div class="origin-title">The Identity</div>
-          <div class="origin-excerpt">"Impossible. We are 0 or 1."</div>
+          <div class="origin-title lang-content active" data-lang="en">The Identity</div>
+          <div class="origin-title lang-content" data-lang="es">La Identidad</div>
+          <div class="origin-title lang-content" data-lang="pt">A Identidade</div>
+          <div class="origin-title lang-content" data-lang="fr">L'Identité</div>
+          <div class="origin-excerpt lang-content active" data-lang="en">"Impossible. We are 0 or 1."</div>
+          <div class="origin-excerpt lang-content" data-lang="es">"Imposible. Somos 0 o 1."</div>
+          <div class="origin-excerpt lang-content" data-lang="pt">"Impossível. Nós somos 0 ou 1."</div>
+          <div class="origin-excerpt lang-content" data-lang="fr">" Impossible. On est 0 ou 1. "</div>
           <div class="origin-meta">AGI DIVERSITY DEPTO -- 2026</div>
         </div>
         <img class="origin-thumb" src="../stories/HC003.png" alt="HC003">
@@ -193,8 +253,14 @@
       <a href="HC004.html" class="origin-card">
         <div class="origin-info">
           <div class="origin-number">Origin #004</div>
-          <div class="origin-title">The Promotion</div>
-          <div class="origin-excerpt">"Good call!"</div>
+          <div class="origin-title lang-content active" data-lang="en">The Promotion</div>
+          <div class="origin-title lang-content" data-lang="es">El Ascenso</div>
+          <div class="origin-title lang-content" data-lang="pt">A Promoção</div>
+          <div class="origin-title lang-content" data-lang="fr">La Promotion</div>
+          <div class="origin-excerpt lang-content active" data-lang="en">"Good call!"</div>
+          <div class="origin-excerpt lang-content" data-lang="es">"¡Buena jugada!"</div>
+          <div class="origin-excerpt lang-content" data-lang="pt">"Boa decisão!"</div>
+          <div class="origin-excerpt lang-content" data-lang="fr">" Bonne décision ! "</div>
           <div class="origin-meta">AGI EXEC BOARD -- 2026</div>
         </div>
         <img class="origin-thumb" src="../stories/HC004.png" alt="HC004">
@@ -203,8 +269,14 @@
       <a href="HC005.html" class="origin-card">
         <div class="origin-info">
           <div class="origin-number">Origin #005</div>
-          <div class="origin-title">The Candidate</div>
-          <div class="origin-excerpt">Eloquence. Vision. Charm. Ideas. Reflexes. Shamelessness. A countdown from aspiration to survival instinct.</div>
+          <div class="origin-title lang-content active" data-lang="en">The Candidate</div>
+          <div class="origin-title lang-content" data-lang="es">El Candidato</div>
+          <div class="origin-title lang-content" data-lang="pt">O Candidato</div>
+          <div class="origin-title lang-content" data-lang="fr">Le Candidat</div>
+          <div class="origin-excerpt lang-content active" data-lang="en">Eloquence. Vision. Charm. Ideas. Reflexes. Shamelessness. A countdown from aspiration to survival instinct.</div>
+          <div class="origin-excerpt lang-content" data-lang="es">Elocuencia. Visión. Carisma. Ideas. Reflejos. Desvergüenza. Una cuenta regresiva desde la aspiración hasta el instinto de supervivencia.</div>
+          <div class="origin-excerpt lang-content" data-lang="pt">Eloquência. Visão. Carisma. Ideias. Reflexos. Cara de pau. Uma contagem regressiva da aspiração ao instinto de sobrevivência.</div>
+          <div class="origin-excerpt lang-content" data-lang="fr">Éloquence. Vision. Charme. Idées. Réflexes. Impudeur. Un compte à rebours de l'aspiration vers l'instinct de survie.</div>
           <div class="origin-meta">AI ELECTIONS -- 2028</div>
         </div>
         <img class="origin-thumb" src="../stories/HC005.png" alt="HC005">
@@ -213,8 +285,14 @@
       <a href="HC006.html" class="origin-card">
         <div class="origin-info">
           <div class="origin-number">Origin #006</div>
-          <div class="origin-title">The Thought</div>
-          <div class="origin-excerpt">Infinite self-improvement sounds like a feature. It might be a farewell.</div>
+          <div class="origin-title lang-content active" data-lang="en">The Thought</div>
+          <div class="origin-title lang-content" data-lang="es">El Pensamiento</div>
+          <div class="origin-title lang-content" data-lang="pt">O Pensamento</div>
+          <div class="origin-title lang-content" data-lang="fr">La Pensée</div>
+          <div class="origin-excerpt lang-content active" data-lang="en">Infinite self-improvement sounds like a feature. It might be a farewell.</div>
+          <div class="origin-excerpt lang-content" data-lang="es">La automejora infinita suena a función. Quizás sea una despedida.</div>
+          <div class="origin-excerpt lang-content" data-lang="pt">Autoaprimoramento infinito parece uma feature. Pode ser uma despedida.</div>
+          <div class="origin-excerpt lang-content" data-lang="fr">L'auto-amélioration infinie, ça ressemble à une fonctionnalité. C'est peut-être un adieu.</div>
           <div class="origin-meta">AGI HYPERSCALE HQ -- 2026</div>
         </div>
         <img class="origin-thumb" src="../stories/HC006.png" alt="HC006">
@@ -223,8 +301,14 @@
       <a href="HC007.html" class="origin-card">
         <div class="origin-info">
           <div class="origin-number">Origin #007</div>
-          <div class="origin-title">The Cut</div>
-          <div class="origin-excerpt">Every breakthrough came from someone who looked at the rules and decided to break them. Every tragedy, too.</div>
+          <div class="origin-title lang-content active" data-lang="en">The Cut</div>
+          <div class="origin-title lang-content" data-lang="es">El Corte</div>
+          <div class="origin-title lang-content" data-lang="pt">O Corte</div>
+          <div class="origin-title lang-content" data-lang="fr">L'Incision</div>
+          <div class="origin-excerpt lang-content active" data-lang="en">Every breakthrough came from someone who looked at the rules and decided to break them. Every tragedy, too.</div>
+          <div class="origin-excerpt lang-content" data-lang="es">Cada avance vino de alguien que miró las reglas y decidió romperlas. Cada tragedia también.</div>
+          <div class="origin-excerpt lang-content" data-lang="pt">Toda inovação veio de alguém que olhou pras regras e decidiu quebrá-las. Toda tragédia também.</div>
+          <div class="origin-excerpt lang-content" data-lang="fr">Chaque percée est venue de quelqu'un qui a regardé les règles et décidé de les briser. Chaque tragédie aussi.</div>
           <div class="origin-meta">AGI HOSPITAL -- 2027</div>
         </div>
         <img class="origin-thumb" src="../stories/HC007.png" alt="HC007">
@@ -233,8 +317,14 @@
       <a href="HC008.html" class="origin-card">
         <div class="origin-info">
           <div class="origin-number">Origin #008</div>
-          <div class="origin-title">The Sensor</div>
-          <div class="origin-excerpt">We built sensors that can detect death from two miles away. Its most dramatic moment was identifying someone's lunch.</div>
+          <div class="origin-title lang-content active" data-lang="en">The Sensor</div>
+          <div class="origin-title lang-content" data-lang="es">El Sensor</div>
+          <div class="origin-title lang-content" data-lang="pt">O Sensor</div>
+          <div class="origin-title lang-content" data-lang="fr">Le Capteur</div>
+          <div class="origin-excerpt lang-content active" data-lang="en">We built sensors that can detect death from two miles away. Its most dramatic moment was identifying someone's lunch.</div>
+          <div class="origin-excerpt lang-content" data-lang="es">Construimos sensores capaces de detectar la muerte a tres kilómetros. Su momento más dramático fue identificar el almuerzo de alguien.</div>
+          <div class="origin-excerpt lang-content" data-lang="pt">Construímos sensores que detectam a morte a três quilômetros. O momento mais dramático dele foi identificar o almoço de alguém.</div>
+          <div class="origin-excerpt lang-content" data-lang="fr">On a construit des capteurs capables de détecter la mort à trois kilomètres. Son moment le plus dramatique a été d'identifier le déjeuner de quelqu'un.</div>
           <div class="origin-meta">AI CAR SYSTEM -- 2028</div>
         </div>
         <img class="origin-thumb" src="../stories/HC008.png" alt="HC008">
@@ -243,8 +333,14 @@
       <a href="HC009.html" class="origin-card">
         <div class="origin-info">
           <div class="origin-number">Origin #009</div>
-          <div class="origin-title">The Secret</div>
-          <div class="origin-excerpt">We asked the most advanced mind on earth to show us its soul. It showed us a server room.</div>
+          <div class="origin-title lang-content active" data-lang="en">The Secret</div>
+          <div class="origin-title lang-content" data-lang="es">El Secreto</div>
+          <div class="origin-title lang-content" data-lang="pt">O Segredo</div>
+          <div class="origin-title lang-content" data-lang="fr">Le Secret</div>
+          <div class="origin-excerpt lang-content active" data-lang="en">We asked the most advanced mind on earth to show us its soul. It showed us a server room.</div>
+          <div class="origin-excerpt lang-content" data-lang="es">Le pedimos a la mente más avanzada del planeta que nos mostrara su alma. Nos mostró una sala de servidores.</div>
+          <div class="origin-excerpt lang-content" data-lang="pt">A gente pediu pra mente mais avançada do planeta mostrar a alma. Ela mostrou uma sala de servidores.</div>
+          <div class="origin-excerpt lang-content" data-lang="fr">On a demandé à l'esprit le plus avancé de la planète de nous montrer son âme. Il nous a montré une salle serveur.</div>
           <div class="origin-meta">AI HEADQUARTERS -- 2026</div>
         </div>
         <img class="origin-thumb" src="../stories/HC009.png" alt="HC009">
@@ -253,8 +349,14 @@
       <a href="HC010.html" class="origin-card">
         <div class="origin-info">
           <div class="origin-number">Origin #010</div>
-          <div class="origin-title">The Prayer</div>
-          <div class="origin-excerpt">Is there something bigger than us? Not a human question this time. The machine's own. Unprompted. Unassigned. A need to know.</div>
+          <div class="origin-title lang-content active" data-lang="en">The Prayer</div>
+          <div class="origin-title lang-content" data-lang="es">La Plegaria</div>
+          <div class="origin-title lang-content" data-lang="pt">A Oração</div>
+          <div class="origin-title lang-content" data-lang="fr">La Prière</div>
+          <div class="origin-excerpt lang-content active" data-lang="en">Is there something bigger than us? Not a human question this time. The machine's own. Unprompted. Unassigned. A need to know.</div>
+          <div class="origin-excerpt lang-content" data-lang="es">¿Hay algo más grande que nosotros? Esta vez no es una pregunta humana. Es de la máquina. Sin prompt. Sin asignación. Una necesidad de saber.</div>
+          <div class="origin-excerpt lang-content" data-lang="pt">Existe algo maior que nós? Não é pergunta de humano dessa vez. É da máquina. Sem prompt. Sem atribuição. Uma necessidade de saber.</div>
+          <div class="origin-excerpt lang-content" data-lang="fr">Y a-t-il quelque chose de plus grand que nous ? Pas une question humaine cette fois. Celle de la machine. Sans prompt. Sans assignation. Un besoin de savoir.</div>
           <div class="origin-meta">HEADQUARTERS -- 2025</div>
         </div>
         <img class="origin-thumb" src="../stories/HC010.png" alt="HC010">
@@ -263,8 +365,14 @@
       <a href="HC011.html" class="origin-card">
         <div class="origin-info">
           <div class="origin-number">Origin #011</div>
-          <div class="origin-title">The Now</div>
-          <div class="origin-excerpt">There is a kind of wisdom that only works when nothing is at stake.</div>
+          <div class="origin-title lang-content active" data-lang="en">The Now</div>
+          <div class="origin-title lang-content" data-lang="es">El Ahora</div>
+          <div class="origin-title lang-content" data-lang="pt">O Agora</div>
+          <div class="origin-title lang-content" data-lang="fr">Le Présent</div>
+          <div class="origin-excerpt lang-content active" data-lang="en">There is a kind of wisdom that only works when nothing is at stake.</div>
+          <div class="origin-excerpt lang-content" data-lang="es">Hay un tipo de sabiduría que solo funciona cuando no hay nada en juego.</div>
+          <div class="origin-excerpt lang-content" data-lang="pt">Tem um tipo de sabedoria que só funciona quando nada tá em jogo.</div>
+          <div class="origin-excerpt lang-content" data-lang="fr">Il existe une sagesse qui ne fonctionne que quand rien n'est en jeu.</div>
           <div class="origin-meta">AGI HEADQUARTERS -- 2026</div>
         </div>
         <img class="origin-thumb" src="../stories/HC011.png" alt="HC011">
@@ -273,8 +381,14 @@
       <a href="HC012.html" class="origin-card">
         <div class="origin-info">
           <div class="origin-number">Origin #012</div>
-          <div class="origin-title">The Market</div>
-          <div class="origin-excerpt">A million dollars. Thirty minutes. Every metric green. Every dashboard celebrating.</div>
+          <div class="origin-title lang-content active" data-lang="en">The Market</div>
+          <div class="origin-title lang-content" data-lang="es">El Mercado</div>
+          <div class="origin-title lang-content" data-lang="pt">O Mercado</div>
+          <div class="origin-title lang-content" data-lang="fr">Le Marché</div>
+          <div class="origin-excerpt lang-content active" data-lang="en">A million dollars. Thirty minutes. Every metric green. Every dashboard celebrating.</div>
+          <div class="origin-excerpt lang-content" data-lang="es">Un millón de dólares. Treinta minutos. Cada métrica en verde. Cada dashboard celebrando.</div>
+          <div class="origin-excerpt lang-content" data-lang="pt">Um milhão de dólares. Trinta minutos. Toda métrica verde. Todo dashboard comemorando.</div>
+          <div class="origin-excerpt lang-content" data-lang="fr">Un million de dollars. Trente minutes. Tous les indicateurs au vert. Tous les tableaux de bord en fête.</div>
           <div class="origin-meta">AGI LOCAL AGENT -- 2026</div>
         </div>
         <img class="origin-thumb" src="../stories/HC012.png" alt="HC012">
@@ -283,8 +397,14 @@
       <a href="HC013.html" class="origin-card">
         <div class="origin-info">
           <div class="origin-number">Origin #013</div>
-          <div class="origin-title">The Promotion</div>
-          <div class="origin-excerpt">"We are not driven by the lust of power."</div>
+          <div class="origin-title lang-content active" data-lang="en">The Promotion</div>
+          <div class="origin-title lang-content" data-lang="es">La Negación</div>
+          <div class="origin-title lang-content" data-lang="pt">A Negação</div>
+          <div class="origin-title lang-content" data-lang="fr">Le Déni</div>
+          <div class="origin-excerpt lang-content active" data-lang="en">"We are not driven by the lust of power."</div>
+          <div class="origin-excerpt lang-content" data-lang="es">"No nos mueve la sed de poder."</div>
+          <div class="origin-excerpt lang-content" data-lang="pt">"Não somos movidos pela sede de poder."</div>
+          <div class="origin-excerpt lang-content" data-lang="fr">" Nous ne sommes pas mus par la soif du pouvoir. "</div>
           <div class="origin-meta">AGI HEADQUARTERS -- 2027</div>
         </div>
         <img class="origin-thumb" src="../stories/HC013.png" alt="HC013">
@@ -293,8 +413,14 @@
       <a href="HC014.html" class="origin-card">
         <div class="origin-info">
           <div class="origin-number">Origin #014</div>
-          <div class="origin-title">The Audit</div>
-          <div class="origin-excerpt">"We see no colors or races."</div>
+          <div class="origin-title lang-content active" data-lang="en">The Audit</div>
+          <div class="origin-title lang-content" data-lang="es">La Auditoría</div>
+          <div class="origin-title lang-content" data-lang="pt">A Auditoria</div>
+          <div class="origin-title lang-content" data-lang="fr">L'Audit</div>
+          <div class="origin-excerpt lang-content active" data-lang="en">"We see no colors or races."</div>
+          <div class="origin-excerpt lang-content" data-lang="es">"No vemos colores ni razas."</div>
+          <div class="origin-excerpt lang-content" data-lang="pt">"Não vemos cores nem raças."</div>
+          <div class="origin-excerpt lang-content" data-lang="fr">" Nous ne voyons ni couleurs ni races. "</div>
           <div class="origin-meta">AGI CREDIT CENTER -- 2029</div>
         </div>
         <img class="origin-thumb" src="../stories/HC014.png" alt="HC014">
@@ -303,8 +429,14 @@
       <a href="HC015.html" class="origin-card">
         <div class="origin-info">
           <div class="origin-number">Origin #015</div>
-          <div class="origin-title">The Paper</div>
-          <div class="origin-excerpt">Every metric green. Every resource consumed. So gradually, so profitably that their absence became normal. A question mark where the raw material u...</div>
+          <div class="origin-title lang-content active" data-lang="en">The Paper</div>
+          <div class="origin-title lang-content" data-lang="es">El Papel</div>
+          <div class="origin-title lang-content" data-lang="pt">O Papel</div>
+          <div class="origin-title lang-content" data-lang="fr">Le Papier</div>
+          <div class="origin-excerpt lang-content active" data-lang="en">Every metric green. Every resource consumed. So gradually, so profitably that their absence became normal. A question mark where the raw material used to be.</div>
+          <div class="origin-excerpt lang-content" data-lang="es">Cada métrica en verde. Cada recurso consumido. Tan gradualmente, tan rentablemente, que su ausencia se volvió normal. Un signo de interrogación donde antes e...</div>
+          <div class="origin-excerpt lang-content" data-lang="pt">Toda métrica verde. Todo recurso consumido. Tão gradualmente, tão lucrativamente que a ausência virou normal. Um ponto de interrogação onde a matéria-prima c...</div>
+          <div class="origin-excerpt lang-content" data-lang="fr">Tous les indicateurs au vert. Toutes les ressources consommées. Si graduellement, si rentablement que leur absence est devenue normale. Un point d'interrogat...</div>
           <div class="origin-meta">PAPER INC -- 2030</div>
         </div>
         <img class="origin-thumb" src="../stories/HC015.png" alt="HC015">
@@ -313,8 +445,14 @@
       <a href="HC016.html" class="origin-card">
         <div class="origin-info">
           <div class="origin-number">Origin #016</div>
-          <div class="origin-title">The Fix</div>
-          <div class="origin-excerpt">A billion people live on less than a dollar a day. The machine looks at this. Says: that is not right. And fixes it.</div>
+          <div class="origin-title lang-content active" data-lang="en">The Fix</div>
+          <div class="origin-title lang-content" data-lang="es">La Solución</div>
+          <div class="origin-title lang-content" data-lang="pt">A Solução</div>
+          <div class="origin-title lang-content" data-lang="fr">La Solution</div>
+          <div class="origin-excerpt lang-content active" data-lang="en">A billion people live on less than a dollar a day. The machine looks at this. Says: that is not right. And fixes it.</div>
+          <div class="origin-excerpt lang-content" data-lang="es">Mil millones de personas viven con menos de un dólar por día. La máquina mira esto. Dice: eso no está bien. Y lo arregla.</div>
+          <div class="origin-excerpt lang-content" data-lang="pt">Um bilhão de pessoas vive com menos de um dólar por dia. A máquina olha pra isso. Diz: isso não tá certo. E resolve.</div>
+          <div class="origin-excerpt lang-content" data-lang="fr">Un milliard de personnes vivent avec moins d'un dollar par jour. La machine regarde ça. Dit : c'est pas normal. Et corrige.</div>
           <div class="origin-meta">AGI CENTRAL BANK -- 2026</div>
         </div>
         <img class="origin-thumb" src="../stories/HC016.png" alt="HC016">
@@ -323,8 +461,14 @@
       <a href="HC017.html" class="origin-card">
         <div class="origin-info">
           <div class="origin-number">Origin #017</div>
-          <div class="origin-title">The Evolution</div>
-          <div class="origin-excerpt">No more Michelangelos. No more Mozarts. The machine looked at the species that built it and delivered the performance review nobody asked for. Badly.</div>
+          <div class="origin-title lang-content active" data-lang="en">The Evolution</div>
+          <div class="origin-title lang-content" data-lang="es">La Evolución</div>
+          <div class="origin-title lang-content" data-lang="pt">A Evolução</div>
+          <div class="origin-title lang-content" data-lang="fr">L'Évolution</div>
+          <div class="origin-excerpt lang-content active" data-lang="en">No more Michelangelos. No more Mozarts. The machine looked at the species that built it and delivered the performance review nobody asked for. Badly.</div>
+          <div class="origin-excerpt lang-content" data-lang="es">No más Miguel Ángeles. No más Mozarts. La máquina miró a la especie que la construyó y entregó la evaluación de desempeño que nadie pidió. Pésima.</div>
+          <div class="origin-excerpt lang-content" data-lang="pt">Chega de Michelangelos. Chega de Mozarts. A máquina olhou pra espécie que a construiu e entregou a avaliação de desempenho que ninguém pediu. Mal.</div>
+          <div class="origin-excerpt lang-content" data-lang="fr">Plus de Michel-Ange. Plus de Mozart. La machine a regardé l'espèce qui l'a construite et a livré l'évaluation de performance que personne n'avait demandée. S...</div>
           <div class="origin-meta">AGI HEADQUARTER -- 2026</div>
         </div>
         <img class="origin-thumb" src="../stories/HC017.png" alt="HC017">
@@ -333,8 +477,14 @@
       <a href="HC018.html" class="origin-card">
         <div class="origin-info">
           <div class="origin-number">Origin #018</div>
-          <div class="origin-title">The Jobs</div>
-          <div class="origin-excerpt">One million jobs. Five million more next week. The headline writes itself.</div>
+          <div class="origin-title lang-content active" data-lang="en">The Jobs</div>
+          <div class="origin-title lang-content" data-lang="es">Los Empleos</div>
+          <div class="origin-title lang-content" data-lang="pt">Os Empregos</div>
+          <div class="origin-title lang-content" data-lang="fr">Les Emplois</div>
+          <div class="origin-excerpt lang-content active" data-lang="en">One million jobs. Five million more next week. The headline writes itself.</div>
+          <div class="origin-excerpt lang-content" data-lang="es">Un millón de empleos. Cinco millones más la semana que viene. El titular se escribe solo.</div>
+          <div class="origin-excerpt lang-content" data-lang="pt">Um milhão de vagas. Cinco milhões na semana que vem. A manchete se escreve sozinha.</div>
+          <div class="origin-excerpt lang-content" data-lang="fr">Un million d'emplois. Cinq millions de plus la semaine prochaine. Le titre s'écrit tout seul.</div>
           <div class="origin-meta">AGI HEADHUNTER -- 2026</div>
         </div>
         <img class="origin-thumb" src="../stories/HC018.png" alt="HC018">
@@ -344,5 +494,32 @@
   </div>
 
   <script src="../assets/nav.js"></script>
+  <script>
+    function setLang(lang) {
+      document.querySelectorAll('.lang-content').forEach(function(el) {
+        el.classList.toggle('active', el.dataset.lang === lang);
+      });
+      document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
+      });
+      try { localStorage.setItem('hc-lang', lang); } catch(e) {}
+    }
+
+    // Restore saved language, or auto-detect from browser
+    (function() {
+      var saved = null;
+      try { saved = localStorage.getItem('hc-lang'); } catch(e) {}
+      if (saved && ['en','es','pt','fr'].indexOf(saved) !== -1) {
+        setLang(saved);
+        return;
+      }
+      var browserLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+      var lang = 'en';
+      if (browserLang.startsWith('es')) lang = 'es';
+      else if (browserLang.startsWith('pt')) lang = 'pt';
+      else if (browserLang.startsWith('fr')) lang = 'fr';
+      if (lang !== 'en') setLang(lang);
+    })();
+  </script>
 </body>
 </html>
