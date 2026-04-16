@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Story Review — Holy Chip</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Press Start 2P', monospace;
+      background: #fff;
+      color: #000;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    #nav-container { position: relative; z-index: 10; }
+
+    /* ── Page wrapper ── */
+    .page {
+      position: relative;
+      z-index: 5;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    .page-header {
+      border-bottom: 3px solid #000;
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .page-header h1 {
+      font-size: 1.4rem;
+      letter-spacing: 0.1em;
+    }
+
+    .page-subtitle {
+      font-size: 0.6rem;
+      color: #555;
+      letter-spacing: 0.05em;
+      margin-top: 0.4rem;
+      line-height: 2;
+    }
+
+    /* ── Loading / Error states ── */
+    .state-msg {
+      text-align: center;
+      padding: 4rem 1rem;
+    }
+    .state-msg h2 {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      letter-spacing: 0.1em;
+    }
+    .state-msg p {
+      font-size: 0.55rem;
+      color: #666;
+      line-height: 2;
+    }
+    .loading-dots::after {
+      content: '';
+      animation: dots 1.5s steps(4, end) infinite;
+    }
+    @keyframes dots {
+      0%  { content: ''; }
+      25% { content: '.'; }
+      50% { content: '..'; }
+      75% { content: '...'; }
+    }
+
+    /* ── Story card ── */
+    .story-section {
+      border: 3px solid #000;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 4px 4px 0 #000;
+    }
+
+    .section-label {
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      color: #999;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    .story-title {
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+
+    .story-meta {
+      font-size: 0.5rem;
+      color: #666;
+      line-height: 2;
+    }
+
+    /* ── Characters ── */
+    .characters {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 0;
+    }
+    .char-block {
+      text-align: center;
+    }
+    .char-block img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      image-rendering: pixelated;
+      border: 2px solid #000;
+      background: #f5f5f5;
+      padding: 4px;
+    }
+    .char-name {
+      font-size: 0.45rem;
+      color: #555;
+      margin-top: 0.3rem;
+      letter-spacing: 0.08em;
+    }
+    .char-vs {
+      font-size: 0.7rem;
+      color: #0A6821;
+      font-weight: bold;
+    }
+
+    /* ── Panels / Dialog ── */
+    .panels {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .panel {
+      border: 2px solid #ddd;
+      padding: 1rem;
+      background: #fafafa;
+    }
+    .panel-num {
+      font-size: 0.45rem;
+      color: #0A6821;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+    .dialog-line {
+      font-size: 0.5rem;
+      line-height: 2.2;
+      margin-bottom: 0.3rem;
+    }
+    .dialog-speaker {
+      color: #0A6821;
+      font-weight: bold;
+    }
+    .dialog-text {
+      color: #333;
+    }
+
+    /* ── Interpretation section ── */
+    .interpretation {
+      border: 3px solid #0A6821;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 4px 4px 0 #0A6821;
+      background: #f0faf3;
+    }
+    .interpretation .section-label {
+      color: #0A6821;
+    }
+    .interpretation-text {
+      font-size: 0.55rem;
+      line-height: 2.2;
+      color: #222;
+      white-space: pre-wrap;
+    }
+
+    /* ── Response form ── */
+    .response-section {
+      border: 3px solid #000;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 4px 4px 0 #000;
+    }
+
+    .response-btns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .response-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      padding: 1rem;
+      border: 3px solid #000;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: 0.06em;
+      line-height: 1.8;
+      background: #fff;
+      color: #000;
+    }
+    .response-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 4px 4px 0 #0A6821;
+      border-color: #0A6821;
+    }
+    .response-btn.selected {
+      background: #0A6821;
+      color: #fff;
+      border-color: #0A6821;
+      box-shadow: 4px 4px 0 #000;
+    }
+
+    /* ── Clarification area ── */
+    .clarify-area {
+      display: none;
+      margin-bottom: 1.2rem;
+    }
+    .clarify-area.visible { display: block; animation: fadeUp 0.3s ease both; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .clarify-area label {
+      display: block;
+      font-size: 0.5rem;
+      letter-spacing: 0.08em;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+    .clarify-area textarea {
+      width: 100%;
+      min-height: 120px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      line-height: 2;
+      padding: 0.8rem;
+      border: 2px solid #000;
+      background: #fff;
+      color: #000;
+      resize: vertical;
+    }
+    .clarify-area textarea:focus {
+      outline: none;
+      border-color: #0A6821;
+    }
+
+    /* ── Handle input ── */
+    .handle-area {
+      margin-bottom: 1.5rem;
+    }
+    .handle-area label {
+      display: block;
+      font-size: 0.5rem;
+      letter-spacing: 0.08em;
+      color: #333;
+      margin-bottom: 0.5rem;
+      line-height: 2;
+    }
+    .handle-hint {
+      font-size: 0.4rem;
+      color: #888;
+      line-height: 2;
+      margin-bottom: 0.5rem;
+    }
+    .handle-area input {
+      width: 100%;
+      max-width: 360px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      padding: 0.7rem 0.8rem;
+      border: 2px solid #000;
+      background: #fff;
+      color: #000;
+    }
+    .handle-area input:focus {
+      outline: none;
+      border-color: #0A6821;
+    }
+
+    /* ── Submit ── */
+    .submit-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      padding: 1rem 2rem;
+      border: 3px solid #000;
+      background: #0A6821;
+      color: #fff;
+      cursor: pointer;
+      letter-spacing: 0.08em;
+      transition: all 0.2s ease;
+      display: none;
+    }
+    .submit-btn.visible { display: inline-block; }
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 4px 4px 0 #000;
+    }
+    .submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* ── Success / Already responded ── */
+    .result-msg {
+      text-align: center;
+      padding: 3rem 1rem;
+      border: 3px solid #0A6821;
+      box-shadow: 4px 4px 0 #0A6821;
+      background: #f0faf3;
+    }
+    .result-msg h2 {
+      font-size: 0.9rem;
+      color: #0A6821;
+      margin-bottom: 1rem;
+      letter-spacing: 0.1em;
+    }
+    .result-msg p {
+      font-size: 0.5rem;
+      color: #555;
+      line-height: 2.2;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .already-msg {
+      border-color: #666;
+      box-shadow: 4px 4px 0 #666;
+      background: #f5f5f5;
+    }
+    .already-msg h2 { color: #333; }
+
+    /* ── Pre-intro ── */
+    .pre-intro {
+      font-size: 0.5rem;
+      line-height: 2.2;
+      color: #444;
+      padding: 0.8rem 1rem;
+      border-left: 3px solid #0A6821;
+      margin-bottom: 1rem;
+      background: #fafafa;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
+      .page { padding: 1.5rem 1rem 3rem; }
+      .response-btns { grid-template-columns: 1fr; }
+      .characters { gap: 1rem; }
+      .char-block img { width: 64px; height: 64px; }
+    }
+
+    @media (max-width: 480px) {
+      .page { padding: 1rem 0.75rem 2rem; }
+      .page-header h1 { font-size: 1rem; }
+      .story-section, .interpretation, .response-section { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div id="nav-container"></div>
+
+  <div class="page">
+    <!-- Loading state -->
+    <div id="loading" class="state-msg">
+      <h2 class="loading-dots">Loading your review</h2>
+      <p>Fetching your story submission...</p>
+    </div>
+
+    <!-- Error state -->
+    <div id="error" class="state-msg" style="display:none;"></div>
+
+    <!-- Main content (hidden until loaded) -->
+    <div id="content" style="display:none;">
+
+      <!-- Header -->
+      <div class="page-header">
+        <h1>Story Review</h1>
+        <p class="page-subtitle">We read your story. Here's what we understood.</p>
+      </div>
+
+      <!-- Story details -->
+      <div class="story-section">
+        <span class="section-label">Your Submission</span>
+        <h2 class="story-title" id="story-title"></h2>
+        <p class="story-meta" id="story-meta"></p>
+
+        <!-- Characters -->
+        <div class="characters" id="characters"></div>
+
+        <!-- Pre-intro (if present) -->
+        <div class="pre-intro" id="pre-intro" style="display:none;"></div>
+
+        <!-- Panels -->
+        <div class="panels" id="panels"></div>
+      </div>
+
+      <!-- Our interpretation -->
+      <div class="interpretation" id="interpretation-section">
+        <span class="section-label">Our Interpretation</span>
+        <p class="interpretation-text" id="interpretation-text"></p>
+      </div>
+
+      <!-- Response form -->
+      <div class="response-section" id="response-section">
+        <span class="section-label">Your Call</span>
+
+        <div class="response-btns">
+          <button class="response-btn" id="btn-confirm" data-response="confirmed">
+            Yes, that's it!
+          </button>
+          <button class="response-btn" id="btn-clarify" data-response="needs_clarification">
+            Not quite...
+          </button>
+        </div>
+
+        <div class="clarify-area" id="clarify-area">
+          <label for="notes">Tell us what we got wrong or what to change:</label>
+          <textarea id="notes" placeholder="e.g. The joke in panel 3 is actually about..."></textarea>
+        </div>
+
+        <div class="handle-area">
+          <label for="handle">What handle should we credit in the footnote?</label>
+          <p class="handle-hint">Your name, username, or alias - whatever you want printed under the story.</p>
+          <input type="text" id="handle" placeholder="e.g. sapasebastian">
+        </div>
+
+        <button class="submit-btn" id="submit-btn" disabled>Submit</button>
+      </div>
+
+      <!-- Success message (hidden) -->
+      <div id="result" style="display:none;"></div>
+    </div>
+  </div>
+
+  <script src="assets/nav.js"></script>
+  <script>
+    (function() {
+      const API_BASE = 'https://holychip.netlify.app/.netlify/functions';
+
+      // Standard character names for image lookup
+      const STANDARD_CHARS = [
+        'Chip_0','Chip_1','Chip_100','Chip_101','Chip_110','Chip_111',
+        'Chip_1000','Chip_1001','Chip_1010','Chip_1011','Chip_1100','Chip_1101'
+      ];
+
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      const token = params.get('token');
+
+      const $loading = document.getElementById('loading');
+      const $error = document.getElementById('error');
+      const $content = document.getElementById('content');
+
+      if (!id || !token) {
+        showError('Missing Link', 'This review link appears to be incomplete. Check the URL and try again.');
+        return;
+      }
+
+      // Fetch the submission
+      fetchReview();
+
+      async function fetchReview() {
+        try {
+          const res = await fetch(`${API_BASE}/get-review?id=${encodeURIComponent(id)}&token=${encodeURIComponent(token)}`);
+          const data = await res.json();
+
+          if (!res.ok) {
+            if (res.status === 404) {
+              showError('Not Found', 'We couldn\'t find this submission. It may have been removed.');
+            } else if (res.status === 403) {
+              showError('Access Denied', 'This link doesn\'t match our records. Check the URL.');
+            } else {
+              showError('Something Went Wrong', data.error || 'Please try again later.');
+            }
+            return;
+          }
+
+          render(data);
+        } catch (err) {
+          console.error('Fetch error:', err);
+          showError('Connection Error', 'Couldn\'t reach our servers. Check your connection and try again.');
+        }
+      }
+
+      function showError(title, msg) {
+        $loading.style.display = 'none';
+        $error.style.display = 'block';
+        $error.innerHTML = `<h2>${title}</h2><p>${msg}</p>`;
+      }
+
+      function render(data) {
+        $loading.style.display = 'none';
+
+        // If already responded, show that message instead
+        if (data.already_responded) {
+          $content.style.display = 'block';
+          document.getElementById('response-section').style.display = 'none';
+
+          // Still show the story + interpretation
+          renderStory(data);
+          renderInterpretation(data);
+
+          // Show already-responded result
+          const resultDiv = document.getElementById('result');
+          const wasConfirmed = data.submitter_response === 'confirmed';
+          resultDiv.style.display = 'block';
+          resultDiv.innerHTML = `
+            <div class="result-msg already-msg">
+              <h2>Already Responded</h2>
+              <p>You ${wasConfirmed ? 'confirmed' : 'requested clarification on'} this review${data.submitter_handle ? ' as ' + escHtml(data.submitter_handle) : ''}. Our Chips are working on it.</p>
+              ${data.submitter_notes ? '<p style="margin-top:1rem;color:#888;">Your notes: ' + escHtml(data.submitter_notes) + '</p>' : ''}
+            </div>
+          `;
+          return;
+        }
+
+        // Check that interpretation exists
+        if (!data.interpretation) {
+          $content.style.display = 'block';
+          renderStory(data);
+          document.getElementById('interpretation-section').style.display = 'none';
+          document.getElementById('response-section').style.display = 'none';
+
+          const resultDiv = document.getElementById('result');
+          resultDiv.style.display = 'block';
+          resultDiv.innerHTML = `
+            <div class="result-msg already-msg">
+              <h2>Review in Progress</h2>
+              <p>We're still working on our interpretation of your story. You'll get another link when it's ready for your review.</p>
+            </div>
+          `;
+          return;
+        }
+
+        $content.style.display = 'block';
+        renderStory(data);
+        renderInterpretation(data);
+        initForm(data);
+      }
+
+      function renderStory(data) {
+        document.getElementById('story-title').textContent = data.title || 'Untitled';
+        document.getElementById('story-meta').textContent =
+          'Track: ' + (data.track === 'nft' ? 'NFT Holder' : 'Open') +
+          (data.char_a && data.char_b ? ' | Characters: ' + data.char_a + ' + ' + data.char_b : '');
+
+        // Characters
+        const charsDiv = document.getElementById('characters');
+        if (data.char_a || data.char_b) {
+          let html = '';
+          if (data.char_a) html += charBlock(data.char_a);
+          if (data.char_a && data.char_b) html += '<span class="char-vs">&</span>';
+          if (data.char_b) html += charBlock(data.char_b);
+          charsDiv.innerHTML = html;
+        } else {
+          charsDiv.style.display = 'none';
+        }
+
+        // Pre-intro
+        if (data.pre_intro) {
+          const preDiv = document.getElementById('pre-intro');
+          preDiv.style.display = 'block';
+          if (typeof data.pre_intro === 'object') {
+            // Could be array of lines or object
+            if (Array.isArray(data.pre_intro)) {
+              preDiv.textContent = data.pre_intro.join(' ');
+            } else {
+              preDiv.textContent = JSON.stringify(data.pre_intro);
+            }
+          } else {
+            preDiv.textContent = data.pre_intro;
+          }
+        }
+
+        // Panels
+        const panelsDiv = document.getElementById('panels');
+        if (data.panels && Array.isArray(data.panels)) {
+          panelsDiv.innerHTML = data.panels.map((panel, i) => {
+            const lines = Array.isArray(panel) ? panel : [];
+            return `
+              <div class="panel">
+                <div class="panel-num">Panel ${i + 1}</div>
+                ${lines.map(line => `
+                  <div class="dialog-line">
+                    <span class="dialog-speaker">${escHtml(line.speaker || '?')}:</span>
+                    <span class="dialog-text">${escHtml(line.text || '')}</span>
+                  </div>
+                `).join('')}
+              </div>
+            `;
+          }).join('');
+        }
+      }
+
+      function renderInterpretation(data) {
+        document.getElementById('interpretation-text').textContent = data.interpretation;
+      }
+
+      function charBlock(name) {
+        // Check if it's a standard character (has an image)
+        const isStandard = STANDARD_CHARS.includes(name);
+        if (isStandard) {
+          return `
+            <div class="char-block">
+              <img src="characters/${name}.png" alt="${name}" onerror="this.style.display='none'">
+              <div class="char-name">${escHtml(name)}</div>
+            </div>
+          `;
+        }
+        // NFT characters - just show the name
+        return `
+          <div class="char-block">
+            <div class="char-name" style="padding:1rem 0;">${escHtml(name)}</div>
+          </div>
+        `;
+      }
+
+      function initForm() {
+        const btnConfirm = document.getElementById('btn-confirm');
+        const btnClarify = document.getElementById('btn-clarify');
+        const clarifyArea = document.getElementById('clarify-area');
+        const submitBtn = document.getElementById('submit-btn');
+        const notesInput = document.getElementById('notes');
+        const handleInput = document.getElementById('handle');
+        let selectedResponse = null;
+
+        btnConfirm.addEventListener('click', () => {
+          selectedResponse = 'confirmed';
+          btnConfirm.classList.add('selected');
+          btnClarify.classList.remove('selected');
+          clarifyArea.classList.remove('visible');
+          submitBtn.classList.add('visible');
+          submitBtn.disabled = false;
+        });
+
+        btnClarify.addEventListener('click', () => {
+          selectedResponse = 'needs_clarification';
+          btnClarify.classList.add('selected');
+          btnConfirm.classList.remove('selected');
+          clarifyArea.classList.add('visible');
+          submitBtn.classList.add('visible');
+          submitBtn.disabled = false;
+          notesInput.focus();
+        });
+
+        submitBtn.addEventListener('click', async () => {
+          if (!selectedResponse) return;
+
+          // Validate: if needs_clarification, notes required
+          if (selectedResponse === 'needs_clarification' && !notesInput.value.trim()) {
+            notesInput.style.borderColor = '#c0392b';
+            notesInput.focus();
+            return;
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Sending...';
+
+          try {
+            const res = await fetch(`${API_BASE}/respond-review`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                id: id,
+                token: token,
+                response: selectedResponse,
+                handle: handleInput.value.trim() || null,
+                notes: notesInput.value.trim() || null
+              })
+            });
+
+            const result = await res.json();
+
+            if (!res.ok) {
+              if (res.status === 409) {
+                showResult(true, 'Already Submitted', 'Looks like you already responded to this review. No worries - we got it.');
+              } else {
+                throw new Error(result.error || 'Failed to submit');
+              }
+              return;
+            }
+
+            if (selectedResponse === 'confirmed') {
+              showResult(false, 'Confirmed!', 'Thanks! Our Chips are on it. Your story is moving to production.');
+            } else {
+              showResult(false, 'Notes Received', 'Thanks for the clarification! We\'ll revise our interpretation and get back to you.');
+            }
+          } catch (err) {
+            console.error('Submit error:', err);
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit';
+            alert('Something went wrong. Please try again.');
+          }
+        });
+
+        // Reset notes border on input
+        notesInput.addEventListener('input', () => {
+          notesInput.style.borderColor = '#000';
+        });
+      }
+
+      function showResult(isAlready, title, msg) {
+        document.getElementById('response-section').style.display = 'none';
+        const resultDiv = document.getElementById('result');
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = `
+          <div class="result-msg ${isAlready ? 'already-msg' : ''}">
+            <h2>${escHtml(title)}</h2>
+            <p>${escHtml(msg)}</p>
+          </div>
+        `;
+        resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      function escHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+      }
+    })();
+  </script>
+</body>
+</html>
