@@ -27,26 +27,37 @@
 //   royalty_paid     boolean DEFAULT false
 // );
 
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS'
+};
+
 exports.handler = async (event) => {
+  // Handle CORS preflight
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 204, headers: CORS_HEADERS, body: '' };
+  }
+
   if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
+    return { statusCode: 405, headers: CORS_HEADERS, body: 'Method Not Allowed' };
   }
 
   let body;
   try {
     body = JSON.parse(event.body);
   } catch {
-    return { statusCode: 400, body: 'Invalid JSON' };
+    return { statusCode: 400, headers: CORS_HEADERS, body: 'Invalid JSON' };
   }
 
   const { track, char_a, char_b, title, panels, pre_intro, email, pitch, wallet, nft_mint_address } = body;
 
   // Basic server-side validation
   if (!email || !email.includes('@')) {
-    return { statusCode: 400, body: 'Invalid email' };
+    return { statusCode: 400, headers: CORS_HEADERS, body: 'Invalid email' };
   }
   if (!track || !title || !panels || panels.length < 3) {
-    return { statusCode: 400, body: 'Missing required fields' };
+    return { statusCode: 400, headers: CORS_HEADERS, body: 'Missing required fields' };
   }
 
   // ── NFT Track: verify wallet still owns the claimed NFT ──────
@@ -55,7 +66,7 @@ exports.handler = async (event) => {
 
   if (track === 'nft') {
     if (!wallet || !char_a || !char_b) {
-      return { statusCode: 400, body: 'NFT track requires wallet, char_a (your NFT), and char_b (standard character)' };
+      return { statusCode: 400, headers: CORS_HEADERS, body: 'NFT track requires wallet, char_a (your NFT), and char_b (standard character)' };
     }
 
     try {
@@ -65,7 +76,7 @@ exports.handler = async (event) => {
         const owned = await ownedRes.json();
         const ownsCharA = owned.some(t => t.mintAddress === char_a);
         if (!ownsCharA) {
-          return { statusCode: 400, body: 'You no longer own the selected NFT (Character A). Please refresh and try again.' };
+          return { statusCode: 400, headers: CORS_HEADERS, body: 'You no longer own the selected NFT (Character A). Please refresh and try again.' };
         }
       }
       // char_b is a standard character (Chip_0, Chip_1, etc.) — no NFT verification needed
@@ -83,7 +94,7 @@ exports.handler = async (event) => {
   // ── Save to Supabase ────────────────────────────────────────
   if (!supabaseUrl || !supabaseKey) {
     console.error('Supabase env vars not configured');
-    return { statusCode: 500, body: 'Storage not configured' };
+    return { statusCode: 500, headers: CORS_HEADERS, body: 'Storage not configured' };
   }
 
   try {
@@ -113,7 +124,7 @@ exports.handler = async (event) => {
     if (!res.ok) {
       const err = await res.text();
       console.error('Supabase error:', err);
-      return { statusCode: 500, body: 'Failed to save submission' };
+      return { statusCode: 500, headers: CORS_HEADERS, body: 'Failed to save submission' };
     }
   } catch (err) {
     console.error('Supabase fetch error:', err);
@@ -172,6 +183,7 @@ exports.handler = async (event) => {
 
   return {
     statusCode: 200,
+    headers: CORS_HEADERS,
     body: JSON.stringify({ ok: true })
   };
 };
