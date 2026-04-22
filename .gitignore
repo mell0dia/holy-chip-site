@@ -50,3 +50,6 @@ assets/mockups-old/
 
 # Supabase local
 supabase/
+
+# Python cache
+__pycache__/
