@@ -53,3 +53,9 @@ supabase/
 
 # Python cache
 __pycache__/
+
+# Local debug scripts (may contain hardcoded tokens)
+debug-*.js
+
+# Local drafts (contain submitter PII — never commit to public repo)
+draft_emails/
