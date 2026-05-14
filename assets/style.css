@@ -117,6 +117,184 @@ p, .page-subtitle, .step-title, label, li {
 }
 .nav-x-btn:hover { background: var(--nav-hover); border-color: rgba(255,255,255,0.55); }
 
+/* ── Nav socials cluster (X / FB / IG) ── */
+.nav-socials {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: 4px;
+}
+.nav-social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  color: var(--nav-fg);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 3px;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.nav-social:hover {
+  background: var(--nav-hover);
+  border-color: rgba(255,255,255,0.55);
+  color: #fff;
+}
+
+/* ── Share dropdown ── */
+.nav-share-wrap {
+  position: relative;
+}
+.nav-share-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  background: #1a1a2e;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 4px;
+  padding: 4px;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 1000;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+.nav-share-menu[hidden] { display: none; }
+.nav-share-opt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: var(--nav-fg);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  padding: 8px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-share-opt:hover { background: var(--nav-hover); color: #fff; }
+.nav-share-opt svg { flex-shrink: 0; }
+
+/* ── Site footer (injected by footer.js) ── */
+.site-footer {
+  background: #000;
+  border-top: 1px solid #1a1a2e;
+  padding: 24px 16px 18px;
+  margin-top: 40px;
+}
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.footer-socials {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+}
+.footer-tag {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  color: #8a8a8a;
+  letter-spacing: 0.1em;
+  margin-right: 4px;
+}
+.footer-social {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--nav-fg);
+  text-decoration: none;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 6px 10px;
+  border-radius: 3px;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.footer-social:hover {
+  background: var(--nav-hover);
+  border-color: rgba(255,255,255,0.45);
+  color: #fff;
+}
+.footer-meta {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: #555;
+  letter-spacing: 0.1em;
+}
+
+/* ── Hero socials block (home page, light theme to match white body) ── */
+.hero-socials {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin: 24px auto 8px;
+  padding: 0 16px;
+}
+.hero-socials-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  color: #444;
+  letter-spacing: 0.18em;
+  margin: 0;
+}
+.hero-socials-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+.hero-social {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: #fff;
+  border: 2px solid #000;
+  color: #000;
+  text-decoration: none;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 10px 16px;
+  border-radius: 0;
+  box-shadow: 3px 3px 0 #000;
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+.hero-social:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 #000;
+}
+.hero-social:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 #000;
+}
+.hero-social svg { flex-shrink: 0; }
+
+/* ── Mobile share menu: tighten anchoring & widths ── */
+@media (max-width: 540px) {
+  .nav-socials { gap: 3px; margin-right: 2px; }
+  .nav-social { width: 26px; height: 26px; }
+  .nav-share-menu { right: -4px; min-width: 180px; }
+  .hero-socials-row { flex-direction: column; }
+  .hero-social { width: 100%; max-width: 280px; justify-content: center; }
+}
+
 /* ── Share toast ── */
 .hc-toast {
   position: fixed;
