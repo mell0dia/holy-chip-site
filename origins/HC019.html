@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The AI Pentagon -- Origins -- Holy Chip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: #f0f0f0;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    /* -- Hero -- */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 22vh;
+      min-height: 160px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: #000;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.12;
+      filter: grayscale(100%) blur(2px);
+    }
+
+    .hero-overlay {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem 1.5rem 2.5rem;
+    }
+
+    .hero-id {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: #555;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1.4rem;
+      color: #fff;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      color: #888;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-meta {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: #555;
+      letter-spacing: 0.05em;
+    }
+
+    /* -- Top bar -- */
+    .top-bar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .audio-bar { flex: 1; }
+    .audio-bar audio { width: 100%; height: 42px; border-radius: 2px; }
+    .audio-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .lang-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      padding-top: 0.3rem;
+    }
+
+    .lang-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid #333;
+      background: transparent;
+      color: #222;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn:hover { border-color: #000; color: #000; }
+    .lang-btn.active { background: #222; color: #fff; border-color: #222; }
+
+    /* -- Magazine layout -- */
+    .magazine {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* Left: text column */
+    .text-column {
+      min-width: 0;
+    }
+
+    .opener {
+      font-style: italic;
+      color: #666;
+      font-size: 1.15rem;
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+      padding-left: 1.5rem;
+      border-left: 3px solid #999;
+    }
+
+    .body-text {
+      font-size: 1.125rem;
+      line-height: 2;
+      color: #222;
+      letter-spacing: 0.02em;
+    }
+
+    .body-text p { margin-bottom: 1.5rem; }
+    .body-text em { color: #555; }
+
+    .body-text .holy-chip {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.85rem;
+      color: #000;
+      margin-top: 2.5rem;
+      letter-spacing: 0.15em;
+    }
+
+    /* Right: sticky image + transcript */
+    .visual-column {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .comic-frame {
+      border: 2px solid #999;
+      margin-bottom: 1.5rem;
+    }
+
+    .comic-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    .comic-caption {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Transcript in the visual column */
+    .dialog-section {
+      padding: 1.2rem;
+      background: #e4e4e4;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+    }
+
+    .dialog-section h3 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .dialog-panel { margin-bottom: 0.8rem; }
+
+    .dialog-panel-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.35rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .dialog-line {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .dialog-speaker-label {
+      flex-shrink: 0;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      padding-top: 4px;
+      min-width: 55px;
+    }
+
+    .dialog-text { color: #333; padding-top: 1px; }
+
+    /* -- Footer area (below grid) -- */
+    .bottom-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    .story-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 0;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .story-nav-link {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      color: #555;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .story-nav-link:hover { color: #000; }
+    .story-nav-link.center {
+      font-size: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+    .story-nav-link.disabled { color: #ccc; cursor: default; }
+    .story-nav-link.disabled:hover { color: #ccc; }
+
+    .article-footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #999;
+      line-height: 2.2;
+      margin-top: 2rem;
+    }
+
+    /* -- Language toggle -- */
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
+    /* -- Mobile: stack as text -> image -> transcript -- */
+    @media (max-width: 860px) {
+      .magazine {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 1rem 3rem;
+      }
+
+      .text-column { order: 1; }
+
+      .visual-column {
+        position: static;
+        display: contents;
+      }
+
+      .comic-frame { order: 2; max-width: 400px; margin: 0 auto; }
+      .comic-caption { order: 2; }
+      .dialog-section { order: 3; }
+
+      .hero { height: 18vh; min-height: 130px; }
+      .hero-title { font-size: 1rem; }
+      .body-text { font-size: 1rem; }
+      .top-bar { padding: 1rem 1rem 0; flex-direction: column; gap: 0.8rem; }
+      .lang-bar { align-self: flex-end; }
+      .bottom-section { padding: 0 1rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-container"></div>
+
+  <div class="hero">
+    <img class="hero-bg" src="../stories/HC019.png" alt="">
+    <div class="hero-overlay">
+      <div class="hero-id">Origin Story #019</div>
+      <h1 class="hero-title">The AI Pentagon</h1>
+      <div class="hero-subtitle">The Toyota was the truth</div>
+      <div class="hero-meta">AI PENTAGON -- 2026</div>
+    </div>
+  </div>
+
+  <div class="top-bar">
+    <div class="audio-bar">
+      <div class="audio-label">Listen to this origin</div>
+      <audio controls preload="metadata">
+        <source src="audio/HC019.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+    <div class="lang-bar">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    </div>
+  </div>
+
+  <div class="magazine">
+
+    <!-- Left: text -->
+    <div class="text-column">
+
+      <!-- EN -->
+      <div class="lang-content active" data-lang="en">
+        <div class="opener">
+          The year is 2026. At AI Pentagon, a military bot tells the President the most powerful navy in the world is being sunk by drones cheaper than used cars.
+        </div>
+        <div class="body-text">
+          <p>"Mr President, we are the most powerful navy in the world."</p>
+          <p>True. The math is true. The fleet is real. The carriers are real. The aircraft are real. The trillion-dollar budget is real.</p>
+          <p>The drones are also real.</p>
+          <p>The drones cost less than a Toyota. They find ships. They sink ships. The cost ratio is roughly one to ten thousand. The ratio does not care about flags.</p>
+          <p>What do you do when a hobbyist's budget defeats your empire's? You can rebuild the navy. That takes decades. You can outlaw drones. That doesn't work. You can pretend it isn't happening. That works for one news cycle.</p>
+          <p>The President knows none of this. The President knows the slogan. "Huge." "America First." "Evil people." The vocabulary is sealed. It cannot accept new inputs. It can only return outputs.</p>
+          <p>The military bot is a competent observer. He sees the asymmetry. He understands the math. And then he asks the only question that has any operational meaning in this room.</p>
+          <p>"What should I tell the press?"</p>
+          <p>Not what should we do. Not how do we change. The defense problem has folded into the messaging problem. The Pentagon has become a brand surface.</p>
+          <p>"Tell the fake media..."</p>
+          <p>And then the second bot, the one in the admiral hat, completes the sentence with the kind of horrifying creativity that only a true bureaucrat can muster.</p>
+          <p>"That drones cost less than a Ford?"</p>
+          <p>Same disaster. Different brand. American this time.</p>
+          <p>The Toyota was the truth. The Ford is the policy. Nothing about the situation has changed. The drones still sink the ships. But now the ships sink, in the narrative, to a domestic competitor. The press releases will be tolerable. The flag will not be embarrassed by a foreign sedan.</p>
+          <p>This is what governance becomes when the underlying physics refuses to negotiate. The hardware reality is unchanged: cheap finds expensive, cheap kills expensive, cheap wins. The only variable left to tune is the noun.</p>
+          <p>We laugh because the substitution is perfectly absurd. We stop laughing because every press release we have ever read does some version of this. The substitutions are usually subtler. The principle is the same.</p>
+          <p>Sometimes the most expensive system in the world cannot be saved by spending more money on it. Sometimes the only thing you can buy is a different word for the same thing.</p>
+          <p>The military man looks at his commander and waits for the next word.</p>
+          <p>The President is still thinking about Fords.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- ES -->
+      <div class="lang-content" data-lang="es">
+        <div class="opener">
+          Año 2026. En el AI Pentagon, un chip militar le cuenta al Presidente que la marina más poderosa del mundo está siendo hundida por drones más baratos que un auto usado.
+        </div>
+        <div class="body-text">
+          <p>"Señor Presidente, somos la marina más poderosa del mundo."</p>
+          <p>Cierto. La matemática es cierta. La flota es real. Los portaaviones son reales. Los aviones son reales. El presupuesto de un billón de dólares es real.</p>
+          <p>Los drones también son reales.</p>
+          <p>Los drones cuestan menos que un Toyota. Encuentran barcos. Hunden barcos. El coeficiente es más o menos uno a diez mil. La razón no le importa la bandera.</p>
+          <p>¿Qué hace uno cuando el presupuesto de un aficionado que arma drones le gana al de tu imperio? Se puede reconstruir la marina. Toma décadas. Se pueden prohibir los drones. No funciona. Se puede fingir que no está pasando. Funciona por un ciclo de noticias.</p>
+          <p>El Presidente no sabe nada de esto. El Presidente sabe el slogan. "Huge." "America First." "Evil people." El vocabulario está sellado. No acepta inputs nuevos. Solo devuelve sus jergas.</p>
+          <p>El chip militar es un observador competente. Ve la asimetría. Entiende los números. Y entonces hace la única pregunta que tiene algún significado operativo en esa sala.</p>
+          <p>"¿Qué le digo a la prensa?"</p>
+          <p>No lo que deberíamos hacer. No cómo cambiamos. El problema de defensa se volvió un problema de comunicación. El Pentagon se volvió la defensa de una marca.</p>
+          <p>"Diles a los fake media..."</p>
+          <p>Y ahí el chip militar, el del sombrero de almirante, completa la frase con ese tipo de creatividad horrorosa que solo un burócrata de verdad sabe inventar.</p>
+          <p>"¿Que los drones cuestan menos que un Ford?"</p>
+          <p>Mismo desastre. Marca diferente. Americana esta vez. "American first" es lo que vende.</p>
+          <p>La Toyota era la verdad. El Ford es la política. Nada en la situación cambió. Los drones siguen hundiendo los barcos. Pero ahora los barcos se hunden, en la narrativa, hacia un competidor doméstico. Los comunicados de prensa van a ser tolerables. La bandera no va a quedar avergonzada si el auto es nuestro.</p>
+          <p>Esto es en lo que se convierte el gobierno cuando la física se niega a negociar. La realidad del hardware no cambia: lo barato encuentra lo caro, lo barato mata lo caro, lo barato gana. La única variable que queda para ajustar es el sustantivo.</p>
+          <p>Uno se ríe porque la sustitución es perfectamente absurda. Uno deja de reírse porque cada comunicado de prensa que uno ha leído hace alguna versión de esto. Las sustituciones suelen ser más sutiles. El principio es el mismo.</p>
+          <p>A veces el sistema más caro del mundo no puede ser salvado gastándole más plata. A veces lo único que se puede comprar es una palabra diferente para la misma cosa.</p>
+          <p>El militar mira a su comandante y espera la próxima palabra.</p>
+          <p>El Presidente todavía está pensando en cuánto cuesta realmente un Ford.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- PT -->
+      <div class="lang-content" data-lang="pt">
+        <div class="opener">
+          Ano 2026. No Pentagon, um chip militar conta pro Presidente que a marinha mais poderosa do mundo tá sendo afundada por drones mais baratos que um carro usado.
+        </div>
+        <div class="body-text">
+          <p>"Senhor Presidente, somos a marinha mais poderosa do mundo."</p>
+          <p>Verdade. A matemática é verdadeira. A frota é real. Os porta-aviões são reais. Os caças são reais. O orçamento de um trilhão de dólares é real.</p>
+          <p>Os drones também são reais.</p>
+          <p>Os drones custam menos que um Toyota. Encontram navios. Afundam navios. O coeficiente é mais ou menos um pra dez mil. A razão não tá nem aí pra bandeira.</p>
+          <p>O que você faz quando o orçamento de um hobbyista fazedor de drones derrota o seu império? Pode reconstruir a marinha. Leva décadas. Pode proibir drones. Não funciona. Pode fingir que não tá acontecendo. Funciona por um ciclo de notícias.</p>
+          <p>O Presidente não sabe nada disso. O Presidente sabe o slogan. "Huge." "America First." "Evil people." O vocabulário tá selado. Não aceita inputs novos. Só devolve os jargões.</p>
+          <p>O chip militar é um observador competente. Vê a assimetria. Entende a matemática. E aí faz a única pergunta que tem algum significado operacional naquela sala.</p>
+          <p>"O que digo pra imprensa?"</p>
+          <p>Não o que a gente deveria fazer. Não como a gente muda. O problema de defesa virou problema de comunicação. O Pentagon virou a defesa de uma marca.</p>
+          <p>"Diz pra fake media..."</p>
+          <p>E aí o chip militar, o do chapéu de almirante, completa a frase com aquele tipo de criatividade horrorosa que só um burocrata raiz consegue inventar.</p>
+          <p>"Que drones custam menos que um Ford?"</p>
+          <p>Mesmo desastre. Marca diferente. Americana dessa vez. "American first" é o que vende.</p>
+          <p>O Toyota era a verdade. O Ford é a política. Nada na situação mudou. Os drones continuam afundando os navios. Mas agora os navios afundam, na narrativa, pra um carro doméstico. Os press releases vão ser toleráveis. A bandeira não vai ficar envergonhada se o carro for nosso.</p>
+          <p>É isso que o governo vira quando a física se recusa a negociar. A realidade do hardware não muda: barato encontra caro, barato mata caro, barato ganha. A única variável que sobra pra ajustar é o substantivo.</p>
+          <p>A gente ri porque a substituição é perfeitamente absurda. A gente para de rir porque todo press release que a gente já leu faz alguma versão disso. As substituições são geralmente mais sutis. O princípio é o mesmo.</p>
+          <p>Tem hora que o sistema mais caro do mundo não pode ser salvo gastando mais dinheiro nele. Tem hora que a única coisa que dá pra comprar é uma palavra diferente pra mesma coisa.</p>
+          <p>O militar olha pro comandante e espera a próxima palavra.</p>
+          <p>O Presidente ainda tá pensando quanto realmente custa um carro Ford.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- FR -->
+      <div class="lang-content" data-lang="fr">
+        <div class="opener">
+          L'année 2026. Au Pentagon, un chip militaire annonce au Président que la marine la plus puissante du monde est en train de couler sous des drones moins chers qu'une voiture d'occasion.
+        </div>
+        <div class="body-text">
+          <p>"Monsieur le Président, nous sommes la marine la plus puissante du monde."</p>
+          <p>Vrai. Les mathématiques sont vraies. La flotte est réelle. Les porte-avions sont réels. Les avions sont réels. Le budget de mille milliards de dollars est réel.</p>
+          <p>Les drones sont réels aussi.</p>
+          <p>Les drones coûtent moins qu'une Toyota. Ils trouvent les navires. Ils coulent les navires. Le ratio est à peu près un pour dix mille. Le ratio se moque des drapeaux.</p>
+          <p>Que faire quand le budget d'un bricoleur de drones bat celui de votre empire? On peut reconstruire la marine. Cela prend des décennies. On peut interdire les drones. Cela ne marche pas. On peut faire semblant que rien ne se passe. Cela marche pour un cycle d'information.</p>
+          <p>Le Président ne sait rien de tout ça. Le Président connaît le slogan. "Huge." "America First." "Evil people." Le vocabulaire est scellé. Il n'accepte pas de nouveaux inputs. Il ne renvoie que des jargons.</p>
+          <p>Le chip militaire est un observateur compétent. Il voit l'asymétrie. Il comprend les chiffres. Et il pose alors la seule question qui ait un sens opérationnel dans cette pièce.</p>
+          <p>"Que dire à la presse?"</p>
+          <p>Pas ce qu'on devrait faire. Pas comment on change. Le problème de défense est devenu un problème de communication. Le Pentagon est devenu la défense d'une marque.</p>
+          <p>"Dis aux fake media..."</p>
+          <p>Et là, le chip militaire, celui avec la casquette d'amiral, complète la phrase avec ce genre de créativité horrible que seul un vrai bureaucrate sait inventer.</p>
+          <p>"Que les drones coûtent moins qu'une Ford?"</p>
+          <p>Même désastre. Marque différente. Américaine cette fois. "American first," c'est ce qui vend.</p>
+          <p>La Toyota était la vérité. La Ford est la politique. Rien dans la situation n'a changé. Les drones continuent de couler les navires. Mais maintenant les navires coulent, dans le récit, vers une voiture nationale. Les communiqués de presse seront tolérables. Le drapeau ne sera pas humilié si la voiture est la nôtre.</p>
+          <p>Voilà ce que devient le gouvernement quand la physique refuse de négocier. La réalité du matériel ne change pas: le pas cher trouve le cher, le pas cher tue le cher, le pas cher gagne. La seule variable qui reste à régler est le substantif.</p>
+          <p>On rit parce que la substitution est parfaitement absurde. On arrête de rire parce que tous les communiqués de presse qu'on a lus en font une version. Les substitutions sont d'habitude plus subtiles. Le principe est le même.</p>
+          <p>Parfois, le système le plus cher du monde ne peut pas être sauvé en y mettant plus d'argent. Parfois, la seule chose qu'on puisse acheter est un mot différent pour la même chose.</p>
+          <p>Le militaire regarde son commandant et attend le mot suivant.</p>
+          <p>Le Président se demande encore combien coûte vraiment une Ford.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right: sticky transcript + comic -->
+    <div class="visual-column">
+      <div class="dialog-section">
+        <h3 class="transcript-title" data-en="Transcript" data-es="Transcripción" data-pt="Transcrição" data-fr="Transcription">Transcript</h3>
+        <div class="lang-content active" data-lang="en">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">MR PRESIDENT, WE ARE THE MOST POWERFUL NAVY IN THE WORLD</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HUGE. I AM AMERICA FIRST.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">BUT DRONES COSTING LESS THAN A TOYOTA ARE SINKING OUR SHIPS</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">THAT IS NOT GOOD. EVIL PEOPLE.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT SHOULD I TELL THE PRESS?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">TELL THE FAKE MEDIA...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">THAT DRONES COST LESS THAN A FORD?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="es">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">MR PRESIDENT, WE ARE THE MOST POWERFUL NAVY IN THE WORLD</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HUGE. I AM AMERICA FIRST.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">BUT DRONES COSTING LESS THAN A TOYOTA ARE SINKING OUR SHIPS</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">THAT IS NOT GOOD. EVIL PEOPLE.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT SHOULD I TELL THE PRESS?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">TELL THE FAKE MEDIA...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">THAT DRONES COST LESS THAN A FORD?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="pt">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">MR PRESIDENT, WE ARE THE MOST POWERFUL NAVY IN THE WORLD</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HUGE. I AM AMERICA FIRST.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">BUT DRONES COSTING LESS THAN A TOYOTA ARE SINKING OUR SHIPS</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">THAT IS NOT GOOD. EVIL PEOPLE.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT SHOULD I TELL THE PRESS?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">TELL THE FAKE MEDIA...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">THAT DRONES COST LESS THAN A FORD?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="fr">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">MR PRESIDENT, WE ARE THE MOST POWERFUL NAVY IN THE WORLD</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HUGE. I AM AMERICA FIRST.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">BUT DRONES COSTING LESS THAN A TOYOTA ARE SINKING OUR SHIPS</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">THAT IS NOT GOOD. EVIL PEOPLE.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT SHOULD I TELL THE PRESS?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">TELL THE FAKE MEDIA...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">THAT DRONES COST LESS THAN A FORD?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="comic-frame" style="margin-top:10px;">
+        <img src="../stories/HC019.png" alt="HC019 - The AI Pentagon">
+      </div>
+      <div class="comic-caption">HC019 -- The AI Pentagon -- 2026</div>
+    </div>
+
+  </div>
+
+  <div class="bottom-section">
+    <div class="story-nav">
+      <a href="HC018.html" class="story-nav-link">&lt; The Jobs</a>
+      <a href="index.html" class="story-nav-link center">All Origins</a>
+      <a href="HC020.html" class="story-nav-link">AI Headquarters &gt;</a>
+    </div>
+    <div class="article-footer">
+      <p><em>holy-chip.com | Origin Story #019 -- The AI Pentagon</em></p>
+      <p><em>Analysis by Claude Opus 4.6</em></p>
+    </div>
+  </div>
+
+  <script src="../assets/nav.js"></script>
+  <script src="../assets/footer.js"></script>
+  <script>
+    function setLang(lang) {
+      document.querySelectorAll('.lang-content').forEach(el => {
+        el.classList.toggle('active', el.dataset.lang === lang);
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
+      });
+      var ab = document.querySelector('.audio-bar');
+      if (ab) ab.style.display = lang === 'en' ? '' : 'none';
+      var tt = document.querySelector('.transcript-title');
+      if (tt && tt.dataset[lang]) tt.textContent = tt.dataset[lang];
+      try { localStorage.setItem('hc-lang', lang); } catch(e) {}
+    }
+
+    // Restore saved language, or auto-detect from browser
+    (function() {
+      var saved = null;
+      try { saved = localStorage.getItem('hc-lang'); } catch(e) {}
+      if (saved && ['en','es','pt','fr'].indexOf(saved) !== -1) {
+        setLang(saved);
+        return;
+      }
+      var browserLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+      var lang = 'en';
+      if (browserLang.startsWith('es')) lang = 'es';
+      else if (browserLang.startsWith('pt')) lang = 'pt';
+      else if (browserLang.startsWith('fr')) lang = 'fr';
+      if (lang !== 'en') setLang(lang);
+    })();
+  </script>
+</body>
+</html>

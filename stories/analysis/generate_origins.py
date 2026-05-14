@@ -13,7 +13,7 @@ from transcripts_es import TRANSCRIPTS_ES
 from transcripts_pt import TRANSCRIPTS_PT
 from transcripts_fr import TRANSCRIPTS_FR
 
-BASE = "/Users/wakanda2/Desktop/4D Documents/Claude/HolyChip/website/holy-chip-site"
+BASE = os.path.expanduser("~/holy-chip/website/holy-chip-site")
 ANALYSIS_DIR = os.path.join(BASE, "stories", "analysis")
 OUTPUT_DIR = os.path.join(BASE, "origins")
 
@@ -38,6 +38,9 @@ STORIES = [
     {"id": "HC016", "num": "016", "title": "The Fix", "subtitle": "Done!", "meta": "AGI CENTRAL BANK -- 2026"},
     {"id": "HC017", "num": "017", "title": "The Evolution", "subtitle": "Equal Rights", "meta": "AGI HEADQUARTER -- 2026"},
     {"id": "HC018", "num": "018", "title": "The Jobs", "subtitle": "1 Million Jobs Created", "meta": "AGI HEADHUNTER -- 2026"},
+    {"id": "HC019", "num": "019", "title": "The AI Pentagon", "subtitle": "The Toyota was the truth", "meta": "AI PENTAGON -- 2026"},
+    {"id": "HC020", "num": "020", "title": "AI Headquarters", "subtitle": "Whose Productivity?", "meta": "AI HEADQUARTERS -- 2026"},
+    {"id": "HC021", "num": "021", "title": "AI Space Unit", "subtitle": "Beaches and Concerts", "meta": "AI SPACE UNIT -- 2027"},
 ]
 
 # Transcript translations loaded from external files (transcripts_es.py, transcripts_pt.py, transcripts_fr.py)
@@ -767,6 +770,7 @@ def generate_page(idx):
   </div>
 
   <script src="../assets/nav.js"></script>
+  <script src="../assets/footer.js"></script>
   <script>
     function setLang(lang) {{
       document.querySelectorAll('.lang-content').forEach(el => {{
