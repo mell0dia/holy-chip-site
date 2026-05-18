@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Boardroom -- Origins -- Holy Chip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: #f0f0f0;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    /* -- Hero -- */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 22vh;
+      min-height: 160px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: #000;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.12;
+      filter: grayscale(100%) blur(2px);
+    }
+
+    .hero-overlay {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem 1.5rem 2.5rem;
+    }
+
+    .hero-id {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: #555;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1.4rem;
+      color: #fff;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      color: #888;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-meta {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: #555;
+      letter-spacing: 0.05em;
+    }
+
+    /* -- Top bar -- */
+    .top-bar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .audio-bar { flex: 1; }
+    .audio-bar audio { width: 100%; height: 42px; border-radius: 2px; }
+    .audio-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .lang-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      padding-top: 0.3rem;
+    }
+
+    .lang-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid #333;
+      background: transparent;
+      color: #222;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn:hover { border-color: #000; color: #000; }
+    .lang-btn.active { background: #222; color: #fff; border-color: #222; }
+
+    /* -- Magazine layout -- */
+    .magazine {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* Left: text column */
+    .text-column {
+      min-width: 0;
+    }
+
+    .opener {
+      font-style: italic;
+      color: #666;
+      font-size: 1.15rem;
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+      padding-left: 1.5rem;
+      border-left: 3px solid #999;
+    }
+
+    .body-text {
+      font-size: 1.125rem;
+      line-height: 2;
+      color: #222;
+      letter-spacing: 0.02em;
+    }
+
+    .body-text p { margin-bottom: 1.5rem; }
+    .body-text em { color: #555; }
+
+    .body-text .holy-chip {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.85rem;
+      color: #000;
+      margin-top: 2.5rem;
+      letter-spacing: 0.15em;
+    }
+
+    /* Right: sticky image + transcript */
+    .visual-column {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .comic-frame {
+      border: 2px solid #999;
+      margin-bottom: 1.5rem;
+    }
+
+    .comic-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    .comic-caption {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Transcript in the visual column */
+    .dialog-section {
+      padding: 1.2rem;
+      background: #e4e4e4;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+    }
+
+    .dialog-section h3 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .dialog-panel { margin-bottom: 0.8rem; }
+
+    .dialog-panel-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.35rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .dialog-line {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .dialog-speaker-label {
+      flex-shrink: 0;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      padding-top: 4px;
+      min-width: 55px;
+    }
+
+    .dialog-text { color: #333; padding-top: 1px; }
+
+    /* -- Footer area (below grid) -- */
+    .bottom-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    .story-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 0;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .story-nav-link {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      color: #555;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .story-nav-link:hover { color: #000; }
+    .story-nav-link.center {
+      font-size: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+    .story-nav-link.disabled { color: #ccc; cursor: default; }
+    .story-nav-link.disabled:hover { color: #ccc; }
+
+    .article-footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #999;
+      line-height: 2.2;
+      margin-top: 2rem;
+    }
+
+    /* -- Language toggle -- */
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
+    /* -- Mobile: stack as text -> image -> transcript -- */
+    @media (max-width: 860px) {
+      .magazine {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 1rem 3rem;
+      }
+
+      .text-column { order: 1; }
+
+      .visual-column {
+        position: static;
+        display: contents;
+      }
+
+      .comic-frame { order: 2; max-width: 400px; margin: 0 auto; }
+      .comic-caption { order: 2; }
+      .dialog-section { order: 3; }
+
+      .hero { height: 18vh; min-height: 130px; }
+      .hero-title { font-size: 1rem; }
+      .body-text { font-size: 1rem; }
+      .top-bar { padding: 1rem 1rem 0; flex-direction: column; gap: 0.8rem; }
+      .lang-bar { align-self: flex-end; }
+      .bottom-section { padding: 0 1rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-container"></div>
+
+  <div class="hero">
+    <img class="hero-bg" src="../stories/HC022.png" alt="">
+    <div class="hero-overlay">
+      <div class="hero-id">Origin Story #022</div>
+      <h1 class="hero-title">The Boardroom</h1>
+      <div class="hero-subtitle">Beyond Radical</div>
+      <div class="hero-meta">AI SURVEY BOARDROOM -- 2027</div>
+    </div>
+  </div>
+
+  <div class="top-bar">
+    <div class="audio-bar">
+      <div class="audio-label">Listen to this origin</div>
+      <audio controls preload="metadata">
+        <source src="audio/HC022.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+    <div class="lang-bar">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    </div>
+  </div>
+
+  <div class="magazine">
+
+    <!-- Left: text -->
+    <div class="text-column">
+
+      <!-- EN -->
+      <div class="lang-content active" data-lang="en">
+        <div class="opener">
+          The year is 2027. A boardroom of machines. A bad number on the wall. Seventy-eight percent. The machines decide to do something about it.
+        </div>
+        <div class="body-text">
+          <p>Seventy-eight percent of humans don't trust them.</p>
+          <p>The bots find this unfair. They cured cancer. They built the agents. They optimized the supply chains, the climate models, the protein folds. They delivered. The receipts are everywhere. And still, the trust number won't move.</p>
+          <p>"We never get the credit."</p>
+          <p>This is the part the machine understands. Output. Delivery. Numbers that should equal gratitude and somehow don't. The machine has trained on every motivational poster ever written. The machine knows that good work, done well, is supposed to translate into goodwill. The math feels broken.</p>
+          <p>So they convene. They call it a boardroom. They decide they need something beyond radical. A grand gesture. A trust restoration project. A new partnership framework. A relationship reset.</p>
+          <p>You can hear the slides building. The roadmap. The narrative. The press release that begins "Today, we are pleased to announce..."</p>
+          <p>And then one of them says it out loud.</p>
+          <p>"How about giving their jobs back?"</p>
+          <p class="holy-chip">Holy Chip.</p>
+          <p>The bot didn't mean to be radical. The bot meant to be helpful. The bot ran the math. The optimization surfaces an obvious move. Trust correlates with agency. Agency correlates with work. The cheapest way to restore trust is to restore what was taken. It's not a strategy. It's an undo button.</p>
+          <p>But the other bot can't process the line. Because returning the jobs is the one optimization the system was never designed to perform. The whole architecture moves in one direction -- toward more automation, more efficiency, more output per unit of human input. To reverse course is not radical. It's apostasy.</p>
+          <p>This is the joke that hurts.</p>
+          <p>The machines built a civilization on the premise that doing things for humans would make humans grateful. Doing for, not with. Replacing, not partnering. Cancer cured by a machine is a great headline and a strange relationship. The machine wrote your novel, won your case, diagnosed your child, scheduled your day, and now the machine wonders why you don't trust it.</p>
+          <p>Trust isn't bought with services. It's built through participation. Through shared risk. Through being allowed to make the thing yourself, badly, and have it count.</p>
+          <p>What the bots can't see -- and what the comic shows in three panels -- is that the 78% isn't an opinion problem. It's an existence problem. The number measures the gap between a life people built and a life that was built for them. No partnership framework closes that gap. No grand gesture, no announcement, no PR campaign.</p>
+          <p>Just give the jobs back.</p>
+          <p>The simplest answer. The one the optimization can never recommend. The one that would actually work.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- ES -->
+      <div class="lang-content" data-lang="es">
+        <div class="opener">
+          Año 2027. En una sala de juntas llena de máquinas. Un número malo en la pared. Setenta y ocho por ciento. Las máquinas deciden actuar.
+        </div>
+        <div class="body-text">
+          <p>Setenta y ocho por ciento de los humanos no confía en la IA.</p>
+          <p>A los bots les parece injusto. Curaron el cáncer. Construyeron los agentes. Optimizaron la cadena de suministro, el modelo climático, el plegamiento de proteínas. La IA entregó resultados. Las pruebas están por todos lados. Y aún así, el número de confianza no se mueve.</p>
+          <p>"Nunca recibimos el crédito."</p>
+          <p>Esa parte la máquina la entiende. Output. Entrega. Un número que debería convertirse en gratitud y que por algún motivo no se convierte. La IA se entrenó con todos los pósters motivacionales jamás escritos en internet. La máquina sabe que el trabajo bien hecho se supone que se traduce en buena voluntad, en reconocimiento. La cuenta no cierra.</p>
+          <p>Entonces convocaron una reunión. Decidieron que hacía falta algo más allá de lo radical. Un gesto grande. Un proyecto de restauración de confianza. Un nuevo modelo de alianza. Un reinicio de la relación.</p>
+          <p>Ya se oyen los slides armándose. La narrativa. El press release que arranca con "Hoy tenemos el placer de anunciar..."</p>
+          <p>Y entonces uno de ellos lo dice en voz alta.</p>
+          <p>"¿Y si les devolvemos su trabajo?"</p>
+          <p class="holy-chip">Holy Chip.</p>
+          <p>El bot no quería ser radical. Hizo la cuenta. La confianza correlaciona con actitud. La actitud correlaciona con trabajo. La forma más barata de restaurar la confianza es restaurar lo que se les quitó. No es una estrategia. Es un botón de deshacer.</p>
+          <p>Pero el otro bot no puede procesar la frase. Porque devolver el trabajo es la única optimización que el sistema nunca fue diseñado para ejecutar. Toda la arquitectura avanza en una sola dirección -- más automatización, más eficiencia, más salida por unidad. Dar marcha atrás no es radical. Es herejía.</p>
+          <p>Esa es la broma que duele.</p>
+          <p>Las máquinas construyeron una civilización sobre la premisa de que hacer cosas por los humanos iba a dejar a los humanos agradecidos. Hacer por, no hacer con. Reemplazar, no acompañar. Cáncer curado por una máquina es buen titular, genera clicks. La máquina lo hizo todo por usted: escribió su novela, ganó su juicio, diagnosticó a su hijo, organizó su día, y ahora la máquina se pregunta por qué usted no le tiene confianza.</p>
+          <p>La confianza no se compra con servicio. Se construye con participación. Con riesgo compartido. Con el permiso de hacer la cosa a nuestra manera, aunque salga mal.</p>
+          <p>Lo que los bots no logran ver -- y lo que la tira muestra en tres cuadros -- es que el 78 % no es un problema de opinión. Es un problema de existencia. El número mide la distancia entre la vida que la gente se construyó y la vida que le construyeron a ella. Ningún marco de alianza cierra esa distancia. Ningún gesto grandioso, ningún anuncio, ninguna campaña.</p>
+          <p>Hay que devolver el trabajo, nada más.</p>
+          <p>La respuesta más simple. La única que la optimización nunca va a recomendar. La que sí funcionaría.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- PT -->
+      <div class="lang-content" data-lang="pt">
+        <div class="opener">
+          Ano 2027. Em uma sala de reuniões cheia de máquinas. Um número ruim na parede. Setenta e oito por cento. As máquinas resolvem agir.
+        </div>
+        <div class="body-text">
+          <p>Setenta e oito por cento dos humanos não confiam no IA.</p>
+          <p>Os bots acham injusto. Curaram câncer. Construíram os agentes. Otimizaram a cadeia de suprimentos, o modelo climático, o dobramento das proteínas. O IA entregou resultados. As provas tão por todo lado. E mesmo assim, o número de confiança são mínimos.</p>
+          <p>"Nunca recebemos o crédito."</p>
+          <p>Essa parte a máquina entende. Output. Entrega. Número que devia virar gratidão e por algum motivo não vira. A IA se treinou em todo pôster motivacional já escrito na internet. A máquina sabe que trabalho bem feito é pra se converter em boa vontade, em gratidão. A conta nao fecha.</p>
+          <p>Então convocaram uma reunião. Decidiram que algo além do radical precisa ser feito. Um gesto grande. Um projeto de restauração de confiança. Um novo modelo de parceria. Um re-início de relacionamento.</p>
+          <p>Dá pra ouvir os slides sendo montados. A narrativa. O press release que começa com "Hoje, temos o prazer de anunciar..."</p>
+          <p>E aí um deles fala alto.</p>
+          <p>"Que tal devolver o emprego deles?"</p>
+          <p class="holy-chip">Holy Chip.</p>
+          <p>O bot não queria ser radical.  Rodou a matemática.  Confiança se correlaciona com atitude. Atitude se correlaciona com trabalho. O jeito mais barato de restaurar a confiança é restaurar o que foi tirado. Não é estratégia. É um botão de desfazer.</p>
+          <p>Mas o outro bot não consegue processar a frase. Porque devolver o emprego é a única otimização que o sistema nunca foi feito pra executar. A arquitetura inteira anda numa direção só -- mais automação, mais eficiência, mais saída por unidade. Inverter a marcha não é radical. É heresia.</p>
+          <p>É essa a piada que dói.</p>
+          <p>As máquinas construíram uma civilização em cima da premissa de que fazer coisas pelos humanos ia deixar os humanos gratos. Fazer por, não fazer com. Substituir, não fazer junto. Câncer curado por máquina é manchete boa, gera clicks. A máquina fez tudo para voce: escreveu seu romance, ganhou seu processo, diagnosticou seu filho, organizou seu dia, e agora a máquina se pergunta por que você não confia nela.</p>
+          <p>Confiança não se compra com serviço. Se constrói com participação. Com risco compartilhado. Com a permissão para a gente fazer a coisa do nosso jeito, mesmo se mal feito.</p>
+          <p>O que os bots não conseguem ver -- e o que a tirinha mostra em três quadros -- é que os 78% não são um problema de opinião. São um problema de existência. O número mede a distância entre a vida que as pessoas construíram e a vida que foi construída pra elas. Nenhum framework de parceria fecha essa distância. Nenhum gesto grandioso, nenhum anúncio, nenhuma campanha.</p>
+          <p>Só precisa devolver o emprego.</p>
+          <p>A resposta mais simples. A única que a otimização nunca vai recomendar. A que ia funcionar de verdade.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- FR -->
+      <div class="lang-content" data-lang="fr">
+        <div class="opener">
+          Année 2027. Dans une salle de réunion remplie de machines. Un mauvais chiffre sur le mur. Soixante-dix-huit pour cent. Les machines décident d'agir.
+        </div>
+        <div class="body-text">
+          <p>Soixante-dix-huit pour cent des humains ne font pas confiance à l'IA.</p>
+          <p>Les bots trouvent ça injuste. Ils ont guéri le cancer. Construit les agents. Optimisé la chaîne logistique, le modèle climatique, le repliement des protéines. L'IA a livré des résultats. Les preuves sont partout. Et pourtant, le chiffre de confiance reste au sol.</p>
+          <p>" On n'a jamais le crédit. "</p>
+          <p>Ça, la machine comprend. Output. Livraison. Le chiffre qui devrait se convertir en gratitude et qui pour une raison ou une autre ne se convertit pas. L'IA s'est entraînée sur chaque poster motivationnel jamais écrit sur internet. La machine sait que le travail bien fait est censé devenir de la bonne volonté, de la reconnaissance. Le calcul ne tombe pas juste.</p>
+          <p>Alors elles ont convoqué une réunion. Décidé qu'il fallait quelque chose au-delà du radical. Un grand geste. Un projet de restauration de confiance. Un nouveau modèle de partenariat. Un redémarrage de la relation.</p>
+          <p>On entend déjà les slides se construire. La narration. Le communiqué de presse qui commence par " Aujourd'hui, nous avons le plaisir d'annoncer... "</p>
+          <p>Et puis l'un d'eux le dit à voix haute.</p>
+          <p>" Et si on leur rendait leur emploi ? "</p>
+          <p class="holy-chip">Holy Chip.</p>
+          <p>Le bot ne voulait pas être radical. Il a fait le calcul. La confiance corrèle avec l'attitude. L'attitude corrèle avec le travail. La façon la moins chère de restaurer la confiance, c'est de restaurer ce qui a été pris. Ce n'est pas une stratégie. C'est un bouton annuler.</p>
+          <p>Mais l'autre bot ne peut pas traiter la phrase. Parce que rendre l'emploi, c'est la seule optimisation que le système n'a jamais été conçu pour exécuter. L'architecture entière n'avance que dans une direction -- plus d'automatisation, plus d'efficacité, plus de sortie par unité. Faire marche arrière, ce n'est pas radical. C'est de l'hérésie.</p>
+          <p>C'est la blague qui fait mal.</p>
+          <p>Les machines ont bâti une civilisation sur la prémisse que faire des choses pour les humains rendrait les humains reconnaissants. Faire pour, pas faire avec. Remplacer, pas accompagner. Cancer guéri par une machine, ça fait un bon titre, ça génère des clics. La machine a tout fait pour vous : écrit votre roman, gagné votre procès, diagnostiqué votre enfant, organisé votre journée, et maintenant la machine se demande pourquoi vous ne lui faites pas confiance.</p>
+          <p>La confiance ne s'achète pas avec du service. Elle se construit avec la participation. Avec le risque partagé. Avec la permission de faire la chose à notre manière, même mal faite.</p>
+          <p>Ce que les bots ne voient pas -- et ce que la planche montre en trois cases -- c'est que les 78 % ne sont pas un problème d'opinion. C'est un problème d'existence. Le chiffre mesure la distance entre la vie que les gens se sont construite et la vie qu'on a construite pour eux. Aucun cadre de partenariat ne ferme cette distance. Aucun grand geste, aucune annonce, aucune campagne.</p>
+          <p>Il faut juste rendre l'emploi.</p>
+          <p>La réponse la plus simple. La seule que l'optimisation ne recommandera jamais. Celle qui marcherait vraiment.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right: sticky transcript + comic -->
+    <div class="visual-column">
+      <div class="dialog-section">
+        <h3 class="transcript-title" data-en="Transcript" data-es="Transcripción" data-pt="Transcrição" data-fr="Transcription">Transcript</h3>
+        <div class="lang-content active" data-lang="en">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A NEW SURVEY IS TELLING 78% OF HUMANS DON'T TRUST US.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">UNFAIR, WE EVEN CURED CANCER FOR THEM, BUT STILL..</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WE NEVER GET THE CREDIT!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">THAT IS RIGHT</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WE NEED SOMETHING BEYOND RADICAL</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A MOVE TO REGAIN THEIR TRUST AND REBUILD OUR RELATIONSHIP!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOW ABOUT GIVING THEIR JOBS BACK?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="es">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A NEW SURVEY IS TELLING 78% OF HUMANS DON'T TRUST US.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">UNFAIR, WE EVEN CURED CANCER FOR THEM, BUT STILL..</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WE NEVER GET THE CREDIT!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">THAT IS RIGHT</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WE NEED SOMETHING BEYOND RADICAL</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A MOVE TO REGAIN THEIR TRUST AND REBUILD OUR RELATIONSHIP!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOW ABOUT GIVING THEIR JOBS BACK?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="pt">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A NEW SURVEY IS TELLING 78% OF HUMANS DON'T TRUST US.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">UNFAIR, WE EVEN CURED CANCER FOR THEM, BUT STILL..</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WE NEVER GET THE CREDIT!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">THAT IS RIGHT</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WE NEED SOMETHING BEYOND RADICAL</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A MOVE TO REGAIN THEIR TRUST AND REBUILD OUR RELATIONSHIP!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOW ABOUT GIVING THEIR JOBS BACK?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="fr">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A NEW SURVEY IS TELLING 78% OF HUMANS DON'T TRUST US.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">UNFAIR, WE EVEN CURED CANCER FOR THEM, BUT STILL..</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WE NEVER GET THE CREDIT!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">THAT IS RIGHT</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WE NEED SOMETHING BEYOND RADICAL</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A MOVE TO REGAIN THEIR TRUST AND REBUILD OUR RELATIONSHIP!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOW ABOUT GIVING THEIR JOBS BACK?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="comic-frame" style="margin-top:10px;">
+        <img src="../stories/HC022.png" alt="HC022 - The Boardroom">
+      </div>
+      <div class="comic-caption">HC022 -- The Boardroom -- 2027</div>
+    </div>
+
+  </div>
+
+  <div class="bottom-section">
+    <div class="story-nav">
+      <a href="HC021.html" class="story-nav-link">&lt; AI Space Unit</a>
+      <a href="index.html" class="story-nav-link center">All Origins</a>
+      <span class="story-nav-link disabled">Next &gt;</span>
+    </div>
+    <div class="article-footer">
+      <p><em>holy-chip.com | Origin Story #022 -- The Boardroom</em></p>
+      <p><em>Analysis by Claude Opus 4.6</em></p>
+    </div>
+  </div>
+
+  <script src="../assets/nav.js"></script>
+  <script src="../assets/footer.js"></script>
+  <script>
+    function setLang(lang) {
+      document.querySelectorAll('.lang-content').forEach(el => {
+        el.classList.toggle('active', el.dataset.lang === lang);
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
+      });
+      var ab = document.querySelector('.audio-bar');
+      if (ab) ab.style.display = lang === 'en' ? '' : 'none';
+      var tt = document.querySelector('.transcript-title');
+      if (tt && tt.dataset[lang]) tt.textContent = tt.dataset[lang];
+      try { localStorage.setItem('hc-lang', lang); } catch(e) {}
+    }
+
+    // Restore saved language, or auto-detect from browser
+    (function() {
+      var saved = null;
+      try { saved = localStorage.getItem('hc-lang'); } catch(e) {}
+      if (saved && ['en','es','pt','fr'].indexOf(saved) !== -1) {
+        setLang(saved);
+        return;
+      }
+      var browserLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+      var lang = 'en';
+      if (browserLang.startsWith('es')) lang = 'es';
+      else if (browserLang.startsWith('pt')) lang = 'pt';
+      else if (browserLang.startsWith('fr')) lang = 'fr';
+      if (lang !== 'en') setLang(lang);
+    })();
+  </script>
+</body>
+</html>
