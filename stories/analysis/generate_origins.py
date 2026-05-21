@@ -300,7 +300,12 @@ def generate_page(idx):
     subtitle = story['subtitle']
     meta = story['meta']
 
-    print(f"Generating {sid} -- {title}...")
+    # Check whether an English narration MP3 exists for this story.
+    # If not, we skip rendering the audio player block entirely.
+    audio_path = os.path.join(OUTPUT_DIR, "audio", f"{sid}.mp3")
+    has_audio = os.path.exists(audio_path)
+
+    print(f"Generating {sid} -- {title}...{'' if has_audio else '  (no audio)'}")
 
     # Read blog files
     blog_en = read_file(os.path.join(ANALYSIS_DIR, f"{sid}.blog.md"))
@@ -369,6 +374,18 @@ def generate_page(idx):
     es_block = lang_block('es', es_opener, es_body)
     pt_block = lang_block('pt', pt_opener, pt_body)
     fr_block = lang_block('fr', fr_opener, fr_body)
+
+    # Audio player block: only render when the MP3 exists. Empty string
+    # otherwise so the top-bar still lays out cleanly with just the lang toggle.
+    if has_audio:
+        audio_bar_html = f'''<div class="audio-bar">
+      <div class="audio-label">Listen to this origin</div>
+      <audio controls preload="metadata">
+        <source src="audio/{sid}.mp3" type="audio/mpeg">
+      </audio>
+    </div>'''
+    else:
+        audio_bar_html = ''
 
     page_html = f'''<!DOCTYPE html>
 <html lang="en">
@@ -700,12 +717,7 @@ def generate_page(idx):
   </div>
 
   <div class="top-bar">
-    <div class="audio-bar">
-      <div class="audio-label">Listen to this origin</div>
-      <audio controls preload="metadata">
-        <source src="audio/{sid}.mp3" type="audio/mpeg">
-      </audio>
-    </div>
+    {audio_bar_html}
     <div class="lang-bar">
       <button class="lang-btn active" onclick="setLang('en')">EN</button>
       <button class="lang-btn" onclick="setLang('es')">ES</button>
