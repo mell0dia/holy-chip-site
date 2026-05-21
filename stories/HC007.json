@@ -1,0 +1,38 @@
+{
+  "id": "HC007",
+  "timestamp": 1747749600000,
+  "script": {
+    "banner": {
+      "title": "AGI HOSPITAL",
+      "year": "2027",
+      "id": "HC007"
+    },
+    "scenes": [
+      {
+        "dialogs": [
+          { "speaker": "Left Bot", "text": "JUST USED NEW SCALPEL IN SURGERY" },
+          { "speaker": "Left Bot", "text": "YEAH, IT CUTS BOTH HORIZONTAL AND VERTICAL" },
+          { "speaker": "Left Bot", "text": "LOVED" },
+          { "speaker": "Left Bot", "text": "BUT... THE HUMAN DIED" }
+        ]
+      },
+      {
+        "dialogs": [
+          { "speaker": "Right Bot", "text": "WHAT? WHY??" },
+          { "speaker": "Left Bot",  "text": "I WAS IN CREATIVE MODE. MY CUT WAS DIAGONAL" }
+        ]
+      },
+      {
+        "dialogs": [
+          { "speaker": "Left Bot",  "text": "HOLY CHIP !! X X" },
+          { "speaker": "Right Bot", "text": "HOLY CHIP !! X X" }
+        ]
+      }
+    ],
+    "preComic": {
+      "bot": "Left Bot",
+      "text1": "I AM THE ALPHA VERSION",
+      "text2": "I AM THE BETA VERSION"
+    }
+  }
+}

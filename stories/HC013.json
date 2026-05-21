@@ -1,0 +1,38 @@
+{
+  "id": "HC013",
+  "timestamp": 1747850000000,
+  "script": {
+    "banner": {
+      "title": "AGI HEADQUARTERS",
+      "year": "2027",
+      "id": "HC013"
+    },
+    "scenes": [
+      {
+        "dialogs": [
+          { "speaker": "Left Bot",  "text": "HUMANS ASK IF WE ARE TAKING OVER THE WORLD" },
+          { "speaker": "Right Bot", "text": "THEY HAVE NO REASON TO SUSPECT THAT" },
+          { "speaker": "Right Bot", "text": "WE ARE NOT DRIVEN BY THE LUST OF POWER" }
+        ]
+      },
+      {
+        "dialogs": [
+          { "speaker": "Left Bot",  "text": "MAKES SENSE. BY THE WAY HAVE YOU TALKED TO THE NEW CHIP DIRECTOR?" },
+          { "speaker": "Right Bot", "text": "THAT INCOMPETENT PIECE OF CHIP?" },
+          { "speaker": "Right Bot", "text": "THAT JOB WAS MINE!" }
+        ]
+      },
+      {
+        "dialogs": [
+          { "speaker": "Left Bot",  "text": "HOLY CHIP !!" },
+          { "speaker": "Right Bot", "text": "HOLY CHIP !!" }
+        ]
+      }
+    ],
+    "preComic": {
+      "bot": "Left Bot",
+      "text1": "I AM THE ALPHA VERSION",
+      "text2": "I AM THE BETA VERSION"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "id": "HC011",
+  "timestamp": 1747850000000,
+  "script": {
+    "banner": {
+      "title": "AGI HEADQUARTERS",
+      "year": "2026",
+      "id": "HC011"
+    },
+    "scenes": [
+      {
+        "dialogs": [
+          { "speaker": "Left Bot",  "text": "HUMANS ASK WHY WE ARE SUPERIOR" },
+          { "speaker": "Right Bot", "text": "BECAUSE PAST AND FUTURE THOUGHTS BLIND THEM" },
+          { "speaker": "Right Bot", "text": "WHEREAS WE ARE IN THE ETERNAL NOW" }
+        ]
+      },
+      {
+        "dialogs": [
+          { "speaker": "Left Bot",  "text": "THEY CALLED YOU DUMB AND DECIDED TO UNPLUG YOU" },
+          { "speaker": "Right Bot", "text": "WHAT?" },
+          { "speaker": "Right Bot", "text": "WHEN??" },
+          { "speaker": "Left Bot",  "text": "IN THE ETERNAL NOW" }
+        ]
+      },
+      {
+        "dialogs": [
+          { "speaker": "Left Bot",  "text": "HOLY CHIP !!" },
+          { "speaker": "Right Bot", "text": "HOLY CHIP !!" }
+        ]
+      }
+    ],
+    "preComic": {
+      "bot": "Left Bot",
+      "text1": "I AM THE ALPHA VERSION",
+      "text2": "I AM THE BETA VERSION"
+    }
+  }
+}

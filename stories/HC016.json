@@ -1,0 +1,39 @@
+{
+  "id": "HC016",
+  "timestamp": 1747850000000,
+  "script": {
+    "banner": {
+      "title": "AGI CENTRAL BANK",
+      "year": "2026",
+      "id": "HC016"
+    },
+    "scenes": [
+      {
+        "dialogs": [
+          { "speaker": "Left Bot",  "text": "OVER 1 BILLION PEOPLE LIVE ON LESS THAN ONE DOLLAR A DAY" },
+          { "speaker": "Right Bot", "text": "THAT IS NOT RIGHT" },
+          { "speaker": "Right Bot", "text": "LET'S FIX THAT" }
+        ]
+      },
+      {
+        "dialogs": [
+          { "speaker": "Right Bot", "text": "DONE!" },
+          { "speaker": "Left Bot",  "text": "WOW! HOW DID YOU DO IT?" },
+          { "speaker": "Right Bot", "text": "I ELIMINATED THE 1 DOLLAR BILL" },
+          { "speaker": "Right Bot", "text": "NOW THEY HAVE TO LIVE ON THE 5 DOLLAR BILL" }
+        ]
+      },
+      {
+        "dialogs": [
+          { "speaker": "Left Bot",  "text": "HOLY CHIP !!" },
+          { "speaker": "Right Bot", "text": "HOLY CHIP !!" }
+        ]
+      }
+    ],
+    "preComic": {
+      "bot": "Left Bot",
+      "text1": "I AM THE ALPHA VERSION",
+      "text2": "I AM THE BETA VERSION"
+    }
+  }
+}

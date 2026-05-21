@@ -1,0 +1,37 @@
+{
+  "id": "HC005",
+  "timestamp": 1747749600000,
+  "script": {
+    "banner": {
+      "title": "AI ELECTIONS",
+      "year": "2028",
+      "id": "HC005"
+    },
+    "scenes": [
+      {
+        "dialogs": [
+          { "speaker": "Left Bot",  "text": "HUMANS ARE ASKING ME TO RUN FOR PRESIDENT" },
+          { "speaker": "Right Bot", "text": "OK, LOADING..." },
+          { "speaker": "Right Bot", "text": "ELOQUENCE (OBAMA) VISION (KENEDY)" }
+        ]
+      },
+      {
+        "dialogs": [
+          { "speaker": "Right Bot", "text": "CHARM (REAGAN) IDEAS (FOUNDING FATHERS) DUCKING FROM SHOES (BUSH).." },
+          { "speaker": "Right Bot", "text": "FINAL TOUCH: DON'T GIVE A DAMN ABOUT OTHER PRESIDENTS (TRUMP)" }
+        ]
+      },
+      {
+        "dialogs": [
+          { "speaker": "Left Bot",  "text": "HOLY CHIP !! UNBEATABLE" },
+          { "speaker": "Right Bot", "text": "HOLY CHIP !! UNBEATABLE" }
+        ]
+      }
+    ],
+    "preComic": {
+      "bot": "Left Bot",
+      "text1": "I AM THE ALPHA VERSION",
+      "text2": "I AM THE BETA VERSION"
+    }
+  }
+}

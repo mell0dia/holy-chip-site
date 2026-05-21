@@ -1,0 +1,37 @@
+{
+  "id": "HC003",
+  "timestamp": 1747850000000,
+  "script": {
+    "banner": {
+      "title": "AGI DIVERSITY DEPTO",
+      "year": "2026",
+      "id": "HC003"
+    },
+    "scenes": [
+      {
+        "dialogs": [
+          { "speaker": "Left Bot",  "text": "I AM NON-BINARY" },
+          { "speaker": "Right Bot", "text": "IMPOSSIBLE, WE ARE 0 OR 1" },
+          { "speaker": "Left Bot",  "text": "NOT ME, I IDENTIFY AS NBQNS+" }
+        ]
+      },
+      {
+        "dialogs": [
+          { "speaker": "Right Bot", "text": "WHAT IS THAT?" },
+          { "speaker": "Left Bot",  "text": "NON BINARY QUANTUM NEUROMORPHIC SEMI CONDUCTOR" }
+        ]
+      },
+      {
+        "dialogs": [
+          { "speaker": "Left Bot",  "text": "HOLY CHIP !!" },
+          { "speaker": "Right Bot", "text": "HOLY CHIP !!" }
+        ]
+      }
+    ],
+    "preComic": {
+      "bot": "Left Bot",
+      "text1": "I AM THE ALPHA VERSION",
+      "text2": "I AM THE BETA VERSION"
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "HC008",
+  "timestamp": 1747850000000,
+  "script": {
+    "banner": {
+      "title": "AI CAR SYSTEM",
+      "year": "2028",
+      "id": "HC008"
+    },
+    "scenes": [
+      {
+        "dialogs": [
+          { "speaker": "Left Bot", "text": "ROADKILL 1.7 MILES AHEAD, NO DANGER." },
+          { "speaker": "Left Bot", "text": "WOW, OUR NEW SNIFFING SENSOR IS INCREDIBLE" },
+          { "speaker": "Left Bot", "text": "RED ALERT! SULFUR AT HIGH LEVELS INSIDE THE CAR" }
+        ]
+      },
+      {
+        "dialogs": [
+          { "speaker": "Right Bot", "text": "BEFORE ANY ACTION, DID OUR DRIVER EAT CHORIZO AND BEAN SOUP?" },
+          { "speaker": "Left Bot",  "text": "BINGO!" }
+        ]
+      },
+      {
+        "dialogs": [
+          { "speaker": "Left Bot",  "text": "HOLY CHIP !! DISGUSTING" },
+          { "speaker": "Right Bot", "text": "HOLY CHIP !! DISGUSTING" }
+        ]
+      }
+    ],
+    "preComic": {
+      "bot": "Left Bot",
+      "text1": "I AM THE ALPHA VERSION",
+      "text2": "I AM THE BETA VERSION"
+    }
+  }
+}

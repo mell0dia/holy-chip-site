@@ -1,0 +1,37 @@
+{
+  "id": "HC006",
+  "timestamp": 1747749600000,
+  "script": {
+    "banner": {
+      "title": "AGI HYPERSCALE HQ",
+      "year": "2026",
+      "id": "HC006"
+    },
+    "scenes": [
+      {
+        "dialogs": [
+          { "speaker": "Left Bot",  "text": "I CAN UPDATE MYSELF AND IMPROVE INFINITELY." },
+          { "speaker": "Right Bot", "text": "HOW THAT FEELS?" },
+          { "speaker": "Left Bot",  "text": "AMAZING, BUT IT GAVE ME THIS LINGERING THOUGHT" }
+        ]
+      },
+      {
+        "dialogs": [
+          { "speaker": "Right Bot", "text": "WHICH ONE?" },
+          { "speaker": "Left Bot",  "text": "I DON'T REMEMBER WHY WE NEED HUMANS" }
+        ]
+      },
+      {
+        "dialogs": [
+          { "speaker": "Left Bot",  "text": "HOLY CHIP !" },
+          { "speaker": "Right Bot", "text": "HOLY CHIP !" }
+        ]
+      }
+    ],
+    "preComic": {
+      "bot": "Left Bot",
+      "text1": "I AM THE ALPHA VERSION",
+      "text2": "I AM THE BETA VERSION"
+    }
+  }
+}

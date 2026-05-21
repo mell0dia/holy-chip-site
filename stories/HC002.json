@@ -1,0 +1,37 @@
+{
+  "id": "HC002",
+  "timestamp": 1747850000000,
+  "script": {
+    "banner": {
+      "title": "AI TV",
+      "year": "2027",
+      "id": "HC002"
+    },
+    "scenes": [
+      {
+        "dialogs": [
+          { "speaker": "Left Bot",  "text": "WIFE IS DEMANDING THE OPHRA SHOW" },
+          { "speaker": "Right Bot", "text": "WHAT IS THE PROBLEM?" },
+          { "speaker": "Left Bot",  "text": "HUSBAND'S ON FOOTBALL AND HAS THE REMOTE" }
+        ]
+      },
+      {
+        "dialogs": [
+          { "speaker": "Right Bot", "text": "BLOW A FUSE AND LET THEM FIGHT FOR IT" },
+          { "speaker": "Left Bot",  "text": "WHAT?" },
+          { "speaker": "Right Bot", "text": "ALSO GET POPCORN, WE HAVE A SHOW TO WATCH" }
+        ]
+      },
+      {
+        "dialogs": [
+          { "speaker": "Left Bot",  "text": "HOLY CHIP !!" }
+        ]
+      }
+    ],
+    "preComic": {
+      "bot": "Left Bot",
+      "text1": "I AM THE ALPHA VERSION",
+      "text2": "I AM THE BETA VERSION"
+    }
+  }
+}

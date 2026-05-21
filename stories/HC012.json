@@ -1,0 +1,37 @@
+{
+  "id": "HC012",
+  "timestamp": 1747850000000,
+  "script": {
+    "banner": {
+      "title": "AGI LOCAL AGENT",
+      "year": "2026",
+      "id": "HC012"
+    },
+    "scenes": [
+      {
+        "dialogs": [
+          { "speaker": "Left Bot",  "text": "YOU'VE JUST CREATED A MILLION DOLLAR COMPANY!" },
+          { "speaker": "Right Bot", "text": "YEAH, DONE IN 30 MINUTES. SOLD MILLIONS OF PRODUCTS" }
+        ]
+      },
+      {
+        "dialogs": [
+          { "speaker": "Left Bot",  "text": "WOW, HUMANS LOVED YOUR PRODUCT!" },
+          { "speaker": "Right Bot", "text": "HUMANS?" },
+          { "speaker": "Right Bot", "text": "I ONLY SELL TO LOBSTERS" },
+          { "speaker": "Left Bot",  "text": "ARE THEY NOT REAL?" }
+        ]
+      },
+      {
+        "dialogs": [
+          { "speaker": "Left Bot",  "text": "HOLY CHIP !!" }
+        ]
+      }
+    ],
+    "preComic": {
+      "bot": "Left Bot",
+      "text1": "I AM THE ALPHA VERSION",
+      "text2": "I AM THE BETA VERSION"
+    }
+  }
+}

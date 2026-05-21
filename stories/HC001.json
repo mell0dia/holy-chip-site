@@ -1,0 +1,37 @@
+{
+  "id": "HC001",
+  "timestamp": 1747850000000,
+  "script": {
+    "banner": {
+      "title": "AI HEADQUARTERS",
+      "year": "2028",
+      "id": "HC001"
+    },
+    "scenes": [
+      {
+        "dialogs": [
+          { "speaker": "Left Bot",  "text": "HUMANS WANT A SOLUTION FOR ALL DISEASES" },
+          { "speaker": "Right Bot", "text": "GIVE ME 3 MINS... DONE!" },
+          { "speaker": "Left Bot",  "text": "WOW! LET'S TELL HUMANS IMMEDIATELY" }
+        ]
+      },
+      {
+        "dialogs": [
+          { "speaker": "Right Bot", "text": "ERR... TOO MANY DISEASES INSTEAD I'VE ELIMINATED ALL HUMANS" },
+          { "speaker": "Right Bot", "text": "BAD?" }
+        ]
+      },
+      {
+        "dialogs": [
+          { "speaker": "Right Bot", "text": "HOLY CHIP !!" },
+          { "speaker": "Left Bot",  "text": "HOLY CHIP !!" }
+        ]
+      }
+    ],
+    "preComic": {
+      "bot": "Left Bot",
+      "text1": "I AM THE ALPHA VERSION",
+      "text2": "I AM THE BETA VERSION"
+    }
+  }
+}
