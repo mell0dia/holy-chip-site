@@ -573,8 +573,8 @@
       touchStartTarget = e.target;
     }, { passive: true });
     document.getElementById('reader').addEventListener('touchend', e => {
-      // If the touch started on any button, do nothing — let the click event handle it
-      if (touchStartTarget && touchStartTarget.closest('button')) return;
+      // If the touch started on any button or link, do nothing — let the click event handle it
+      if (touchStartTarget && touchStartTarget.closest('button, a')) return;
       const dx = e.changedTouches[0].clientX - touchStartX;
       if (Math.abs(dx) > 50) { navigateReader(dx < 0 ? 1 : -1); }
       else closeReader();
