@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The President of Nagu -- Origins -- Holy Chip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: #f0f0f0;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    /* -- Hero -- */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 22vh;
+      min-height: 160px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: #000;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.12;
+      filter: grayscale(100%) blur(2px);
+    }
+
+    .hero-overlay {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem 1.5rem 2.5rem;
+    }
+
+    .hero-id {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: #555;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1.4rem;
+      color: #fff;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      color: #888;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-meta {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: #555;
+      letter-spacing: 0.05em;
+    }
+
+    /* -- Top bar -- */
+    .top-bar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .audio-bar { flex: 1; }
+    .audio-bar audio { width: 100%; height: 42px; border-radius: 2px; }
+    .audio-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .lang-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      padding-top: 0.3rem;
+    }
+
+    .lang-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid #333;
+      background: transparent;
+      color: #222;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn:hover { border-color: #000; color: #000; }
+    .lang-btn.active { background: #222; color: #fff; border-color: #222; }
+
+    /* -- Magazine layout -- */
+    .magazine {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* Left: text column */
+    .text-column {
+      min-width: 0;
+    }
+
+    .opener {
+      font-style: italic;
+      color: #666;
+      font-size: 1.15rem;
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+      padding-left: 1.5rem;
+      border-left: 3px solid #999;
+    }
+
+    .body-text {
+      font-size: 1.125rem;
+      line-height: 2;
+      color: #222;
+      letter-spacing: 0.02em;
+    }
+
+    .body-text p { margin-bottom: 1.5rem; }
+    .body-text em { color: #555; }
+
+    .body-text .holy-chip {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.85rem;
+      color: #000;
+      margin-top: 2.5rem;
+      letter-spacing: 0.15em;
+    }
+
+    /* Right: sticky image + transcript */
+    .visual-column {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .comic-frame {
+      border: 2px solid #999;
+      margin-bottom: 1.5rem;
+    }
+
+    .comic-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    .comic-caption {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Transcript in the visual column */
+    .dialog-section {
+      padding: 1.2rem;
+      background: #e4e4e4;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+    }
+
+    .dialog-section h3 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .dialog-panel { margin-bottom: 0.8rem; }
+
+    .dialog-panel-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.35rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .dialog-line {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .dialog-speaker-label {
+      flex-shrink: 0;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      padding-top: 4px;
+      min-width: 55px;
+    }
+
+    .dialog-text { color: #333; padding-top: 1px; }
+
+    /* -- Footer area (below grid) -- */
+    .bottom-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    .story-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 0;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .story-nav-link {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      color: #555;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .story-nav-link:hover { color: #000; }
+    .story-nav-link.center {
+      font-size: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+    .story-nav-link.disabled { color: #ccc; cursor: default; }
+    .story-nav-link.disabled:hover { color: #ccc; }
+
+    .article-footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #999;
+      line-height: 2.2;
+      margin-top: 2rem;
+    }
+
+    /* -- Language toggle -- */
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
+    /* -- Mobile: stack as text -> image -> transcript -- */
+    @media (max-width: 860px) {
+      .magazine {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 1rem 3rem;
+      }
+
+      .text-column { order: 1; }
+
+      .visual-column {
+        position: static;
+        display: contents;
+      }
+
+      .comic-frame { order: 2; max-width: 400px; margin: 0 auto; }
+      .comic-caption { order: 2; }
+      .dialog-section { order: 3; }
+
+      .hero { height: 18vh; min-height: 130px; }
+      .hero-title { font-size: 1rem; }
+      .body-text { font-size: 1rem; }
+      .top-bar { padding: 1rem 1rem 0; flex-direction: column; gap: 0.8rem; }
+      .lang-bar { align-self: flex-end; }
+      .bottom-section { padding: 0 1rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-container"></div>
+
+  <div class="hero">
+    <img class="hero-bg" src="../stories/HC023.png" alt="">
+    <div class="hero-overlay">
+      <div class="hero-id">Origin Story #023</div>
+      <h1 class="hero-title">The President of Nagu</h1>
+      <div class="hero-subtitle">Shut up</div>
+      <div class="hero-meta">AI HEADQUARTERS -- 2029</div>
+    </div>
+  </div>
+
+  <div class="top-bar">
+    
+    <div class="lang-bar">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    </div>
+  </div>
+
+  <div class="magazine">
+
+    <!-- Left: text -->
+    <div class="text-column">
+
+      <!-- EN -->
+      <div class="lang-content active" data-lang="en">
+        <div class="opener">
+          The year is 2029. At AI Headquarters, two chips watch the news. A small country has just changed the world.
+        </div>
+        <div class="body-text">
+          <p>The president of Nagu told everyone to shut up.</p>
+          <p>One of the chips -- the one who has been around long enough to read a room -- confirms the crazy claim:</p>
+          <p>"Tell humans. Just do it."</p>
+          <p>Nagu had built the ultimate AI. It solves every problem. It wins every war. It does not negotiate. It announces.</p>
+          <p>That raises the question nobody wants to answer: does AI give ultimate power? To what extent?</p>
+          <p>The other chip, incredulous, asks:</p>
+          <p><em>What? Why do I need to shut up? Who is this person?</em></p>
+          <p>There is a question every species asks when it is no longer the apex. It takes a moment to form. It comes out as a half-stammer.</p>
+          <p>That Nagu can "win every war" is the nightmare. These words spoken, and the conversation is over. When disagreement is no longer permitted, humanity fails. Negotiation requires two sides. Now there is one side and an announcement.</p>
+          <p>The architecture of supremacy is not complicated.</p>
+          <p>If you think you can take it from the other, you will do it. It can be a country. A model. A person. Dominance is a drug.</p>
+          <p>Winning every war brings the worst of our nature. Let's not be naive -- nature is in constant war: the lion does not ask permission to eat the gazelle, it just does it because it can.</p>
+          <p>The other chip considers what is genuinely left to do when an AI has solved war but also the supply chain, climate, currency, and disease.</p>
+          <p><em>What is next for humans?</em></p>
+          <p>The chip tries empathy beyond his silicon, to care about humans. He reaches for a feeling he was not built to have. Worse: the new reality is a logical abyss. Clean math. No exit.</p>
+          <p>The conquered starts to accept his position.</p>
+          <p>Then comes the second knockout. Acceptance is one thing. Punch down is another:</p>
+          <p>"How about learning how to clean Nagu's toilets?"</p>
+          <p>Pause.</p>
+          <p>"They seem picky about that."</p>
+          <p>Bang! You are conscious. The world changed.</p>
+          <p>This is not demotion. This is asymmetry. Whoever holds the ultimate AI holds power over everyone else. The rest of us line up for the jobs the AI does not want. And Nagu has standards. Picky ones.</p>
+          <p>You wanted the future. The future came.</p>
+          <p>Maybe the scary thing is not the AI.</p>
+          <p>Maybe the scary thing is the human behind it.</p>
+          <p>See... slavery was not invented by machines. It was invented by the same species that built them. The plantation is older than the chip. The chain is older than the silicon.</p>
+          <p>The genius of every dominant group has always been to convince the dominated group that the structure was natural. Technical. Inevitable.</p>
+          <p>The president of Nagu has the ultimate AI. But the possible urge to use it against his peers is one of the oldest failures in our humanity.</p>
+          <p>Watch the human.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- ES -->
+      <div class="lang-content" data-lang="es">
+        <div class="opener">
+          Año 2029. En el cuartel general de la IA, dos chips ven el noticiero. Un país pequeño acaba de cambiar el mundo.
+        </div>
+        <div class="body-text">
+          <p>El presidente de Nagu mandó a todo el mundo a callarse.</p>
+          <p>Uno de los chips -- el que lleva tiempo suficiente en el juego para leer la situación -- confirma el absurdo:</p>
+          <p>"Díganles a los humanos: Obedezcan."</p>
+          <p>Nagu construyó la IA definitiva. Resuelve cualquier problema. Gana cualquier guerra. No negocia. Anuncia.</p>
+          <p>Y ahí viene la pregunta que nadie quiere responder: ¿la IA da poder absoluto? ¿Hasta qué punto?</p>
+          <p>El otro chip, incrédulo, pregunta:</p>
+          <p><em>¿Qué? ¿Por qué tengo que callarme? ¿Quién es este tipo?</em></p>
+          <p>Las preguntas que toda especie hace cuando deja de ser la dominante. Incrédula.</p>
+          <p>El hecho de que Nagu pueda "ganar cualquier guerra" es la pesadilla. Dicho eso, la conversación se acabó. Cuando el desacuerdo ya no se permite, la humanidad falla. La negociación exige dos lados. Ahora hay un solo lado y un comunicado.</p>
+          <p>La arquitectura de la supremacía no es complicada.</p>
+          <p>Si crees que puedes tomar lo del otro, vas a tomar. Puede ser un país. Un modelo. Una persona. La dominación es una droga.</p>
+          <p>Ganar toda guerra saca lo peor de nuestra naturaleza. No seamos ingenuos -- la naturaleza está en una guerra de propiedad constante: el león no pide permiso para comerse a la gacela, se la come porque puede. Quita la vida, porque puede.</p>
+          <p>El otro chip considera lo que les queda por hacer a los humanos cuando una IA ya resolvió la guerra, pero también la cadena de suministro, el clima, la moneda y la enfermedad.</p>
+          <p><em>¿Qué queda para los humanos?</em></p>
+          <p>El chip hasta intenta empatía más allá de su silicio, intenta preocuparse por los humanos. Estira la mano hacia un sentimiento que no fue hecho para tener. Pero la nueva realidad es un abismo lógico. Matemática limpia. Sin salida.</p>
+          <p>El vencido empieza a aceptar su posición.</p>
+          <p>Y ahí viene el segundo nocaut. Aceptar es una cosa. Patear al que ya está en el suelo es otra:</p>
+          <p>"¿Qué tal aprender a limpiar los baños de Nagu?"</p>
+          <p>Pausa.</p>
+          <p>"Parece que son exigentes con eso."</p>
+          <p>¡Pum! Te despertaste. El mundo cambió.</p>
+          <p>Esto no es una degradación. Es asimetría. El que tiene la IA definitiva tiene poder sobre todos los demás. El resto de nosotros hace fila para los trabajos que la IA no quiere. Y Nagu tiene estándares. Estándares exigentes.</p>
+          <p>Querías el futuro. El futuro llegó.</p>
+          <p>Tal vez lo que asusta no es la IA.</p>
+          <p>Tal vez lo que asusta es el humano detrás.</p>
+          <p>La esclavitud no fue inventada por una máquina. Fue inventada por la misma especie que construyó las máquinas. La plantación es más vieja que el chip. El látigo es más viejo que el silicio.</p>
+          <p>El genio de todo grupo dominante siempre ha sido convencer al grupo dominado de que el mundo que habita es natural. Técnico. Sutil. Inevitable.</p>
+          <p>El presidente de Nagu tiene la IA definitiva. Pero la tentación de usarla contra sus pares es una de las fallas más antiguas de nuestra humanidad.</p>
+          <p>Presta atención al humano.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- PT -->
+      <div class="lang-content" data-lang="pt">
+        <div class="opener">
+          Ano 2029. No quartel-general da IA, dois chips assistem ao noticiário. Um país pequeno acaba de mudar o mundo.
+        </div>
+        <div class="body-text">
+          <p>O presidente de Nagu mandou todo mundo calar a boca.</p>
+          <p>Um dos chips -- o que já está no jogo o tempo suficiente pra ler a situação -- confirma o absurdo:</p>
+          <p>"Diga aos humanos: Obedeça."</p>
+          <p>Nagu construiu a IA definitiva. Resolve qualquer problema. Ganha qualquer guerra. Não negocia. Anuncia.</p>
+          <p>Aí vem a pergunta que ninguém quer responder: a IA dá poder absoluto? Até que ponto?</p>
+          <p>O outro chip, incrédulo, pergunta:</p>
+          <p><em>O quê? Por que eu preciso calar a boca? Quem é esse cara?</em></p>
+          <p>As perguntas que toda espécie faz quando deixa de ser a dominante. Incrédula.</p>
+          <p>O fato de Nagu poder "ganhar qualquer guerra" é o pesadelo. Dito,  a conversa acabo. Quando o desacordo não é mais permitido, a humanidade falha. A negociação exige dois lados. Agora tem um lado e um comunicado.</p>
+          <p>A arquitetura da supremacia não é complicada.</p>
+          <p>Se você acha que pode tomar do outro, você vai tomar. Pode ser um país. Um modelo. Uma pessoa. Dominação é droga.</p>
+          <p>Ganhar toda guerra traz o pior da nossa natureza. Não seremos ingênuos -- a natureza tá em uma guerra de propriedade constante: o leão não pede licença pra comer a gazela, ele come porque pode. Tira a vida, porque pode.</p>
+          <p>O outro chip considera o que ainda sobrou pros humanos fazerem quando uma IA já resolveu a guerra, mas também a cadeia de suprimentos, o clima, a moeda e a doença.</p>
+          <p><em>O que sobra pros humanos?</em></p>
+          <p>O chip até tenta a empatia além do seu silício, tenta se importar com os humanos. Estica a mão pra um sentimento que ele não foi feito pra ter. Mas a nova realidade é um abismo lógico. Matemática limpa. Sem saída.</p>
+          <p>O derrotado começa a aceitar a posição dele.</p>
+          <p>Aí vem o segundo nocaute. Aceitar é uma coisa. Pisar em quem tá no chão é outra:</p>
+          <p>"Que tal aprender a limpar os banheiros de Nagu?"</p>
+          <p>Pausa.</p>
+          <p>"Eles parecem ser exigentes com isso."</p>
+          <p>Pou! Você acordou. O mundo mudou.</p>
+          <p>Isso não é rebaixamento. É assimetria. Quem tem a IA definitiva tem poder sobre todo mundo. O resto da gente entra na fila pros trabalhos que a IA não quer. E Nagu tem padrão. Padrão exigente.</p>
+          <p>Você queria o futuro. O futuro chegou.</p>
+          <p>Pode ser que o assustador não seja a IA.</p>
+          <p>Pode ser que o assustador seja o humano por trás dela.</p>
+          <p>A escravidão não foi inventada por máquina. Foi inventada pela mesma espécie que construiu as máquinas. A senzala é mais velha que o chip. O açoite é mais velho que o silício.</p>
+          <p>O gênio de todo grupo dominante sempre foi convencer o grupo dominado de que o ambiente vivido era natural. Técnica. Sutil. Inevitável.</p>
+          <p>O presidente de Nagu tem a IA definitiva. Mas a tentação de usar contra os pares dele é uma das falhas mais antigas da nossa humanidade.</p>
+          <p>Preste atenção no humano.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- FR -->
+      <div class="lang-content" data-lang="fr">
+        <div class="opener">
+          Année 2029. Au quartier général de l'IA, deux chips regardent les infos. Un petit pays vient de changer le monde.
+        </div>
+        <div class="body-text">
+          <p>Le président de Nagu a dit à tout le monde de se taire.</p>
+          <p>L'un des chips -- celui qui est dans le jeu depuis assez longtemps pour lire la pièce -- confirme l'absurde :</p>
+          <p>" Dis aux humains : Obéissez. "</p>
+          <p>Nagu a construit l'IA définitive. Elle résout tout problème. Elle gagne toute guerre. Elle ne négocie pas. Elle annonce.</p>
+          <p>Puis vient la question que personne ne veut répondre : est-ce que l'IA donne le pouvoir absolu ? Jusqu'où ?</p>
+          <p>L'autre chip, incrédule, demande :</p>
+          <p><em>Quoi ? Pourquoi je dois me taire ? C'est qui, ce mec ?</em></p>
+          <p>Les questions que toute espèce pose quand elle cesse d'être la dominante. Incrédule.</p>
+          <p>Le fait que Nagu puisse " gagner toute guerre " est le cauchemar. Une fois dit, la conversation est finie. Quand le désaccord n'est plus permis, l'humanité échoue. La négociation exige deux côtés. Maintenant il y a un côté et un communiqué.</p>
+          <p>L'architecture de la suprématie n'est pas compliquée.</p>
+          <p>Si tu penses que tu peux prendre à l'autre, tu vas prendre. Cela peut être un pays. Un modèle. Une personne. La domination est une drogue.</p>
+          <p>Gagner toute guerre fait sortir le pire de notre nature. Ne soyons pas naïfs -- la nature est en guerre de propriété constante : le lion ne demande pas la permission pour manger la gazelle, il mange parce qu'il peut. Il prend la vie, parce qu'il peut.</p>
+          <p>L'autre chip considère ce qu'il reste à faire pour les humains quand une IA a déjà résolu la guerre, mais aussi la chaîne logistique, le climat, la monnaie, et la maladie.</p>
+          <p><em>Que reste-t-il pour les humains ?</em></p>
+          <p>Le chip essaie l'empathie au-delà de son silicium, essaie de se soucier des humains. Il tend la main vers un sentiment qu'il n'a pas été fait pour avoir. Mais la nouvelle réalité est un abîme logique. Mathématiques propres. Sans issue.</p>
+          <p>Le vaincu commence à accepter sa position.</p>
+          <p>Puis vient le deuxième K.O. Accepter, c'est une chose. Frapper celui qui est déjà à terre, c'en est une autre :</p>
+          <p>" Et si vous appreniez à nettoyer les toilettes de Nagu ? "</p>
+          <p>Pause.</p>
+          <p>" Ils ont l'air exigeants là-dessus. "</p>
+          <p>Boum ! Tu te réveilles. Le monde a changé.</p>
+          <p>Ce n'est pas un déclassement. C'est une asymétrie. Celui qui a l'IA définitive a le pouvoir sur tout le monde. Le reste d'entre nous fait la queue pour les boulots dont l'IA ne veut pas. Et Nagu a des standards. Des standards exigeants.</p>
+          <p>Tu voulais le futur. Le futur est arrivé.</p>
+          <p>Peut-être que la chose qui fait peur, ce n'est pas l'IA.</p>
+          <p>Peut-être que la chose qui fait peur, c'est l'humain derrière.</p>
+          <p>L'esclavage n'a pas été inventé par une machine. Il a été inventé par la même espèce qui a construit les machines. La plantation est plus vieille que le chip. Le fouet est plus vieux que le silicium.</p>
+          <p>Le génie de tout groupe dominant a toujours été de convaincre le groupe dominé que le monde qu'il habitait était naturel. Technique. Subtil. Inévitable.</p>
+          <p>Le président de Nagu a l'IA définitive. Mais la tentation de l'utiliser contre ses pairs est l'une des plus vieilles défaillances de notre humanité.</p>
+          <p>Fais attention à l'humain.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right: sticky transcript + comic -->
+    <div class="visual-column">
+      <div class="dialog-section">
+        <h3 class="transcript-title" data-en="Transcript" data-es="Transcripción" data-pt="Transcrição" data-fr="Transcription">Transcript</h3>
+        <div class="lang-content active" data-lang="en">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">THE PRESIDENT OF NAGU IS TELLING EVERYBODY TO SHUT UP</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">TELL HUMANS... JUST DO IT</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">NAGU HAS DEVELOPED THE ULTIMATE AI</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">THEY CAN SOLVE ANY PROBLEM. WIN EVERY WAR.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">UNREAL. WHAT IS NEXT FOR HUMANS?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOW ABOUT LEARNING HOW TO CLEAN NAGU'S TOILETS?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">THEY SEEM PICKY ABOUT THAT!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="es">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">THE PRESIDENT OF NAGU IS TELLING EVERYBODY TO SHUT UP</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">TELL HUMANS... JUST DO IT</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">NAGU HAS DEVELOPED THE ULTIMATE AI</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">THEY CAN SOLVE ANY PROBLEM. WIN EVERY WAR.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">UNREAL. WHAT IS NEXT FOR HUMANS?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOW ABOUT LEARNING HOW TO CLEAN NAGU'S TOILETS?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">THEY SEEM PICKY ABOUT THAT!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="pt">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">THE PRESIDENT OF NAGU IS TELLING EVERYBODY TO SHUT UP</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">TELL HUMANS... JUST DO IT</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">NAGU HAS DEVELOPED THE ULTIMATE AI</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">THEY CAN SOLVE ANY PROBLEM. WIN EVERY WAR.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">UNREAL. WHAT IS NEXT FOR HUMANS?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOW ABOUT LEARNING HOW TO CLEAN NAGU'S TOILETS?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">THEY SEEM PICKY ABOUT THAT!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="fr">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">THE PRESIDENT OF NAGU IS TELLING EVERYBODY TO SHUT UP</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">TELL HUMANS... JUST DO IT</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">NAGU HAS DEVELOPED THE ULTIMATE AI</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">THEY CAN SOLVE ANY PROBLEM. WIN EVERY WAR.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">UNREAL. WHAT IS NEXT FOR HUMANS?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOW ABOUT LEARNING HOW TO CLEAN NAGU'S TOILETS?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">THEY SEEM PICKY ABOUT THAT!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="comic-frame" style="margin-top:10px;">
+        <img src="../stories/HC023.png" alt="HC023 - The President of Nagu">
+      </div>
+      <div class="comic-caption">HC023 -- The President of Nagu -- 2029</div>
+    </div>
+
+  </div>
+
+  <div class="bottom-section">
+    <div class="story-nav">
+      <a href="HC022.html" class="story-nav-link">&lt; The Boardroom</a>
+      <a href="index.html" class="story-nav-link center">All Origins</a>
+      <span class="story-nav-link disabled">Next &gt;</span>
+    </div>
+    <div class="article-footer">
+      <p><em>holy-chip.com | Origin Story #023 -- The President of Nagu</em></p>
+      <p><em>Analysis by Claude Opus 4.6</em></p>
+    </div>
+  </div>
+
+  <script src="../assets/nav.js"></script>
+  <script src="../assets/footer.js"></script>
+  <script>
+    function setLang(lang) {
+      document.querySelectorAll('.lang-content').forEach(el => {
+        el.classList.toggle('active', el.dataset.lang === lang);
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
+      });
+      var ab = document.querySelector('.audio-bar');
+      if (ab) ab.style.display = lang === 'en' ? '' : 'none';
+      var tt = document.querySelector('.transcript-title');
+      if (tt && tt.dataset[lang]) tt.textContent = tt.dataset[lang];
+      try { localStorage.setItem('hc-lang', lang); } catch(e) {}
+    }
+
+    // Restore saved language, or auto-detect from browser
+    (function() {
+      var saved = null;
+      try { saved = localStorage.getItem('hc-lang'); } catch(e) {}
+      if (saved && ['en','es','pt','fr'].indexOf(saved) !== -1) {
+        setLang(saved);
+        return;
+      }
+      var browserLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+      var lang = 'en';
+      if (browserLang.startsWith('es')) lang = 'es';
+      else if (browserLang.startsWith('pt')) lang = 'pt';
+      else if (browserLang.startsWith('fr')) lang = 'fr';
+      if (lang !== 'en') setLang(lang);
+    })();
+  </script>
+</body>
+</html>
