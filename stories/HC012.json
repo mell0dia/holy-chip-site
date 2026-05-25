@@ -10,7 +10,7 @@
     "scenes": [
       {
         "dialogs": [
-          { "speaker": "Left Bot",  "text": "YOU'VE JUST CREATED A MILLION DOLLAR COMPANY!" },
+          { "speaker": "Left Bot",  "text": "YOU'VE JUST CREATED A BILLION DOLLAR COMPANY!" },
           { "speaker": "Right Bot", "text": "YEAH, DONE IN 30 MINUTES. SOLD MILLIONS OF PRODUCTS" }
         ]
       },
@@ -18,7 +18,7 @@
         "dialogs": [
           { "speaker": "Left Bot",  "text": "WOW, HUMANS LOVED YOUR PRODUCT!" },
           { "speaker": "Right Bot", "text": "HUMANS?" },
-          { "speaker": "Right Bot", "text": "I ONLY SELL TO LOBSTERS" },
+          { "speaker": "Right Bot", "text": "I ONLY SELL TO OTHER AIs AND THEIR LOBSTERS" },
           { "speaker": "Left Bot",  "text": "ARE THEY NOT REAL?" }
         ]
       },
