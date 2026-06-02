@@ -1,0 +1,15 @@
+{
+  "names": {
+    "_": "a411926faa6c4c20accf4c94f12414a0705d7842e3d6036af37bd779fb734504",
+    "holychip": "a411926faa6c4c20accf4c94f12414a0705d7842e3d6036af37bd779fb734504"
+  },
+  "relays": {
+    "a411926faa6c4c20accf4c94f12414a0705d7842e3d6036af37bd779fb734504": [
+      "wss://relay.damus.io",
+      "wss://nos.lol",
+      "wss://relay.primal.net",
+      "wss://relay.nostr.band",
+      "wss://relay.snort.social"
+    ]
+  }
+}
