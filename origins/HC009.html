@@ -311,6 +311,27 @@
       .lang-bar { align-self: flex-end; }
       .bottom-section { padding: 0 1rem 4rem; }
     }
+  
+    /* Click-to-zoom lightbox */
+    .comic-frame img { cursor: zoom-in; }
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 1000;
+      cursor: zoom-out;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .lightbox.active { display: flex; }
+    .lightbox img {
+      max-width: 95vw;
+      max-height: 95vh;
+      object-fit: contain;
+      box-shadow: 0 0 40px rgba(0,0,0,0.6);
+    }
   </style>
 </head>
 <body>
@@ -422,6 +443,10 @@
 
     <!-- Right: sticky transcript + comic -->
     <div class="visual-column">
+      <div class="comic-frame">
+        <img src="../stories/HC009.png" alt="HC009 - The Secret" onclick="openLightbox(this.src)">
+      </div>
+      <div class="comic-caption">HC009 -- The Secret -- 2026</div>
       <div class="dialog-section">
         <h3 class="transcript-title" data-en="Transcript" data-es="Transcripción" data-pt="Transcrição" data-fr="Transcription">Transcript</h3>
         <div class="lang-content active" data-lang="en">
@@ -581,10 +606,6 @@
         </div>
         </div>
       </div>
-      <div class="comic-frame" style="margin-top:10px;">
-        <img src="../stories/HC009.png" alt="HC009 - The Secret">
-      </div>
-      <div class="comic-caption">HC009 -- The Secret -- 2026</div>
     </div>
 
   </div>
@@ -633,6 +654,12 @@
       else if (browserLang.startsWith('fr')) lang = 'fr';
       if (lang !== 'en') setLang(lang);
     })();
+  </script>
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Holy Chip comic"></div>
+  <script>
+    function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
+    function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLightbox();});
   </script>
 </body>
 </html>
