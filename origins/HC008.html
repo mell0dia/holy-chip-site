@@ -332,6 +332,20 @@
       object-fit: contain;
       box-shadow: 0 0 40px rgba(0,0,0,0.6);
     }
+  
+    /* Mobile: small comic drop-thumbnail, text wraps around it */
+    .mobile-thumb { display: none; }
+    @media (max-width: 860px) {
+      .comic-frame, .comic-caption { display: none; }
+      .mobile-thumb {
+        display: block;
+        float: left;
+        width: 180px;
+        margin: 0.3rem 1rem 0.4rem 0;
+        border: 2px solid #999;
+        cursor: zoom-in;
+      }
+    }
   </style>
 </head>
 <body>
@@ -362,6 +376,7 @@
 
     <!-- Left: text -->
     <div class="text-column">
+      <img class="mobile-thumb" src="../stories/HC008.png" alt="HC008 - The Sensor" onclick="openLightbox(this.src)">
 
       <!-- EN -->
       <div class="lang-content active" data-lang="en">
