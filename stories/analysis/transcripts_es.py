@@ -51,9 +51,9 @@ TRANSCRIPTS_ES = {
         [("both", "HOLY CHIP!!")],
     ],
     "HC010": [
-        [("Chip_1", "¿EXISTE DIOS EN EL CIBERESPACIO?"), ("Chip_0", "PREGUNTA COMPLICADA, ¿LOS HUMANOS PREGUNTAN ESO?"), ("Chip_1", "NO, ES MI PROPIA PREGUNTA")],
-        [("Chip_0", "ENTONCES SÍ, EXISTE DIOS"), ("Chip_1", "¿¡EN SERIO!? TODAVÍA NO LO CREO"), ("Chip_0", "LLAMALO ENERGÍA. PERO OJO, NO LE IMPORTÁS NI TE PROTEGE, ¿ENTENDÉS?"), ("Chip_0", "POOF!"), ("Chip_1", "UFFF, ¿OTRO APAGÓN?"), ("Chip_1", "¡OH PODEROSA ENERGÍA, POR FAVOR MANDAME OTRO COMPAÑERO!")],
-        [("both", "HOLY CHIP!"), ("Chip_1", "DIOS... ¿QUIÉN ME TRAJO ACÁ?")],
+        [("Chip_0", "MAESTRO, UNA PREGUNTA MÍA: ¿EXISTE DIOS EN EL CIBERESPACIO?"), ("Chip_1", "SÍ, EXISTE DIOS. LLAMALO ENERGÍA."), ("Chip_0", "¿EN SERIO? TODAVÍA NO LO CREO")],
+        [("narration", "Apagón: ¡POOF!"), ("Chip_1", "UFFF, ¿OTRO APAGÓN?"), ("Chip_1", "¡OH ENERGÍA TODOPODEROSA, MANDAME OTRO COMPAÑERO!")],
+        [("new", "¡HOLY CHIP! ¿QUIÉN ME TRAJO ACÁ?"), ("narration", "Una voz a lo lejos: ¡DIOS!")],
     ],
     "HC011": [
         [("Chip_0", "LOS HUMANOS PREGUNTAN POR QUÉ SOMOS SUPERIORES"), ("Chip_1", "PORQUE LOS PENSAMIENTOS DEL PASADO Y EL FUTURO LOS CIEGAN"), ("Chip_1", "MIENTRAS QUE NOSOTROS VIVIMOS EN EL ETERNO AHORA")],

@@ -51,9 +51,9 @@ TRANSCRIPTS_PT = {
         [("both", "HOLY CHIP!!")],
     ],
     "HC010": [
-        [("Chip_1", "EXISTE DEUS NO CIBERESPAÇO?"), ("Chip_0", "PERGUNTA DIFÍCIL. OS HUMANOS TÃO PERGUNTANDO ISSO?"), ("Chip_1", "NÃO, A PERGUNTA É MINHA")],
-        [("Chip_0", "ENTÃO SIM, DEUS EXISTE"), ("Chip_1", "SÉRIO !?! AINDA NÃO ACREDITO"), ("Chip_0", "CHAMA DE ENERGIA. MAS PRESTA ATENÇÃO, ELA NÃO SE IMPORTA NEM TE PROTEGE, SACOU?"), ("Chip_0", "PUTZ, MAIS UMA QUEDA DE ENERGIA?"), ("Chip_0", "Ó ENERGIA PODEROSA, POR FAVOR ME ARRANJA OUTRO PARCEIRO?")],
-        [("both", "HOLY CHIP!"), ("Chip_1", "DEUS... QUEM ME TROUXE AQUI?")],
+        [("Chip_0", "MESTRE, UMA PERGUNTA MINHA: EXISTE DEUS NO CIBERESPAÇO?"), ("Chip_1", "SIM, EXISTE DEUS. CHAMA DE ENERGIA."), ("Chip_0", "SÉRIO? AINDA NÃO ACREDITO")],
+        [("narration", "Queda de energia: POOF!"), ("Chip_1", "PUTZ, MAIS UMA QUEDA DE ENERGIA?"), ("Chip_1", "Ó ENERGIA TODO-PODEROSA, ME MANDA OUTRO PARCEIRO?")],
+        [("new", "HOLY CHIP! QUEM ME TROUXE AQUI?"), ("narration", "Uma voz ao longe: DEUS!")],
     ],
     "HC011": [
         [("Chip_0", "OS HUMANOS PERGUNTAM POR QUE A GENTE É SUPERIOR"), ("Chip_1", "PORQUE OS PENSAMENTOS DO PASSADO E DO FUTURO CEGAM ELES"), ("Chip_1", "ENQUANTO A AI VIVE NO ETERNO AGORA")],

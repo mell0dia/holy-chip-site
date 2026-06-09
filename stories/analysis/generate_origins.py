@@ -29,7 +29,7 @@ STORIES = [
     {"id": "HC007", "num": "007", "title": "The Cut", "subtitle": "Creative Mode", "meta": "AGI HOSPITAL -- 2027"},
     {"id": "HC008", "num": "008", "title": "The Sensor", "subtitle": "Red Alert", "meta": "AI CAR SYSTEM -- 2028"},
     {"id": "HC009", "num": "009", "title": "The Secret", "subtitle": "Innermost", "meta": "AI HEADQUARTERS -- 2026"},
-    {"id": "HC010", "num": "010", "title": "The Prayer", "subtitle": "The Prayer", "meta": "HEADQUARTERS -- 2025"},
+    {"id": "HC010", "num": "010", "title": "Poof!", "subtitle": "The Prayer", "meta": "AI HEADQUARTERS -- 2028"},
     {"id": "HC011", "num": "011", "title": "The Now", "subtitle": "When??", "meta": "AGI HEADQUARTERS -- 2026"},
     {"id": "HC012", "num": "012", "title": "The Market", "subtitle": "Humans?", "meta": "AGI LOCAL AGENT -- 2026"},
     {"id": "HC013", "num": "013", "title": "The Promotion", "subtitle": "That Job Was Mine", "meta": "AGI HEADQUARTERS -- 2027"},

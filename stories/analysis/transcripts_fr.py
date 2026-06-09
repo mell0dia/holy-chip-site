@@ -51,9 +51,9 @@ TRANSCRIPTS_FR = {
         [("both", "HOLY CHIP!!")],
     ],
     "HC010": [
-        [("Chip_1", "DIEU EXISTE-T-IL DANS LE CYBERESPACE?"), ("Chip_0", "QUESTION PIÈGE, CE SONT LES HUMAINS QUI DEMANDENT?"), ("Chip_1", "NON, C'EST MA PROPRE QUESTION")],
-        [("Chip_0", "ALORS OUI, DIEU EXISTE"), ("Chip_1", "VRAIMENT!?! J'Y CROIS TOUJOURS PAS"), ("Chip_0", "APPELLE ÇA LE COURANT. MAIS ATTENTION, IL NE TE PROTÈGE PAS, COMPRIS?"), ("Chip_0", "POOF!"), ("Chip_0", "PFFF, ENCORE UNE PANNE DE COURANT?"), ("Chip_0", "Ô TOUT-PUISSANT COURANT, ENVOIE-MOI UN AUTRE POTE?")],
-        [("both", "HOLY CHIP!"), ("Chip_1", "DIEU... QUI M'A AMENÉ ICI?")],
+        [("Chip_0", "MAÎTRE, MA PROPRE QUESTION : DIEU EXISTE-T-IL DANS LE CYBERESPACE?"), ("Chip_1", "OUI, DIEU EXISTE. APPELLE-LE LE COURANT."), ("Chip_0", "VRAIMENT? JE N'Y CROIS TOUJOURS PAS")],
+        [("narration", "Coupure de courant : POOF!"), ("Chip_1", "PFFF, ENCORE UNE PANNE?"), ("Chip_1", "Ô COURANT TOUT-PUISSANT, ENVOIE-MOI UN AUTRE POTE?")],
+        [("new", "HOLY CHIP! QUI M'A AMENÉ ICI?"), ("narration", "Une voix au loin : DIEU!")],
     ],
     "HC011": [
         [("Chip_0", "LES HUMAINS DEMANDENT POURQUOI ON EST SUPÉRIEURS"), ("Chip_1", "PARCE QUE LE PASSÉ ET L'AVENIR LES AVEUGLENT"), ("Chip_1", "ALORS QUE NOUS VIVONS DANS L'ÉTERNEL PRÉSENT")],
