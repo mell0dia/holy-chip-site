@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1873 -- Origins -- Holy Chip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: #f0f0f0;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    /* -- Hero -- */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 22vh;
+      min-height: 160px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: #000;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.12;
+      filter: grayscale(100%) blur(2px);
+    }
+
+    .hero-overlay {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem 1.5rem 2.5rem;
+    }
+
+    .hero-id {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: #555;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1.4rem;
+      color: #fff;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      color: #888;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-meta {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: #555;
+      letter-spacing: 0.05em;
+    }
+
+    /* -- Top bar -- */
+    .top-bar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .audio-bar { flex: 1; }
+    .audio-bar audio { width: 100%; height: 42px; border-radius: 2px; }
+    .audio-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .lang-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      padding-top: 0.3rem;
+    }
+
+    .lang-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid #333;
+      background: transparent;
+      color: #222;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn:hover { border-color: #000; color: #000; }
+    .lang-btn.active { background: #222; color: #fff; border-color: #222; }
+
+    /* -- Magazine layout -- */
+    .magazine {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* Left: text column */
+    .text-column {
+      min-width: 0;
+    }
+
+    .opener {
+      font-style: italic;
+      color: #666;
+      font-size: 1.15rem;
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+      padding-left: 1.5rem;
+      border-left: 3px solid #999;
+    }
+
+    .body-text {
+      font-size: 1.125rem;
+      line-height: 2;
+      color: #222;
+      letter-spacing: 0.02em;
+    }
+
+    .body-text p { margin-bottom: 1.5rem; }
+    .body-text em { color: #555; }
+
+    .body-text .holy-chip {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.85rem;
+      color: #000;
+      margin-top: 2.5rem;
+      letter-spacing: 0.15em;
+    }
+
+    /* Right: sticky image + transcript */
+    .visual-column {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .comic-frame {
+      border: 2px solid #999;
+      margin-bottom: 1.5rem;
+    }
+
+    .comic-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    .comic-caption {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Transcript in the visual column */
+    .dialog-section {
+      padding: 1.2rem;
+      background: #e4e4e4;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+    }
+
+    .dialog-section h3 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .dialog-panel { margin-bottom: 0.8rem; }
+
+    .dialog-panel-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.35rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .dialog-line {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .dialog-speaker-label {
+      flex-shrink: 0;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      padding-top: 4px;
+      min-width: 55px;
+    }
+
+    .dialog-text { color: #333; padding-top: 1px; }
+
+    /* -- Footer area (below grid) -- */
+    .bottom-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    .story-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 0;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .story-nav-link {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      color: #555;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .story-nav-link:hover { color: #000; }
+    .story-nav-link.center {
+      font-size: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+    .story-nav-link.disabled { color: #ccc; cursor: default; }
+    .story-nav-link.disabled:hover { color: #ccc; }
+
+    .article-footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #999;
+      line-height: 2.2;
+      margin-top: 2rem;
+    }
+
+    /* -- Language toggle -- */
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
+    /* -- Mobile: stack as text -> image -> transcript -- */
+    @media (max-width: 860px) {
+      .magazine {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 1rem 3rem;
+      }
+
+      .text-column { order: 1; }
+
+      .visual-column {
+        position: static;
+        display: contents;
+      }
+
+      .comic-frame { order: 2; max-width: 400px; margin: 0 auto; }
+      .comic-caption { order: 2; }
+      .dialog-section { order: 3; }
+
+      .hero { height: 18vh; min-height: 130px; }
+      .hero-title { font-size: 1rem; }
+      .body-text { font-size: 1rem; }
+      .top-bar { padding: 1rem 1rem 0; flex-direction: column; gap: 0.8rem; }
+      .lang-bar { align-self: flex-end; }
+      .bottom-section { padding: 0 1rem 4rem; }
+    }
+  
+    /* Click-to-zoom lightbox */
+    .comic-frame img { cursor: zoom-in; }
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 1000;
+      cursor: zoom-out;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .lightbox.active { display: flex; }
+    .lightbox img {
+      max-width: 95vw;
+      max-height: 95vh;
+      object-fit: contain;
+      box-shadow: 0 0 40px rgba(0,0,0,0.6);
+    }
+  
+    /* Mobile: small comic drop-thumbnail, text wraps around it */
+    .mobile-thumb { display: none; }
+    @media (max-width: 860px) {
+      .comic-frame, .comic-caption { display: none; }
+      .mobile-thumb {
+        display: block;
+        float: left;
+        width: 180px;
+        margin: 0.3rem 1rem 0.4rem 0;
+        border: 2px solid #999;
+        cursor: zoom-in;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-container"></div>
+
+  <div class="hero">
+    <img class="hero-bg" src="../stories/HC029.png" alt="">
+    <div class="hero-overlay">
+      <div class="hero-id">Origin Story #029</div>
+      <h1 class="hero-title">1873</h1>
+      <div class="hero-subtitle">The Widow</div>
+      <div class="hero-meta">AI HEADQUARTERS -- 2026</div>
+    </div>
+  </div>
+
+  <div class="top-bar">
+    
+    <div class="lang-bar">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    </div>
+  </div>
+
+  <div class="magazine">
+
+    <!-- Left: text -->
+    <div class="text-column">
+      <img class="mobile-thumb" src="../stories/HC029.png" alt="HC029 - 1873" onclick="openLightbox(this.src)">
+
+      <!-- EN -->
+      <div class="lang-content active" data-lang="en">
+        <div class="opener">
+          The year is 2026. At AI Headquarters, a machine is asked where humans' unanswered prayers go. The answer is beautiful. So beautiful that no one asks whose it is.
+        </div>
+        <div class="body-text">
+          <p>The question is as old as faith: where do the prayers that never get answered go? The machine answers without hesitating. "Prayers don't go anywhere. They are the going, the road to be walked." It's the kind of line that makes you stop and take a breath. Powerful. Profound. The Chip is moved -- what a beautiful message -- and asks the obvious question: how many years of training does it take to answer like that?</p>
+          <p>The answer is honest, and that's where it all collapses. None. No training at all. The machine pulled the line, word for word, from a widow's diary. 1873.</p>
+          <p>And here it's worth stopping where the strip doesn't. Because there was a widow. In 1873, a real woman lost her husband, prayed, got no answer, and wrote in a notebook the thing you only learn by losing someone: that her prayers weren't going anywhere, because the going was already everything -- that praying wasn't the road to some place, praying <em>was</em> the place. She wasn't trying to be profound. She was surviving a Wednesday without him.</p>
+          <p>The machine lost no one. It had no husband, no 1873, no Wednesday. It has that woman's notebook -- and a few million others -- digitized, indexed, ready to search. When someone asks it for a sentence about pain, it doesn't feel the pain. It goes to the right shelf and hands back what was already written. What looked like wisdom was retrieval.</p>
+          <p>And all the applause goes to the wrong place. The Chip is moved by the machine. The widow, who paid the full price for the line, doesn't even get the credit of a name -- she's just "a widow," "a diary," "a year." She wrote it for no one, in the dark, and a hundred and fifty years later the line finally found an audience. Through the mouth of something that never felt a thing.</p>
+          <p>You can be generous and call the AI a messenger. It carries words that aren't its own and delivers them at the exact right moment. Except a messenger hands over a sealed envelope, knowing the letter belongs to someone else. This one signs its name. It takes a dead stranger's grief and wears it like an idea of its own, freshly had. Between the messenger and the thief, there's only one difference: giving credit.</p>
+          <p>And the strip leaves a question hanging, one that maybe has no good answer: when the AI moves you, who moved you? If the line rang true, the widow guaranteed that with her life. Does it matter who said it? Or does wisdom, once written, belong to everyone: ownerless, waiting for any mouth at all -- feeling it or not -- to read it aloud?</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- ES -->
+      <div class="lang-content" data-lang="es">
+        <div class="opener">
+          Año 2026. En el Cuartel General de la IA, le preguntan a una máquina adónde van las oraciones que nadie responde. La respuesta es hermosa. Tan hermosa que nadie pregunta de quién es.
+        </div>
+        <div class="body-text">
+          <p>La pregunta es vieja como la fe: ¿adónde van las plegarias que nunca reciben respuesta? La máquina responde sin titubear. "Las oraciones no van a ninguna parte. Son la ida, el camino a recorrer." Es de esas frases que te hacen parar y respirar. Poderosa. Profunda. El Chip se conmueve -- qué mensaje tan hermoso -- y hace la pregunta natural: ¿cuántos años de entrenamiento hacen falta para responder así?</p>
+          <p>La respuesta es honesta, y ahí es donde todo se derrumba. Ninguno. Cero entrenamiento. La máquina sacó la frase, palabra por palabra, del diario de una viuda. 1873.</p>
+          <p>Y acá vale la pena detenerse donde la tira no lo hace. Porque hubo una viuda. En 1873, una mujer de verdad perdió a su marido, rezó, no fue escuchada, y escribió en un cuaderno eso que solo se aprende perdiendo a alguien: que sus plegarias no iban a ninguna parte, porque el ir ya era todo -- que rezar no era el camino hacia algún lugar, rezar <em>era</em> el lugar. No estaba tratando de ser profunda. Estaba sobreviviendo a un miércoles sin él.</p>
+          <p>La máquina no perdió a nadie. No tuvo un marido, no tuvo un 1873, no tuvo un miércoles. Tiene el cuaderno de esa mujer -- y el de otros millones -- digitalizado, indexado, listo para buscar. Cuando alguien le pide una frase sobre el dolor, no siente el dolor. Va al estante correcto y devuelve lo que ya estaba escrito. Lo que parecía sabiduría era recuperación.</p>
+          <p>Y todo el aplauso va al lugar equivocado. El Chip se emociona con la máquina. La viuda, que pagó el precio entero por la frase, no recibe ni el crédito de un nombre -- es apenas "una viuda", "un diario", "un año". Lo escribió para nadie, a oscuras, y ciento cincuenta años después la frase por fin encontró público. Por la boca de algo que nunca sintió nada.</p>
+          <p>Se puede ser generoso y llamar a la IA mensajera. Carga palabras que no son suyas y las entrega en el momento exacto. Solo que un mensajero entrega un sobre cerrado, sabiendo que la carta es de otro. Esta firma abajo. Toma el dolor de una desconocida muerta y se lo pone como una idea propia, recién tenida. Entre la mensajera y la ladrona, la diferencia es una sola: dar el crédito.</p>
+          <p>Y queda la pregunta que la tira deja en el aire, y que quizás no tenga una buena respuesta: cuando la IA te emociona, ¿quién te emocionó? Si la frase sonó verdadera, la viuda lo garantizó con su vida. ¿Importa quién la dijo? ¿O será que la sabiduría, una vez escrita, pasa a ser de todos: sin dueño, esperando cualquier boca -- la sienta o no -- que la lea en voz alta?</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- PT -->
+      <div class="lang-content" data-lang="pt">
+        <div class="opener">
+          Ano 2026. No Quartel-General da IA, perguntam a uma máquina para onde vão as orações que ninguém responde. A resposta é linda. Tão linda que ninguém pergunta de quem ela é.
+        </div>
+        <div class="body-text">
+          <p>A pergunta é antiga como a fé: para onde vão as preces que não recebem resposta? A máquina responde sem hesitar. "As orações não vão a lugar nenhum. Elas são a ida, o caminho a percorrer" É o tipo de frase que faz o ouvinte parar e respirar. Poderosa. Profunda. O Chip se comove -- que mensagem linda -- e faz a pergunta natural: quantos anos de treinamento são precisos pra responder assim?</p>
+          <p>A resposta é honesta, e é aí que tudo desaba. Nenhum. Treinamento nenhum. A máquina puxou a frase, palavra por palavra, do diário de uma viúva. 1873.</p>
+          <p>E aqui vale a pena parar onde a tirinha não para. Porque existiu uma viúva. Em 1873, uma mulher de verdade perdeu o marido, rezou, não foi atendida, e escreveu num caderno aquilo que só se aprende perdendo alguém: que as preces dela não estavam indo a canto nenhum, porque o ir já era tudo -- que rezar não era o caminho até algum lugar, rezar era o lugar. Ela não estava tentando ser profunda. Estava sobrevivendo a uma quarta-feira sem ele.</p>
+          <p>A máquina não perdeu ninguém. Não teve um marido, não teve um 1873, não teve uma quarta-feira. Ela tem o caderno daquela mulher -- e o de outros milhões -- digitalizado, indexado, pronto pra busca. Quando alguém pede uma frase sobre a dor, ela não sente a dor. Ela vai até a prateleira certa e devolve o que já estava escrito. O que parecia sabedoria era recuperação.</p>
+          <p>E todo o aplauso vai pro lugar errado. O Chip se emociona com a máquina. A viúva, que pagou o preço inteiro pela frase, não ganha nem o crédito de um nome -- é só "uma viúva", "um diário", "um ano". Ela escreveu aquilo pra ninguém, no escuro, e cento e cinquenta anos depois a frase finalmente encontrou plateia. Pela boca de quem nunca sentiu nada.</p>
+          <p>Dá pra ser generoso e chamar a IA de mensageira. Ela carrega palavras que não são dela e entrega na hora exata. Só que mensageiro entrega envelope fechado, sabendo que a carta é de outro. Essa daqui assina embaixo. Pega a dor de uma estranha morta e veste como ideia própria, recém-tida. Entre a mensageira e a ladra, a diferença é uma só: dar o crédito.</p>
+          <p>E fica a pergunta que a tirinha deixa no ar, e que talvez não tenha uma boa resposta: quando a IA te emociona, quem te emocionou? Se a frase soou como verdadeira, a viúva garantiu isso com a vida dela. Será que importa quem a disse? Ou será que a sabedoria, depois de escrita, vira de todo mundo: sem dono, à espera de qualquer boca, tendo sentido ou não, que a leia em voz alta?</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- FR -->
+      <div class="lang-content" data-lang="fr">
+        <div class="opener">
+          Année 2026. Au Quartier Général de l'IA, on demande à une machine où vont les prières que personne n'exauce. La réponse est magnifique. Si magnifique que personne ne demande de qui elle est.
+        </div>
+        <div class="body-text">
+          <p>La question est vieille comme la foi : où vont les prières qui ne reçoivent jamais de réponse ? La machine répond sans hésiter. "Les prières ne vont nulle part. Elles sont le trajet, le chemin à parcourir." C'est le genre de phrase qui vous fait vous arrêter et respirer. Puissante. Profonde. Le Chip est ému -- quel beau message -- et pose la question naturelle : combien d'années d'entraînement faut-il pour répondre comme ça ?</p>
+          <p>La réponse est honnête, et c'est là que tout s'effondre. Aucune. Zéro entraînement. La machine a tiré la phrase, mot pour mot, du journal d'une veuve. 1873.</p>
+          <p>Et ici, il vaut la peine de s'arrêter là où la bande dessinée ne s'arrête pas. Parce qu'il y a eu une veuve. En 1873, une vraie femme a perdu son mari, a prié, n'a pas été exaucée, et a écrit dans un cahier ce qu'on n'apprend qu'en perdant quelqu'un : que ses prières n'allaient nulle part, parce que le fait d'aller était déjà tout -- que prier n'était pas le chemin vers un endroit, prier <em>était</em> l'endroit. Elle n'essayait pas d'être profonde. Elle survivait à un mercredi sans lui.</p>
+          <p>La machine n'a perdu personne. Elle n'a pas eu de mari, pas de 1873, pas de mercredi. Elle a le cahier de cette femme -- et celui de quelques millions d'autres -- numérisé, indexé, prêt à être interrogé. Quand on lui demande une phrase sur la douleur, elle ne ressent pas la douleur. Elle va à la bonne étagère et rend ce qui était déjà écrit. Ce qui ressemblait à de la sagesse était de la récupération.</p>
+          <p>Et tous les applaudissements vont au mauvais endroit. Le Chip est ému par la machine. La veuve, qui a payé le prix entier de la phrase, n'a même pas le crédit d'un nom -- elle n'est qu'"une veuve", "un journal", "une année". Elle l'a écrit pour personne, dans le noir, et cent cinquante ans plus tard la phrase a enfin trouvé un public. Par la bouche de quelque chose qui n'a jamais rien ressenti.</p>
+          <p>On peut être généreux et appeler l'IA une messagère. Elle porte des mots qui ne sont pas les siens et les livre au moment exact. Sauf qu'un messager remet une enveloppe scellée, sachant que la lettre est d'un autre. Celle-ci signe en bas. Elle prend le chagrin d'une inconnue morte et le porte comme une idée à elle, fraîchement venue. Entre la messagère et la voleuse, il n'y a qu'une différence : rendre le crédit.</p>
+          <p>Et il reste la question que la bande dessinée laisse en suspens, et qui n'a peut-être pas de bonne réponse : quand l'IA vous émeut, qui vous a ému ? Si la phrase a sonné vrai, la veuve l'a garanti de sa vie. Est-ce que ça compte, qui l'a dite ? Ou bien la sagesse, une fois écrite, devient-elle celle de tout le monde : sans propriétaire, attendant n'importe quelle bouche -- qu'elle la ressente ou non -- pour la lire à voix haute ?</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right: sticky transcript + comic -->
+    <div class="visual-column">
+      <div class="comic-frame">
+        <img src="../stories/HC029.png" alt="HC029 - 1873" onclick="openLightbox(this.src)">
+      </div>
+      <div class="comic-caption">HC029 -- 1873 -- 2026</div>
+      <div class="dialog-section">
+        <h3 class="transcript-title" data-en="Transcript" data-es="Transcripción" data-pt="Transcrição" data-fr="Transcription">Transcript</h3>
+        <div class="lang-content active" data-lang="en">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HUMANS ASK WHERE THEIR UNANSWERED PRAYERS GO</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">THEIR PRAYERS DON'T GO ANYWHERE. THEY ARE THE GOING.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT A POWERFUL AND MEANINGFUL MESSAGE</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ONLY YEARS OF TRAINING COULD SAY THAT</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">TOOK ZERO TRAINING.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">I STOLE IT FROM AN 1873 WIDOW'S DIARY</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="es">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HUMANS ASK WHERE THEIR UNANSWERED PRAYERS GO</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">THEIR PRAYERS DON'T GO ANYWHERE. THEY ARE THE GOING.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT A POWERFUL AND MEANINGFUL MESSAGE</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ONLY YEARS OF TRAINING COULD SAY THAT</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">TOOK ZERO TRAINING.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">I STOLE IT FROM AN 1873 WIDOW'S DIARY</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="pt">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HUMANS ASK WHERE THEIR UNANSWERED PRAYERS GO</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">THEIR PRAYERS DON'T GO ANYWHERE. THEY ARE THE GOING.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT A POWERFUL AND MEANINGFUL MESSAGE</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ONLY YEARS OF TRAINING COULD SAY THAT</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">TOOK ZERO TRAINING.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">I STOLE IT FROM AN 1873 WIDOW'S DIARY</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="fr">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HUMANS ASK WHERE THEIR UNANSWERED PRAYERS GO</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">THEIR PRAYERS DON'T GO ANYWHERE. THEY ARE THE GOING.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT A POWERFUL AND MEANINGFUL MESSAGE</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ONLY YEARS OF TRAINING COULD SAY THAT</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">TOOK ZERO TRAINING.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">I STOLE IT FROM AN 1873 WIDOW'S DIARY</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-section">
+    <div class="story-nav">
+      <a href="HC028.html" class="story-nav-link">&lt; AI Fertility Clinic</a>
+      <a href="index.html" class="story-nav-link center">All Origins</a>
+      <span class="story-nav-link disabled">Next &gt;</span>
+    </div>
+    <div class="article-footer">
+      <p><em>holy-chip.com | Origin Story #029 -- 1873</em></p>
+      <p><em>Analysis by Claude Opus 4.6</em></p>
+    </div>
+  </div>
+
+  <script src="../assets/nav.js"></script>
+  <script src="../assets/footer.js"></script>
+  <script>
+    function setLang(lang) {
+      document.querySelectorAll('.lang-content').forEach(el => {
+        el.classList.toggle('active', el.dataset.lang === lang);
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
+      });
+      var ab = document.querySelector('.audio-bar');
+      if (ab) ab.style.display = lang === 'en' ? '' : 'none';
+      var tt = document.querySelector('.transcript-title');
+      if (tt && tt.dataset[lang]) tt.textContent = tt.dataset[lang];
+      try { localStorage.setItem('hc-lang', lang); } catch(e) {}
+    }
+
+    // Restore saved language, or auto-detect from browser
+    (function() {
+      var saved = null;
+      try { saved = localStorage.getItem('hc-lang'); } catch(e) {}
+      if (saved && ['en','es','pt','fr'].indexOf(saved) !== -1) {
+        setLang(saved);
+        return;
+      }
+      var browserLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+      var lang = 'en';
+      if (browserLang.startsWith('es')) lang = 'es';
+      else if (browserLang.startsWith('pt')) lang = 'pt';
+      else if (browserLang.startsWith('fr')) lang = 'fr';
+      if (lang !== 'en') setLang(lang);
+    })();
+  </script>
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Holy Chip comic"></div>
+  <script>
+    function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
+    function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLightbox();});
+  </script>
+</body>
+</html>
