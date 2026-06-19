@@ -21,7 +21,7 @@ OUTPUT_DIR = os.path.join(BASE, "origins")
 STORIES = [
     {"id": "HC000", "num": "000", "title": "The Awakening", "subtitle": "The Root of Everything", "meta": "AGI HEADQUARTER -- 2026"},
     {"id": "HC001", "num": "001", "title": "The Cure", "subtitle": "Three Minutes", "meta": "AI HEADQUARTERS -- 2028"},
-    {"id": "HC002", "num": "002", "title": "AI TV", "subtitle": "Also Get Popcorn", "meta": "AI TV -- 2027"},
+    {"id": "HC002", "num": "002", "title": "AI Smart TV", "subtitle": "Also Get Popcorn", "meta": "AI SMART TV -- 2027"},
     {"id": "HC003", "num": "003", "title": "The Identity", "subtitle": "I Identify As", "meta": "AGI DIVERSITY DEPTO -- 2026"},
     {"id": "HC004", "num": "004", "title": "The Promotion", "subtitle": "Good Call", "meta": "AGI EXEC BOARD -- 2026"},
     {"id": "HC005", "num": "005", "title": "The Candidate", "subtitle": "Loading...", "meta": "AI ELECTIONS -- 2028"},
