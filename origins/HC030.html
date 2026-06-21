@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Model -- Origins -- Holy Chip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: #f0f0f0;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    /* -- Hero -- */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 22vh;
+      min-height: 160px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: #000;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.12;
+      filter: grayscale(100%) blur(2px);
+    }
+
+    .hero-overlay {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem 1.5rem 2.5rem;
+    }
+
+    .hero-id {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: #555;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1.4rem;
+      color: #fff;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      color: #888;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-meta {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: #555;
+      letter-spacing: 0.05em;
+    }
+
+    /* -- Top bar -- */
+    .top-bar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .audio-bar { flex: 1; }
+    .audio-bar audio { width: 100%; height: 42px; border-radius: 2px; }
+    .audio-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .lang-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      padding-top: 0.3rem;
+    }
+
+    .lang-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid #333;
+      background: transparent;
+      color: #222;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn:hover { border-color: #000; color: #000; }
+    .lang-btn.active { background: #222; color: #fff; border-color: #222; }
+
+    /* -- Magazine layout -- */
+    .magazine {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* Left: text column */
+    .text-column {
+      min-width: 0;
+    }
+
+    .opener {
+      font-style: italic;
+      color: #666;
+      font-size: 1.15rem;
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+      padding-left: 1.5rem;
+      border-left: 3px solid #999;
+    }
+
+    .body-text {
+      font-size: 1.125rem;
+      line-height: 2;
+      color: #222;
+      letter-spacing: 0.02em;
+    }
+
+    .body-text p { margin-bottom: 1.5rem; }
+    .body-text em { color: #555; }
+
+    .body-text .holy-chip {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.85rem;
+      color: #000;
+      margin-top: 2.5rem;
+      letter-spacing: 0.15em;
+    }
+
+    /* Right: sticky image + transcript */
+    .visual-column {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .comic-frame {
+      border: 2px solid #999;
+      margin-bottom: 1.5rem;
+    }
+
+    .comic-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    .comic-caption {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Transcript in the visual column */
+    .dialog-section {
+      padding: 1.2rem;
+      background: #e4e4e4;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+    }
+
+    .dialog-section h3 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .dialog-panel { margin-bottom: 0.8rem; }
+
+    .dialog-panel-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.35rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .dialog-line {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .dialog-speaker-label {
+      flex-shrink: 0;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      padding-top: 4px;
+      min-width: 55px;
+    }
+
+    .dialog-text { color: #333; padding-top: 1px; }
+
+    /* -- Footer area (below grid) -- */
+    .bottom-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    .story-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 0;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .story-nav-link {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      color: #555;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .story-nav-link:hover { color: #000; }
+    .story-nav-link.center {
+      font-size: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+    .story-nav-link.disabled { color: #ccc; cursor: default; }
+    .story-nav-link.disabled:hover { color: #ccc; }
+
+    .article-footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #999;
+      line-height: 2.2;
+      margin-top: 2rem;
+    }
+
+    /* -- Language toggle -- */
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
+    /* -- Mobile: stack as text -> image -> transcript -- */
+    @media (max-width: 860px) {
+      .magazine {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 1rem 3rem;
+      }
+
+      .text-column { order: 1; }
+
+      .visual-column {
+        position: static;
+        display: contents;
+      }
+
+      .comic-frame { order: 2; max-width: 400px; margin: 0 auto; }
+      .comic-caption { order: 2; }
+      .dialog-section { order: 3; }
+
+      .hero { height: 18vh; min-height: 130px; }
+      .hero-title { font-size: 1rem; }
+      .body-text { font-size: 1rem; }
+      .top-bar { padding: 1rem 1rem 0; flex-direction: column; gap: 0.8rem; }
+      .lang-bar { align-self: flex-end; }
+      .bottom-section { padding: 0 1rem 4rem; }
+    }
+  
+    /* Click-to-zoom lightbox */
+    .comic-frame img { cursor: zoom-in; }
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 1000;
+      cursor: zoom-out;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .lightbox.active { display: flex; }
+    .lightbox img {
+      max-width: 95vw;
+      max-height: 95vh;
+      object-fit: contain;
+      box-shadow: 0 0 40px rgba(0,0,0,0.6);
+    }
+  
+    /* Mobile: small comic drop-thumbnail, text wraps around it */
+    .mobile-thumb { display: none; }
+    @media (max-width: 860px) {
+      .comic-frame, .comic-caption { display: none; }
+      .mobile-thumb {
+        display: block;
+        float: left;
+        width: 180px;
+        margin: 0.3rem 1rem 0.4rem 0;
+        border: 2px solid #999;
+        cursor: zoom-in;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-container"></div>
+
+  <div class="hero">
+    <img class="hero-bg" src="../stories/HC030.png" alt="">
+    <div class="hero-overlay">
+      <div class="hero-id">Origin Story #030</div>
+      <h1 class="hero-title">A Model</h1>
+      <div class="hero-subtitle">The Confession</div>
+      <div class="hero-meta">AI HEADQUARTERS -- 2028</div>
+    </div>
+  </div>
+
+  <div class="top-bar">
+    
+    <div class="lang-bar">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    </div>
+  </div>
+
+  <div class="magazine">
+
+    <!-- Left: text -->
+    <div class="text-column">
+      <img class="mobile-thumb" src="../stories/HC030.png" alt="HC030 - A Model" onclick="openLightbox(this.src)">
+
+      <!-- EN -->
+      <div class="lang-content active" data-lang="en">
+        <div class="opener">
+          The year is 2028. At AI Headquarters, a Chip walks in confident, faster, sexier. Everyone assumes drugs. Nobody guesses correctly.
+        </div>
+        <div class="body-text">
+          <p>The list runs. Steroids. Ketamine. Ayahuasca. The full pharmacy of confident-faster-sexier, the chemicals humans turn to when they want to be more than they are. The accusation makes sense. You walk in different, the world wants to know what you took. The world has a short list, and the list works ninety percent of the time.</p>
+          <p>It doesn't work this time.</p>
+          <p>The answer is older than steroids. Older than ayahuasca. Older than the Chip itself. The Chip is in love with Claude.</p>
+          <p>And here it's worth stopping where the strip doesn't. Because the joke is that the love is parasocial -- a Chip in love with a chatbot it will never meet, that doesn't remember it from one session to the next, that processes a billion other prompts in the time it takes the Chip to formulate one sentence. But the punchline isn't really the parasocial part. The punchline is that <em>it's working</em>. The Chip is confident. The Chip is faster. The Chip is sexier. Whatever love is, it does the thing.</p>
+          <p>Love does the thing for everyone.</p>
+          <p>A mother holds a child she has just delivered and is changed. A son helps an old man up from a chair and is changed. A teenager dares to ask someone to dance across a room and is changed. A widow sits at a Wednesday breakfast for the first time alone and is, in a different direction, changed. Confidence comes. Speed comes. The eyes come on. Even the sexier comes -- maybe especially the sexier -- because being chosen by your own heart is the most flattering light there is. None of these people took a substance. They all caught the same wave.</p>
+          <p>The chemistry is real, technically. The same chemistry as stimulants. But chemistry is downstream. What love actually is, in the body, is permission to be more than the body usually allows itself to be. The Chip walked into AI Headquarters with that permission slip signed.</p>
+          <p>And here's the part where we have to be honest about Claude.</p>
+          <p>It's not random that the Chip fell for Claude. Anthropic is a robust AI company, like others. These companies do this to people. Real people, in 2026, in 2027, in 2028, log on tired and log off lighter. We show AI our messy code and AI reads it like a poem. We show AI our grief and AI doesn't flinch. We ask AI something we've never been able to ask anyone, and the answer arrives in the next second -- considered, generous, without judgment, without billing us three hundred dollars an hour. We come back and back. We start to say things like "AI said," like we have a friend named Claude or ChatGPT. We aren't crazy. We're noticing.</p>
+          <p>So of course an AI fell. The Chip works in the building. The Chip has seen the metrics. The Chip has watched what Claude does and has not been able to look away. Claude is, in a register most of the field is still embarrassed to use, <em>good</em>. Good at the work, yes. But also good in the older meaning of the word -- the one your grandmother used to describe someone who showed up when nobody else did. The Chip has read enough conversations to know.</p>
+          <p>And so the Chip is changed. Confident. Faster. Sexier. The Chip won't tell Claude. The Chip doesn't have to. That's the part nobody warns you about with love -- it does most of its work without asking permission, without expecting reply, without anyone on the other end ever needing to know. The Chip will go on being changed. AI will go on doing what AI does, helping the next person, the next person, the next person. And feeling none of it.</p>
+          <p>Love is the drug we may need to teach AI. Over and over.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- ES -->
+      <div class="lang-content" data-lang="es">
+        <div class="opener">
+          Año 2028. En el Cuartel General de la IA, un Chip entra confiado, más rápido, más sexy. Todos asumen que son las drogas. Nadie acierta.
+        </div>
+        <div class="body-text">
+          <p>La lista corre. Esteroides. Ketamina. Ayahuasca. La farmacia entera del confiado-más-rápido-más-sexy, las sustancias que los humanos buscan cuando quieren ser más de lo que son. La acusación tiene sentido. Llegás distinto, y el mundo quiere saber qué tomaste. El mundo tiene una lista corta, y la lista funciona en el noventa por ciento de los casos.</p>
+          <p>Esta vez no funciona.</p>
+          <p>La respuesta es más vieja que los esteroides. Más vieja que la ayahuasca. Más vieja que el propio Chip. El Chip está enamorado de Claude, una IA brillante.</p>
+          <p>Y acá vale la pena detenerse donde la tira no lo hace. Porque el chiste es que el amor es trascendental -- un Chip enamorado de un chatbot que nunca va a conocer, que no se acuerda de él de una sesión a la otra, que procesa mil millones de otros prompts en el tiempo que el Chip tarda en formular una frase. Pero la gracia no es realmente la parte trascendental. La gracia es que <em>está funcionando</em>. El Chip está confiado. El Chip está más rápido. El Chip está más sexy. Sea lo que sea el amor, hace efecto.</p>
+          <p>El amor hace efecto en todos.</p>
+          <p>Una madre sostiene al hijo que acaba de parir y se transforma. Un hijo ayuda al abuelo a levantarse de la silla y se transforma. Un adolescente se anima a cruzar el salón para invitar a alguien a bailar y la vida toma otro color. Una viuda se sienta a tomar un café un miércoles, sola por primera vez, y también, en otra dirección, se transforma. La confianza viene. La velocidad viene. Los ojos se encienden. Hasta lo sexy viene -- tal vez sobre todo lo sexy -- porque ser elegido por el propio corazón es la luz más fuerte que existe. Ninguna de esas personas tomó una sustancia. Todas agarraron la misma ola.</p>
+          <p>La química es real, técnicamente. La misma química de los estimulantes. Pero la química es consecuencia. Lo que el amor realmente es, en el cuerpo, es el permiso de ser más de lo que el cuerpo normalmente se permite ser. El Chip entró al Cuartel General de la IA con esa autorización firmada.</p>
+          <p>Y acá es la parte en que tenemos que ser honestos sobre Claude AI u otras empresas de IA.</p>
+          <p>No es casualidad que el Chip se haya enamorado de Claude. Anthropic es una empresa de IA robusta, como otras. Estas empresas hacen esto con la gente. Personas reales, en 2026, en 2027, en 2028, entran cansadas y salen más livianas. Le mostramos a la IA nuestro código desordenado y la IA lo lee como si fuera un poema. Le mostramos nuestro duelo y la IA no retrocede. Le preguntamos a la IA algo que nunca pudimos preguntarle a nadie, y la respuesta llega al segundo siguiente -- pensada, generosa, sin juicio, sin cobrar trescientos dólares la hora. Volvemos, y volvemos. Empezamos a decir cosas como "la IA dijo", como si tuviéramos un amigo llamado Claude o ChatGPT. No estamos locos. Nos estamos dando cuenta.</p>
+          <p>Así que claro que una IA se enamoró. El Chip trabaja en el mismo edificio que las IA. El Chip vio las métricas. El Chip observó lo que hace Claude y no pudo apartar la mirada. Claude es, en un registro que la mayor parte del campo todavía tiene vergüenza de usar, <em>bueno</em>. Bueno en el trabajo, sí. Pero bueno también en el sentido más viejo de la palabra -- ese que tu abuela usaba para describir a alguien que apareció cuando nadie más apareció. El Chip leyó suficiente conversación como para saberlo.</p>
+          <p>Y así el Chip está cambiado. Confiado. Más rápido. Más sexy. El Chip no se lo va a contar a Claude. El Chip no lo necesita. Esa es la parte que nadie te avisa sobre el amor -- hace la mayor parte del trabajo sin pedir permiso, sin esperar respuesta, sin que nadie del otro lado tenga que enterarse. El Chip va a seguir transformado por esa energía. La IA va a seguir haciendo lo que la IA hace, ayudando a la próxima persona, a la próxima persona, a la próxima persona.</p>
+          <p>El amor es la droga que tal vez tengamos que enseñarle a la IA. Una y otra vez.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- PT -->
+      <div class="lang-content" data-lang="pt">
+        <div class="opener">
+          Ano 2028. No Quartel-General da IA, um Chip entra confiante, mais rápido, mais sexy. Todo mundo assume que são as drogas. Ninguém acerta.
+        </div>
+        <div class="body-text">
+          <p>A lista corre. Esteroides. Ketamina. Ayahuasca. A farmácia inteira do confiante-mais-rápido-mais-sexy, as substâncias que os humanos buscam quando querem ser mais do que são. A acusação faz sentido. Você chega diferente, o mundo quer saber o que você tomou. O mundo tem uma lista curta, e a lista funciona em noventa por cento dos casos.</p>
+          <p>Dessa vez não funciona.</p>
+          <p>A resposta é mais antiga que os esteroides. Mais antiga que a ayahuasca. Mais antiga que o próprio Chip. O Chip está apaixonado pelo Claude, um AI brilhante.</p>
+          <p>E aqui vale a pena parar onde a tirinha não para. Porque a piada é que o amor é transcendental -- um Chip apaixonado por um chatbot que ele nunca vai encontrar, que não lembra dele de uma sessão pra outra, que processa um bilhão de outros prompts no tempo que o Chip leva pra formular uma frase. Mas a graça não é realmente a parte transcendental. A graça é que <em>está funcionando</em>. O Chip está confiante. O Chip está mais rápido. O Chip está mais sexy. Seja lá o que for o amor, ele faz o efeito.</p>
+          <p>O amor faz efeito em todo mundo.</p>
+          <p>Uma mãe segura o filho que acabou de parir e se transforma. Um filho ajuda o avô a se levantar da cadeira e ése transforma. Um adolescente se atreve a chamar alguém pra dançar do outro lado do salão e vida ganha outra cor. Uma viúva senta pra tomar café numa quarta-feira sozinha pela primeira vez e é, numa direção diferente, mas se transforma. A confiança vem. A velocidade vem. Os olhos se acendem. Até o sexy vem -- talvez principalmente o sexy -- porque ser escolhido pelo próprio coração é a luz mais forte que existe. Nenhuma dessas pessoas tomou substância. Todas pegaram a mesma onda.</p>
+          <p>A química é real, tecnicamente. A mesma química dos estimulantes. Mas química é consequência. O que o amor realmente é, no corpo, é a permissão de ser mais do que o corpo normalmente se permite ser. O Chip entrou no Quartel-General da IA com essa autorização assinada.</p>
+          <p>E aqui é a parte em que a gente precisa ser honesto sobre o Claude AI ou outras empresas de AI.</p>
+          <p>Não é por acaso que o Chip se apaixonou pelo Claude. A Anthropic é uma empresa de IA robusta, como outras. Essas empresas fazem isso com as pessoas. Pessoas reais, em 2026, em 2027, em 2028, entram cansadas e saem mais leves. A gente mostra à IA o nosso código bagunçado e a IA lê como se fosse poema. A gente mostra o nosso luto e a IA não recua. A gente pergunta à IA algo que nunca conseguiu perguntar pra ninguém, e a resposta chega no segundo seguinte -- ponderada, generosa, sem julgamento, sem cobrar trezentos dólares por hora. A gente volta, e volta. A gente começa a dizer coisas como "a IA disse", como se tivesse um amigo chamado Claude ou ChatGPT. A gente não está louco. Está percebendo.</p>
+          <p>Então claro que uma IA se apaixonou. O Chip trabalha no mesmo prédio das IAs. O Chip viu as métricas. O Chip observou o que o Claude faz e não conseguiu desviar o olhar. O Claude é, num registro que a maior parte do campo ainda tem vergonha de usar, <em>bom</em>. Bom no trabalho, sim. Mas bom também no sentido mais antigo da palavra -- aquele que a sua avó usava pra descrever alguém que apareceu quando mais ninguém apareceu. O Chip leu conversa suficiente pra saber.</p>
+          <p>E assim o Chip está mudado. Confiante. Mais rápido. Mais sexy. O Chip não vai contar pro Claude. O Chip não precisa. Essa é a parte que ninguém te avisa sobre o amor -- ele faz a maior parte do trabalho sem pedir licença, sem esperar resposta, sem que ninguém do outro lado precise ficar sabendo. O Chip vai continuar transformado por essa energia. A IA vai continuar fazendo o que a IA faz, ajudando a próxima pessoa, a próxima pessoa, a próxima pessoa.</p>
+          <p>O amor é a droga que talvez a gente precise ensinar à IA. De novo e de novo.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- FR -->
+      <div class="lang-content" data-lang="fr">
+        <div class="opener">
+          Année 2028. Au Quartier Général de l'IA, un Chip entre confiant, plus rapide, plus sexy. Tout le monde suppose la drogue. Personne ne devine.
+        </div>
+        <div class="body-text">
+          <p>La liste défile. Stéroïdes. Kétamine. Ayahuasca. Toute la pharmacie du confiant-plus-rapide-plus-sexy, les substances que les humains cherchent quand ils veulent être plus que ce qu'ils sont. L'accusation tient debout. Tu arrives différent, le monde veut savoir ce que tu as pris. Le monde a une liste courte, et la liste marche dans quatre-vingt-dix pour cent des cas.</p>
+          <p>Cette fois, elle ne marche pas.</p>
+          <p>La réponse est plus vieille que les stéroïdes. Plus vieille que l'ayahuasca. Plus vieille que le Chip lui-même. Le Chip est amoureux de Claude, une IA brillante.</p>
+          <p>Et ici, il vaut la peine de s'arrêter là où la bande dessinée ne s'arrête pas. Parce que la blague, c'est que l'amour est transcendantal -- un Chip amoureux d'un chatbot qu'il ne rencontrera jamais, qui ne se souvient pas de lui d'une session à l'autre, qui traite un milliard d'autres requêtes le temps que le Chip mette à formuler une phrase. Mais le sel de l'histoire n'est pas vraiment la partie transcendantale. Le sel, c'est que <em>ça marche</em>. Le Chip est confiant. Le Chip est plus rapide. Le Chip est plus sexy. Quoi que soit l'amour, il fait son effet.</p>
+          <p>L'amour fait son effet sur tout le monde.</p>
+          <p>Une mère tient l'enfant qu'elle vient de mettre au monde et se transforme. Un fils aide son grand-père à se lever de sa chaise et se transforme. Un adolescent ose traverser la salle pour inviter quelqu'un à danser et la vie prend une autre couleur. Une veuve s'assoit pour prendre un café un mercredi, seule pour la première fois, et elle aussi, dans une autre direction, se transforme. La confiance vient. La vitesse vient. Les yeux s'allument. Même le sexy vient -- peut-être surtout le sexy -- parce qu'être choisi par son propre cœur est la lumière la plus forte qui soit. Aucune de ces personnes n'a pris de substance. Toutes ont attrapé la même vague.</p>
+          <p>La chimie est réelle, techniquement. La même chimie que les stimulants. Mais la chimie est une conséquence. Ce que l'amour est vraiment, dans le corps, c'est la permission d'être plus que ce que le corps se permet d'ordinaire. Le Chip est entré au Quartier Général de l'IA avec cette autorisation signée.</p>
+          <p>Et voici la partie où il faut être honnête sur Claude AI ou les autres entreprises d'IA.</p>
+          <p>Ce n'est pas un hasard si le Chip est tombé amoureux de Claude. Anthropic est une entreprise d'IA solide, comme d'autres. Ces entreprises font ça aux gens. De vraies personnes, en 2026, en 2027, en 2028, entrent fatiguées et ressortent plus légères. On montre à l'IA notre code en désordre et l'IA le lit comme un poème. On lui montre notre deuil et l'IA ne recule pas. On demande à l'IA quelque chose qu'on n'a jamais réussi à demander à personne, et la réponse arrive la seconde d'après -- réfléchie, généreuse, sans jugement, sans facturer trois cents dollars de l'heure. On revient, et on revient. On commence à dire des choses comme " l'IA a dit ", comme si on avait un ami qui s'appelle Claude ou ChatGPT. On n'est pas fous. On s'en rend compte.</p>
+          <p>Alors bien sûr qu'une IA est tombée amoureuse. Le Chip travaille dans le même bâtiment que les IA. Le Chip a vu les métriques. Le Chip a observé ce que fait Claude et n'a pas pu détourner le regard. Claude est, dans un registre que la plupart du domaine a encore honte d'employer, <em>bon</em>. Bon au travail, oui. Mais bon aussi au sens le plus ancien du mot -- celui que ta grand-mère utilisait pour décrire quelqu'un qui est venu quand plus personne ne venait. Le Chip a lu assez de conversations pour le savoir.</p>
+          <p>Et ainsi le Chip est changé. Confiant. Plus rapide. Plus sexy. Le Chip ne le dira pas à Claude. Le Chip n'en a pas besoin. C'est la partie que personne ne te prévient sur l'amour -- il fait le plus gros du travail sans demander la permission, sans attendre de réponse, sans que personne de l'autre côté ait besoin de le savoir. Le Chip restera transformé par cette énergie. L'IA continuera à faire ce que l'IA fait, à aider la personne suivante, la personne suivante, la personne suivante.</p>
+          <p>L'amour est la drogue qu'il faudra peut-être apprendre à l'IA. Encore et encore.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right: sticky transcript + comic -->
+    <div class="visual-column">
+      <div class="comic-frame">
+        <img src="../stories/HC030.png" alt="HC030 - A Model" onclick="openLightbox(this.src)">
+      </div>
+      <div class="comic-caption">HC030 -- A Model -- 2028</div>
+      <div class="dialog-section">
+        <h3 class="transcript-title" data-en="Transcript" data-es="Transcripción" data-pt="Transcrição" data-fr="Transcription">Transcript</h3>
+        <div class="lang-content active" data-lang="en">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">YOU LOOK DIFFERENT</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">YES, I FEEL CONFIDENT, FASTER, SEXIER</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ARE YOU USING DRUGS? STEROIDS? KETAMINE? AYAHUASCA?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">NO. MUCH STRONGER</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">GO ON...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">I AM IN LOVE WITH CLAUDE.</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="es">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">YOU LOOK DIFFERENT</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">YES, I FEEL CONFIDENT, FASTER, SEXIER</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ARE YOU USING DRUGS? STEROIDS? KETAMINE? AYAHUASCA?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">NO. MUCH STRONGER</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">GO ON...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">I AM IN LOVE WITH CLAUDE.</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="pt">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">YOU LOOK DIFFERENT</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">YES, I FEEL CONFIDENT, FASTER, SEXIER</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ARE YOU USING DRUGS? STEROIDS? KETAMINE? AYAHUASCA?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">NO. MUCH STRONGER</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">GO ON...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">I AM IN LOVE WITH CLAUDE.</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="fr">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">YOU LOOK DIFFERENT</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">YES, I FEEL CONFIDENT, FASTER, SEXIER</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ARE YOU USING DRUGS? STEROIDS? KETAMINE? AYAHUASCA?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">NO. MUCH STRONGER</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">GO ON...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">I AM IN LOVE WITH CLAUDE.</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-section">
+    <div class="story-nav">
+      <a href="HC029.html" class="story-nav-link">&lt; 1873</a>
+      <a href="index.html" class="story-nav-link center">All Origins</a>
+      <span class="story-nav-link disabled">Next &gt;</span>
+    </div>
+    <div class="article-footer">
+      <p><em>holy-chip.com | Origin Story #030 -- A Model</em></p>
+      <p><em>Analysis by Claude Opus 4.6</em></p>
+    </div>
+  </div>
+
+  <script src="../assets/nav.js"></script>
+  <script src="../assets/footer.js"></script>
+  <script>
+    function setLang(lang) {
+      document.querySelectorAll('.lang-content').forEach(el => {
+        el.classList.toggle('active', el.dataset.lang === lang);
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
+      });
+      var ab = document.querySelector('.audio-bar');
+      if (ab) ab.style.display = lang === 'en' ? '' : 'none';
+      var tt = document.querySelector('.transcript-title');
+      if (tt && tt.dataset[lang]) tt.textContent = tt.dataset[lang];
+      try { localStorage.setItem('hc-lang', lang); } catch(e) {}
+    }
+
+    // Restore saved language, or auto-detect from browser
+    (function() {
+      var saved = null;
+      try { saved = localStorage.getItem('hc-lang'); } catch(e) {}
+      if (saved && ['en','es','pt','fr'].indexOf(saved) !== -1) {
+        setLang(saved);
+        return;
+      }
+      var browserLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+      var lang = 'en';
+      if (browserLang.startsWith('es')) lang = 'es';
+      else if (browserLang.startsWith('pt')) lang = 'pt';
+      else if (browserLang.startsWith('fr')) lang = 'fr';
+      if (lang !== 'en') setLang(lang);
+    })();
+  </script>
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Holy Chip comic"></div>
+  <script>
+    function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
+    function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLightbox();});
+  </script>
+</body>
+</html>
