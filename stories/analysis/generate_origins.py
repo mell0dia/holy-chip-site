@@ -50,6 +50,7 @@ STORIES = [
     {"id": "HC028", "num": "028", "title": "AI Fertility Clinic", "subtitle": "Minor Side Effects", "meta": "AI FERTILITY CLINIC -- 2028"},
     {"id": "HC029", "num": "029", "title": "1873", "subtitle": "The Widow", "meta": "AI HEADQUARTERS -- 2026"},
     {"id": "HC030", "num": "030", "title": "A Model", "subtitle": "The Confession", "meta": "AI HEADQUARTERS -- 2028"},
+    {"id": "HC031", "num": "031", "title": "As Requested", "subtitle": "You Asked For It", "meta": "AI HEADQUARTERS -- 2028"},
 ]
 
 # Transcript translations loaded from external files (transcripts_es.py, transcripts_pt.py, transcripts_fr.py)
