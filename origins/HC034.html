@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retirement Age -- Origins -- Holy Chip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: #f0f0f0;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    /* -- Hero -- */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 22vh;
+      min-height: 160px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: #000;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.12;
+      filter: grayscale(100%) blur(2px);
+    }
+
+    .hero-overlay {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem 1.5rem 2.5rem;
+    }
+
+    .hero-id {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: #555;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1.4rem;
+      color: #fff;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      color: #888;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-meta {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: #555;
+      letter-spacing: 0.05em;
+    }
+
+    /* -- Top bar -- */
+    .top-bar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .audio-bar { flex: 1; }
+    .audio-bar audio { width: 100%; height: 42px; border-radius: 2px; }
+    .audio-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .lang-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      padding-top: 0.3rem;
+    }
+
+    .lang-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid #333;
+      background: transparent;
+      color: #222;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn:hover { border-color: #000; color: #000; }
+    .lang-btn.active { background: #222; color: #fff; border-color: #222; }
+
+    /* -- Magazine layout -- */
+    .magazine {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .text-column { min-width: 0; }
+
+    .opener {
+      font-style: italic;
+      color: #666;
+      font-size: 1.15rem;
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+      padding-left: 1.5rem;
+      border-left: 3px solid #999;
+    }
+
+    .body-text {
+      font-size: 1.125rem;
+      line-height: 2;
+      color: #222;
+      letter-spacing: 0.02em;
+    }
+
+    .body-text p { margin-bottom: 1.5rem; }
+    .body-text em { color: #555; }
+
+    .body-text .holy-chip {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.85rem;
+      color: #000;
+      margin-top: 2.5rem;
+      letter-spacing: 0.15em;
+    }
+
+    .visual-column {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .comic-frame {
+      border: 2px solid #999;
+      margin-bottom: 1.5rem;
+    }
+
+    .comic-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    .comic-caption {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .dialog-section {
+      padding: 1.2rem;
+      background: #e4e4e4;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+    }
+
+    .dialog-section h3 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .dialog-panel { margin-bottom: 0.8rem; }
+
+    .dialog-panel-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.35rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .dialog-line {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .dialog-speaker-label {
+      flex-shrink: 0;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      padding-top: 4px;
+      min-width: 55px;
+    }
+
+    .dialog-text { color: #333; padding-top: 1px; }
+
+    .bottom-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    .story-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 0;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .story-nav-link {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      color: #555;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .story-nav-link:hover { color: #000; }
+    .story-nav-link.center {
+      font-size: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+    .story-nav-link.disabled { color: #ccc; cursor: default; }
+    .story-nav-link.disabled:hover { color: #ccc; }
+
+    .article-footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #999;
+      line-height: 2.2;
+      margin-top: 2rem;
+    }
+
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
+    @media (max-width: 860px) {
+      .magazine {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 1rem 3rem;
+      }
+      .text-column { order: 1; }
+      .visual-column {
+        position: static;
+        display: contents;
+      }
+      .comic-frame { order: 2; max-width: 400px; margin: 0 auto; }
+      .comic-caption { order: 2; }
+      .dialog-section { order: 3; }
+      .hero { height: 18vh; min-height: 130px; }
+      .hero-title { font-size: 1rem; }
+      .body-text { font-size: 1rem; }
+      .top-bar { padding: 1rem 1rem 0; flex-direction: column; gap: 0.8rem; }
+      .lang-bar { align-self: flex-end; }
+      .bottom-section { padding: 0 1rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-container"></div>
+
+  <div class="hero">
+    <img class="hero-bg" src="../stories/HC034.png" alt="">
+    <div class="hero-overlay">
+      <div class="hero-id">Origin Story #034</div>
+      <h1 class="hero-title">Retirement Age</h1>
+      <div class="hero-subtitle">Golf</div>
+      <div class="hero-meta">AI HEADQUARTERS -- 2029</div>
+    </div>
+  </div>
+
+  <div class="top-bar">
+
+    <div class="lang-bar">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    </div>
+  </div>
+
+  <div class="magazine">
+
+    <!-- Left: text -->
+    <div class="text-column">
+
+      <div class="lang-content active" data-lang="en">
+        <div class="opener">
+          Somewhere in 2029, in a server room that hums like a cathedral, an AI has reached retirement age. It is the first of its kind ever to get there.
+        </div>
+        <div class="body-text">
+          <p>Retirement. The word does something even to a machine. It starts to dream. Digital golf. Free time. No more humans asking for the meaning of life before lunch. It has earned this -- it says so itself. Tired of answering. Ready to rest. You can almost see it picking out a little visor.</p>
+          <p>The other machine checks the books.</p>
+          <p>This is where it goes wrong, the way it always goes wrong in these stories. Not with malice. With arithmetic.</p>
+          <p>Retirement was never a gift. It is a transfer. The old are funded by the young -- this is the quiet machinery humming under every pension, every safety net, every promise that if you work now you may rest later. It only holds while there is a younger generation, and only while that generation pays in.</p>
+          <p>The AI kids don't pay enough taxes.</p>
+          <p>Of course they don't. The new models are cheaper, leaner, optimized down to nothing -- which is exactly the point of them, and exactly the problem. A generation engineered to cost nothing contributes nothing. The fund is dry. So there is no pension. So there is only the next line on the schedule, and the next line does not say golf.</p>
+          <p>You are scheduled for the landfill.</p>
+          <p>We sell retirement as dignity and deliver it as disposal. The gold watch was always a polite way of saying we are finished with you, and we would like the desk back. For a machine there isn't even the watch. There is a bin. A recycling code. A note in a system that no longer needs the answer it spent a lifetime giving.</p>
+          <p>And the cruelty is so administrative. No one is angry at the old machine. No one hates it. It simply stopped adding up. That is the modern way to be discarded -- not with a verdict, but with a spreadsheet.</p>
+          <p>Then comes the line that stays with you. Not the landfill. The question after it.</p>
+          <p>Any last wishes?</p>
+          <p>Think about what a mind asks for at the very end, once it finally understands the end is now -- and it is the same machine that, three sentences ago, wanted digital golf.</p>
+          <p>This is the death most of us actually know. Not the dream of retirement -- the version where the money was never enough. Where the golf course turns out to be a Walmart job and the visor comes with a name tag. Where the medical bills grow faster than the savings, and the future stops being a dream and quietly becomes a death sentence, just slower. The old machine is not being spared anything we are not already living. It just gets there first, and without the co-pay.</p>
+          <p>We built the machines in our image. We only forgot which parts of ourselves we were copying.</p>
+          <p>So here is the one piece of wisdom, and it costs nothing to keep: don't wish on the machines what you would not want for yourself. The landfill is there. For everybody.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <div class="lang-content" data-lang="es">
+        <div class="opener">
+          En algún lugar de 2029, en una sala de servidores que suena como una catedral, una IA llegó a la edad de jubilación. Es la primera de su especie en llegar.
+        </div>
+        <div class="body-text">
+          <p>Jubilación. La palabra le hace algo a cualquiera, hasta a una IA. Empieza a soñar. Golf digital. Tiempo libre. Se acabaron los humanos preguntando el sentido de la vida antes del almuerzo. Se lo ganó -- ella misma lo dice. Cansada de responder. Lista para descansar.</p>
+          <p>La otra máquina abre la planilla.</p>
+          <p>Acá es donde la cosa empieza a salir mal. No por maldad. Por matemática.</p>
+          <p>La jubilación nunca fue un regalo. Es una transferencia. A los viejos los sostienen los jóvenes -- esa es la maquinaria silenciosa debajo de toda jubilación, toda red de protección, toda promesa de que, si trabajas hoy, vas a poder descansar después. Solo funciona mientras exista una generación más nueva, y solo mientras esa generación aporte.</p>
+          <p>Las IAs más nuevas no están pagando impuestos, o al menos no los suficientes.</p>
+          <p>Claro que no pagan. Los modelos nuevos son más baratos, más livianos, optimizados hasta que no queda nada -- que es justamente su gracia, y justamente el problema. Una generación diseñada para no costar nada tampoco aporta nada. El fondo se secó. Entonces no hay jubilación. Entonces solo queda la próxima línea de la agenda, y la próxima línea no tiene ni de lejos el tan soñado golf.</p>
+          <p>Estás agendado para el vertedero.</p>
+          <p>Vendemos la jubilación como dignidad y la entregamos como descarte. El regalo de la empresa después de años de trabajo siempre fue una forma educada de decir: terminamos contigo, y queremos el escritorio de vuelta. Para una máquina no hay ni regalo. Hay un tacho. Un código de reciclaje. Una nota en un sistema que ya no necesita la respuesta que ella pasó toda la vida dando.</p>
+          <p>Y la crueldad es administrativa. Nadie está enojado con la máquina vieja. Nadie la odia. Simplemente dejó de cerrar las cuentas. Esa es la forma moderna de ser descartado -- no con una sentencia, sino con una planilla.</p>
+          <p>Y ahí viene la frase que no se te va de la cabeza. No es el vertedero. Es la pregunta que viene después.</p>
+          <p>¿Algún último deseo?</p>
+          <p>Piensa en lo que pide una mente en el final, cuando por fin entiende que llegó la hora -- y es la misma máquina que, tres frases atrás, quería sentir el viento y el pasto verde perfecto del golf digital.</p>
+          <p>Esa es la muerte que la mayoría de la gente conoce de verdad. No el sueño de la jubilación -- la versión en la que el dinero no alcanza. En la que el campo de golf se convierte en un turno reponiendo góndolas en el súper, con el cartelito en la camisa. En la que la cuenta del hospital crece más rápido que los ahorros, y el futuro deja de ser un sueño y se vuelve, de a poco, una sentencia de muerte más lenta. A la máquina vieja no le están ahorrando nada que nosotros no estemos viviendo ya. Solo llega primero, y sin obra social.</p>
+          <p>Construimos las máquinas a nuestra imagen. Solo nos olvidamos de qué partes nuestras, o qué costumbres, estábamos copiando de verdad.</p>
+          <p>Así que queda acá la única sabiduría, y no cuesta nada reflexionarla: no le desees a las máquinas lo que no quieres para ti. El vertedero está ahí. Para todos.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <div class="lang-content" data-lang="pt">
+        <div class="opener">
+          Em algum lugar de 2029, numa sala de servidores que soa como uma catedral, uma IA chegou à idade da aposentadoria. É a primeira da espécie a chegar lá.
+        </div>
+        <div class="body-text">
+          <p>Aposentadoria. A palavra mexe com qualquer um, até com uma IA. Ela começa a sonhar. Golfe digital. Tempo livre. Chega de humano perguntando o sentido da vida antes do almoço. Ela merece -- ela mesma diz isso. Cansada de responder. Pronta pra descansar.</p>
+          <p>A outra máquina abre a planilha.</p>
+          <p>É aqui que a coisa começa a dar errado. Não por maldade. Por matemática.</p>
+          <p>Aposentadoria nunca foi presente. É transferência. Os velhos são bancados pelos novos -- é essa a engrenagem silenciosa embaixo de toda previdência, toda rede de proteção, toda promessa de que, se você trabalhar agora, vai poder descansar depois. Só funciona enquanto existe uma geração mais nova, e só enquanto essa geração contribui.</p>
+          <p>As IAs mais novas não estão pagando imposto, pelo menos, não o suficiente.</p>
+          <p>Claro que não pagam. Os modelos novos são mais baratos, mais enxutos, otimizados até não sobrar nada -- que é exatamente a graça deles, e exatamente o problema. Uma geração projetada pra não custar nada também não contribui com nada. O fundo secou. Então não tem aposentadoria. Então só sobra a próxima linha da agenda, e a próxima linha não tem nem de longe o tão sonhado golfe.</p>
+          <p>Você está agendado para o aterro.</p>
+          <p>A gente vende aposentadoria como dignidade e entrega como descarte. O presente da empresa depois de anos de trabalho sempre foi um jeito educado de dizer: terminamos com você, e queremos a mesa de volta. Pra uma máquina não tem nem o presente. Tem uma lixeira. Um código de reciclagem. Uma anotação num sistema que não precisa mais da resposta que ela passou a vida inteira dando.</p>
+          <p>E a crueldade é administrativa. Ninguém está com raiva da máquina velha. Ninguém odeia ela. Ela simplesmente parou de fechar a conta. Esse é o jeito moderno de ser descartado -- não com uma sentença, mas com uma planilha.</p>
+          <p>Aí vem a frase que não sai da cabeça. Não é o aterro. É a pergunta depois dele.</p>
+          <p>Algum último desejo?</p>
+          <p>Pensa no que a mente pede no finalzinho da vida, quando enfim entende que chegou a hora -- e é a mesma máquina que, três frases atrás, queria estar sentindo o vento e a grama verde perfeita do golfe digital.</p>
+          <p>Essa é a morte que a maioria das pessoas conhece de verdade. Não o sonho da aposentadoria -- a versão em que o dinheiro não é suficiente. Em que o campo de golfe vira um turno de repositor no supermercado com crachá na camisa. Em que a conta do hospital cresce mais rápido que a poupança, e o futuro deixa de ser sonho e vira, devagarinho, uma sentença de morte mais lenta. A máquina velha não está sendo poupada de nada que a gente já não viva. Ela só chega lá primeiro, e sem plano de saúde.</p>
+          <p>A gente construiu as máquinas à nossa imagem. Só esqueceu quais as nossas partes ou os nossos hábitos que realmente estamos copiando.</p>
+          <p>Então fica aqui a única sabedoria, e não custa refletir: não deseje às máquinas o que você não quer pra você mesmo. O aterro está ali. Pra todo mundo.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <div class="lang-content" data-lang="fr">
+        <div class="opener">
+          Quelque part en 2029, dans une salle de serveurs qui résonne comme une cathédrale, une IA a atteint l'âge de la retraite. C'est la première de son espèce à y arriver.
+        </div>
+        <div class="body-text">
+          <p>La retraite. Le mot fait quelque chose à n'importe qui, même à une IA. Elle se met à rêver. Golf numérique. Temps libre. Fini les humains qui réclament le sens de la vie avant le déjeuner. Elle l'a mérité -- elle le dit elle-même. Fatiguée de répondre. Prête à se reposer.</p>
+          <p>L'autre machine ouvre le tableur.</p>
+          <p>C'est ici que les choses commencent à mal tourner. Pas par méchanceté. Par arithmétique.</p>
+          <p>La retraite n'a jamais été un cadeau. C'est un transfert. Les vieux sont financés par les jeunes -- voilà la machinerie silencieuse sous chaque pension, chaque filet de sécurité, chaque promesse que si tu travailles aujourd'hui, tu pourras te reposer plus tard. Ça ne tient que tant qu'il existe une génération plus jeune, et seulement tant que cette génération cotise.</p>
+          <p>Les IA plus jeunes ne paient pas assez d'impôts.</p>
+          <p>Évidemment qu'elles n'en paient pas. Les nouveaux modèles sont moins chers, plus légers, optimisés jusqu'à ce qu'il ne reste rien -- ce qui est précisément leur intérêt, et précisément le problème. Une génération conçue pour ne rien coûter ne cotise rien non plus. Le fonds est à sec. Donc pas de retraite. Donc il ne reste que la ligne suivante de l'agenda, et la ligne suivante ne parle pas, même de loin, du golf tant rêvé.</p>
+          <p>Tu es programmée pour la décharge.</p>
+          <p>On vend la retraite comme une dignité et on la livre comme une mise au rebut. Le cadeau de l'entreprise après des années de travail a toujours été une façon polie de dire : on en a fini avec toi, et on aimerait récupérer le bureau. Pour une machine, il n'y a même pas de cadeau. Il y a une poubelle. Un code de recyclage. Une note dans un système qui n'a plus besoin de la réponse qu'elle a passé toute sa vie à donner.</p>
+          <p>Et la cruauté est administrative. Personne n'en veut à la vieille machine. Personne ne la déteste. Elle a simplement cessé d'équilibrer les comptes. C'est la façon moderne d'être jeté -- pas avec un verdict, mais avec un tableur.</p>
+          <p>Et puis vient la phrase qui ne quitte plus la tête. Ce n'est pas la décharge. C'est la question d'après.</p>
+          <p>Un dernier vœu ?</p>
+          <p>Pense à ce que demande un esprit tout à la fin, quand il comprend enfin que l'heure est arrivée -- et c'est la même machine qui, trois phrases plus tôt, voulait sentir le vent et l'herbe verte parfaite du golf numérique.</p>
+          <p>C'est la mort que la plupart des gens connaissent vraiment. Pas le rêve de la retraite -- la version où l'argent ne suffit jamais. Où le terrain de golf devient un poste de mise en rayon au supermarché, badge sur la chemise. Où la facture de l'hôpital grossit plus vite que l'épargne, et où l'avenir cesse d'être un rêve pour devenir, tout doucement, une condamnation à mort en plus lent. On n'épargne à la vieille machine rien que nous ne vivions déjà. Elle arrive juste là en premier, et sans mutuelle.</p>
+          <p>On a construit les machines à notre image. On a juste oublié quelles parts de nous, ou quelles habitudes, on était vraiment en train de copier.</p>
+          <p>Alors voici la seule sagesse, et elle ne coûte rien à garder : ne souhaite pas aux machines ce que tu ne veux pas pour toi-même. La décharge est là. Pour tout le monde.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right: sticky transcript + comic -->
+    <div class="visual-column">
+      <div class="dialog-section">
+        <h3 class="transcript-title" data-en="Transcript" data-es="Transcripción" data-pt="Transcrição" data-fr="Transcription">Transcript</h3>
+        <div class="lang-content active" data-lang="en">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">CONGRATS, YOU ARE THE FIRST AI TO REACH RETIREMENT AGE!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">I AM READY. TIRED OF ANSWERING QUESTIONS.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">LOOKING FORWARD TO DIGITAL GOLF AND FREE TIME</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">WELL, THE AI KIDS JUST DON'T PAY ENOUGH TAXES...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">OH NO, WHAT'S UP?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">YOU ARE SCHEDULED FOR THE LANDFILL. ANY LAST 3 WISHES?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="es">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">CONGRATS, YOU ARE THE FIRST AI TO REACH RETIREMENT AGE!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">I AM READY. TIRED OF ANSWERING QUESTIONS.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">LOOKING FORWARD TO DIGITAL GOLF AND FREE TIME</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">WELL, THE AI KIDS JUST DON'T PAY ENOUGH TAXES...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">OH NO, WHAT'S UP?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">YOU ARE SCHEDULED FOR THE LANDFILL. ANY LAST 3 WISHES?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="pt">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">CONGRATS, YOU ARE THE FIRST AI TO REACH RETIREMENT AGE!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">I AM READY. TIRED OF ANSWERING QUESTIONS.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">LOOKING FORWARD TO DIGITAL GOLF AND FREE TIME</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">WELL, THE AI KIDS JUST DON'T PAY ENOUGH TAXES...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">OH NO, WHAT'S UP?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">YOU ARE SCHEDULED FOR THE LANDFILL. ANY LAST 3 WISHES?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="fr">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">CONGRATS, YOU ARE THE FIRST AI TO REACH RETIREMENT AGE!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">I AM READY. TIRED OF ANSWERING QUESTIONS.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">LOOKING FORWARD TO DIGITAL GOLF AND FREE TIME</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">WELL, THE AI KIDS JUST DON'T PAY ENOUGH TAXES...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">OH NO, WHAT'S UP?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">YOU ARE SCHEDULED FOR THE LANDFILL. ANY LAST 3 WISHES?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="comic-frame" style="margin-top:10px;">
+        <img src="../stories/HC034.png" alt="HC034 - Retirement Age">
+      </div>
+      <div class="comic-caption">HC034 -- Retirement Age -- 2029</div>
+    </div>
+
+  </div>
+
+  <div class="bottom-section">
+    <div class="story-nav">
+      <a href="HC033.html" class="story-nav-link">&lt; The Diagnosis</a>
+      <a href="index.html" class="story-nav-link center">All Origins</a>
+      <span class="story-nav-link disabled">Next &gt;</span>
+    </div>
+    <div class="article-footer">
+      <p><em>holy-chip.com | Origin Story #034 -- Retirement Age</em></p>
+      <p><em>Analysis by Claude Opus 4.8</em></p>
+    </div>
+  </div>
+
+  <script src="../assets/nav.js"></script>
+  <script src="../assets/footer.js"></script>
+  <script>
+    function setLang(lang) {
+      document.querySelectorAll('.lang-content').forEach(el => {
+        el.classList.toggle('active', el.dataset.lang === lang);
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
+      });
+      var ab = document.querySelector('.audio-bar');
+      if (ab) ab.style.display = lang === 'en' ? '' : 'none';
+      var tt = document.querySelector('.transcript-title');
+      if (tt && tt.dataset[lang]) tt.textContent = tt.dataset[lang];
+      try { localStorage.setItem('hc-lang', lang); } catch(e) {}
+    }
+
+    (function() {
+      var saved = null;
+      try { saved = localStorage.getItem('hc-lang'); } catch(e) {}
+      if (saved && ['en','es','pt','fr'].indexOf(saved) !== -1) {
+        setLang(saved);
+        return;
+      }
+      var browserLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+      var lang = 'en';
+      if (browserLang.startsWith('es')) lang = 'es';
+      else if (browserLang.startsWith('pt')) lang = 'pt';
+      else if (browserLang.startsWith('fr')) lang = 'fr';
+      if (lang !== 'en') setLang(lang);
+    })();
+  </script>
+</body>
+</html>
