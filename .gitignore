@@ -59,3 +59,12 @@ debug-*.js
 
 # Local drafts (contain submitter PII — never commit to public repo)
 draft_emails/
+
+# Image/source backup files (sgen + image workflow temp backups)
+*.bak
+*.bak2
+*.bak3
+*.sgen.bak
+
+# Deno lockfile (not part of the static site)
+deno.lock
