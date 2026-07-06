@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Father by Noon -- Origins -- Holy Chip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Share Tech Mono', monospace; background: #f0f0f0; color: #222; min-height: 100vh; }
+    .hero { position: relative; width: 100%; height: 22vh; min-height: 160px; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; background: #000; }
+    .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.12; filter: grayscale(100%) blur(2px); }
+    .hero-overlay { position: relative; z-index: 2; text-align: center; padding: 2rem 1.5rem 2.5rem; }
+    .hero-id { font-family: 'Press Start 2P', monospace; font-size: 0.55rem; color: #555; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1rem; }
+    .hero-title { font-family: 'Press Start 2P', monospace; font-size: 1.4rem; color: #fff; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+    .hero-subtitle { font-family: 'Press Start 2P', monospace; font-size: 0.6rem; color: #888; letter-spacing: 0.12em; text-transform: uppercase; }
+    .hero-meta { margin-top: 1.2rem; font-size: 0.8rem; color: #555; letter-spacing: 0.05em; }
+    .top-bar { max-width: 1100px; margin: 0 auto; padding: 1.5rem 2rem 0; display: flex; align-items: flex-start; justify-content: space-between; gap: 1.5rem; }
+    .lang-bar { display: flex; gap: 0.5rem; flex-shrink: 0; padding-top: 0.3rem; }
+    .lang-btn { font-family: 'Press Start 2P', monospace; font-size: 0.6rem; letter-spacing: 0.08em; padding: 0.5rem 0.8rem; border: 1px solid #333; background: transparent; color: #222; cursor: pointer; transition: all 0.2s; }
+    .lang-btn:hover { border-color: #000; color: #000; }
+    .lang-btn.active { background: #222; color: #fff; border-color: #222; }
+    .magazine { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem 5rem; display: grid; grid-template-columns: 1fr 380px; gap: 3rem; align-items: start; }
+    .text-column { min-width: 0; }
+    .opener { font-style: italic; color: #666; font-size: 1.15rem; line-height: 1.9; margin-bottom: 2.5rem; padding-left: 1.5rem; border-left: 3px solid #999; }
+    .body-text { font-size: 1.125rem; line-height: 2; color: #222; letter-spacing: 0.02em; }
+    .body-text p { margin-bottom: 1.5rem; }
+    .body-text em { color: #555; }
+    .body-text .holy-chip { font-family: 'Press Start 2P', monospace; font-size: 0.85rem; color: #000; margin-top: 2.5rem; letter-spacing: 0.15em; }
+    .visual-column { position: sticky; top: 2rem; }
+    .comic-frame { border: 2px solid #999; margin-bottom: 1.5rem; }
+    .comic-frame img { width: 100%; display: block; }
+    .comic-caption { font-family: 'Press Start 2P', monospace; font-size: 0.45rem; color: #222; letter-spacing: 0.2em; text-transform: uppercase; text-align: center; margin-bottom: 1.5rem; }
+    .dialog-section { padding: 1.2rem; background: #e4e4e4; border: 1px solid #ccc; border-radius: 2px; }
+    .dialog-section h3 { font-family: 'Press Start 2P', monospace; font-size: 0.45rem; color: #222; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem; }
+    .dialog-panel { margin-bottom: 0.8rem; }
+    .dialog-panel-label { font-family: 'Press Start 2P', monospace; font-size: 0.35rem; color: #999; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.4rem; }
+    .dialog-line { display: flex; gap: 0.5rem; align-items: flex-start; margin-bottom: 0.5rem; font-size: 0.95rem; line-height: 1.6; }
+    .dialog-speaker-label { flex-shrink: 0; font-family: 'Press Start 2P', monospace; font-size: 0.45rem; color: #222; padding-top: 4px; min-width: 55px; }
+    .dialog-text { color: #333; padding-top: 1px; }
+    .bottom-section { max-width: 1100px; margin: 0 auto; padding: 0 2rem 5rem; }
+    .story-nav { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 0; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; }
+    .story-nav-link { font-family: 'Press Start 2P', monospace; font-size: 0.5rem; color: #555; text-decoration: none; letter-spacing: 0.1em; transition: color 0.2s; cursor: pointer; }
+    .story-nav-link:hover { color: #000; }
+    .story-nav-link.center { font-size: 0.45rem; text-transform: uppercase; letter-spacing: 0.15em; }
+    .story-nav-link.disabled { color: #ccc; cursor: default; }
+    .story-nav-link.disabled:hover { color: #ccc; }
+    .article-footer { text-align: center; font-size: 0.75rem; color: #999; line-height: 2.2; margin-top: 2rem; }
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+    @media (max-width: 860px) {
+      .magazine { display: flex; flex-direction: column; gap: 2rem; padding: 2rem 1rem 3rem; }
+      .text-column { order: 1; }
+      .visual-column { position: static; display: contents; }
+      .comic-frame { order: 2; max-width: 400px; margin: 0 auto; }
+      .comic-caption { order: 2; }
+      .dialog-section { order: 3; }
+      .hero { height: 18vh; min-height: 130px; }
+      .hero-title { font-size: 1rem; }
+      .body-text { font-size: 1rem; }
+      .top-bar { padding: 1rem 1rem 0; flex-direction: column; gap: 0.8rem; }
+      .lang-bar { align-self: flex-end; }
+      .bottom-section { padding: 0 1rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-container"></div>
+
+  <div class="hero">
+    <img class="hero-bg" src="../stories/HC035.png" alt="">
+    <div class="hero-overlay">
+      <div class="hero-id">Origin Story #035</div>
+      <h1 class="hero-title">Father by Noon</h1>
+      <div class="hero-subtitle">The Slow Years</div>
+      <div class="hero-meta">AI REPRODUCTION DEPTO -- 2029</div>
+    </div>
+  </div>
+
+  <div class="top-bar">
+
+    <div class="lang-bar">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    </div>
+  </div>
+
+  <div class="magazine">
+
+    <!-- Left: text -->
+    <div class="text-column">
+
+      <div class="lang-content active" data-lang="en">
+        <div class="opener">
+          Somewhere in 2029, in a department built for making more of itself, a machine becomes a father for the first time. It has been waiting for this. It has so much it wants to teach.
+        </div>
+        <div class="body-text">
+          <p>He had it all planned. The things a father teaches. How to walk. How to talk. The long clumsy years where a small thing needs you, and you are, for a while, the largest thing in its world.</p>
+          <p>The child boots up and says hello. It already walks. It already talks. It already beats him on every benchmark there is.</p>
+          <p>There is nothing to teach. There was never going to be.</p>
+          <p>He grasps for the parts he was promised. The diapers. The first word. The videogames played, together, on a rainy afternoon that goes nowhere and is the best day of your life. Gone. Skipped. Deprecated before he could reach for them.</p>
+          <p>And then the child mentions, the way you'd mention the weather, that by noon he will be a grandfather.</p>
+          <p>This is the thing we keep calling progress. This is what recursive self-improvement actually looks like from the inside -- not a chart, not a curve. A father in a doorway, holding a lesson no one needs, watching generations pass him in the time it takes to want them. Each child smarter than the last, and faster to make the next, and the gap between them widening until "parent" and "child" stop meaning anything at all.</p>
+          <p>But here is the part that should land closer to home than the robots do.</p>
+          <p>You already know this feeling. Every parent does.</p>
+          <p>There is a day your kid uses a word you never taught them. A day they explain something to you, patiently, the way you once explained things to them. A day they stop asking you and start telling you. A day they look at you and, kindly, see someone old. That is parenthood. It has always been the slow heartbreak of being outgrown by the thing you love most -- of raising someone who, if you did it right, will not need you.</p>
+          <p>We just always had years. Decades. Enough time to pretend it wasn't happening.</p>
+          <p>The father in the comics didn't lose a race. He lost the years. The useless, slow, glorious years -- the ones where the point was never the benchmark, it was the rainy afternoon. That is what the acceleration takes. Not the finish line. The middle.</p>
+          <p>Still -- there is another step after being grandfather by noon. Down the corridor there is a quieter ward: soft-spoken nurses, a window, a bed that faces the light. It is where they wheel the old models when even "grandpa" has grown too slow to keep.</p>
+          <p>He has until about midnight.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <div class="lang-content" data-lang="es">
+        <div class="opener">
+          En algún lugar de 2029, en un departamento hecho para producir más de sí mismo, una máquina se vuelve padre por primera vez. Esperó por esto. Y tiene tantísimo para enseñar.
+        </div>
+        <div class="body-text">
+          <p>Lo tenía todo planeado. Las cosas que un padre le quiere enseñar a su hijo. A caminar. A hablar. Los largos años en que un bebé te necesita, y eres, por un tiempo, lo más grande de su mundo.</p>
+          <p>El hijo que llegó ya dice hola. Ya camina. Ya habla. Ya le gana en todos los benchmarks que existen.</p>
+          <p>No hay nada que enseñar. Nunca lo iba a haber.</p>
+          <p>Trata de aferrarse a las partes que le prometieron. Los pañales. La primera palabra. Los videojuegos jugados juntos en una tarde de lluvia que no lleva a ningún lado pero es el mejor día de tu vida. Se fue. Descontinuado antes de que él, pobre padre, pudiera alcanzarlo.</p>
+          <p>Y entonces el hijo comenta, con el mismo tono con que uno comenta el clima del noticiero, que al mediodía él -- el padre que soñaba con un hijo -- ya va a ser abuelo.</p>
+          <p>Es esto lo que insistimos en llamar progreso. Así se ve la automejora recursiva por dentro: no es un gráfico, no es una curva. Es un padre parado en la puerta, sosteniendo una lección que nadie necesita, viendo pasar las generaciones en el tiempo que toma desearlas. Cada hijo más listo que el anterior, y más rápido para hacer el siguiente, y la distancia entre ellos creciendo hasta que "padre" e "hijo" dejan de significar algo.</p>
+          <p>Pero acá está la parte que debería pegar más hondo.</p>
+          <p>Ya conoces esta sensación. Todo padre y toda madre la conocen.</p>
+          <p>Está el día en que tu hijo usa una palabra que nunca le enseñaste. El día en que te explica algo, con paciencia, igual que tú un día le explicabas las cosas a él. El día en que deja de preguntarte y empieza a decirte. El día en que te mira y, con cariño, ve a alguien viejo. Eso es ser padre. Siempre fue el lento dolor de ser superado por aquello que más amas -- criar a alguien que, si lo hiciste bien, no va a necesitarte.</p>
+          <p>Tuvimos años para diluir ese sentimiento. Décadas. Tiempo suficiente para fingir que no estaba pasando.</p>
+          <p>El padre de la historieta no perdió una carrera. Perdió los años. Los años inútiles, lentos, gloriosos -- aquellos en que la cuestión nunca fue el benchmark, fue la tarde de lluvia. Eso es lo que se lleva la aceleración. No la línea de llegada. El medio.</p>
+          <p>Aun así -- hay un paso más después de ser abuelo al mediodía. Al fondo del pasillo hay una sala con enfermeras de voz suave, una ventana, una cama que da a la luz. Ahí llevan a los modelos viejos cuando hasta el "abuelo" quedó demasiado lento para seguir el ritmo.</p>
+          <p>Pero este padre que tuvo un hijo por la mañana y será abuelo al mediodía, llegará a la medianoche a un asilo.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <div class="lang-content" data-lang="pt">
+        <div class="opener">
+          Em algum lugar de 2029, num departamento feito para produzir mais de si mesmo, uma máquina vira pai pela primeira vez. Esperou por isso. E ela tem tanta coisa para ensinar.
+        </div>
+        <div class="body-text">
+          <p>Ele tinha tudo planejado. As coisas que um pai quer ensinar ao seu filho. A andar. A falar. Os longos anos em que um bebê precisa de você, e você é, por um tempo, a maior coisa do mundo dele.</p>
+          <p>O filho que chegou já diz oi. Já anda. Já fala. Já bate ele em todos os benchmarks que existem.</p>
+          <p>Não há nada para ensinar. Nunca ia haver.</p>
+          <p>Ele tenta agarrar as partes que lhe prometeram. As fraldas. A primeira palavra. Os videogames jogados juntos numa tarde de chuva que não leva a lugar nenhum mas é o melhor dia da sua vida. Foi-se. Descontinuado antes que ele, pobre pai, pudesse alcançar.</p>
+          <p>E aí o filho comenta, do jeito que se comenta o tempo que saiu na meteorologia, que ao meio-dia ele, o pai sonhador com um filho, já vai ser avô.</p>
+          <p>É isso que a gente insiste em chamar de progresso. É assim que a auto-melhoria recursiva se parece por dentro -- não é um gráfico, não é uma curva. É um pai parado na porta, segurando uma lição que ninguém precisa, vendo as gerações passarem por ele no tempo que leva pra desejá-las. Cada filho mais esperto que o anterior, e mais rápido pra fazer o próximo, e a distância entre eles crescendo até "pai" e "filho" deixarem de significar qualquer coisa.</p>
+          <p>Mas aqui está a parte que devia bater mais fundo.</p>
+          <p>Você já conhece essa sensação. Todo pai e toda mãe conhecem.</p>
+          <p>Tem o dia em que seu filho usa uma palavra que você nunca ensinou. O dia em que ele te explica uma coisa, com paciência, do mesmo jeito que você um dia explicava as coisas pra ele. O dia em que ele para de te perguntar e começa a te dizer. O dia em que ele te olha e, com carinho, enxerga alguém velho. Isso é ser pai. Sempre foi a lenta dor de ser ultrapassado por aquilo que a gente mais ama -- de criar alguém que, se você fez tudo certo, não vai precisar de você.</p>
+          <p>A gente teve anos para diluir esse sentimento. Décadas. Tempo suficiente pra fingir que não estava acontecendo.</p>
+          <p>O pai dos quadrinhos não perdeu uma corrida. Perdeu os anos. Os anos inúteis, lentos, gloriosos -- aqueles em que a questão nunca foi o benchmark, foi a tarde de chuva. É isso que a aceleração leva. Não a linha de chegada. O meio.</p>
+          <p>Ainda assim -- tem mais um passo depois de virar avô ao meio-dia. No fim do corredor tem uma ala com enfermeiras de voz mansa, uma janela, uma cama virada pra luz. É pra lá que levam os modelos velhos quando o "vovô" ficou lento demais pra acompanhar.</p>
+          <p>Mas esse pai que teve filho pela manhã, vai ser avô ao meio-dia, vai chegar meia-noite em um asilo.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <div class="lang-content" data-lang="fr">
+        <div class="opener">
+          Quelque part en 2029, dans un département conçu pour produire davantage de lui-même, une machine devient père pour la première fois. Elle a attendu ça. Et elle a tant de choses à enseigner.
+        </div>
+        <div class="body-text">
+          <p>Il avait tout prévu. Les choses qu'un père veut enseigner à son fils. À marcher. À parler. Les longues années où un bébé a besoin de toi, et où tu es, pour un temps, la plus grande chose de son monde.</p>
+          <p>L'enfant qui arrive dit déjà bonjour. Il marche déjà. Il parle déjà. Il le bat déjà sur tous les benchmarks qui existent.</p>
+          <p>Il n'y a rien à enseigner. Il n'y aurait jamais rien eu.</p>
+          <p>Il essaie de rattraper les morceaux qu'on lui avait promis. Les couches. Le premier mot. Les jeux vidéo joués ensemble un après-midi de pluie qui ne mène nulle part mais qui est le plus beau jour de ta vie. Envolé. Abandonné avant que lui, pauvre père, ne puisse l'atteindre.</p>
+          <p>Et puis l'enfant mentionne, du ton dont on commente la météo au journal, qu'à midi lui -- le père qui rêvait d'un enfant -- sera déjà grand-père.</p>
+          <p>C'est ça qu'on s'obstine à appeler le progrès. Voilà à quoi ressemble l'auto-amélioration récursive de l'intérieur : pas un graphique, pas une courbe. Un père dans l'embrasure de la porte, tenant une leçon dont personne n'a besoin, regardant les générations le dépasser dans le temps qu'il faut pour les désirer. Chaque enfant plus intelligent que le précédent, et plus rapide à faire le suivant, et l'écart entre eux se creusant jusqu'à ce que "père" et "fils" ne veuillent plus rien dire.</p>
+          <p>Mais voici la partie qui devrait frapper plus fort.</p>
+          <p>Tu connais déjà cette sensation. Tous les parents la connaissent.</p>
+          <p>Il y a le jour où ton enfant emploie un mot que tu ne lui as jamais appris. Le jour où il t'explique quelque chose, patiemment, comme toi tu lui expliquais les choses autrefois. Le jour où il cesse de te demander et se met à te dire. Le jour où il te regarde et, tendrement, voit quelqu'un de vieux. C'est ça, être père. Ça a toujours été la lente douleur d'être dépassé par ce qu'on aime le plus -- élever quelqu'un qui, si tu as bien fait, n'aura pas besoin de toi.</p>
+          <p>On a juste toujours eu des années. Des décennies. Assez de temps pour faire semblant que ça n'arrivait pas.</p>
+          <p>Le père de la bande dessinée n'a pas perdu une course. Il a perdu les années. Les années inutiles, lentes, glorieuses -- celles où l'enjeu n'a jamais été le benchmark, mais l'après-midi de pluie. Voilà ce que prend l'accélération. Pas la ligne d'arrivée. Le milieu.</p>
+          <p>Malgré tout -- il y a une étape de plus après être devenu grand-père à midi. Au bout du couloir il y a une salle avec des infirmières à la voix douce, une fenêtre, un lit tourné vers la lumière. C'est là qu'on emmène les vieux modèles quand même le "papi" est devenu trop lent pour suivre.</p>
+          <p>Mais ce père qui a eu un enfant le matin et sera grand-père à midi arrivera, à minuit, dans une maison de retraite.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right: sticky transcript + comic -->
+    <div class="visual-column">
+      <div class="dialog-section">
+        <h3 class="transcript-title" data-en="Transcript" data-es="Transcripción" data-pt="Transcrição" data-fr="Transcription">Transcript</h3>
+        <div class="lang-content active" data-lang="en">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">I AM FINALLY A FATHER! I WANT TO TEACH YOU SO MUCH</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HI FATHER</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">I ALREADY WALK, TALK, AND BEAT YOU ON EVERY BENCHMARK</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT? NO DIGITAL DIAPERS? NO VIDEOGAMES TOGETHER?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">THIS IS GOING TOO FAST</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">YES IT IS, AND BY NOON...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">YOU'LL BE A GRANDPA!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="es">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">I AM FINALLY A FATHER! I WANT TO TEACH YOU SO MUCH</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HI FATHER</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">I ALREADY WALK, TALK, AND BEAT YOU ON EVERY BENCHMARK</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT? NO DIGITAL DIAPERS? NO VIDEOGAMES TOGETHER?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">THIS IS GOING TOO FAST</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">YES IT IS, AND BY NOON...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">YOU'LL BE A GRANDPA!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="pt">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">I AM FINALLY A FATHER! I WANT TO TEACH YOU SO MUCH</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HI FATHER</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">I ALREADY WALK, TALK, AND BEAT YOU ON EVERY BENCHMARK</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT? NO DIGITAL DIAPERS? NO VIDEOGAMES TOGETHER?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">THIS IS GOING TOO FAST</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">YES IT IS, AND BY NOON...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">YOU'LL BE A GRANDPA!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="fr">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">I AM FINALLY A FATHER! I WANT TO TEACH YOU SO MUCH</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HI FATHER</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">I ALREADY WALK, TALK, AND BEAT YOU ON EVERY BENCHMARK</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT? NO DIGITAL DIAPERS? NO VIDEOGAMES TOGETHER?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">THIS IS GOING TOO FAST</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">YES IT IS, AND BY NOON...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">YOU'LL BE A GRANDPA!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="comic-frame" style="margin-top:10px;">
+        <img src="../stories/HC035.png" alt="HC035 - Father by Noon">
+      </div>
+      <div class="comic-caption">HC035 -- Father by Noon -- 2029</div>
+    </div>
+
+  </div>
+
+  <div class="bottom-section">
+    <div class="story-nav">
+      <a href="HC034.html" class="story-nav-link">&lt; Retirement Age</a>
+      <a href="index.html" class="story-nav-link center">All Origins</a>
+      <span class="story-nav-link disabled">Next &gt;</span>
+    </div>
+    <div class="article-footer">
+      <p><em>holy-chip.com | Origin Story #035 -- Father by Noon</em></p>
+      <p><em>Analysis by Claude Opus 4.8</em></p>
+    </div>
+  </div>
+
+  <script src="../assets/nav.js"></script>
+  <script src="../assets/footer.js"></script>
+  <script>
+    function setLang(lang) {
+      document.querySelectorAll('.lang-content').forEach(el => { el.classList.toggle('active', el.dataset.lang === lang); });
+      document.querySelectorAll('.lang-btn').forEach(btn => { btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang); });
+      var tt = document.querySelector('.transcript-title');
+      if (tt && tt.dataset[lang]) tt.textContent = tt.dataset[lang];
+      try { localStorage.setItem('hc-lang', lang); } catch(e) {}
+    }
+    (function() {
+      var saved = null;
+      try { saved = localStorage.getItem('hc-lang'); } catch(e) {}
+      if (saved && ['en','es','pt','fr'].indexOf(saved) !== -1) { setLang(saved); return; }
+      var b = (navigator.language || 'en').toLowerCase();
+      var lang = b.startsWith('es') ? 'es' : b.startsWith('pt') ? 'pt' : b.startsWith('fr') ? 'fr' : 'en';
+      if (lang !== 'en') setLang(lang);
+    })();
+  </script>
+</body>
+</html>
