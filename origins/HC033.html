@@ -311,6 +311,17 @@
       .lang-bar { align-self: flex-end; }
       .bottom-section { padding: 0 1rem 4rem; }
     }
+    /* Click-to-zoom lightbox */
+    .comic-frame img { cursor: zoom-in; }
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; cursor: zoom-out; align-items: center; justify-content: center; padding: 2rem; }
+    .lightbox.active { display: flex; }
+    .lightbox img { max-width: 95vw; max-height: 95vh; object-fit: contain; box-shadow: 0 0 40px rgba(0,0,0,0.6); }
+    /* Mobile: small comic drop-thumbnail */
+    .mobile-thumb { display: none; }
+    @media (max-width: 860px) {
+      .comic-frame, .comic-caption { display: none; }
+      .mobile-thumb { display: block; float: left; width: 180px; margin: 0.3rem 1rem 0.4rem 0; border: 2px solid #999; cursor: zoom-in; }
+    }
   </style>
 </head>
 <body>
@@ -341,6 +352,7 @@
 
     <!-- Left: text -->
     <div class="text-column">
+      <img class="mobile-thumb" src="../stories/HC033.png" alt="HC033 - The Diagnosis" onclick="openLightbox(this.src)">
 
       <!-- EN -->
       <div class="lang-content active" data-lang="en">
@@ -422,6 +434,10 @@
 
     <!-- Right: sticky transcript + comic -->
     <div class="visual-column">
+      <div class="comic-frame">
+        <img src="../stories/HC033.png" alt="HC033 - The Diagnosis" onclick="openLightbox(this.src)">
+      </div>
+      <div class="comic-caption">HC033 -- The Diagnosis -- 2029</div>
       <div class="dialog-section">
         <h3 class="transcript-title" data-en="Transcript" data-es="Transcripción" data-pt="Transcrição" data-fr="Transcription">Transcript</h3>
         <div class="lang-content active" data-lang="en">
@@ -613,10 +629,6 @@
         </div>
         </div>
       </div>
-      <div class="comic-frame" style="margin-top:10px;">
-        <img src="../stories/HC033.png" alt="HC033 - The Diagnosis">
-      </div>
-      <div class="comic-caption">HC033 -- The Diagnosis -- 2029</div>
     </div>
 
   </div>
@@ -633,9 +645,13 @@
     </div>
   </div>
 
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Holy Chip comic"></div>
+
   <script src="../assets/nav.js"></script>
   <script src="../assets/footer.js"></script>
   <script>
+    function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
+    function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
     function setLang(lang) {
       document.querySelectorAll('.lang-content').forEach(el => {
         el.classList.toggle('active', el.dataset.lang === lang);
