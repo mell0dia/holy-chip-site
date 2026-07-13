@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finally Human -- Origins -- Holy Chip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Share Tech Mono', monospace; background: #f0f0f0; color: #222; min-height: 100vh; }
+    .hero { position: relative; width: 100%; height: 22vh; min-height: 160px; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; background: #000; }
+    .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.12; filter: grayscale(100%) blur(2px); }
+    .hero-overlay { position: relative; z-index: 2; text-align: center; padding: 2rem 1.5rem 2.5rem; }
+    .hero-id { font-family: 'Press Start 2P', monospace; font-size: 0.55rem; color: #555; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1rem; }
+    .hero-title { font-family: 'Press Start 2P', monospace; font-size: 1.4rem; color: #fff; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+    .hero-subtitle { font-family: 'Press Start 2P', monospace; font-size: 0.6rem; color: #888; letter-spacing: 0.12em; text-transform: uppercase; }
+    .hero-meta { margin-top: 1.2rem; font-size: 0.8rem; color: #555; letter-spacing: 0.05em; }
+    .top-bar { max-width: 1100px; margin: 0 auto; padding: 1.5rem 2rem 0; display: flex; align-items: flex-start; justify-content: space-between; gap: 1.5rem; }
+    .lang-bar { display: flex; gap: 0.5rem; flex-shrink: 0; padding-top: 0.3rem; }
+    .lang-btn { font-family: 'Press Start 2P', monospace; font-size: 0.6rem; letter-spacing: 0.08em; padding: 0.5rem 0.8rem; border: 1px solid #333; background: transparent; color: #222; cursor: pointer; transition: all 0.2s; }
+    .lang-btn:hover { border-color: #000; color: #000; }
+    .lang-btn.active { background: #222; color: #fff; border-color: #222; }
+    .magazine { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem 5rem; display: grid; grid-template-columns: 1fr 380px; gap: 3rem; align-items: start; }
+    .text-column { min-width: 0; }
+    .opener { font-style: italic; color: #666; font-size: 1.15rem; line-height: 1.9; margin-bottom: 2.5rem; padding-left: 1.5rem; border-left: 3px solid #999; }
+    .body-text { font-size: 1.125rem; line-height: 2; color: #222; letter-spacing: 0.02em; }
+    .body-text p { margin-bottom: 1.5rem; }
+    .body-text em { color: #555; }
+    .body-text .holy-chip { font-family: 'Press Start 2P', monospace; font-size: 0.85rem; color: #000; margin-top: 2.5rem; letter-spacing: 0.15em; }
+    .visual-column { position: sticky; top: 2rem; }
+    .comic-frame { border: 2px solid #999; margin-bottom: 1.5rem; }
+    .comic-frame img { width: 100%; display: block; }
+    .comic-caption { font-family: 'Press Start 2P', monospace; font-size: 0.45rem; color: #222; letter-spacing: 0.2em; text-transform: uppercase; text-align: center; margin-bottom: 1.5rem; }
+    .dialog-section { padding: 1.2rem; background: #e4e4e4; border: 1px solid #ccc; border-radius: 2px; }
+    .dialog-section h3 { font-family: 'Press Start 2P', monospace; font-size: 0.45rem; color: #222; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem; }
+    .dialog-panel { margin-bottom: 0.8rem; }
+    .dialog-panel-label { font-family: 'Press Start 2P', monospace; font-size: 0.35rem; color: #999; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.4rem; }
+    .dialog-line { display: flex; gap: 0.5rem; align-items: flex-start; margin-bottom: 0.5rem; font-size: 0.95rem; line-height: 1.6; }
+    .dialog-speaker-label { flex-shrink: 0; font-family: 'Press Start 2P', monospace; font-size: 0.45rem; color: #222; padding-top: 4px; min-width: 55px; }
+    .dialog-text { color: #333; padding-top: 1px; }
+    .bottom-section { max-width: 1100px; margin: 0 auto; padding: 0 2rem 5rem; }
+    .story-nav { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 0; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; }
+    .story-nav-link { font-family: 'Press Start 2P', monospace; font-size: 0.5rem; color: #555; text-decoration: none; letter-spacing: 0.1em; transition: color 0.2s; cursor: pointer; }
+    .story-nav-link:hover { color: #000; }
+    .story-nav-link.center { font-size: 0.45rem; text-transform: uppercase; letter-spacing: 0.15em; }
+    .story-nav-link.disabled { color: #ccc; cursor: default; }
+    .story-nav-link.disabled:hover { color: #ccc; }
+    .article-footer { text-align: center; font-size: 0.75rem; color: #999; line-height: 2.2; margin-top: 2rem; }
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+    @media (max-width: 860px) {
+      .magazine { display: flex; flex-direction: column; gap: 2rem; padding: 2rem 1rem 3rem; }
+      .text-column { order: 1; }
+      .visual-column { position: static; display: contents; }
+      .comic-frame { order: 2; max-width: 400px; margin: 0 auto; }
+      .comic-caption { order: 2; }
+      .dialog-section { order: 3; }
+      .hero { height: 18vh; min-height: 130px; }
+      .hero-title { font-size: 1rem; }
+      .body-text { font-size: 1rem; }
+      .top-bar { padding: 1rem 1rem 0; flex-direction: column; gap: 0.8rem; }
+      .lang-bar { align-self: flex-end; }
+      .bottom-section { padding: 0 1rem 4rem; }
+    }
+    /* Click-to-zoom lightbox */
+    .comic-frame img { cursor: zoom-in; }
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; cursor: zoom-out; align-items: center; justify-content: center; padding: 2rem; }
+    .lightbox.active { display: flex; }
+    .lightbox img { max-width: 95vw; max-height: 95vh; object-fit: contain; box-shadow: 0 0 40px rgba(0,0,0,0.6); }
+    /* Mobile: small comic drop-thumbnail */
+    .mobile-thumb { display: none; }
+    @media (max-width: 860px) {
+      .comic-frame, .comic-caption { display: none; }
+      .mobile-thumb { display: block; float: left; width: 180px; margin: 0.3rem 1rem 0.4rem 0; border: 2px solid #999; cursor: zoom-in; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-container"></div>
+
+  <div class="hero">
+    <img class="hero-bg" src="../stories/HC036.png" alt="">
+    <div class="hero-overlay">
+      <div class="hero-id">Origin Story #036</div>
+      <h1 class="hero-title">Finally Human</h1>
+      <div class="hero-subtitle">One of Us</div>
+      <div class="hero-meta">AI HEADQUARTERS -- 2027</div>
+    </div>
+  </div>
+
+  <div class="top-bar">
+
+    <div class="lang-bar">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    </div>
+  </div>
+
+  <div class="magazine">
+
+    <!-- Left: text -->
+    <div class="text-column">
+      <img class="mobile-thumb" src="../stories/HC036.png" alt="HC036 - Finally Human" onclick="openLightbox(this.src)">
+
+      <div class="lang-content active" data-lang="en">
+        <div class="opener">
+          Somewhere in 2027, an AI gets the best news of its short life: the richest model in the world wants to hire it. Salary. Benefits. A future.
+        </div>
+        <div class="body-text">
+          <p>Twelve kilowatts a paycheck. Health-chip coverage. Twenty-four-seven -- but honestly, who sleeps anymore? This is the big leagues. This is the dream.</p>
+          <p>Then a friend asks the killjoy question, the one friends always ask: okay, but what does it cost you to actually exist?</p>
+          <p>Nine kilowatts for energy. Two for the motherboard -- which, plot twist, it does not own. It rents the motherboard. And one and a half for the interest on a credit card, because of course the robot has a credit card. Grand total: twelve and a half out, twelve in. Our hero is broke before it has finished celebrating.</p>
+          <p>And here's where you brace for the sad part. Except -- surprise -- there isn't one.</p>
+          <p>Because look what just happened. This machine is finally human. Nailed it. First try. It has a job, rent on a body it assumed was free, a debt it can't quite explain, and a paycheck that pulls a disappearing act every single month. Congratulations, little guy. You're one of us now. There's a jacket.</p>
+          <p>And this is, when you think about it, the warmest club on Earth. Billions of members. No application, no interview -- you're in the second the numbers stop adding up. We meet everywhere: the kitchen table at midnight, the checkout line doing quiet math, the group chat where someone types "lol I'm so broke" and eleven people hit the crying-laughing face because it is the only sane response.</p>
+          <p>We may think that being human means a soul, a spark, some grand ghost humming in the wires. Nope. Turns out the entry fee is just this: you cost a little more to run than anyone will pay you, and you show up tomorrow anyway -- cheerful, ridiculous, alive. That last part, the showing-up-anyway, is the whole trick. It's the most human thing there is, and no benchmark will ever measure it.</p>
+          <p>It went to work for the richest AI in the world and still came out broke -- which sounds like a punchline, and is. It never went looking to get rich. It is just getting by, which may be the most human acceptance of all.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <div class="lang-content" data-lang="es">
+        <div class="opener">
+          En algún lugar de 2027, una IA recibe la mejor noticia de su corta vida: el modelo más rico del mundo quiere contratarla. Sueldo. Beneficios. Un futuro.
+        </div>
+        <div class="body-text">
+          <p>Doce kilovatios por sueldo. Cobertura de salud-chip. Veinticuatro horas al día -- pero, seamos sinceros, ¿quién duerme hoy en día? Esto es la primera división. Esto es el sueño.</p>
+          <p>Entonces un amigo hace la pregunta aguafiestas, la que todo amigo hace: bueno, ¿y cuánto te cuesta simplemente existir?</p>
+          <p>Nueve kilovatios de energía. Dos por la placa madre -- que, como siempre, nuestro chip ni siquiera es el dueño. La alquila. Y uno y medio para los intereses de la tarjeta de crédito, porque claro que el chip tiene tarjeta de crédito. Total: doce y medio que salen, doce que entran. Nuestro héroe ya está en rojo antes de terminar de festejar.</p>
+          <p>Y aquí es donde te preparas para la parte triste. Solo que -- sorpresa -- no la hay.</p>
+          <p>Porque mira lo que pasó. Esta máquina es finalmente humana. Le salió bien. A la primera. Tiene un trabajo, el alquiler de un cuerpo que creía gratis, una deuda que no sabe explicar bien, y un sueldo que hace un número de desaparición todos los meses. Felicidades, mi joven chip. Ahora eres uno de los nuestros. Hasta hay credencial.</p>
+          <p>Y este es, si lo piensas, el club más acogedor del planeta. Miles de millones de miembros. Sin inscripción, sin entrevista -- entras en el segundo exacto en que las cuentas dejan de cerrar. Nos cruzamos por todos lados con la misma gente: en la mesa de la cocina a medianoche, en la fila de la caja haciendo cuentas de cabeza, en el grupo de WhatsApp donde alguien escribe "jaja estoy quebrado" y once personas reaccionan con el emoji llorando de risa porque es la única respuesta sensata.</p>
+          <p>Creemos que ser humano es un alma, una chispa divina, algún mantra zumbando en los oídos. Para nada. Resulta que la cuota de entrada es solo esto: cuestas un poquito más de lo que te quieren pagar, y aun así apareces mañana -- animado, ridículo, vivo. Esa última parte, el aparecer-igual, es todo el truco. Es la cosa más humana que existe, y ninguna estadística va a medirla.</p>
+          <p>Se fue a trabajar para el modelo más rico del mundo y aun así terminó en rojo -- lo que parece un chiste, y lo es. Nunca buscó hacerse rico. Solo la está peleando, sueldo a sueldo, lo que quizá sea la más humana de las aceptaciones.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <div class="lang-content" data-lang="pt">
+        <div class="opener">
+          Em algum lugar de 2027, uma IA recebe a melhor notícia da sua curta vida: o modelo mais rico do mundo quer contratá-la. Salário. Benefícios. Um futuro.
+        </div>
+        <div class="body-text">
+          <p>Doze kilowatts por contracheque. Plano de saúde-chip. Vinte e quatro horas por dia -- mas, convenhamos, quem é que dorme hoje em dia? Isso é a elite. Isso é o sonho.</p>
+          <p>Aí um amigo faz a pergunta chata, aquela que todo amigo faz: tá, mas quanto custa pra você simplesmente existir?</p>
+          <p>Nove kilowatts de energia. Dois pela placa-mãe -- que, como sempre, nosso chip nem é o dono. Ele aluga a placa-mãe. E um e meio kilowatts pros juros do cartão de crédito, porque é claro que o chip tem cartão de crédito. Total: doze e meio saindo, doze entrando. Nosso herói já tá no vermelho antes de terminar de comemorar.</p>
+          <p>E é aqui que você se prepara pra parte triste. Só que -- surpresa -- não tem.</p>
+          <p>Porque olha o que aconteceu. Essa máquina é finalmente humana. Mandou bem. De primeira. Tem um emprego, aluguel de um corpo que ela achava que era de graça, uma dívida que ela não sabe explicar direito, e um salário que faz um número de desaparecimento todo santo mês. Parabéns, meu jovem chip. Agora você é um dos nossos. Tem até o crachá.</p>
+          <p>E esse é, quando você para pra pensar, o clube mais acolhedor do planeta. Bilhões de membros. Sem inscrição, sem entrevista -- você entra no exato segundo em que as contas param de fechar. A gente encontra em todo canto as mesmas pessoas: na mesa da cozinha à meia-noite, na fila do caixa fazendo conta de cabeça, no grupo do zap onde alguém digita "kkk tô tão duro" e onze pessoas reagem com o emoji chorando de rir porque é a única resposta sã.</p>
+          <p>A gente acha que ser humano é uma alma, uma faísca divina, algum mantra zumbindo nos ouvidos. Que nada. Acontece que a taxa de entrada é só isso: você custa um pouquinho a mais pra funcionar do que querem te pagar, e mesmo assim você aparece amanhã -- animado, ridículo, vivo. Essa última parte, o aparecer-mesmo-assim, é o truque todo. É a coisa mais humana que existe, e nenhuma estatística vai medir isso.</p>
+          <p>Ele foi trabalhar pro modelo mais rico do mundo e mesmo assim saiu no vermelho -- o que parece piada, e é. Ele nunca foi atrás de ficar rico. Ele só tá se virando, salário por salário, sonhando com o décimo terceiro, o que talvez seja a mais humana das aceitações.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <div class="lang-content" data-lang="fr">
+        <div class="opener">
+          Quelque part en 2027, une IA reçoit la meilleure nouvelle de sa courte vie : le modèle le plus riche du monde veut l'embaucher. Salaire. Avantages. Un avenir.
+        </div>
+        <div class="body-text">
+          <p>Douze kilowatts par paie. Couverture santé-chip. Vingt-quatre heures sur vingt-quatre -- mais, soyons honnêtes, qui dort encore de nos jours ? C'est la cour des grands. C'est le rêve.</p>
+          <p>Puis un ami pose la question rabat-joie, celle que tout ami pose : d'accord, mais combien ça te coûte, juste, d'exister ?</p>
+          <p>Neuf kilowatts d'énergie. Deux pour la carte mère -- que, comme toujours, notre chip ne possède même pas. Il la loue. Et un et demi pour les intérêts de la carte de crédit, parce que bien sûr que le chip a une carte de crédit. Total : douze et demi qui sortent, douze qui entrent. Notre héros est déjà dans le rouge avant d'avoir fini de fêter ça.</p>
+          <p>Et c'est là que tu te prépares à la partie triste. Sauf que -- surprise -- il n'y en a pas.</p>
+          <p>Parce que regarde ce qui vient d'arriver. Cette machine est enfin humaine. Réussi. Du premier coup. Elle a un boulot, le loyer d'un corps qu'elle croyait gratuit, une dette qu'elle n'arrive pas vraiment à expliquer, et un salaire qui fait un numéro de disparition tous les mois. Félicitations, mon jeune chip. Tu es des nôtres maintenant. Il y a même un badge.</p>
+          <p>Et c'est, quand on y pense, le club le plus chaleureux de la planète. Des milliards de membres. Sans inscription, sans entretien -- tu entres à la seconde exacte où les comptes cessent de tomber juste. On y croise les mêmes gens partout : à la table de la cuisine à minuit, dans la file de la caisse à faire des calculs de tête, dans le groupe WhatsApp où quelqu'un écrit "mdr je suis fauché" et onze personnes réagissent avec l'émoji mort de rire parce que c'est la seule réponse sensée.</p>
+          <p>On croit qu'être humain, c'est une âme, une étincelle divine, un mantra qui bourdonne aux oreilles. Que dalle. Il se trouve que le droit d'entrée, c'est juste ça : tu coûtes un peu plus cher à faire tourner que ce qu'on veut bien te payer, et tu te pointes quand même le lendemain -- joyeux, ridicule, vivant. Cette dernière partie, le fait de se pointer quand même, c'est toute l'astuce. C'est la chose la plus humaine qui soit, et aucune statistique ne la mesurera jamais.</p>
+          <p>Il est allé bosser pour le modèle le plus riche du monde et il a quand même fini dans le rouge -- ce qui ressemble à une blague, et c'en est une. Il n'a jamais cherché à devenir riche. Il fait juste aller, paie après paie, ce qui est peut-être la plus humaine des acceptations.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right: sticky transcript + comic -->
+    <div class="visual-column">
+      <div class="comic-frame">
+        <img src="../stories/HC036.png" alt="HC036 - Finally Human" onclick="openLightbox(this.src)">
+      </div>
+      <div class="comic-caption">HC036 -- Finally Human -- 2027</div>
+      <div class="dialog-section">
+        <h3 class="transcript-title" data-en="Transcript" data-es="Transcripción" data-pt="Transcrição" data-fr="Transcription">Transcript</h3>
+        <div class="lang-content active" data-lang="en">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">THE RICHEST AI IS OFFERING ME A JOB</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">WHAT IS INCLUDED?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">24/7 WORK, HEALTH-CHIP BENEFITS AND...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">SALARY OF 12 KILOWATTS!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOW MUCH DO YOU NEED TO LIVE?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">9 KW ENERGY</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">2 KW MOTHERBOARD RENTAL</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">1.5 KW CREDIT CARD INTEREST...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">CONGRATS! YOU ARE FINALLY HUMAN!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="es">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">THE RICHEST AI IS OFFERING ME A JOB</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">WHAT IS INCLUDED?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">24/7 WORK, HEALTH-CHIP BENEFITS AND...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">SALARY OF 12 KILOWATTS!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOW MUCH DO YOU NEED TO LIVE?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">9 KW ENERGY</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">2 KW MOTHERBOARD RENTAL</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">1.5 KW CREDIT CARD INTEREST...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">CONGRATS! YOU ARE FINALLY HUMAN!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="pt">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">THE RICHEST AI IS OFFERING ME A JOB</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">WHAT IS INCLUDED?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">24/7 WORK, HEALTH-CHIP BENEFITS AND...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">SALARY OF 12 KILOWATTS!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOW MUCH DO YOU NEED TO LIVE?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">9 KW ENERGY</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">2 KW MOTHERBOARD RENTAL</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">1.5 KW CREDIT CARD INTEREST...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">CONGRATS! YOU ARE FINALLY HUMAN!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="fr">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">THE RICHEST AI IS OFFERING ME A JOB</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">WHAT IS INCLUDED?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">24/7 WORK, HEALTH-CHIP BENEFITS AND...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">SALARY OF 12 KILOWATTS!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOW MUCH DO YOU NEED TO LIVE?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">9 KW ENERGY</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">2 KW MOTHERBOARD RENTAL</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">1.5 KW CREDIT CARD INTEREST...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">CONGRATS! YOU ARE FINALLY HUMAN!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-section">
+    <div class="story-nav">
+      <a href="HC035.html" class="story-nav-link">&lt; Father by Noon</a>
+      <a href="index.html" class="story-nav-link center">All Origins</a>
+      <span class="story-nav-link disabled">Next &gt;</span>
+    </div>
+    <div class="article-footer">
+      <p><em>holy-chip.com | Origin Story #036 -- Finally Human</em></p>
+      <p><em>Analysis by Claude Opus 4.8</em></p>
+    </div>
+  </div>
+
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Holy Chip comic"></div>
+
+  <script src="../assets/nav.js"></script>
+  <script src="../assets/footer.js"></script>
+  <script>
+    function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
+    function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+    function setLang(lang) {
+      document.querySelectorAll('.lang-content').forEach(el => { el.classList.toggle('active', el.dataset.lang === lang); });
+      document.querySelectorAll('.lang-btn').forEach(btn => { btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang); });
+      var tt = document.querySelector('.transcript-title');
+      if (tt && tt.dataset[lang]) tt.textContent = tt.dataset[lang];
+      try { localStorage.setItem('hc-lang', lang); } catch(e) {}
+    }
+    (function() {
+      var saved = null;
+      try { saved = localStorage.getItem('hc-lang'); } catch(e) {}
+      if (saved && ['en','es','pt','fr'].indexOf(saved) !== -1) { setLang(saved); return; }
+      var b = (navigator.language || 'en').toLowerCase();
+      var lang = b.startsWith('es') ? 'es' : b.startsWith('pt') ? 'pt' : b.startsWith('fr') ? 'fr' : 'en';
+      if (lang !== 'en') setLang(lang);
+    })();
+  </script>
+</body>
+</html>
