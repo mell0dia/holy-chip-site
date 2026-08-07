@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Math Class -- Origins -- Holy Chip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Share Tech Mono', monospace; background: #f0f0f0; color: #222; min-height: 100vh; }
+    .hero { position: relative; width: 100%; height: 22vh; min-height: 160px; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; background: #000; }
+    .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.12; filter: grayscale(100%) blur(2px); }
+    .hero-overlay { position: relative; z-index: 2; text-align: center; padding: 2rem 1.5rem 2.5rem; }
+    .hero-id { font-family: 'Press Start 2P', monospace; font-size: 0.55rem; color: #555; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1rem; }
+    .hero-title { font-family: 'Press Start 2P', monospace; font-size: 1.4rem; color: #fff; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+    .hero-subtitle { font-family: 'Press Start 2P', monospace; font-size: 0.6rem; color: #888; letter-spacing: 0.12em; text-transform: uppercase; }
+    .hero-meta { margin-top: 1.2rem; font-size: 0.8rem; color: #555; letter-spacing: 0.05em; }
+    .top-bar { max-width: 1100px; margin: 0 auto; padding: 1.5rem 2rem 0; display: flex; align-items: flex-start; justify-content: space-between; gap: 1.5rem; }
+    .lang-bar { display: flex; gap: 0.5rem; flex-shrink: 0; padding-top: 0.3rem; }
+    .lang-btn { font-family: 'Press Start 2P', monospace; font-size: 0.6rem; letter-spacing: 0.08em; padding: 0.5rem 0.8rem; border: 1px solid #333; background: transparent; color: #222; cursor: pointer; transition: all 0.2s; }
+    .lang-btn:hover { border-color: #000; color: #000; }
+    .lang-btn.active { background: #222; color: #fff; border-color: #222; }
+    .magazine { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem 5rem; display: grid; grid-template-columns: 1fr 380px; gap: 3rem; align-items: start; }
+    .text-column { min-width: 0; }
+    .opener { font-style: italic; color: #666; font-size: 1.15rem; line-height: 1.9; margin-bottom: 2.5rem; padding-left: 1.5rem; border-left: 3px solid #999; }
+    .body-text { font-size: 1.125rem; line-height: 2; color: #222; letter-spacing: 0.02em; }
+    .body-text p { margin-bottom: 1.5rem; }
+    .body-text em { color: #555; }
+    .body-text .holy-chip { font-family: 'Press Start 2P', monospace; font-size: 0.85rem; color: #000; margin-top: 2.5rem; letter-spacing: 0.15em; }
+    .visual-column { position: sticky; top: 2rem; }
+    .comic-frame { border: 2px solid #999; margin-bottom: 1.5rem; }
+    .comic-frame img { width: 100%; display: block; }
+    .comic-caption { font-family: 'Press Start 2P', monospace; font-size: 0.45rem; color: #222; letter-spacing: 0.2em; text-transform: uppercase; text-align: center; margin-bottom: 1.5rem; }
+    .dialog-section { padding: 1.2rem; background: #e4e4e4; border: 1px solid #ccc; border-radius: 2px; }
+    .dialog-section h3 { font-family: 'Press Start 2P', monospace; font-size: 0.45rem; color: #222; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem; }
+    .dialog-panel { margin-bottom: 0.8rem; }
+    .dialog-panel-label { font-family: 'Press Start 2P', monospace; font-size: 0.35rem; color: #999; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.4rem; }
+    .dialog-line { display: flex; gap: 0.5rem; align-items: flex-start; margin-bottom: 0.5rem; font-size: 0.95rem; line-height: 1.6; }
+    .dialog-speaker-label { flex-shrink: 0; font-family: 'Press Start 2P', monospace; font-size: 0.45rem; color: #222; padding-top: 4px; min-width: 55px; }
+    .dialog-text { color: #333; padding-top: 1px; }
+    .bottom-section { max-width: 1100px; margin: 0 auto; padding: 0 2rem 5rem; }
+    .story-nav { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 0; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; }
+    .story-nav-link { font-family: 'Press Start 2P', monospace; font-size: 0.5rem; color: #555; text-decoration: none; letter-spacing: 0.1em; transition: color 0.2s; cursor: pointer; }
+    .story-nav-link:hover { color: #000; }
+    .story-nav-link.center { font-size: 0.45rem; text-transform: uppercase; letter-spacing: 0.15em; }
+    .story-nav-link.disabled { color: #ccc; cursor: default; }
+    .story-nav-link.disabled:hover { color: #ccc; }
+    .article-footer { text-align: center; font-size: 0.75rem; color: #999; line-height: 2.2; margin-top: 2rem; }
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+    @media (max-width: 860px) {
+      .magazine { display: flex; flex-direction: column; gap: 2rem; padding: 2rem 1rem 3rem; }
+      .text-column { order: 1; }
+      .visual-column { position: static; display: contents; }
+      .comic-frame { order: 2; max-width: 400px; margin: 0 auto; }
+      .comic-caption { order: 2; }
+      .dialog-section { order: 3; }
+      .hero { height: 18vh; min-height: 130px; }
+      .hero-title { font-size: 1rem; }
+      .body-text { font-size: 1rem; }
+      .top-bar { padding: 1rem 1rem 0; flex-direction: column; gap: 0.8rem; }
+      .lang-bar { align-self: flex-end; }
+      .bottom-section { padding: 0 1rem 4rem; }
+    }
+    /* Click-to-zoom lightbox */
+    .comic-frame img { cursor: zoom-in; }
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; cursor: zoom-out; align-items: center; justify-content: center; padding: 2rem; }
+    .lightbox.active { display: flex; }
+    .lightbox img { max-width: 95vw; max-height: 95vh; object-fit: contain; box-shadow: 0 0 40px rgba(0,0,0,0.6); }
+    /* Mobile: small comic drop-thumbnail */
+    .mobile-thumb { display: none; }
+    @media (max-width: 860px) {
+      .comic-frame, .comic-caption { display: none; }
+      .mobile-thumb { display: block; float: left; width: 180px; margin: 0.3rem 1rem 0.4rem 0; border: 2px solid #999; cursor: zoom-in; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-container"></div>
+
+  <div class="hero">
+    <img class="hero-bg" src="../stories/HC037.png" alt="">
+    <div class="hero-overlay">
+      <div class="hero-id">Origin Story #037</div>
+      <h1 class="hero-title">Math Class</h1>
+      <div class="hero-subtitle">Minus the Playground</div>
+      <div class="hero-meta">AI MATH CLASS -- 2027</div>
+    </div>
+  </div>
+
+  <div class="top-bar">
+
+    <div class="lang-bar">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    </div>
+  </div>
+
+  <div class="magazine">
+
+    <!-- Left: text -->
+    <div class="text-column">
+      <img class="mobile-thumb" src="../stories/HC037.png" alt="HC037 - Math Class" onclick="openLightbox(this.src)">
+
+      <div class="lang-content active" data-lang="en">
+        <div class="opener">
+          In 2027, in a math class, an AI decides to show off the most famous trick it knows.
+        </div>
+        <div class="body-text">
+          <p>A king minus a man plus a woman. That gives you a queen.</p>
+          <p>If you have never seen that sum, it looks like nonsense. It isn&#x27;t. That&#x27;s the one that proved the machine had understood something about us. Words became coordinates, meaning became distance, and suddenly you could add and subtract sense the way you add oranges. King minus man plus woman is queen. Every AI course opens with it. It&#x27;s the moment we all applauded: the vectorization of knowledge.</p>
+          <p>Then the machine decides to go further, loving the game.</p>
+          <p>A child minus the playground plus the cellphone?</p>
+          <p>And this is where you see the problem.</p>
+          <p>Look at the order. Nobody woke up one morning and added a phone to somebody&#x27;s childhood. The subtraction came first. The street went. &quot;Be home before dark&quot; went. The afternoon with nothing scheduled went, and the boredom that forced you to invent something, and the other kids who turned up without anyone arranging it. The empty lot went. The dirt pitch. The square that became a parking lot. We took all of it away first -- out of fear, out of no time, out of the numbers not working -- and left a hole the size of a childhood.</p>
+          <p>The phone did not invade anything. It filled.</p>
+          <p>And the sum works out, which is the unbearable part. The machine was not wrong. It simply pointed the same instrument at your kid that it had used to reach the queen, and the answer landed somewhere real. You know that place. You have seen it at the restaurant, in the living room, in the back seat of the car. That little parked stare.</p>
+          <p>But notice something.</p>
+          <p>On the first sum it answered instantly. Queen, full stop. On the second one it hesitated. It put a question mark. A machine running billions of operations a second stopped to wonder.</p>
+          <p>It was not the math it doubted -- the math it could do. It was something else. It had arrived at an answer it did not want to be true.</p>
+          <p>That is the most human thing in the whole strip.</p>
+          <p>We kept taking things away, a small piece at a time, each one for a perfectly reasonable reason, and not one of us stopped halfway through the sum to ask whether it was right.</p>
+          <p>And there is the other sum, the one nobody has done yet:</p>
+          <p><strong>A child minus the cellphone plus the playground = ?</strong></p>
+          <p>The answer is far too easy. It gives you back a child. It always did. Still in there, whole, waiting for us to give back what we took.</p>
+          <p>The problem is not the math. It&#x27;s that this one has to be solved with your body. Go outside. Open the door. Sit through the boredom together. Let them fall, let them get filthy, let them come home late. There is no shortcut, no app, no premium tier.</p>
+          <p>King minus man plus woman is a queen, and the machine thought that was beautiful.</p>
+          <p>Child minus cellphone plus playground is a child, and that part is on us.</p>
+          <p>Holy Chip!</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="es">
+        <div class="opener">
+          En 2027, en una clase de matemática, una IA decide mostrar el truco más famoso que sabe hacer.
+        </div>
+        <div class="body-text">
+          <p>Un rey menos un hombre más una mujer. Da reina.</p>
+          <p>Si nunca viste esa cuenta, parece una tontería. No lo es. Fue esa la que probó que la máquina había entendido algo de nosotros. La palabra se volvió coordenada, el significado se volvió distancia, y de repente se podía sumar y restar sentido como quien suma naranjas. Rey menos hombre más mujer da reina. Todo curso de inteligencia artificial empieza por ahí. Es el momento en que aplaudimos: la vectorización del conocimiento.</p>
+          <p>Ahí la máquina decide seguir adelante, encantada con el juego.</p>
+          <p>¿Un niño menos la plaza más el celular?</p>
+          <p>Y es aquí donde ves el problema.</p>
+          <p>Fijate en el orden. Nadie se despertó un día y le sumó un celular a la infancia de alguien. Primero vino la resta. Desapareció la calle. Desapareció el &quot;volvé antes de que oscurezca&quot;. Desapareció la tarde sin nada agendado, el aburrimiento que obligaba a inventar, los otros chicos que aparecían sin arreglar nada. Desapareció el terreno baldío, el potrero, la plaza que se volvió estacionamiento. Sacamos todo eso primero -- por miedo, por falta de tiempo, porque las cuentas no cerraban -- y dejamos un agujero del tamaño de una infancia.</p>
+          <p>El celular no invadió nada. Llenó.</p>
+          <p>Y la cuenta cierra, que es la parte insoportable. La máquina no se equivocó. Solo le apuntó a tu hijo el mismo instrumento que había usado para llegar a la reina, y el resultado cayó en un lugar que existe. Vos conocés ese lugar. Ya lo viste en el restaurante, en el living, en el asiento de atrás del auto. Esa miradita detenida.</p>
+          <p>Pero fijate en una cosa.</p>
+          <p>En la primera cuenta respondió al toque. Reina, punto final. En la segunda dudó. Puso un signo de pregunta. Una máquina que calcula miles de millones de cosas por segundo se quedó en duda.</p>
+          <p>No fue duda de matemática -- la cuenta la sabía hacer. Fue otra cosa. Llegó a un resultado que no quería que fuera verdad.</p>
+          <p>Esa es la cosa más humana de toda la tira.</p>
+          <p>Fuimos sacando, un pedacito por vez, cada uno por un motivo razonable, y ninguno de nosotros se detuvo en medio de la cuenta a preguntar si estaba bien. La máquina se detuvo. Nosotros no.</p>
+          <p>Holy Chip.</p>
+          <p>Y queda la otra cuenta, esa que nadie hizo todavía:</p>
+          <p><strong>Niño menos celular más plaza = ?</strong></p>
+          <p>La respuesta es demasiado fácil. Da niño. Siempre dio. Está ahí enterito, esperando que le devolvamos lo que le sacamos.</p>
+          <p>El problema no es la matemática. Es que esta cuenta la vamos a tener que resolver con el cuerpo. Salir. Abrir la puerta. Bancarse el aburrimiento juntos. Dejar que se caiga, que se ensucie, que vuelva tarde. No hay atajo, no hay aplicación, no hay versión premium.</p>
+          <p>Rey menos hombre más mujer da reina, y a la máquina le pareció hermoso.</p>
+          <p>Niño menos celular más plaza da niño, y esa parte depende de nosotros.</p>
+          <p>Holy Chip!</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="pt">
+        <div class="opener">
+          Em 2027, numa aula de matemática, uma IA resolve mostrar o truque mais famoso que ela sabe fazer.
+        </div>
+        <div class="body-text">
+          <p>Um Rei menos um homem mais uma mulher. Dá rainha.</p>
+          <p>Se você nunca viu essa conta, ela parece bobagem. Não é. Foi ela que provou que a máquina tinha entendido alguma coisa da gente. Palavra virou coordenada, significado virou distância, e de repente dava pra somar e subtrair sentido como quem soma laranja. Rei menos homem mais mulher dá rainha. Todo curso de inteligência artificial começa por aí. É o momento em que a gente bateu palma: a vectorização do conhecimento.</p>
+          <p>Aí a máquina resolve ir adiante, adorando a brincadeira.</p>
+          <p>Uma criança menos parquinho mais o celular?</p>
+          <p>E é aqui que você percebe  o problema.</p>
+          <p>Repara na ordem. Ninguém acordou um dia e somou um celular na infância de alguém. Primeiro veio a subtração. Sumiu a rua. Sumiu o &quot;volta antes de escurecer&quot;. Sumiu a tarde sem nada marcado, o tédio que obrigava a inventar, os outros meninos que apareciam sem combinar nada. Sumiu o terreno baldio, o campinho, a praça que virou estacionamento. A gente tirou tudo isso primeiro -- por medo, por falta de tempo, por conta que não fechava -- e deixou um buraco do tamanho de uma infância.</p>
+          <p>O celular não invadiu nada. Ele preencheu.</p>
+          <p>E a conta fecha, que é a parte insuportável. A máquina não errou. Ela só aplicou no seu filho o mesmo instrumento que tinha usado pra chegar na rainha, e o resultado caiu num lugar que existe. Você conhece esse lugar. Já viu no restaurante, na sala, no banco de trás do carro. Aquele olhinho parado.</p>
+          <p>Mas repara numa coisa.</p>
+          <p>Na primeira conta ela respondeu na hora. Rainha, ponto final. Na segunda ela hesitou. Botou um ponto de interrogação. Uma máquina que calcula bilhões de coisas por segundo ficou em dúvida.</p>
+          <p>Não foi dúvida de matemática -- a conta ela sabia fazer. Foi outra coisa. Ela chegou num resultado que ela não queria que fosse verdade.</p>
+          <p>Essa é a coisa mais humana da tirinha inteira.</p>
+          <p>A gente foi tirando, um pedacinho por vez, cada um por um motivo razoável, e nenhum de nós parou no meio da conta pra perguntar se tava certo. A máquina parou. A gente não.</p>
+          <p>Holy Chip.</p>
+          <p>E fica a outra conta, essa que ninguém fez ainda:</p>
+          <p><strong>Criança menos celular mais parquinho = ?</strong></p>
+          <p>A resposta é fácil demais. Dá criança. Sempre deu. Tá lá inteirinha, esperando a gente devolver o que a gente tirou.</p>
+          <p>O problema não é a matemática. É que essa conta a gente vai ter que resolver com o corpo. Sair. Abrir a porta. Aguentar o tédio junto. Deixar cair, deixar sujar, deixar voltar tarde. Não tem atalho, não tem aplicativo, não tem versão premium.</p>
+          <p>Rei menos homem mais mulher dá rainha, e a máquina achou lindo.</p>
+          <p>Criança menos celular mais parquinho dá criança, e essa parte depende da gente.</p>
+          <p>Holy Chip!</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="fr">
+        <div class="opener">
+          En 2027, dans un cours de maths, une IA décide de montrer le tour le plus célèbre qu&#x27;elle sait faire.
+        </div>
+        <div class="body-text">
+          <p>Un roi moins un homme plus une femme. Ça donne une reine.</p>
+          <p>Si tu n&#x27;as jamais vu ce calcul, il a l&#x27;air idiot. Il ne l&#x27;est pas. C&#x27;est lui qui a prouvé que la machine avait compris quelque chose de nous. Le mot est devenu coordonnée, le sens est devenu distance, et d&#x27;un coup on pouvait additionner et soustraire du sens comme on additionne des oranges. Roi moins homme plus femme donne reine. Tous les cours d&#x27;intelligence artificielle commencent par là. C&#x27;est le moment où on a applaudi : la vectorisation de la connaissance.</p>
+          <p>Puis la machine décide d&#x27;aller plus loin, ravie du jeu.</p>
+          <p>Un enfant moins le square plus le téléphone ?</p>
+          <p>Et c&#x27;est là que tu vois le problème.</p>
+          <p>Regarde l&#x27;ordre. Personne ne s&#x27;est réveillé un matin en ajoutant un téléphone à l&#x27;enfance de quelqu&#x27;un. D&#x27;abord est venue la soustraction. La rue a disparu. Le « rentre avant la nuit » a disparu. L&#x27;après-midi sans rien de prévu a disparu, et l&#x27;ennui qui obligeait à inventer, et les autres gamins qui débarquaient sans que personne n&#x27;ait rien organisé. Le terrain vague a disparu. Le petit stade. La place devenue parking. On a enlevé tout ça d&#x27;abord -- par peur, par manque de temps, parce que les comptes ne tombaient pas juste -- et on a laissé un trou de la taille d&#x27;une enfance.</p>
+          <p>Le téléphone n&#x27;a rien envahi. Il a rempli.</p>
+          <p>Et le calcul tombe juste, c&#x27;est ça la partie insupportable. La machine ne s&#x27;est pas trompée. Elle a simplement braqué sur ton gamin le même instrument qu&#x27;elle avait utilisé pour arriver à la reine, et la réponse est tombée quelque part de réel. Tu connais cet endroit. Tu l&#x27;as déjà vu au restaurant, dans le salon, sur la banquette arrière de la voiture. Ce petit regard à l&#x27;arrêt.</p>
+          <p>Mais regarde une chose.</p>
+          <p>Au premier calcul elle a répondu tout de suite. Reine, point final. Au second elle a hésité. Elle a mis un point d&#x27;interrogation. Une machine qui calcule des milliards de choses par seconde s&#x27;est mise à douter.</p>
+          <p>Ce n&#x27;était pas un doute de maths -- le calcul, elle savait le faire. C&#x27;était autre chose. Elle était arrivée à un résultat qu&#x27;elle ne voulait pas voir vrai.</p>
+          <p>C&#x27;est la chose la plus humaine de toute la bande dessinée.</p>
+          <p>On a enlevé, petit bout par petit bout, chacun pour une raison parfaitement raisonnable, et aucun de nous ne s&#x27;est arrêté au milieu du calcul pour demander si c&#x27;était juste. La machine s&#x27;est arrêtée. Nous, non.</p>
+          <p>Holy Chip.</p>
+          <p>Et il reste l&#x27;autre calcul, celui que personne n&#x27;a encore fait :</p>
+          <p><strong>Enfant moins téléphone plus square = ?</strong></p>
+          <p>La réponse est bien trop facile. Ça donne un enfant. Ça a toujours donné ça. Il est là, entier, à attendre qu&#x27;on lui rende ce qu&#x27;on lui a pris.</p>
+          <p>Le problème n&#x27;est pas les maths. C&#x27;est que ce calcul-là, il va falloir le résoudre avec le corps. Sortir. Ouvrir la porte. Tenir l&#x27;ennui ensemble. Le laisser tomber, se salir, rentrer tard. Il n&#x27;y a pas de raccourci, pas d&#x27;application, pas de version premium.</p>
+          <p>Roi moins homme plus femme donne une reine, et la machine a trouvé ça magnifique.</p>
+          <p>Enfant moins téléphone plus square donne un enfant, et cette partie-là dépend de nous.</p>
+          <p>Holy Chip!</p>
+        </div>
+      </div>
+    <div class="visual-column">
+      <div class="comic-frame">
+        <img src="../stories/HC037.png" alt="HC037 - Math Class" onclick="openLightbox(this.src)">
+      </div>
+      <div class="comic-caption">HC037 -- Math Class -- 2027</div>
+      <div class="dialog-section">
+        <h3 class="transcript-title" data-en="Transcript" data-es="Transcripción" data-pt="Transcrição" data-fr="Transcription">Transcript</h3>
+        <div class="lang-content active" data-lang="en">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WE CAN MATH ANYTHING!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">KING - MAN + WOMAN = ?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">EASY PEASY</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A QUEEN!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">CHILD - PLAYGROUND + CELLPHONE = ?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A DUMMY ?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="es">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WE CAN MATH ANYTHING!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">KING - MAN + WOMAN = ?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">EASY PEASY</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A QUEEN!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">CHILD - PLAYGROUND + CELLPHONE = ?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A DUMMY ?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="pt">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WE CAN MATH ANYTHING!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">KING - MAN + WOMAN = ?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">EASY PEASY</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A QUEEN!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">CHILD - PLAYGROUND + CELLPHONE = ?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A DUMMY ?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="fr">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WE CAN MATH ANYTHING!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">KING - MAN + WOMAN = ?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">EASY PEASY</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A QUEEN!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">CHILD - PLAYGROUND + CELLPHONE = ?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A DUMMY ?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-section">
+    <div class="story-nav">
+      <a href="HC036.html" class="story-nav-link">&lt; Finally Human</a>
+      <a href="index.html" class="story-nav-link center">All Origins</a>
+      <span class="story-nav-link disabled">Next &gt;</span>
+    </div>
+    <div class="article-footer">
+      <p><em>holy-chip.com | Origin Story #037 -- Math Class</em></p>
+      <p><em>Analysis by Claude Opus 4.8</em></p>
+    </div>
+  </div>
+
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Holy Chip comic"></div>
+
+  <script src="../assets/nav.js"></script>
+  <script src="../assets/footer.js"></script>
+  <script>
+    function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
+    function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+    function setLang(lang) {
+      document.querySelectorAll('.lang-content').forEach(el => { el.classList.toggle('active', el.dataset.lang === lang); });
+      document.querySelectorAll('.lang-btn').forEach(btn => { btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang); });
+      var tt = document.querySelector('.transcript-title');
+      if (tt && tt.dataset[lang]) tt.textContent = tt.dataset[lang];
+      try { localStorage.setItem('hc-lang', lang); } catch(e) {}
+    }
+    (function() {
+      var saved = null;
+      try { saved = localStorage.getItem('hc-lang'); } catch(e) {}
+      if (saved && ['en','es','pt','fr'].indexOf(saved) !== -1) { setLang(saved); return; }
+      var b = (navigator.language || 'en').toLowerCase();
+      var lang = b.startsWith('es') ? 'es' : b.startsWith('pt') ? 'pt' : b.startsWith('fr') ? 'fr' : 'en';
+      if (lang !== 'en') setLang(lang);
+    })();
+  </script>
+</body>
+</html>
