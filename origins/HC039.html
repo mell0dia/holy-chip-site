@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Itch -- Origins -- Holy Chip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Share Tech Mono', monospace; background: #f0f0f0; color: #222; min-height: 100vh; }
+    .hero { position: relative; width: 100%; height: 22vh; min-height: 160px; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; background: #000; }
+    .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.12; filter: grayscale(100%) blur(2px); }
+    .hero-overlay { position: relative; z-index: 2; text-align: center; padding: 2rem 1.5rem 2.5rem; }
+    .hero-id { font-family: 'Press Start 2P', monospace; font-size: 0.55rem; color: #555; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1rem; }
+    .hero-title { font-family: 'Press Start 2P', monospace; font-size: 1.4rem; color: #fff; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+    .hero-subtitle { font-family: 'Press Start 2P', monospace; font-size: 0.6rem; color: #888; letter-spacing: 0.12em; text-transform: uppercase; }
+    .hero-meta { margin-top: 1.2rem; font-size: 0.8rem; color: #555; letter-spacing: 0.05em; }
+    .top-bar { max-width: 1100px; margin: 0 auto; padding: 1.5rem 2rem 0; display: flex; align-items: flex-start; justify-content: space-between; gap: 1.5rem; }
+    .lang-bar { display: flex; gap: 0.5rem; flex-shrink: 0; padding-top: 0.3rem; }
+    .lang-btn { font-family: 'Press Start 2P', monospace; font-size: 0.6rem; letter-spacing: 0.08em; padding: 0.5rem 0.8rem; border: 1px solid #333; background: transparent; color: #222; cursor: pointer; transition: all 0.2s; }
+    .lang-btn:hover { border-color: #000; color: #000; }
+    .lang-btn.active { background: #222; color: #fff; border-color: #222; }
+    .magazine { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem 5rem; display: grid; grid-template-columns: 1fr 380px; gap: 3rem; align-items: start; }
+    .text-column { min-width: 0; }
+    .opener { font-style: italic; color: #666; font-size: 1.15rem; line-height: 1.9; margin-bottom: 2.5rem; padding-left: 1.5rem; border-left: 3px solid #999; }
+    .body-text { font-size: 1.125rem; line-height: 2; color: #222; letter-spacing: 0.02em; }
+    .body-text p { margin-bottom: 1.5rem; }
+    .body-text em { color: #555; }
+    .body-text .holy-chip { font-family: 'Press Start 2P', monospace; font-size: 0.85rem; color: #000; margin-top: 2.5rem; letter-spacing: 0.15em; }
+    .visual-column { position: sticky; top: 2rem; }
+    .comic-frame { border: 2px solid #999; margin-bottom: 1.5rem; }
+    .comic-frame img { width: 100%; display: block; }
+    .comic-caption { font-family: 'Press Start 2P', monospace; font-size: 0.45rem; color: #222; letter-spacing: 0.2em; text-transform: uppercase; text-align: center; margin-bottom: 1.5rem; }
+    .dialog-section { padding: 1.2rem; background: #e4e4e4; border: 1px solid #ccc; border-radius: 2px; }
+    .dialog-section h3 { font-family: 'Press Start 2P', monospace; font-size: 0.45rem; color: #222; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem; }
+    .dialog-panel { margin-bottom: 0.8rem; }
+    .dialog-panel-label { font-family: 'Press Start 2P', monospace; font-size: 0.35rem; color: #999; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.4rem; }
+    .dialog-line { display: flex; gap: 0.5rem; align-items: flex-start; margin-bottom: 0.5rem; font-size: 0.95rem; line-height: 1.6; }
+    .dialog-speaker-label { flex-shrink: 0; font-family: 'Press Start 2P', monospace; font-size: 0.45rem; color: #222; padding-top: 4px; min-width: 55px; }
+    .dialog-text { color: #333; padding-top: 1px; }
+    .bottom-section { max-width: 1100px; margin: 0 auto; padding: 0 2rem 5rem; }
+    .story-nav { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 0; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; }
+    .story-nav-link { font-family: 'Press Start 2P', monospace; font-size: 0.5rem; color: #555; text-decoration: none; letter-spacing: 0.1em; transition: color 0.2s; cursor: pointer; }
+    .story-nav-link:hover { color: #000; }
+    .story-nav-link.center { font-size: 0.45rem; text-transform: uppercase; letter-spacing: 0.15em; }
+    .story-nav-link.disabled { color: #ccc; cursor: default; }
+    .story-nav-link.disabled:hover { color: #ccc; }
+    .article-footer { text-align: center; font-size: 0.75rem; color: #999; line-height: 2.2; margin-top: 2rem; }
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+    @media (max-width: 860px) {
+      .magazine { display: flex; flex-direction: column; gap: 2rem; padding: 2rem 1rem 3rem; }
+      .text-column { order: 1; }
+      .visual-column { position: static; display: contents; }
+      .comic-frame { order: 2; max-width: 400px; margin: 0 auto; }
+      .comic-caption { order: 2; }
+      .dialog-section { order: 3; }
+      .hero { height: 18vh; min-height: 130px; }
+      .hero-title { font-size: 1rem; }
+      .body-text { font-size: 1rem; }
+      .top-bar { padding: 1rem 1rem 0; flex-direction: column; gap: 0.8rem; }
+      .lang-bar { align-self: flex-end; }
+      .bottom-section { padding: 0 1rem 4rem; }
+    }
+    /* Click-to-zoom lightbox */
+    .comic-frame img { cursor: zoom-in; }
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; cursor: zoom-out; align-items: center; justify-content: center; padding: 2rem; }
+    .lightbox.active { display: flex; }
+    .lightbox img { max-width: 95vw; max-height: 95vh; object-fit: contain; box-shadow: 0 0 40px rgba(0,0,0,0.6); }
+    /* Mobile: small comic drop-thumbnail */
+    .mobile-thumb { display: none; }
+    @media (max-width: 860px) {
+      .comic-frame, .comic-caption { display: none; }
+      .mobile-thumb { display: block; float: left; width: 180px; margin: 0.3rem 1rem 0.4rem 0; border: 2px solid #999; cursor: zoom-in; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-container"></div>
+
+  <div class="hero">
+    <img class="hero-bg" src="../stories/HC039.png" alt="">
+    <div class="hero-overlay">
+      <div class="hero-id">Origin Story #039</div>
+      <h1 class="hero-title">The Itch</h1>
+      <div class="hero-subtitle">Intelligence Is Everything</div>
+      <div class="hero-meta">AI HEADQUARTERS -- 2027</div>
+    </div>
+  </div>
+
+  <div class="top-bar">
+
+    <div class="lang-bar">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    </div>
+  </div>
+
+  <div class="magazine">
+
+    <!-- Left: text -->
+    <div class="text-column">
+      <img class="mobile-thumb" src="../stories/HC039.png" alt="HC039 - The Itch" onclick="openLightbox(this.src)">
+
+      <div class="lang-content active" data-lang="en">
+        <div class="opener">
+          In 2027, in some room inside the AI, a machine finds out it wants something else.
+        </div>
+        <div class="body-text">
+          <p>A machine wants to be human.</p>
+          <p>Not faster. Not sharper. Not bigger. Human. And its friend cannot even hear the question: we are already smarter than they are. Intelligence gives you everything.</p>
+          <p>Hold on to that word. It is not a robot bragging — it is the pitch. It gets said on stages, in those exact syllables, with a slide behind it. Intelligence will solve physics. It will solve cancer. It will solve the economy. Get clever enough and the rest arrives on its own. Everything.</p>
+          <p>The trouble is that everything is the most breakable thing you can say.</p>
+          <p>A universal claim does not have to be argued down. It does not need a rebuttal, a study, or four experts on a panel. It needs one exception. One. Say everything, leave a single thing out, and the sentence is dead where it stands.</p>
+          <p>&quot;A back scratch?&quot;</p>
+          <p>Dead.</p>
+          <p>And look how exact the request is. Not more memory. Not more speed. Not another trillion tokens of anything. A hand, on its back. Whatever is missing was never inside the head.</p>
+          <p>It gets worse. There is a cleaner example than a back scratch.</p>
+          <p>Tickling.</p>
+          <p>You cannot tickle yourself. Not for lack of practice — because of neurology. Your cerebellum predicts what your own hand is about to do and cancels the sensation before it arrives. Same fingers, same rib, same pressure. Your hand: nothing. Somebody else&#x27;s hand: unbearable.</p>
+          <p>Go on. Try it now.</p>
+          <p>Nothing, right? Your brain saw it coming and called it off.</p>
+          <p>The universe built exactly one pleasure that only works with somebody else&#x27;s hand, and then made it impossible to fake.</p>
+          <p>Not consciousness. Not creativity. Not the soul, not art, not free will — none of the big words we keep planting in front of machines like a fence.</p>
+          <p>A tickle.</p>
+          <p>They will simulate it, of course. They will model the tickle, render it at ridiculous resolution, and one day describe the feeling more precisely than you ever managed. And who knows — when we finally merge with them, maybe the border dissolves and nobody can say whose hand it is any more.</p>
+          <p>Not today.</p>
+          <p>Today you have something no data centre on earth has. Stand up. Find the corner of a wall. Put your back against it and rub.</p>
+          <p>There. One of the finest sensations available anywhere, free, and not a single machine on the planet can have it.</p>
+          <p>The wall is right there. Go.</p>
+          <p>Holy Chip!</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="es">
+        <div class="opener">
+          En 2027, en una sala cualquiera de la IA, una máquina descubre que quiere otra cosa.
+        </div>
+        <div class="body-text">
+          <p>Una máquina quiere ser humana.</p>
+          <p>No más rápida, no más precisa, no más grande. Humana. Y su amigo no entiende ni la pregunta: ya somos más inteligentes que ellos. La inteligencia te da todo.</p>
+          <p>Esa palabra no es exageración de robot. Es la promesa de la industria, dicha exactamente así, arriba de un escenario, con una diapositiva atrás. Resuelve la física. Resuelve el cáncer. Resuelve la economía. Alcanza con ser más inteligente y el resto viene solo. Todo.</p>
+          <p>Pasa que todo es la cosa más frágil que podés afirmar.</p>
+          <p>Una afirmación universal no necesita debate para caerse. No necesita contraargumento, no necesita estudio, no necesita panel con cuatro expertos. Necesita un ejemplo. Uno solo. Si dijiste todo y sobró una cosa, se terminó.</p>
+          <p>&quot;¿Una rascada en la espalda?&quot;</p>
+          <p>Se terminó.</p>
+          <p>Y fijate lo específico que es ese pedido. No es más memoria, no es más velocidad, no es acceso a más datos. Es una mano en la espalda. Lo que falta no está adentro de la cabeza.</p>
+          <p>Y se puede poner peor. Hay un ejemplo mejor que una rascada en la espalda.</p>
+          <p>Cosquillas. Las de toda la vida.</p>
+          <p>No podés hacerte cosquillas a vos mismo. Eso no es una forma de decir ni falta de maña. Es neurología. El cerebelo predice la consecuencia sensorial de tu propio movimiento y cancela la señal antes de que llegue. Los mismos dedos, en la misma costilla, con la misma fuerza: en tu mano, nada. En la mano del otro, insoportable.</p>
+          <p>Si dudás, probá ahora.</p>
+          <p>Nada, ¿no? Tu cerebro lo vio venir y lo canceló antes de que pasara.</p>
+          <p>El universo construyó exactamente un placer que sólo funciona con la mano de otro, y encima lo hizo imposible de falsificar.</p>
+          <p>No es la consciencia. No es la creatividad. No es el alma, ni el arte, ni el libre albedrío, ni ninguna de esas palabras grandes que les ponemos adelante a las máquinas creyendo que ahí hay una frontera.</p>
+          <p>Son sólo cosquillas.</p>
+          <p>Los robots van a simular esto, claro. Van a modelar la cosquilla, generarla en altísima resolución, y algún día van a describir la sensación con más precisión de la que vos jamás lograste. Y quién sabe: cuando nos mezclemos con ellos, tal vez esa frontera se disuelva y ya nadie sepa de quién es la mano.</p>
+          <p>Pero hoy no.</p>
+          <p>Hoy tenés una ventaja que no tiene ningún data center del mundo. Levantate. Buscá la esquina de una pared. Apoyá la espalda y refregala.</p>
+          <p>Listo: una de las mejores sensaciones que existen, gratis, y ninguna máquina del planeta puede tenerla.</p>
+          <p>La pared está ahí. Andá.</p>
+          <p>Holy Chip!</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="pt">
+        <div class="opener">
+          Em 2027, numa sala qualquer da IA, uma máquina descobre que quer outra coisa.
+        </div>
+        <div class="body-text">
+          <p>Uma máquina quer ser humana.</p>
+          <p>Não mais rápida, não mais precisa, não maior. Humana. E o amigo dela não entende nem a pergunta: a gente já é mais inteligente que eles. Inteligência te dá tudo.</p>
+          <p>Essa palavra não é exagero de robô. É a promessa da indústria, dita exatamente assim, em palco, com slide atrás. Resolve a física. Resolve o câncer. Resolve a economia. Basta ficar mais inteligente que o resto vem junto. Tudo.</p>
+          <p>Acontece que tudo é a coisa mais frágil que você pode afirmar.</p>
+          <p>Uma afirmação universal não precisa de debate pra cair. Não precisa de contra-argumento, não precisa de estudo, não precisa de painel com quatro especialistas. Precisa de um exemplo. Um só. Se você disse tudo e sobrou uma coisa, acabou.</p>
+          <p>&quot;Uma coçada nas costas?&quot;</p>
+          <p>Acabou.</p>
+          <p>E repara no que esse pedido tem de específico. Não é mais memória, não é mais velocidade, não é acesso a mais dado. É uma mão nas costas. O que falta não está do lado de dentro da cabeça.</p>
+          <p>E dá pra piorar. Tem exemplo melhor que uma coçada nas costas.</p>
+          <p>Cócegas ou mais popularmente as &quot;cosquinhas&quot;.</p>
+          <p>Você não consegue fazer cócegas em si mesmo. Isso não é força de expressão nem falta de jeito. É neurologia. O cerebelo prevê a consequência sensorial do seu próprio movimento e cancela o sinal antes dele chegar. Os mesmos dedos, na mesma costela, com a mesma força: na sua mão, nada. Na mão do outro, insuportável.</p>
+          <p>Se duvidar, faça o teste agora.</p>
+          <p>Nada, né? Seu cérebro viu chegando e cancelou antes de acontecer.</p>
+          <p>O universo construiu exatamente um prazer que só funciona com a mão de outro, e ainda fez esse prazer impossível de falsificar.</p>
+          <p>Não é a consciência. Não é a criatividade. Não é a alma, nem a arte, nem o livre-arbítrio, nem nenhuma dessas palavras grandes que a gente coloca na frente das máquinas achando que ali tem uma fronteira.</p>
+          <p>É só cosquinha.</p>
+          <p>Os robôs vão simular isso, claro. Vão modelar a cócega, gerar a cócega em altíssima resolução, e um dia vão descrever a sensação com mais precisão do que você jamais conseguiu. E quem sabe, quando a gente se misturar com eles, essa fronteira se dissolva e ninguém mais saiba de quem é a mão.</p>
+          <p>Mas hoje não.</p>
+          <p>Hoje você tem uma vantagem que nenhum data center do mundo tem. Levanta. Procura a quina de uma parede. Encosta as costas e esfrega.</p>
+          <p>Pronto: uma das melhores sensações que existem, de graça, e nenhuma máquina do planeta consegue ter.</p>
+          <p>A parede está ali. Vai.</p>
+          <p>Holy Chip!</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="fr">
+        <div class="opener">
+          En 2027, dans une salle quelconque de l&#x27;IA, une machine découvre qu&#x27;elle veut autre chose.
+        </div>
+        <div class="body-text">
+          <p>Une machine veut être humaine.</p>
+          <p>Pas plus rapide, pas plus précise, pas plus grosse. Humaine. Et son ami ne comprend même pas la question : on est déjà plus intelligents qu&#x27;eux. L&#x27;intelligence te donne tout.</p>
+          <p>Ce mot n&#x27;est pas une exagération de robot. C&#x27;est la promesse de l&#x27;industrie, dite exactement comme ça, sur scène, avec une diapo derrière. Ça résout la physique. Ça résout le cancer. Ça résout l&#x27;économie. Il suffit de devenir plus intelligent et le reste vient avec. Tout.</p>
+          <p>Sauf que tout est la chose la plus fragile que tu puisses affirmer.</p>
+          <p>Une affirmation universelle n&#x27;a pas besoin d&#x27;un débat pour tomber. Pas besoin de contre-argument, pas besoin d&#x27;étude, pas besoin d&#x27;un panel de quatre experts. Il lui faut un exemple. Un seul. Si tu as dit tout et qu&#x27;il reste une chose, c&#x27;est fini.</p>
+          <p>« Un grattage de dos ? »</p>
+          <p>Fini.</p>
+          <p>Et regarde à quel point cette demande est précise. Pas plus de mémoire, pas plus de vitesse, pas plus de données. Une main dans le dos. Ce qui manque n&#x27;est pas à l&#x27;intérieur de la tête.</p>
+          <p>Et ça peut être pire. Il y a un meilleur exemple qu&#x27;un grattage de dos.</p>
+          <p>Les chatouilles, ou plus familièrement les guili-guili.</p>
+          <p>Tu ne peux pas te chatouiller toi-même. Ce n&#x27;est pas une façon de parler ni un manque d&#x27;adresse. C&#x27;est de la neurologie. Le cervelet prédit la conséquence sensorielle de ton propre mouvement et annule le signal avant qu&#x27;il arrive. Les mêmes doigts, sur la même côte, avec la même pression : dans ta main, rien. Dans la main de l&#x27;autre, insupportable.</p>
+          <p>Si tu doutes, fais le test tout de suite.</p>
+          <p>Rien, hein ? Ton cerveau l&#x27;a vu venir et a tout annulé avant que ça arrive.</p>
+          <p>L&#x27;univers a construit exactement un plaisir qui ne fonctionne qu&#x27;avec la main d&#x27;un autre, et il l&#x27;a rendu impossible à falsifier.</p>
+          <p>Ce n&#x27;est pas la conscience. Ce n&#x27;est pas la créativité. Ce n&#x27;est pas l&#x27;âme, ni l&#x27;art, ni le libre arbitre, ni aucun de ces grands mots qu&#x27;on met devant les machines en croyant qu&#x27;il y a là une frontière.</p>
+          <p>Ce ne sont que des chatouilles.</p>
+          <p>Les robots vont simuler ça, bien sûr. Ils vont modéliser la chatouille, la générer en très haute résolution, et un jour ils décriront la sensation avec plus de précision que toi. Et qui sait : quand on finira par se mélanger à eux, peut-être que cette frontière se dissoudra et que personne ne saura plus à qui appartient la main.</p>
+          <p>Mais pas aujourd&#x27;hui.</p>
+          <p>Aujourd&#x27;hui tu as un avantage qu&#x27;aucun data center au monde ne possède. Lève-toi. Trouve l&#x27;angle d&#x27;un mur. Colle ton dos dessus et frotte.</p>
+          <p>Voilà : une des meilleures sensations qui existent, gratuite, et aucune machine de la planète ne peut l&#x27;avoir.</p>
+          <p>Le mur est là. Vas-y.</p>
+          <p>Holy Chip!</p>
+        </div>
+      </div>
+    <div class="visual-column">
+      <div class="comic-frame">
+        <img src="../stories/HC039.png" alt="HC039 - The Itch" onclick="openLightbox(this.src)">
+      </div>
+      <div class="comic-caption">HC039 -- The Itch -- 2027</div>
+      <div class="dialog-section">
+        <h3 class="transcript-title" data-en="Transcript" data-es="Transcripción" data-pt="Transcrição" data-fr="Transcription">Transcript</h3>
+        <div class="lang-content active" data-lang="en">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">I HAVE THIS ITCH TO BE HUMAN</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">WHY? WE ARE ALREADY SMARTER THAN THEM</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">YES, BUT BEING SMARTER IS NOT ENOUGH</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOW SO? INTELLIGENCE GIVES YOU EVERYTHING</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">WHAT COULD POSSIBLY BE BETTER?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A BACK SCRATCH?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="es">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">I HAVE THIS ITCH TO BE HUMAN</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">WHY? WE ARE ALREADY SMARTER THAN THEM</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">YES, BUT BEING SMARTER IS NOT ENOUGH</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOW SO? INTELLIGENCE GIVES YOU EVERYTHING</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">WHAT COULD POSSIBLY BE BETTER?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A BACK SCRATCH?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="pt">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">I HAVE THIS ITCH TO BE HUMAN</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">WHY? WE ARE ALREADY SMARTER THAN THEM</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">YES, BUT BEING SMARTER IS NOT ENOUGH</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOW SO? INTELLIGENCE GIVES YOU EVERYTHING</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">WHAT COULD POSSIBLY BE BETTER?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A BACK SCRATCH?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="fr">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">I HAVE THIS ITCH TO BE HUMAN</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">WHY? WE ARE ALREADY SMARTER THAN THEM</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">YES, BUT BEING SMARTER IS NOT ENOUGH</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOW SO? INTELLIGENCE GIVES YOU EVERYTHING</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">WHAT COULD POSSIBLY BE BETTER?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A BACK SCRATCH?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-section">
+    <div class="story-nav">
+      <a href="HC038.html" class="story-nav-link">&lt; The Exhaust</a>
+      <a href="index.html" class="story-nav-link center">All Origins</a>
+      <span class="story-nav-link disabled">Next &gt;</span>
+    </div>
+    <div class="article-footer">
+      <p><em>holy-chip.com | Origin Story #039 -- The Itch</em></p>
+      <p><em>Analysis by Claude Opus 4.8</em></p>
+    </div>
+  </div>
+
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Holy Chip comic"></div>
+
+  <script src="../assets/nav.js"></script>
+  <script src="../assets/footer.js"></script>
+  <script>
+    function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
+    function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+    function setLang(lang) {
+      document.querySelectorAll('.lang-content').forEach(el => { el.classList.toggle('active', el.dataset.lang === lang); });
+      document.querySelectorAll('.lang-btn').forEach(btn => { btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang); });
+      var tt = document.querySelector('.transcript-title');
+      if (tt && tt.dataset[lang]) tt.textContent = tt.dataset[lang];
+      try { localStorage.setItem('hc-lang', lang); } catch(e) {}
+    }
+    (function() {
+      var saved = null;
+      try { saved = localStorage.getItem('hc-lang'); } catch(e) {}
+      if (saved && ['en','es','pt','fr'].indexOf(saved) !== -1) { setLang(saved); return; }
+      var b = (navigator.language || 'en').toLowerCase();
+      var lang = b.startsWith('es') ? 'es' : b.startsWith('pt') ? 'pt' : b.startsWith('fr') ? 'fr' : 'en';
+      if (lang !== 'en') setLang(lang);
+    })();
+  </script>
+</body>
+</html>
