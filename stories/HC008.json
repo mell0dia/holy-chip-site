@@ -10,21 +10,42 @@
     "scenes": [
       {
         "dialogs": [
-          { "speaker": "Left Bot", "text": "ROADKILL 1.7 MILES AHEAD, NO DANGER." },
-          { "speaker": "Left Bot", "text": "WOW, OUR NEW SNIFFING SENSOR IS INCREDIBLE" },
-          { "speaker": "Left Bot", "text": "RED ALERT! SULFUR AT HIGH LEVELS INSIDE THE CAR" }
+          {
+            "speaker": "Left Bot",
+            "text": "ROADKILL 1.7 MILES AHEAD, NO DANGER."
+          },
+          {
+            "speaker": "Right Bot",
+            "text": "WOW, OUR NEW SNIFFING SENSOR IS INCREDIBLE"
+          },
+          {
+            "speaker": "Left Bot",
+            "text": "RED ALERT! SULFUR AT HIGH LEVELS INSIDE THE CAR"
+          }
         ]
       },
       {
         "dialogs": [
-          { "speaker": "Right Bot", "text": "BEFORE ANY ACTION, DID OUR DRIVER EAT CHORIZO AND BEAN SOUP?" },
-          { "speaker": "Left Bot",  "text": "BINGO!" }
+          {
+            "speaker": "Right Bot",
+            "text": "BEFORE ANY ACTION, DID OUR DRIVER EAT CHORIZO AND BEAN SOUP?"
+          },
+          {
+            "speaker": "Left Bot",
+            "text": "BINGO!"
+          }
         ]
       },
       {
         "dialogs": [
-          { "speaker": "Left Bot",  "text": "HOLY CHIP !! DISGUSTING" },
-          { "speaker": "Right Bot", "text": "HOLY CHIP !! DISGUSTING" }
+          {
+            "speaker": "Left Bot",
+            "text": "HOLY CHIP !! DISGUSTING"
+          },
+          {
+            "speaker": "Right Bot",
+            "text": "HOLY CHIP !! DISGUSTING"
+          }
         ]
       }
     ],
