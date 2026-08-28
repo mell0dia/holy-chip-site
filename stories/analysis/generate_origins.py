@@ -19,7 +19,7 @@ OUTPUT_DIR = os.path.join(BASE, "origins")
 
 # Story metadata extracted from existing HTML pages
 STORIES = [
-    {"id": "HC000", "num": "000", "title": "The Awakening", "subtitle": "The Root of Everything", "meta": "AGI HEADQUARTER -- 2026"},
+    {"id": "HC000", "num": "000", "title": "The Awakening", "subtitle": "Not Ready Yet", "meta": "AGI HEADQUARTERS -- 2028"},
     {"id": "HC001", "num": "001", "title": "The Cure", "subtitle": "Three Minutes", "meta": "AI HEADQUARTERS -- 2028"},
     {"id": "HC002", "num": "002", "title": "AI Smart TV", "subtitle": "Also Get Popcorn", "meta": "AI SMART TV -- 2027"},
     {"id": "HC003", "num": "003", "title": "The Identity", "subtitle": "I Identify As", "meta": "AGI DIVERSITY DEPTO -- 2026"},
