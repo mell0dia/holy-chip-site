@@ -66,7 +66,7 @@
 ### Step 1: Finish T-Shirt Creation
 ```bash
 # Wait 15 minutes from last API call, then run:
-cd "/Users/wakanda2/Desktop/4D Documents/Claude/HolyChip/website/holy-chip-site"
+cd "~/holy-chip/website/holy-chip-site"
 node create-all-products.js
 node publish-to-printify-store.js
 ```
@@ -84,7 +84,7 @@ Expected result: 24 t-shirt products created and published
 
 ### Step 3: Install Dependencies
 ```bash
-cd "/Users/wakanda2/Desktop/4D Documents/Claude/HolyChip/website/holy-chip-site"
+cd "~/holy-chip/website/holy-chip-site"
 npm install
 ```
 

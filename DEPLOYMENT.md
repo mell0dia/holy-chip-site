@@ -39,7 +39,7 @@ Your store now has:
 ## Step 2: Install Dependencies
 
 ```bash
-cd /Users/wakanda2/Desktop/4D\ Documents/Claude/HolyChip/website/holy-chip-site
+cd ~/holy-chip/website/holy-chip-site
 npm install
 ```
 
