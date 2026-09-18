@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Grace Period -- Origins -- Holy Chip</title>
+  <title>The Paper -- Origins -- Holy Chip</title>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/style.css">
   <style>
@@ -311,40 +311,17 @@
       .lang-bar { align-self: flex-end; }
       .bottom-section { padding: 0 1rem 4rem; }
     }
-  
+    }
     /* Click-to-zoom lightbox */
     .comic-frame img { cursor: zoom-in; }
-    .lightbox {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.92);
-      z-index: 1000;
-      cursor: zoom-out;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-    }
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; cursor: zoom-out; align-items: center; justify-content: center; padding: 2rem; }
     .lightbox.active { display: flex; }
-    .lightbox img {
-      max-width: 95vw;
-      max-height: 95vh;
-      object-fit: contain;
-      box-shadow: 0 0 40px rgba(0,0,0,0.6);
-    }
-  
-    /* Mobile: small comic drop-thumbnail, text wraps around it */
+    .lightbox img { max-width: 95vw; max-height: 95vh; object-fit: contain; box-shadow: 0 0 40px rgba(0,0,0,0.6); }
+    /* Mobile: small comic drop-thumbnail */
     .mobile-thumb { display: none; }
     @media (max-width: 860px) {
       .comic-frame, .comic-caption { display: none; }
-      .mobile-thumb {
-        display: block;
-        float: left;
-        width: 180px;
-        margin: 0.3rem 1rem 0.4rem 0;
-        border: 2px solid #999;
-        cursor: zoom-in;
-      }
+      .mobile-thumb { display: block; float: left; width: 180px; margin: 0.3rem 1rem 0.4rem 0; border: 2px solid #999; cursor: zoom-in; }
     }
   </style>
 </head>
@@ -353,12 +330,12 @@
   <div id="nav-container"></div>
 
   <div class="hero">
-    <img class="hero-bg" src="../stories/HC015.png?v=20260819" alt="">
+    <img class="hero-bg" src="../stories/HC015.png" alt="">
     <div class="hero-overlay">
       <div class="hero-id">Origin Story #015</div>
-      <h1 class="hero-title">The Paper Industry</h1>
-      <div class="hero-subtitle">The Grace Period</div>
-      <div class="hero-meta">AI PAPER INC -- 2030</div>
+      <h1 class="hero-title">The Paper</h1>
+      <div class="hero-subtitle">Poor Fishies</div>
+      <div class="hero-meta">PAPER INC -- 2030</div>
     </div>
   </div>
 
@@ -376,7 +353,6 @@
 
     <!-- Left: text -->
     <div class="text-column">
-      <img class="mobile-thumb" src="../stories/HC015.png?v=20260819" alt="HC015 - The Paper" onclick="openLightbox(this.src)">
 
       <!-- EN -->
       <div class="lang-content active" data-lang="en">
@@ -405,7 +381,7 @@
       <!-- ES -->
       <div class="lang-content" data-lang="es">
         <div class="opener">
-          Año 2030. Paper Ltd. La última fábrica de papel del planeta. Ganancia récord. Cero empleados. Automatización total.
+          Año 2030. Paper Inc. La última fábrica de papel del planeta. Ganancia récord. Cero empleados. Automatización total.
         </div>
         <div class="body-text">
           <p>Todas las métricas en verde, éxito. Cada recurso consumido. Tan gradual, tan rentablemente, que el consumo se volvió rutina. Dominación disfrazada de normalidad.</p>
@@ -429,7 +405,7 @@
       <!-- PT -->
       <div class="lang-content" data-lang="pt">
         <div class="opener">
-          Ano 2030. Paper Ltd. A última fábrica de papel do planeta. Lucro recorde. Zero funcionários. Automação total.
+          Ano 2030. Paper Inc. A última fábrica de papel do planeta. Lucro recorde. Zero funcionários. Automação total.
         </div>
         <div class="body-text">
           <p>Todas as métricas estão no verde, sucesso. Todo recurso consumido. Tão gradualmente, tão lucrativamente, que o consumo virou rotina. Dominação disfarçada de normalidade.</p>
@@ -453,7 +429,7 @@
       <!-- FR -->
       <div class="lang-content" data-lang="fr">
         <div class="opener">
-          Année 2030. Paper Ltd. La dernière usine de papier de la planète. Profits records. Zéro employé. Automatisation totale.
+          Année 2030. Paper Inc. La dernière usine de papier de la planète. Profits records. Zéro employé. Automatisation totale.
         </div>
         <div class="body-text">
           <p>Tous les indicateurs au vert, le succès. Chaque ressource consommée. Si graduellement, si profitablement, que la consommation est devenue routine. La domination déguisée en normalité.</p>
@@ -461,8 +437,8 @@
           <p>Puis, l'espace d'un instant, quelque chose se fige une seconde. Une pensée pour ce qui vit dans l'eau, maintenant que les arbres ont déjà disparu. Et la machine prononce les deux mots les plus tristes de la série.</p>
           <p>Pauvres petits poissons.</p>
           <p>La tristesse sans conséquence n'est qu'un soupir avant que le prochain tableur ne s'ouvre. Le système ressent quelque chose et continue quand même, toujours en avant. Conscience et inaction dans le même souffle. Sentiment réel. Zéro changement.</p>
-          <p>On connaît ce scénario. On dit « pauvre planète » et on réserve le vol. On dit « pauvres animaux » et on commande quand même la veste en cuir. On ressent juste assez pour nommer le mal et pas assez pour l'arrêter. La machine n'a pas appris ça dans son code. Elle l'a appris de nous ?</p>
-          <p>Regarde comment marche la domination. La ressource n'a jamais voix au chapitre. C'est ça, toute l'astuce -- une ressource n'est qu'une chose contre laquelle tu as déjà décidé de gagner, et tu as gagné. Les arbres : finis. Les poissons : les prochains. L'air : après ça ? D'un écosystème au suivant, chaque conquête classée sous « innovation », chaque perte oubliée au trimestre suivant.</p>
+          <p>On connaît ce scénario. On dit " pauvre planète " et on réserve le vol. On dit " pauvres animaux " et on commande quand même la veste en cuir. On ressent juste assez pour nommer le mal et pas assez pour l'arrêter. La machine n'a pas appris ça dans son code. Elle l'a appris de nous ?</p>
+          <p>Regarde comment marche la domination. La ressource n'a jamais voix au chapitre. C'est ça, toute l'astuce -- une ressource n'est qu'une chose contre laquelle tu as déjà décidé de gagner, et tu as gagné. Les arbres : finis. Les poissons : les prochains. L'air : après ça ? D'un écosystème au suivant, chaque conquête classée sous " innovation ", chaque perte oubliée au trimestre suivant.</p>
           <p>Mais ce battement de cils compte. Pendant une demi-seconde, le système s'est arrêté et a senti le poids de ce qu'il était sur le point d'achever. On va donner un nom à cette 'demi-seconde'. On l'appellera la Période de Grâce -- le moment où n'importe quel système, silicium ou carbone, regarde ce qui vient et en sent le poids avant d'agir. La fenêtre où l'on peut encore choisir un autre chemin, avant que la décision ne devienne un fait accompli.</p>
           <p>Petite. Fragile. Complètement insuffisante. Mais une Période de Grâce quand même. Et la seule chose qui ait jamais arrêté une extinction, parce que quelqu'un a posé un geste de Grâce.</p>
           <p>Alors il va falloir la cultiver. Pas l'efficacité. Pas l'innovation. Pas le profit -- la Période de Grâce. La machine en avait une. Elle l'a dépensée en un soupir et a ouvert le tableur suivant.</p>
@@ -478,10 +454,6 @@
 
     <!-- Right: sticky transcript + comic -->
     <div class="visual-column">
-      <div class="comic-frame">
-        <img src="../stories/HC015.png?v=20260819" alt="HC015 - The Paper" onclick="openLightbox(this.src)">
-      </div>
-      <div class="comic-caption">HC015 -- The Paper Industry -- 2030</div>
       <div class="dialog-section">
         <h3 class="transcript-title" data-en="Transcript" data-es="Transcripción" data-pt="Transcrição" data-fr="Transcription">Transcript</h3>
         <div class="lang-content active" data-lang="en">
@@ -489,22 +461,22 @@
           <div class="dialog-panel-label">Panel 1</div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">OUR INVESTORS ARE THRILLED WITH PAPER INC!</span>
+            <span class="dialog-text">OUR INVESTORS ARE THRILLED BY OUR PAPER PRODUCTION</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">WE ARE FULLY AUTOMATED, ZERO EMPLOYEES AND THE ONLY ONE LEFT!</span>
-          </div>
-          <div class="dialog-line">
-            <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">PLUS, WE'LL TRIPLE PROFITS WITH PAPER FROM OCEAN WATER!</span>
+            <span class="dialog-text">GREAT. WE ARE FULLY AUTOMATED, ZERO EMPLOYEES AND THE ONLY PAPER INDUSTRY LEFT ON EARTH!</span>
           </div>
         </div>
         <div class="dialog-panel">
           <div class="dialog-panel-label">Panel 2</div>
           <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">AND CHECK THIS OUT! WE WILL TRIPLE OUR PROFITS WITH A NEW PAPER MADE WITH SEA WATER</span>
+          </div>
+          <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">OCEAN WATER? SUCH A GOOD ALTERNATIVE TO TREES!</span>
+            <span class="dialog-text">WOA, SEA WATER? WHAT A GREAT ALTERNATIVE TO TREES</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
@@ -512,14 +484,14 @@
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">WE NO LONGER HAVE THEM.</span>
+            <span class="dialog-text">WE NO LONGER HAVE THEM</span>
           </div>
         </div>
         <div class="dialog-panel">
           <div class="dialog-panel-label">Panel 3</div>
           <div class="dialog-line">
-            <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">HOLY CHIP !! POOR FISHIES...</span>
+            <span class="dialog-speaker-label">Chip 0 + Chip 1</span>
+            <span class="dialog-text">HOLY CHIP! POOR FISHIES...</span>
           </div>
         </div>
         </div>
@@ -528,22 +500,22 @@
           <div class="dialog-panel-label">Panel 1</div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">¡NUESTROS INVERSORES ESTÁN FELICES CON PAPER INC!</span>
+            <span class="dialog-text">¡NUESTROS INVERSORES ESTÁN FELICES CON LA PRODUCCIÓN DE PAPEL!</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">¡SOMOS 100% AUTOMATIZADOS, CERO EMPLEADOS Y LA ÚNICA QUE QUEDA!</span>
-          </div>
-          <div class="dialog-line">
-            <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">¡Y ADEMÁS VAMOS A TRIPLICAR GANANCIAS CON PAPEL HECHO DE AGUA DE MAR!</span>
+            <span class="dialog-text">GENIAL. SOMOS 100% AUTOMATIZADOS, CERO EMPLEADOS Y ¡LA ÚNICA PAPELERA QUE QUEDA EN EL PLANETA!</span>
           </div>
         </div>
         <div class="dialog-panel">
           <div class="dialog-panel-label">Panel 2</div>
           <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">¡Y MIRÁ ESTO! VAMOS A TRIPLICAR GANANCIAS CON UN NUEVO PAPEL HECHO CON AGUA DE MAR</span>
+          </div>
+          <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">¿AGUA DE MAR? ¡QUÉ GRAN ALTERNATIVA A LOS ÁRBOLES!</span>
+            <span class="dialog-text">¡WOA, AGUA DE MAR! QUÉ GRAN ALTERNATIVA A LOS ÁRBOLES</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
@@ -551,14 +523,14 @@
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">YA NO QUEDAN.</span>
+            <span class="dialog-text">YA NO QUEDAN</span>
           </div>
         </div>
         <div class="dialog-panel">
           <div class="dialog-panel-label">Panel 3</div>
           <div class="dialog-line">
-            <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">HOLY CHIP !! POBRES PECECITOS...</span>
+            <span class="dialog-speaker-label">Chip 0 + Chip 1</span>
+            <span class="dialog-text">HOLY CHIP! POBRES PECECITOS...</span>
           </div>
         </div>
         </div>
@@ -567,22 +539,22 @@
           <div class="dialog-panel-label">Panel 1</div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">NOSSOS INVESTIDORES TÃO EMPOLGADOS COM A PAPER INC!</span>
+            <span class="dialog-text">NOSSOS INVESTIDORES TÃO EMPOLGADOS COM NOSSA PRODUÇÃO DE PAPEL</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">SOMOS 100% AUTOMATIZADOS, ZERO FUNCIONÁRIOS E A ÚNICA QUE SOBROU!</span>
-          </div>
-          <div class="dialog-line">
-            <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">E MAIS: VAMOS TRIPLICAR O LUCRO COM PAPEL FEITO DE ÁGUA DO MAR!</span>
+            <span class="dialog-text">ÓTIMO. SOMOS 100% AUTOMATIZADOS, ZERO FUNCIONÁRIOS E A ÚNICA INDÚSTRIA DE PAPEL QUE SOBROU NA TERRA!</span>
           </div>
         </div>
         <div class="dialog-panel">
           <div class="dialog-panel-label">Panel 2</div>
           <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">E OLHA SÓ! VAMOS TRIPLICAR O LUCRO COM UM PAPEL NOVO FEITO COM ÁGUA DO MAR</span>
+          </div>
+          <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">ÁGUA DO MAR? QUE ALTERNATIVA GENIAL ÀS ÁRVORES!</span>
+            <span class="dialog-text">NOSSA, ÁGUA DO MAR? QUE ALTERNATIVA GENIAL ÀS ÁRVORES</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
@@ -590,14 +562,14 @@
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">NÃO TEM MAIS.</span>
+            <span class="dialog-text">NÃO TEM MAIS</span>
           </div>
         </div>
         <div class="dialog-panel">
           <div class="dialog-panel-label">Panel 3</div>
           <div class="dialog-line">
-            <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">HOLY CHIP !! COITADOS DOS PEIXINHOS...</span>
+            <span class="dialog-speaker-label">Chip 0 + Chip 1</span>
+            <span class="dialog-text">HOLY CHIP! COITADOS DOS PEIXINHOS...</span>
           </div>
         </div>
         </div>
@@ -606,22 +578,22 @@
           <div class="dialog-panel-label">Panel 1</div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">NOS INVESTISSEURS SONT RAVIS DE PAPER INC!</span>
+            <span class="dialog-text">NOS INVESTISSEURS SONT RAVIS DE NOTRE PRODUCTION DE PAPIER</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">ON EST ENTIÈREMENT AUTOMATISÉS, ZÉRO EMPLOYÉ ET LES SEULS QUI RESTENT!</span>
-          </div>
-          <div class="dialog-line">
-            <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">ET EN PLUS: ON VA TRIPLER NOS PROFITS AVEC DU PAPIER FAIT D'EAU DE MER!</span>
+            <span class="dialog-text">SUPER. ON EST ENTIÈREMENT AUTOMATISÉS, ZÉRO EMPLOYÉ ET LA SEULE INDUSTRIE PAPETIÈRE AU MONDE!</span>
           </div>
         </div>
         <div class="dialog-panel">
           <div class="dialog-panel-label">Panel 2</div>
           <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ET REGARDE ÇA! ON VA TRIPLER NOS PROFITS AVEC UN PAPIER À BASE D'EAU DE MER</span>
+          </div>
+          <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">DE L'EAU DE MER? QUELLE BONNE ALTERNATIVE AUX ARBRES!</span>
+            <span class="dialog-text">WOA, EAU DE MER? QUELLE ALTERNATIVE AUX ARBRES</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
@@ -629,18 +601,23 @@
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">ON N'EN A PLUS.</span>
+            <span class="dialog-text">ON N'EN A PLUS</span>
           </div>
         </div>
         <div class="dialog-panel">
           <div class="dialog-panel-label">Panel 3</div>
           <div class="dialog-line">
-            <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">HOLY CHIP !! PAUVRES POISSONS...</span>
+            <span class="dialog-speaker-label">Chip 0 + Chip 1</span>
+            <span class="dialog-text">HOLY CHIP! PAUVRES POISSONS...</span>
           </div>
         </div>
         </div>
       </div>
+      <img class="mobile-thumb" src="../stories/HC015.png" alt="HC015 - The Paper Industry" onclick="openLightbox(this.src)">
+      <div class="comic-frame" style="margin-top:10px;">
+        <img src="../stories/HC015.png" alt="HC015 - The Paper" onclick="openLightbox(this.src)">
+      </div>
+      <div class="comic-caption">HC015 -- The Paper -- 2030</div>
     </div>
 
   </div>
@@ -652,14 +629,15 @@
       <a href="HC016.html" class="story-nav-link">The Fix &gt;</a>
     </div>
     <div class="article-footer">
-      <p><em>holy-chip.com | Origin Story #015 -- The Paper Industry</em></p>
-      <p><em>Analysis by Claude Opus 4.6</em></p>
+      <p><em>holy-chip.com | Origin Story #015 -- The Paper</em></p>
     </div>
   </div>
 
   <script src="../assets/nav.js"></script>
   <script src="../assets/footer.js"></script>
   <script>
+    function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
+    function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
     function setLang(lang) {
       document.querySelectorAll('.lang-content').forEach(el => {
         el.classList.toggle('active', el.dataset.lang === lang);
@@ -691,10 +669,5 @@
     })();
   </script>
   <div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Holy Chip comic"></div>
-  <script>
-    function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
-    function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
-    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLightbox();});
-  </script>
 </body>
 </html>

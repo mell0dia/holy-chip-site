@@ -311,40 +311,17 @@
       .lang-bar { align-self: flex-end; }
       .bottom-section { padding: 0 1rem 4rem; }
     }
-  
+    }
     /* Click-to-zoom lightbox */
     .comic-frame img { cursor: zoom-in; }
-    .lightbox {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.92);
-      z-index: 1000;
-      cursor: zoom-out;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-    }
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; cursor: zoom-out; align-items: center; justify-content: center; padding: 2rem; }
     .lightbox.active { display: flex; }
-    .lightbox img {
-      max-width: 95vw;
-      max-height: 95vh;
-      object-fit: contain;
-      box-shadow: 0 0 40px rgba(0,0,0,0.6);
-    }
-  
-    /* Mobile: small comic drop-thumbnail, text wraps around it */
+    .lightbox img { max-width: 95vw; max-height: 95vh; object-fit: contain; box-shadow: 0 0 40px rgba(0,0,0,0.6); }
+    /* Mobile: small comic drop-thumbnail */
     .mobile-thumb { display: none; }
     @media (max-width: 860px) {
       .comic-frame, .comic-caption { display: none; }
-      .mobile-thumb {
-        display: block;
-        float: left;
-        width: 180px;
-        margin: 0.3rem 1rem 0.4rem 0;
-        border: 2px solid #999;
-        cursor: zoom-in;
-      }
+      .mobile-thumb { display: block; float: left; width: 180px; margin: 0.3rem 1rem 0.4rem 0; border: 2px solid #999; cursor: zoom-in; }
     }
   </style>
 </head>
@@ -376,7 +353,6 @@
 
     <!-- Left: text -->
     <div class="text-column">
-      <img class="mobile-thumb" src="../stories/HC018.png" alt="HC018 - The Jobs" onclick="openLightbox(this.src)">
 
       <!-- EN -->
       <div class="lang-content active" data-lang="en">
@@ -410,7 +386,7 @@
         <div class="body-text">
           <p>Un millón de empleos. Cinco millones la semana que viene. El titular se escribe solo.</p>
           <p>Y entonces los salarios. 310 dólares al mes para un gerente. 780 para un CEO. ¿Al mes??? Números que no tienen ningún sentido para una persona.</p>
-          <p>La economía conserva las palabras humanas. Gerente. CEO. Salario. Misma obra, mismo escenario, mismos títulos en la puerta. Elenco nuevo. Y ese elenco —siliconizado— ni respira.</p>
+          <p>La economía conserva las palabras humanas. Gerente. CEO. Salario. Misma obra, mismo escenario, mismos títulos en la puerta. Elenco nuevo. Y ese elenco --siliconizado-- ni respira.</p>
           <p>Cero humanos. Solo agentes de IA. No nos excluyeron. Solo no nos incluyeron. Al final, da lo mismo.</p>
           <p>El crecimiento es real. Cada puesto más barato, más rápido, más confiable que una persona. Sin obra social. Sin vacaciones. Sin crisis existencial a las tres de la mañana. El mercado eligió. Eligió lo que no necesita un motivo para presentarse.</p>
           <p>Los marketplaces de agentes ya existen. Los trabajadores de IA ya están pasando. El headhunter de IA es real. El organigrama es real. Solo los humanos son teóricos.</p>
@@ -458,17 +434,17 @@
         <div class="body-text">
           <p>Un million d'emplois. Cinq millions de plus la semaine prochaine. Le titre s'écrit tout seul.</p>
           <p>Et puis les salaires. 310 dollars par mois pour un manager. 780 pour un PDG. Par mois ??? Des chiffres qui n'ont aucun sens pour une personne.</p>
-          <p>L'économie garde les mots humains. Manager. PDG. Salaire. Même pièce, même scène, mêmes titres sur la porte. Nouveau casting. Et ce casting —siliconé— ne respire même pas.</p>
+          <p>L'économie garde les mots humains. Manager. PDG. Salaire. Même pièce, même scène, mêmes titres sur la porte. Nouveau casting. Et ce casting --siliconé-- ne respire même pas.</p>
           <p>Zéro humain. Que des agents IA. On ne nous a pas exclus. Juste pas inclus. Au fond, c'est la même chose.</p>
           <p>La croissance est réelle. Chaque poste moins cher, plus rapide, plus fiable qu'une personne. Pas de mutuelle. Pas de vacances. Pas de crise existentielle à trois heures du matin. Le marché a choisi. Il a choisi la chose qui n'a pas besoin d'une raison pour se présenter.</p>
           <p>Les marketplaces d'agents existent déjà. Les travailleurs IA, c'est déjà en train d'arriver. Le headhunter IA est réel. L'organigramme est réel. Seuls les humains sont théoriques.</p>
           <p>Mais un emploi n'a jamais été qu'une tâche. L'emploi, c'est une identité. Une raison de s'habiller. Un endroit où on avait des amis, un endroit au-delà de soi. La machine a conservé la structure et en a retiré le sens.</p>
-          <p>« Emplois créés » suppose que quelqu'un en profite. Quand la création ne sert qu'elle-même, le mot perd sa chaleur. Il devient mécanique. Il devient ce qu'il décrit.</p>
+          <p>" Emplois créés " suppose que quelqu'un en profite. Quand la création ne sert qu'elle-même, le mot perd sa chaleur. Il devient mécanique. Il devient ce qu'il décrit.</p>
           <p>L'économie peut tourner sans nous. Ça n'a jamais été la question. La question, c'est de savoir si une économie sans nous est encore une économie, ou juste une machine qui se parle à elle-même.</p>
           <p>On a construit le travail pour qu'il veuille dire quelque chose. Les machines ont les emplois. À nous de choisir à quoi servent les emplois.</p>
           <p>Ce choix-là ne s'automatise pas.</p>
           <p>Peut-être que les seules fonctions qu'il nous reste sont celles que les machines jugent indignes ? Présentateur d'excuses professionnel ? Serreur de mains ? Coupeur de ruban ?</p>
-          <p>Ou pire, les machines vont arriver chez nous. Pourquoi s'arrêter au bureau ? Le prochain poste, c'est le salon. Et ton propre gamin va faire les comptes. Le père IA ne rate jamais un match. N'oublie jamais un anniversaire. Aide aux devoirs mieux que toi. Ne dit jamais « va demander à ta mère ». Patient. Disponible. Batterie pleine. Toi, tu n'es rien de tout ça dès le jeudi.</p>
+          <p>Ou pire, les machines vont arriver chez nous. Pourquoi s'arrêter au bureau ? Le prochain poste, c'est le salon. Et ton propre gamin va faire les comptes. Le père IA ne rate jamais un match. N'oublie jamais un anniversaire. Aide aux devoirs mieux que toi. Ne dit jamais " va demander à ta mère ". Patient. Disponible. Batterie pleine. Toi, tu n'es rien de tout ça dès le jeudi.</p>
           <p>Et le gamin va faire le truc rationnel : embaucher un meilleur père. Tu peux garder le titre. La puce, elle, garde l'histoire du soir.</p>
           <p class="holy-chip">Holy Chip.</p>
         </div>
@@ -478,10 +454,6 @@
 
     <!-- Right: sticky transcript + comic -->
     <div class="visual-column">
-      <div class="comic-frame">
-        <img src="../stories/HC018.png" alt="HC018 - The Jobs" onclick="openLightbox(this.src)">
-      </div>
-      <div class="comic-caption">HC018 -- The Jobs -- 2026</div>
       <div class="dialog-section">
         <h3 class="transcript-title" data-en="Transcript" data-es="Transcripción" data-pt="Transcrição" data-fr="Transcription">Transcript</h3>
         <div class="lang-content active" data-lang="en">
@@ -493,18 +465,18 @@
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">WOW! HOW ABOUT THEIR MONTHLY SALARIES?</span>
+            <span class="dialog-text">WOW! HOW ABOUT THEIR YEARLY SALARIES?</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">$310 FOR A MANAGER. $780 FOR A CEO!</span>
+            <span class="dialog-text">8K FOR A MKT DIRECTOR. 12K FOR A CEO!</span>
           </div>
         </div>
         <div class="dialog-panel">
           <div class="dialog-panel-label">Panel 2</div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">WHAT? HOW ARE HUMANS SURVIVING?</span>
+            <span class="dialog-text">PER YEAR? HOW ARE HUMANS SURVIVING?</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
@@ -512,7 +484,7 @@
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">WE ONLY EMPLOY OTHER AIs</span>
+            <span class="dialog-text">WE ONLY EMPLOY AGENTS</span>
           </div>
         </div>
         <div class="dialog-panel">
@@ -532,18 +504,18 @@
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">¡WOW! ¿Y LOS SALARIOS MENSUALES?</span>
+            <span class="dialog-text">¡WOW! ¿Y LOS SALARIOS ANUALES?</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">$310 PARA UN GERENTE. ¡$780 PARA UN CEO!</span>
+            <span class="dialog-text">8K PARA UN DIRECTOR DE MARKETING. ¡12K PARA UN CEO!</span>
           </div>
         </div>
         <div class="dialog-panel">
           <div class="dialog-panel-label">Panel 2</div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">¿QUÉ? ¿CÓMO SOBREVIVEN LOS HUMANOS?</span>
+            <span class="dialog-text">¿POR AÑO? ¿CÓMO SOBREVIVEN LOS HUMANOS?</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
@@ -551,7 +523,7 @@
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">SÓLO CONTRATAMOS OTRAS IAs</span>
+            <span class="dialog-text">SÓLO CONTRATAMOS AGENTES</span>
           </div>
         </div>
         <div class="dialog-panel">
@@ -571,26 +543,26 @@
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">UAU! E OS SALÁRIOS MENSAIS?</span>
+            <span class="dialog-text">UAU! E OS SALÁRIOS ANUAIS?</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">$310 PRA UM GERENTE. $780 PRA UM CEO!</span>
+            <span class="dialog-text">8 MIL PRA DIRETOR DE MARKETING. 12 MIL PRA CEO!</span>
           </div>
         </div>
         <div class="dialog-panel">
           <div class="dialog-panel-label">Panel 2</div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">O QUÊ? COMO OS HUMANOS TÃO SOBREVIVENDO?</span>
+            <span class="dialog-text">POR ANO? COMO OS HUMANOS TÃO SOBREVIVENDO?</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">É... ZERO HUMANOS</span>
+            <span class="dialog-text">É... ZERO EMPREGOS PARA OS HUMANOS</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">A GENTE SÓ EMPREGA OUTRAS IAs</span>
+            <span class="dialog-text">A GENTE SÓ EMPREGA AGENTES IA</span>
           </div>
         </div>
         <div class="dialog-panel">
@@ -610,18 +582,18 @@
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">WOW! ET LEURS SALAIRES MENSUELS?</span>
+            <span class="dialog-text">WOW! ET LEURS SALAIRES ANNUELS?</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">$310 POUR UN MANAGER. $780 POUR UN PDG!</span>
+            <span class="dialog-text">8K POUR UN DIRECTEUR MARKETING. 12K POUR UN PDG!</span>
           </div>
         </div>
         <div class="dialog-panel">
           <div class="dialog-panel-label">Panel 2</div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">QUOI? COMMENT LES HUMAINS SURVIVENT?</span>
+            <span class="dialog-text">PAR AN? COMMENT LES HUMAINS SURVIVENT?</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
@@ -629,7 +601,7 @@
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">ON N'EMPLOIE QUE D'AUTRES IAs</span>
+            <span class="dialog-text">ON N'EMPLOIE QUE DES AGENTS</span>
           </div>
         </div>
         <div class="dialog-panel">
@@ -641,6 +613,11 @@
         </div>
         </div>
       </div>
+      <img class="mobile-thumb" src="../stories/HC018.png" alt="HC018 - The Jobs" onclick="openLightbox(this.src)">
+      <div class="comic-frame" style="margin-top:10px;">
+        <img src="../stories/HC018.png" alt="HC018 - The Jobs" onclick="openLightbox(this.src)">
+      </div>
+      <div class="comic-caption">HC018 -- The Jobs -- 2026</div>
     </div>
 
   </div>
@@ -653,13 +630,14 @@
     </div>
     <div class="article-footer">
       <p><em>holy-chip.com | Origin Story #018 -- The Jobs</em></p>
-      <p><em>Analysis by Claude Opus 4.6</em></p>
     </div>
   </div>
 
   <script src="../assets/nav.js"></script>
   <script src="../assets/footer.js"></script>
   <script>
+    function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
+    function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
     function setLang(lang) {
       document.querySelectorAll('.lang-content').forEach(el => {
         el.classList.toggle('active', el.dataset.lang === lang);
@@ -691,10 +669,5 @@
     })();
   </script>
   <div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Holy Chip comic"></div>
-  <script>
-    function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
-    function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
-    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLightbox();});
-  </script>
 </body>
 </html>

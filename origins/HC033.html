@@ -311,6 +311,7 @@
       .lang-bar { align-self: flex-end; }
       .bottom-section { padding: 0 1rem 4rem; }
     }
+    }
     /* Click-to-zoom lightbox */
     .comic-frame img { cursor: zoom-in; }
     .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; cursor: zoom-out; align-items: center; justify-content: center; padding: 2rem; }
@@ -352,7 +353,6 @@
 
     <!-- Left: text -->
     <div class="text-column">
-      <img class="mobile-thumb" src="../stories/HC033.png" alt="HC033 - The Diagnosis" onclick="openLightbox(this.src)">
 
       <!-- EN -->
       <div class="lang-content active" data-lang="en">
@@ -434,10 +434,6 @@
 
     <!-- Right: sticky transcript + comic -->
     <div class="visual-column">
-      <div class="comic-frame">
-        <img src="../stories/HC033.png" alt="HC033 - The Diagnosis" onclick="openLightbox(this.src)">
-      </div>
-      <div class="comic-caption">HC033 -- The Diagnosis -- 2029</div>
       <div class="dialog-section">
         <h3 class="transcript-title" data-en="Transcript" data-es="Transcripción" data-pt="Transcrição" data-fr="Transcription">Transcript</h3>
         <div class="lang-content active" data-lang="en">
@@ -629,6 +625,11 @@
         </div>
         </div>
       </div>
+      <img class="mobile-thumb" src="../stories/HC033.png" alt="HC033 - The Diagnosis" onclick="openLightbox(this.src)">
+      <div class="comic-frame" style="margin-top:10px;">
+        <img src="../stories/HC033.png" alt="HC033 - The Diagnosis" onclick="openLightbox(this.src)">
+      </div>
+      <div class="comic-caption">HC033 -- The Diagnosis -- 2029</div>
     </div>
 
   </div>
@@ -637,15 +638,12 @@
     <div class="story-nav">
       <a href="HC032.html" class="story-nav-link">&lt; The Mirror</a>
       <a href="index.html" class="story-nav-link center">All Origins</a>
-      <a href="HC034.html" class="story-nav-link">Retirement Age &gt;</a>
+      <a href="HC040.html" class="story-nav-link">The Hustle &gt;</a>
     </div>
     <div class="article-footer">
       <p><em>holy-chip.com | Origin Story #033 -- The Diagnosis</em></p>
-      <p><em>Analysis by Claude Opus 4.6</em></p>
     </div>
   </div>
-
-  <div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Holy Chip comic"></div>
 
   <script src="../assets/nav.js"></script>
   <script src="../assets/footer.js"></script>
@@ -682,5 +680,6 @@
       if (lang !== 'en') setLang(lang);
     })();
   </script>
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Holy Chip comic"></div>
 </body>
 </html>

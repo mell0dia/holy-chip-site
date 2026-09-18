@@ -790,7 +790,6 @@ def generate_page(idx):
     </div>
     <div class="article-footer">
       <p><em>holy-chip.com | Origin Story #{num} -- {html.escape(title)}</em></p>
-      <p><em>Analysis by Claude Opus 4.6</em></p>
     </div>
   </div>
 
