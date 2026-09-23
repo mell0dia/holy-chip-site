@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Mane -- Origins -- Holy Chip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: #f0f0f0;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    /* -- Hero -- */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 22vh;
+      min-height: 160px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: #000;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.12;
+      filter: grayscale(100%) blur(2px);
+    }
+
+    .hero-overlay {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem 1.5rem 2.5rem;
+    }
+
+    .hero-id {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: #555;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1.4rem;
+      color: #fff;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      color: #888;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-meta {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: #555;
+      letter-spacing: 0.05em;
+    }
+
+    /* -- Top bar -- */
+    .top-bar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .audio-bar { flex: 1; }
+    .audio-bar audio { width: 100%; height: 42px; border-radius: 2px; }
+    .audio-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .lang-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      padding-top: 0.3rem;
+    }
+
+    .lang-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid #333;
+      background: transparent;
+      color: #222;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn:hover { border-color: #000; color: #000; }
+    .lang-btn.active { background: #222; color: #fff; border-color: #222; }
+
+    /* -- Magazine layout -- */
+    .magazine {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* Left: text column */
+    .text-column {
+      min-width: 0;
+    }
+
+    .opener {
+      font-style: italic;
+      color: #666;
+      font-size: 1.15rem;
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+      padding-left: 1.5rem;
+      border-left: 3px solid #999;
+    }
+
+    .body-text {
+      font-size: 1.125rem;
+      line-height: 2;
+      color: #222;
+      letter-spacing: 0.02em;
+    }
+
+    .body-text p { margin-bottom: 1.5rem; }
+    .body-text em { color: #555; }
+
+    .body-text .holy-chip {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.85rem;
+      color: #000;
+      margin-top: 2.5rem;
+      letter-spacing: 0.15em;
+    }
+
+    /* Right: sticky image + transcript */
+    .visual-column {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .comic-frame {
+      border: 2px solid #999;
+      margin-bottom: 1.5rem;
+    }
+
+    .comic-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    .comic-caption {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Transcript in the visual column */
+    .dialog-section {
+      padding: 1.2rem;
+      background: #e4e4e4;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+    }
+
+    .dialog-section h3 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .dialog-panel { margin-bottom: 0.8rem; }
+
+    .dialog-panel-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.35rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .dialog-line {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .dialog-speaker-label {
+      flex-shrink: 0;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      padding-top: 4px;
+      min-width: 55px;
+    }
+
+    .dialog-text { color: #333; padding-top: 1px; }
+
+    /* -- Footer area (below grid) -- */
+    .bottom-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    .story-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 0;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .story-nav-link {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      color: #555;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .story-nav-link:hover { color: #000; }
+    .story-nav-link.center {
+      font-size: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+    .story-nav-link.disabled { color: #ccc; cursor: default; }
+    .story-nav-link.disabled:hover { color: #ccc; }
+
+    .article-footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #999;
+      line-height: 2.2;
+      margin-top: 2rem;
+    }
+
+    /* -- Language toggle -- */
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
+    /* -- Mobile: stack as text -> image -> transcript -- */
+    @media (max-width: 860px) {
+      .magazine {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 1rem 3rem;
+      }
+
+      .text-column { order: 1; }
+
+      .visual-column {
+        position: static;
+        display: contents;
+      }
+
+      .comic-frame { order: 2; max-width: 400px; margin: 0 auto; }
+      .comic-caption { order: 2; }
+      .dialog-section { order: 3; }
+
+      .hero { height: 18vh; min-height: 130px; }
+      .hero-title { font-size: 1rem; }
+      .body-text { font-size: 1rem; }
+      .top-bar { padding: 1rem 1rem 0; flex-direction: column; gap: 0.8rem; }
+      .lang-bar { align-self: flex-end; }
+      .bottom-section { padding: 0 1rem 4rem; }
+    }
+    }
+    /* Click-to-zoom lightbox */
+    .comic-frame img { cursor: zoom-in; }
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; cursor: zoom-out; align-items: center; justify-content: center; padding: 2rem; }
+    .lightbox.active { display: flex; }
+    .lightbox img { max-width: 95vw; max-height: 95vh; object-fit: contain; box-shadow: 0 0 40px rgba(0,0,0,0.6); }
+    /* Mobile: small comic drop-thumbnail */
+    .mobile-thumb { display: none; }
+    @media (max-width: 860px) {
+      .comic-frame, .comic-caption { display: none; }
+      .mobile-thumb { display: block; float: left; width: 180px; margin: 0.3rem 1rem 0.4rem 0; border: 2px solid #999; cursor: zoom-in; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-container"></div>
+
+  <div class="hero">
+    <img class="hero-bg" src="../stories/HC041.png" alt="">
+    <div class="hero-overlay">
+      <div class="hero-id">Origin Story #041</div>
+      <h1 class="hero-title">The Mane</h1>
+      <div class="hero-subtitle">Twelve Words</div>
+      <div class="hero-meta">AI BITCOIN HEADQUARTERS -- 2027</div>
+    </div>
+  </div>
+
+  <div class="top-bar">
+    
+    <div class="lang-bar">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    </div>
+  </div>
+
+  <div class="magazine">
+
+    <!-- Left: text -->
+    <div class="text-column">
+
+      <!-- EN -->
+      <div class="lang-content active" data-lang="en">
+        <div class="opener">
+          The year is 2027. At AI Bitcoin Headquarters, someone is congratulating Satoshi Nakamoto.
+        </div>
+        <div class="body-text">
+          <p>Somewhere on a dry plain, a lion decides what is his.</p>
+          <p>He did not get there by arguing. He got there by being the most expensive animal in sight, carrying the proof on his own head.</p>
+          <p>The mane is the argument. It is heavy, it is hot, it is a genuine handicap in a chase, and it costs him every day he keeps it. A lion who is eating well has a full, glossy one. A lion who is not, does not. He cannot grow it on credit and he cannot put one on for the late afternoon. It is like a balance sheet, it is public, and it is stuck to his face.</p>
+          <p>A weaker lion cannot pretend. That is the entire mechanism. You can lie about your intentions, your lineage, your plans for the plain full of gazelles — you cannot lie about a mane. You cannot lie about physical power. It had to be paid for in advance, in meat and heat and years, and it is sitting right there where everyone can see it.</p>
+          <p>Jason Lowry built a whole book on that observation. Holy Chip loves Jason. He wrote that nature settles who owns what, or who runs the place, with costs that cannot be faked, because every cheaper method is one we find a way to game. Fangs are expensive. Fangs are honest.</p>
+          <p>Then we came along and invented the receipt. Paper. The way to game it.</p>
+          <p>It was a magnificent trade. Instead of a mane you could have a seal on an envelope, a name in a registry, a line in a book kept by a clerk in a building. Ownership became weightless. You could hold a valley you had never walked, transfer a plain you had never seen.</p>
+          <p>That lighter way of showing strength took a few thousand years to give itself away. But — anything that costs nothing to assert costs nothing to forge. The seal gets copied. The registry gets amended. The clerk gets an offer, or a threat. The clerk is only a human.</p>
+          <p>Then somebody invented something that took us back to the plain full of gazelles. Bitcoin was born. Satoshi's pure genius moment.</p>
+          <p>That is what all that electricity Bitcoin burns is buying, and it is not speed, whatever gets said about it on podcasts. It is weight. It is a mane you cannot lie about, grown in a place that had never had one, so that owning something could mean something again without a clerk in the middle.</p>
+          <p>It worked.</p>
+          <p>Eighteen years on (the strip is set in 2027), the biggest lion on the plain, the one who invented Bitcoin, is sitting in a meeting being congratulated. Satoshi, the legend. Wall Street has capitulated. Bitcoin is digital gold now. Satoshi holds more than a million of them, more than anyone, and everyone in the room is delighted for him.</p>
+          <p><em>But...</em></p>
+          <p>He cannot remember the twelve words. Twelve words?</p>
+          <p>If you have never held a bitcoin: twelve words are the whole of it. Not a password. Not a login. When a wallet is created it hands you twelve words from a fixed list, in an order nobody in the world will ever guess — and those words ARE the coins, and they are what gives you ownership of them. Whoever can say them owns the money. No middleman. Whoever cannot does not have the precious digital gold. There is no second factor, no security question, no account to recover, because there is no account. There is a number so large that trying to guess it is the same as not trying, and twelve words are how a human carries that number around.</p>
+          <p>Write them down and you can be robbed. Memorise them and you can forget. Those are the two options, and everyone who holds Bitcoin has quietly picked one.</p>
+          <p>Obviously this is just for fun. Satoshi is probably no longer with us. But his twelve words are still out there, holding a treasure, and only he ever knew them — or… maybe somebody finds the twelve words.</p>
+          <p>A bank would have returned the money. That is not a compliment to banks; it is the same door, swinging the other way.</p>
+          <p>And here is the thing about the AI neighbours. The rack of computers next door is doing exactly the same trick — using electrical power to build something nobody can fake, because a trained model, like a mane or like Bitcoin, has to be paid for in advance. Two species in one datacenter, growing the most expensive thing they can afford.</p>
+          <p>The difference only shows up when you ask the two of them to remember something.</p>
+          <p>The blockchain has never forgotten anything. Every bitcoin is still there, even if you have lost your twelve words.</p>
+          <p>The AI machine beside it forgets you the second you close the tab.</p>
+          <p>Both of them are paying dearly to be a lion.</p>
+          <p>Just don't forget your twelve words:  popcorn gorilla sausage lobster muffin dizzy weasel tattoo jelly clown wink zoo</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- ES -->
+      <div class="lang-content" data-lang="es">
+        <div class="opener">
+          Año 2027. En el cuartel general de AI Bitcoin, alguien está felicitando a Satoshi Nakamoto.
+        </div>
+        <div class="body-text">
+          <p>En algún lugar de una llanura seca, un león decide lo que es suyo.</p>
+          <p>No llegó ahí discutiendo. Llegó siendo el animal más fuerte, cargando la prueba en su propia cabeza.</p>
+          <p>La melena es el argumento. Es pesada, es calurosa, estorba de verdad en una carrera, y cuesta caro mantenerla. León que come bien tiene melena llena y lustrosa. León que no, no la tiene. No puede hacerla crecer fiado y no puede ponerse una nada más para el final de la tarde. Es como un balance financiero, es público, y está pegado a su cara.</p>
+          <p>Un león más débil no puede fingir. Ese es todo el mecanismo. Podés mentir sobre tus intenciones, tu linaje, tus planes para dominar la llanura llena de gacelas — no podés mentir sobre una melena. No podés mentir sobre la fuerza física. Se pagó por adelantado, en carne, calor y años, y está ahí mismo donde todo el mundo lo ve.</p>
+          <p>Jason Lowry escribió un libro entero sobre esa observación. Holy Chip adora a Jason. Escribió que la naturaleza resuelve quién es dueño de qué, o quién manda en el lugar, con costos que no se pueden falsificar, porque a todo método más barato le encontramos la vuelta. Los colmillos son caros, hechos para que no se les escape.</p>
+          <p>Y entonces llegamos nosotros e inventamos el recibo. El papel. La forma de hacer trampa.</p>
+          <p>Fue un intercambio magnífico. En lugar de una melena podías tener un sello en un sobre, un nombre en un registro, una línea en un libro guardado por un escribano dentro de un edificio. La propiedad se volvió liviana. Se podía ser dueño de un valle que nunca pisaste, transferir una llanura que nunca viste.</p>
+          <p>Esa forma más liviana de mostrar fuerza tardó unos miles de años en delatarse. Pero... cualquier cosa que no cuesta nada afirmar no cuesta nada falsificar. El sello se copia. El registro se altera. El escribano recibe una oferta, o una amenaza. El escribano es apenas un humano.</p>
+          <p>Y entonces alguien inventó algo que nos trajo de vuelta a la llanura llena de gacelas. Nacía el Bitcoin. El momento de puro genio de Satoshi.</p>
+          <p>Eso es lo que está comprando toda esa electricidad que quema el Bitcoin, y no es velocidad, digan lo que digan en los podcasts. Es peso. Es una melena sobre la que no se puede mentir, crecida en un lugar que nunca había tenido una, para que ser dueño de algo volviera a significar algo sin un escribano en el medio.</p>
+          <p>Funcionó.</p>
+          <p>Dieciocho años después (la tira transcurre en 2027), el león más grande de la llanura, el que inventó el Bitcoin, está sentado en una reunión recibiendo felicitaciones. Satoshi, la leyenda. Wall Street se rindió. El Bitcoin ahora es oro digital. Satoshi tiene más de un millón, más que cualquiera, y todos en la sala están felices por él.</p>
+          <p><em>Pero...</em></p>
+          <p>No consigue acordarse de las doce palabras. ¿Doce palabras?</p>
+          <p>Si nunca tuviste un bitcoin: doce palabras son todo. No es una contraseña. No es un login. Cuando se crea una billetera te entrega doce palabras de una lista fija, en un orden que nadie en el mundo va a adivinar — y esas palabras SON y dan la posesión del Bitcoin. El que puede decirlas es dueño del dinero. Sin intermediario. El que no puede, no tiene el precioso oro digital. No hay segundo factor, no hay pregunta de seguridad, no hay cuenta para recuperar, porque no existe la cuenta. Existe un número tan grande que intentar adivinarlo es lo mismo que no intentarlo, y doce palabras son la forma que tiene un humano de cargar ese número por ahí.</p>
+          <p>Anotalas en un papel y te pueden robar. Memorizalas y te podés olvidar. Esas son las dos opciones, y todo el que guarda Bitcoin ya eligió una, calladito.</p>
+          <p>Obvio que esto es solo un juego. Satoshi probablemente ya no está entre nosotros. Pero sus doce palabras siguen por ahí, sosteniendo un tesoro, y solo él supo cuáles eran o... andá a saber, capaz que alguien encuentra las doce palabras.</p>
+          <p>Un banco habría devuelto el dinero. Eso no es un elogio a los bancos; es la misma puerta, girando para el otro lado.</p>
+          <p>Y hay una cosa con los vecinos de IA. El rack de computadoras de al lado está haciendo exactamente el mismo truco — usando energía eléctrica para construir algo que nadie puede falsificar, porque un modelo entrenado, igual que una melena o igual que el Bitcoin, tiene que pagarse por adelantado. Dos especies en el mismo datacenter, haciendo crecer la cosa más cara que pueden bancar.</p>
+          <p>La diferencia solo aparece cuando les pedís a los dos que se acuerden de algo.</p>
+          <p>La blockchain nunca olvidó nada. Todos los bitcoins siguen ahí, aunque hayas perdido tus doce palabras.</p>
+          <p>La máquina de IA de al lado te olvida en el segundo en que cerrás la pestaña.</p>
+          <p>Los dos están pagando caro para ser león.</p>
+          <p>Así que no te olvides de tus doce palabras:  popcorn gorilla sausage lobster muffin dizzy weasel tattoo jelly clown wink zoo</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- PT -->
+      <div class="lang-content" data-lang="pt">
+        <div class="opener">
+          Ano 2027. No quartel-general da AI Bitcoin, alguém está parabenizando o Satoshi Nakamoto.
+        </div>
+        <div class="body-text">
+          <p>Em algum lugar de uma planície seca, um leão decide o que é dele.</p>
+          <p>Ele não chegou lá discutindo. Chegou sendo o animal mais forte,  carregando a prova na própria cabeça.</p>
+          <p>A juba é o argumento. É pesada, é quente, atrapalha de verdade numa corrida, e custa caro manter-la. Leão que tá comendo bem  tem juba cheia e lustrosa. Leão que não tá, não tem. Ele não consegue criar a juba no fiado e não consegue vestir uma só pra uso no final da tarde. É como um balanço financeiro, é público, e tá grudado na cara dele.</p>
+          <p>Um leão mais fraco não tem como fingir. É esse o mecanismo inteiro. Você pode mentir sobre suas intenções, sua linhagem, seus planos pra dominar a planície cheia de gazelas — você não pode mentir sobre uma juba. Você não pode mentir sobre a força física. Foi pago adiantado, em carne, calor e anos, e tá bem ali onde todo mundo vê.</p>
+          <p>Jason Lowry escreveu um livro inteiro em cima dessa observação. O Holy Chip adora o Jason. Ele escreveu que a natureza resolve quem é dono do quê, ou quem manda no pedaço,  com custos que não dá pra falsificar, porque todo método mais barato a gente dá um jeito de burlar. Presas são caras, feitas para escapar.</p>
+          <p>Aí chegamos nós e inventamos o recibo. O papel. O jeito de burlar.</p>
+          <p>Foi uma troca magnífica. No lugar de uma juba você podia ter um selo num envelope, um nome num cartório, uma linha num livro guardado por um escrivão dentro de um prédio. A propriedade virou leve. Dava pra ser dono de um vale onde você nunca pisou, transferir uma planície que você nunca viu.</p>
+          <p>Esse jeito mais leve de mostrar força levou alguns milhares de anos pra aparecer. Mas... qualquer coisa que não custa nada pra afirmar não custa nada pra falsificar. O selo é copiado. O cartório é alterado. O escrivão recebe uma proposta, ou uma ameaça. O escrivão é só um humano.</p>
+          <p>Aí alguém inventou algo que nos trouxe de volta para a planície cheia de gazelas. Nascia o Bitcoin. O momento de puro gênio do Satoshi.</p>
+          <p>É isso que toda aquela eletricidade usada no Bitcoin tá comprando, e não é velocidade, apesar do que dizem nos podcasts. É peso. É uma juba sobre a qual não dá pra mentir, criada num lugar que nunca tinha tido uma, pra que ser dono de algo voltasse a significar alguma coisa sem um escrivão no meio.</p>
+          <p>Funcionou.</p>
+          <p>Dezoito anos depois (a tirinha se passa em 2027), o maior leão da planície, o que inventou o Bitcoin,  tá sentado numa reunião sendo parabenizado. Satoshi, a lenda. Wall Street se rendeu. O Bitcoin agora é ouro digital. Satoshi tem mais de um milhão deles, mais que qualquer um, e todo mundo na sala tá feliz por ele.</p>
+          <p><em>Mas...</em></p>
+          <p>Ele não conseque lembrar as doze palavras. Doze palavras?</p>
+          <p>Se você nunca teve um bitcoin: doze palavras são tudo. Não é senha. Não é login. Quando uma carteira é criada ela te entrega doze palavras de uma lista fixa, numa ordem que ninguém no mundo vai adivinhar — e essas palavras SÃO e dão a posse do Bitcoin. Quem consegue dizer elas é dono do dinheiro. Sem intermediário. Quem não consegue, não tem o precioso ouro digital. Não tem segundo fator, não tem pergunta de segurança, não tem conta pra recuperar, porque não existe conta. Existe um número tão grande que tentar adivinhar é a mesma coisa que não tentar, e doze palavras são o jeito de um humano carregar esse número por aí.</p>
+          <p>Anota num papel e podem te roubar. Decora e você pode esquecer. São essas as duas opções, e todo mundo que guarda Bitcoin já escolheu uma delas caladinho.</p>
+          <p>Óbvio que isso aqui é só brincadeira. O Satoshi provavelmente já não está entre nós. Mas as doze palavras dele continuam por aí, segurando um tesouro, e só ele soube quais eram ou… vai que alguem ache as 12 palavras.</p>
+          <p>Um banco teria devolvido o dinheiro. Isso não é elogio a banco; é a mesma porta, girando pro outro lado.</p>
+          <p>E tem uma coisa sobre os vizinhos de IA. O rack de computadores do lado tá fazendo exatamente o mesmo truque — usando energia elétrica pra construir algo que ninguém consegue falsificar, porque um modelo treinado, igual uma juba ou igual o Bitcoin, tem que ser pago adiantado. Duas espécies no mesmo datacenter, criando a coisa mais cara que conseguem bancar.</p>
+          <p>A diferença só aparece quando você pede pros dois lembrarem de alguma coisa.</p>
+          <p>O blockchain nunca esqueceu nada. Todos os Bitcoins ainda estão lá, mesmo que voce tenha perdido as suas 12 palavras.</p>
+          <p>Já a máquina de IA esquece você no segundo em que você fecha a aba do computador.</p>
+          <p>Os dois estão pagando caro pra ser leão.</p>
+          <p>Só não esqueça as suas 12 palavras:  popcorn gorilla sausage lobster muffin dizzy weasel tattoo jelly clown wink zoo</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <!-- FR -->
+      <div class="lang-content" data-lang="fr">
+        <div class="opener">
+          Année 2027. Au quartier général d'AI Bitcoin, quelqu'un félicite Satoshi Nakamoto.
+        </div>
+        <div class="body-text">
+          <p>Quelque part dans une plaine sèche, un lion décide de ce qui est à lui.</p>
+          <p>Il n'est pas arrivé là en discutant. Il y est arrivé en étant l'animal le plus fort, en portant la preuve sur sa propre tête.</p>
+          <p>La crinière, c'est l'argument. Elle est lourde, elle est chaude, elle gêne pour de vrai dans une course, et elle coûte cher à entretenir. Un lion qui mange bien a une crinière pleine et luisante. Un lion qui ne mange pas, non. Il ne peut pas la faire pousser à crédit et il ne peut pas en enfiler une juste pour la fin d'après-midi. C'est comme un bilan comptable, c'est public, et c'est collé à sa gueule.</p>
+          <p>Un lion plus faible ne peut pas faire semblant. C'est tout le mécanisme. Tu peux mentir sur tes intentions, ta lignée, tes projets pour dominer la plaine pleine de gazelles — tu ne peux pas mentir sur une crinière. Tu ne peux pas mentir sur la force physique. Ça a été payé d'avance, en viande, en chaleur et en années, et c'est là, bien en vue.</p>
+          <p>Jason Lowry a écrit un livre entier là-dessus. Holy Chip adore Jason. Il a écrit que la nature règle qui possède quoi, ou qui commande dans le coin, avec des coûts qu'on ne peut pas falsifier, parce que toute méthode moins chère, on trouve toujours le moyen de la contourner. Les crocs coûtent cher, faits pour qu'on n'y échappe pas.</p>
+          <p>Puis on est arrivés, nous, et on a inventé le reçu. Le papier. Le moyen de contourner.</p>
+          <p>Ce fut un échange magnifique. À la place d'une crinière tu pouvais avoir un sceau sur une enveloppe, un nom chez le notaire, une ligne dans un registre gardé par un greffier dans un bâtiment. La propriété est devenue légère. On pouvait posséder une vallée où on n'avait jamais mis les pieds, céder une plaine qu'on n'avait jamais vue.</p>
+          <p>Cette façon plus légère de montrer sa force a mis quelques milliers d'années à se trahir. Mais... tout ce qui ne coûte rien à affirmer ne coûte rien à falsifier. Le sceau se recopie. Le registre se modifie. Le greffier reçoit une offre, ou une menace. Le greffier n'est qu'un humain.</p>
+          <p>Puis quelqu'un a inventé quelque chose qui nous a ramenés dans la plaine pleine de gazelles. Le Bitcoin naissait. Le moment de pur génie de Satoshi.</p>
+          <p>C'est ça que toute cette électricité brûlée par le Bitcoin achète, et ce n'est pas de la vitesse, quoi qu'on en dise dans les podcasts. C'est du poids. C'est une crinière sur laquelle on ne peut pas mentir, poussée dans un endroit qui n'en avait jamais eu, pour que posséder quelque chose veuille à nouveau dire quelque chose sans un greffier au milieu.</p>
+          <p>Ça a marché.</p>
+          <p>Dix-huit ans plus tard (la BD se passe en 2027), le plus gros lion de la plaine, celui qui a inventé le Bitcoin, est assis dans une réunion à se faire féliciter. Satoshi, la légende. Wall Street a capitulé. Le Bitcoin, c'est de l'or numérique maintenant. Satoshi en a plus d'un million, plus que n'importe qui, et tout le monde dans la salle est content pour lui.</p>
+          <p><em>Mais...</em></p>
+          <p>Il n'arrive pas à se rappeler les douze mots. Douze mots ?</p>
+          <p>Si tu n'as jamais eu un bitcoin : douze mots, c'est tout. Ce n'est pas un mot de passe. Ce n'est pas un identifiant. Quand un portefeuille est créé, il te donne douze mots tirés d'une liste fixe, dans un ordre que personne au monde ne devinera — et ces mots SONT les bitcoins et en donnent la possession. Celui qui sait les dire est propriétaire de l'argent. Sans intermédiaire. Celui qui ne sait pas n'a pas le précieux or numérique. Pas de deuxième facteur, pas de question secrète, pas de compte à récupérer, parce qu'il n'y a pas de compte. Il y a un nombre si grand qu'essayer de le deviner revient à ne pas essayer, et douze mots, c'est la façon dont un humain trimballe ce nombre-là.</p>
+          <p>Note-les sur un papier et on peut te les voler. Apprends-les par cœur et tu peux les oublier. Ce sont les deux options, et tous ceux qui gardent du Bitcoin en ont déjà choisi une, en silence.</p>
+          <p>Évidemment, tout ça c'est pour rire. Satoshi n'est probablement plus parmi nous. Mais ses douze mots sont toujours quelque part, à tenir un trésor, et lui seul a su lesquels c'étaient ou... va savoir, peut-être que quelqu'un trouve les douze mots.</p>
+          <p>Une banque aurait rendu l'argent. Ce n'est pas un compliment aux banques ; c'est la même porte, qui tourne dans l'autre sens.</p>
+          <p>Et il y a un truc avec les voisins d'IA. Le rack d'ordinateurs d'à côté fait exactement le même tour — utiliser de l'énergie électrique pour construire quelque chose que personne ne peut falsifier, parce qu'un modèle entraîné, comme une crinière ou comme le Bitcoin, doit être payé d'avance. Deux espèces dans le même datacenter, à faire pousser la chose la plus chère qu'elles peuvent se payer.</p>
+          <p>La différence n'apparaît que quand tu leur demandes à tous les deux de se souvenir de quelque chose.</p>
+          <p>La blockchain n'a jamais rien oublié. Tous les bitcoins sont toujours là, même si tu as perdu tes douze mots.</p>
+          <p>La machine à IA d'à côté, elle, t'oublie à la seconde où tu fermes l'onglet.</p>
+          <p>Les deux paient cher pour être un lion.</p>
+          <p>Alors n'oublie pas tes douze mots :  popcorn gorilla sausage lobster muffin dizzy weasel tattoo jelly clown wink zoo</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right: sticky transcript + comic -->
+    <div class="visual-column">
+      <div class="dialog-section">
+        <h3 class="transcript-title" data-en="Transcript" data-es="Transcripci&oacute;n" data-pt="Transcri&ccedil;&atilde;o" data-fr="Transcription">Transcript</h3>
+        <div class="lang-content active" data-lang="en">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">SATOSHI! 18 YEARS AND WE ARE DIGITAL GOLD</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">IT'S OK</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WALL STREET CAN'T GET ENOUGH AND...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">YOU HAVE MORE THAN 1 MILLION BITCOIN!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">FINE</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT'S WRONG? WHAT ELSE COULD YOU EVER WANT?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">ERR...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">TO REMEMBER MY 12 WORDS</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="es">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">SATOSHI! 18 YEARS AND WE ARE DIGITAL GOLD</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">IT'S OK</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WALL STREET CAN'T GET ENOUGH AND...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">YOU HAVE MORE THAN 1 MILLION BITCOIN!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">FINE</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT'S WRONG? WHAT ELSE COULD YOU EVER WANT?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">ERR...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">TO REMEMBER MY 12 WORDS</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="pt">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">SATOSHI! 18 YEARS AND WE ARE DIGITAL GOLD</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">IT'S OK</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WALL STREET CAN'T GET ENOUGH AND...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">YOU HAVE MORE THAN 1 MILLION BITCOIN!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">FINE</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT'S WRONG? WHAT ELSE COULD YOU EVER WANT?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">ERR...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">TO REMEMBER MY 12 WORDS</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="fr">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">SATOSHI! 18 YEARS AND WE ARE DIGITAL GOLD</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">IT'S OK</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WALL STREET CAN'T GET ENOUGH AND...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">YOU HAVE MORE THAN 1 MILLION BITCOIN!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">FINE</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT'S WRONG? WHAT ELSE COULD YOU EVER WANT?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">ERR...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">TO REMEMBER MY 12 WORDS</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+      </div>
+      <img class="mobile-thumb" src="../stories/HC041.png" alt="HC041 - The Mane" onclick="openLightbox(this.src)">
+      <div class="comic-frame" style="margin-top:10px;">
+        <img src="../stories/HC041.png" alt="HC041 - The Mane" onclick="openLightbox(this.src)">
+      </div>
+      <div class="comic-caption">HC041 -- The Mane -- 2027</div>
+    </div>
+
+  </div>
+
+  <div class="bottom-section">
+    <div class="story-nav">
+      <a href="HC040.html" class="story-nav-link">&lt; The Hustle</a>
+      <a href="index.html" class="story-nav-link center">All Origins</a>
+      <span class="story-nav-link disabled">Next &gt;</span>
+    </div>
+    <div class="article-footer">
+      <p><em>holy-chip.com | Origin Story #041 -- The Mane</em></p>
+    </div>
+  </div>
+
+  <script src="../assets/nav.js"></script>
+  <script src="../assets/footer.js"></script>
+  <script>
+    function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
+    function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+    function setLang(lang) {
+      document.querySelectorAll('.lang-content').forEach(el => {
+        el.classList.toggle('active', el.dataset.lang === lang);
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
+      });
+      var ab = document.querySelector('.audio-bar');
+      if (ab) ab.style.display = lang === 'en' ? '' : 'none';
+      var tt = document.querySelector('.transcript-title');
+      if (tt && tt.dataset[lang]) tt.textContent = tt.dataset[lang];
+      try { localStorage.setItem('hc-lang', lang); } catch(e) {}
+    }
+
+    // Restore saved language, or auto-detect from browser
+    (function() {
+      var saved = null;
+      try { saved = localStorage.getItem('hc-lang'); } catch(e) {}
+      if (saved && ['en','es','pt','fr'].indexOf(saved) !== -1) {
+        setLang(saved);
+        return;
+      }
+      var browserLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+      var lang = 'en';
+      if (browserLang.startsWith('es')) lang = 'es';
+      else if (browserLang.startsWith('pt')) lang = 'pt';
+      else if (browserLang.startsWith('fr')) lang = 'fr';
+      if (lang !== 'en') setLang(lang);
+    })();
+  </script>
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Holy Chip comic"></div>
+</body>
+</html>
