@@ -109,6 +109,30 @@
       padding: 8px;
     }
 
+    /* Short story = the 2-frame image itself, no pre overlay */
+    .card-short {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: contain;
+      filter: grayscale(100%);
+      padding: 8px;
+      background: #fff;
+    }
+
+    .card-badge {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      background: #000;
+      color: #fff;
+      border: 1px solid #fff;
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      padding: 4px 6px;
+      z-index: 2;
+    }
+
     /* Story number label */
     .card-label {
       position: absolute;
@@ -432,17 +456,20 @@
       }
     }
 
-    function storyURL(num) {
-      return window.location.origin + window.location.pathname + '?story=HC' + PAD(num);
+    // A story's id is HC042, a short's is HC042.short — same number can hold both.
+    const storyId = s => 'HC' + PAD(s.num) + (s.short ? '.short' : '');
+
+    function storyURL(story) {
+      return window.location.origin + window.location.pathname + '?story=' + storyId(story);
     }
 
     // ── Share icon SVG ───────────────────────────────────────
     const SHARE_SVG = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>`;
     const X_SVG = `<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`;
 
-    function tweetStory(num) {
-      const url = storyURL(num);
-      const text = `Check out this Holy Chip story! HC${PAD(num)}`;
+    function tweetStory(story) {
+      const url = storyURL(story);
+      const text = `Check out this Holy Chip ${story.short ? 'short' : 'story'}! HC${PAD(story.num)}`;
       const tweetURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}&via=holychipcomics`;
       window.open(tweetURL, '_blank', 'noopener,noreferrer,width=550,height=420');
     }
@@ -454,20 +481,22 @@
         const card = document.createElement('div');
         card.className = 'story-card';
         card.innerHTML = `
-          <img class="card-bg"  src="${story.main}" alt=""/>
-          ${story.pre ? `<img class="card-pre" src="${story.pre}" alt=""/>` : ''}
-          <div class="card-label">HC${PAD(story.num)}</div>
+          ${story.short
+            ? `<img class="card-short" src="${story.main}" alt=""/><div class="card-badge">SHORT</div>`
+            : `<img class="card-bg"  src="${story.main}" alt=""/>
+          ${story.pre ? `<img class="card-pre" src="${story.pre}" alt=""/>` : ''}`}
+          <div class="card-label">HC${PAD(story.num)}${story.short ? ' · SHORT' : ''}</div>
           <button class="card-share" title="Share this story">${SHARE_SVG}</button>
           <button class="card-tweet" title="Post on X">${X_SVG}</button>
         `;
         card.addEventListener('click', () => openReader(idx));
         card.querySelector('.card-share').addEventListener('click', e => {
           e.stopPropagation();
-          shareURL(storyURL(story.num), 'Holy Chip — HC' + PAD(story.num));
+          shareURL(storyURL(story), 'Holy Chip — ' + storyId(story));
         });
         card.querySelector('.card-tweet').addEventListener('click', e => {
           e.stopPropagation();
-          tweetStory(story.num);
+          tweetStory(story);
         });
         grid.appendChild(card);
       });
@@ -482,17 +511,20 @@
         for (let n = start; n < Math.min(start + BATCH, 201); n++) {
           const main = `${BASE}HC${PAD(n)}.png`;
           const pre  = `${BASE}HC${PAD(n)}.pre.png`;
+          const shrt = `${BASE}HC${PAD(n)}.short.png`;
+          const head = u => fetch(u, { method: 'HEAD' }).then(r => r.ok ? u : null).catch(() => null);
           checks.push(
-            Promise.all([
-              fetch(main, { method: 'HEAD' }).then(r => r.ok ? main : null).catch(() => null),
-              fetch(pre,  { method: 'HEAD' }).then(r => r.ok ? pre  : null).catch(() => null),
-            ]).then(([m, p]) => m ? { num: n, main: m, pre: p } : null)
+            Promise.all([head(main), head(pre), head(shrt)]).then(([m, p, s]) => [
+              m ? { num: n, main: m, pre: p, short: false } : null,
+              s ? { num: n, main: s, pre: null, short: true } : null,
+            ])
           );
         }
         const results = await Promise.all(checks);
-        results.forEach(r => { if (r) found.push(r); });
+        results.flat().forEach(r => { if (r) found.push(r); });
       }
-      found.sort((a, b) => a.num - b.num);
+      // By number; a short sits right after the story of the same number.
+      found.sort((a, b) => a.num - b.num || a.short - b.short);
       return found;
     }
 
@@ -500,17 +532,19 @@
     discover().then(stories => {
       STORIES = stories;
       document.getElementById('loading').style.display = 'none';
+      const nShort = STORIES.filter(s => s.short).length;
+      const nStory = STORIES.length - nShort;
       document.getElementById('story-count').textContent =
-        STORIES.length + ' stor' + (STORIES.length === 1 ? 'y' : 'ies');
+        nStory + ' stor' + (nStory === 1 ? 'y' : 'ies') +
+        (nShort ? ' · ' + nShort + ' short' + (nShort === 1 ? '' : 's') : '');
       if (STORIES.length === 0) {
         document.getElementById('empty').style.display = '';
       } else {
         buildGrid();
-        // Deep link: ?story=HC005 auto-opens that story
+        // Deep link: ?story=HC005 (or ?story=HC042.short) auto-opens that story
         const param = new URLSearchParams(window.location.search).get('story');
         if (param) {
-          const num = parseInt(param.replace('HC', ''), 10);
-          const idx = STORIES.findIndex(s => s.num === num);
+          const idx = STORIES.findIndex(s => storyId(s) === param.toUpperCase().replace('.SHORT', '.short'));
           if (idx !== -1) openReader(idx);
         }
       }
@@ -533,11 +567,14 @@
     function renderReader() {
       const story = STORIES[currentIdx];
       document.getElementById('reader-story').src = story.main;
-      document.getElementById('reader-label').textContent = `HC${PAD(story.num)} — ${currentIdx + 1} / ${STORIES.length}`;
+      document.getElementById('reader-label').textContent = `HC${PAD(story.num)}${story.short ? ' · SHORT' : ''} — ${currentIdx + 1} / ${STORIES.length}`;
       document.getElementById('btn-prev').classList.toggle('hidden', currentIdx === 0);
       document.getElementById('btn-next').classList.toggle('hidden', currentIdx === STORIES.length - 1);
-      document.getElementById('btn-origin-reader').href = `origins/HC${PAD(story.num)}.html`;
-      history.replaceState(null, '', '?story=HC' + PAD(story.num));
+      // Shorts have no origin page (yet) — hide the button rather than link to a 404.
+      const origin = document.getElementById('btn-origin-reader');
+      origin.style.display = story.short ? 'none' : '';
+      origin.href = `origins/HC${PAD(story.num)}.html`;
+      history.replaceState(null, '', '?story=' + storyId(story));
     }
 
     function navigateReader(dir) {
@@ -553,11 +590,11 @@
     document.getElementById('btn-share-reader').addEventListener('click', e => {
       e.stopPropagation();
       const story = STORIES[currentIdx];
-      shareURL(storyURL(story.num), 'Holy Chip — HC' + PAD(story.num));
+      shareURL(storyURL(story), 'Holy Chip — ' + storyId(story));
     });
     document.getElementById('btn-tweet-reader').addEventListener('click', e => {
       e.stopPropagation();
-      tweetStory(STORIES[currentIdx].num);
+      tweetStory(STORIES[currentIdx]);
     });
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeReader();
