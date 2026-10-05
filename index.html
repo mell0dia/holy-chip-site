@@ -213,6 +213,14 @@
       margin: 0 auto 1.2rem;
     }
 
+    .story-top-bar { align-items: center; gap: 1rem; }
+    /* EN | PT for the comic itself (the PT edition lives in stories/pt/) */
+    .comic-lang { display: flex; border: 2px solid #000; }
+    .comic-lang button { font-family: 'Press Start 2P', monospace; font-size: 0.75rem; letter-spacing: 0.1em;
+                         padding: 0.55rem 0.9rem; background: #fff; color: #000; border: 0; cursor: pointer; }
+    .comic-lang button.active { background: #000; color: #fff; }
+    .comic-lang button:not(.active):hover { background: #efe9d4; }
+
     .another-btn {
       display: inline-flex;
       align-items: center;
@@ -347,6 +355,9 @@
 
       <div id="story-card-wrap">
         <div class="story-top-bar">
+          <div class="comic-lang" role="group" aria-label="Story language">
+            <button data-lang="en">EN</button><button data-lang="pt">PT</button>
+          </div>
           <button class="another-btn" id="another-btn" title="Show another story" aria-label="Another story">
             <span class="icon">↻</span>
           </button>
@@ -669,6 +680,8 @@
     }
 
     function detectLang() {
+      const q = new URLSearchParams(window.location.search).get('lang');
+      if (q && ['en','es','pt','fr'].includes(q)) return q;
       try {
         const saved = localStorage.getItem('hc-lang');
         if (saved && ['en','es','pt','fr'].includes(saved)) return saved;
@@ -680,13 +693,29 @@
       return 'en';
     }
 
+    // The comic exists in EN and PT (stories/pt/HC###.png); ES/FR read the English comic.
+    function showComic(lang) {
+      if (!currentStory) return;
+      const img = document.getElementById('story-main-image');
+      const sid = `HC${PAD(currentStory.num)}`;
+      const want = lang === 'pt' ? `stories/pt/${sid}.png` : currentStory.src;
+      img.onerror = () => { img.onerror = null; img.src = currentStory.src; };   // no PT version yet
+      if (img.getAttribute('src') !== want) img.src = want;
+      document.querySelectorAll('.comic-lang button').forEach(b => b.classList.toggle('active', b.dataset.lang === (lang === 'pt' ? 'pt' : 'en')));
+    }
+
     function setStoryLang(lang) {
       if (!['en','es','pt','fr'].includes(lang)) lang = 'en';
+      showComic(lang);
       const blog = document.getElementById('story-blog');
       blog.querySelectorAll('.lang-content').forEach(el => el.classList.toggle('active', el.dataset.lang === lang));
       blog.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
       try { localStorage.setItem('hc-lang', lang); } catch (e) {}
     }
+
+    document.querySelectorAll('.comic-lang button').forEach(btn => {
+      btn.addEventListener('click', () => setStoryLang(btn.dataset.lang));
+    });
 
     document.querySelectorAll('#story-blog .lang-btn').forEach(btn => {
       btn.addEventListener('click', () => setStoryLang(btn.dataset.lang));
@@ -695,7 +724,7 @@
     async function renderStoryInline() {
       if (!currentStory) return;
       const sid = `HC${PAD(currentStory.num)}`;
-      document.getElementById('story-main-image').src = currentStory.src;
+      showComic(detectLang());
       document.getElementById('story-label').textContent = sid;
       const blog = document.getElementById('story-blog');
       blog.classList.remove('empty');
