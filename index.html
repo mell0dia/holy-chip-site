@@ -278,6 +278,7 @@
       transition: transform 0.4s ease;
     }
     .another-btn:hover { background: #b08a20; }
+    .share-btn svg { width: 18px; height: 18px; }
     .another-btn:hover .icon { transform: rotate(180deg); }
     .another-btn:active { transform: translateY(1px); }
 
@@ -398,6 +399,9 @@
           </div>
           <button class="another-btn" id="another-btn" title="Show another story" aria-label="Another story">
             <span class="icon">↻</span>
+          </button>
+          <button class="another-btn share-btn" id="share-btn" title="Share this story" aria-label="Share this story">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
           </button>
         </div>
         <img class="story-main-image" id="story-main-image" src="" alt=""/>
@@ -544,11 +548,8 @@
       cur1.style.display = 'inline-block';
       cur2.style.display = 'none';
 
+      if (!scannerLaunched) { scannerLaunched = true; launchScanner(); }   // runs alongside the typewriter, not after it
       typeText(tw1, line1, () => {
-        if (!scannerLaunched) {
-          scannerLaunched = true;
-          launchScanner();
-        }
         setTimeout(() => {
           cur1.style.display = 'none';
           cur2.style.display = 'inline-block';
@@ -560,7 +561,7 @@
       });
     }
 
-    setTimeout(runPhraseLoop, 800);
+    setTimeout(runPhraseLoop, 300);
 
     // ── Story engine ─────────────────────────────────────────
     const PAD       = n => String(n).padStart(3, '0');
@@ -673,24 +674,19 @@
       pct.textContent  = '0%';
 
       if (isFirst) {
-        await sleep(100);
-        await typeInto(line1, '> SCANNING ARCHIVE...');
-        fill.style.width = '80%';
-        // Count up to 80
+        // The archive index is already loaded by now (one small JSON); the scan
+        // is a flourish, so it is short: ~1s from the first character to 100%.
+        await typeInto(line1, '> SCANNING ARCHIVE...', 14);
+        fill.style.transition = 'width 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+        fill.style.width = '100%';
         let cur = 0;
         await new Promise(resolve => {
           const iv = setInterval(() => {
-            cur = Math.min(cur + 2, 80);
+            cur = Math.min(cur + 5, 100);
             pct.textContent = cur + '%';
-            if (cur >= 80) { clearInterval(iv); resolve(); }
-          }, 30);
+            if (cur >= 100) { clearInterval(iv); resolve(); }
+          }, 22);
         });
-        // Wait for discover (already running in parallel)
-        // now finish
-        await sleep(200);
-        fill.style.width = '100%';
-        await sleep(300);
-        pct.textContent = '100%';
       } else {
         // Fast mode for subsequent picks
         await typeInto(line1, '> FINDING NEXT STORY...', 20);
@@ -710,7 +706,7 @@
       // Show found line
       line2.textContent = `> STORY LOCATED — ${label}`;
       line2.classList.add('show');
-      await sleep(isFirst ? 500 : 250);
+      await sleep(isFirst ? 350 : 250);
 
       // Hide scanner, reveal inline story (image + blog)
       scannerBox.classList.add('hidden');
@@ -854,6 +850,21 @@
         console.error('Origin blog load failed', e);
         blog.classList.add('empty');
       }
+    }
+
+    // Share: the current story's own link on the Stories page (the home page's
+    // random pick has no stable address). Phone share sheet, else copy + toast.
+    document.getElementById('share-btn').addEventListener('click', () => {
+      if (!currentStory) return;
+      const url = `${location.origin}${location.pathname.replace(/[^/]*$/, '')}stories.html?story=${currentStory.id}` + (detectLang() === 'pt' ? '&lang=pt' : '');
+      const title = `Holy Chip — ${currentStory.id} ${currentStory.title}`;
+      if (navigator.share) navigator.share({ url, title }).catch(() => {});
+      else navigator.clipboard.writeText(url).then(() => toast('Link copied!')).catch(() => toast('Copy: ' + url));
+    });
+    function toast(msg) {
+      let t = document.getElementById('hc-toast');
+      if (!t) { t = document.createElement('div'); t.id = 'hc-toast'; t.className = 'hc-toast'; document.body.appendChild(t); }
+      t.textContent = msg; t.classList.add('show'); clearTimeout(t._timer); t._timer = setTimeout(() => t.classList.remove('show'), 2200);
     }
 
     document.getElementById('another-btn').addEventListener('click', () => {
