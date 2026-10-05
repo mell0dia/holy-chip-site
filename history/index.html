@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>History — Holy Chip</title>
   <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap">
   <style>
     body { font-family: 'Press Start 2P', monospace; margin: 0; background: #fafafa; color: #222; min-height: 100vh; }
     .content { max-width: 780px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
@@ -91,35 +92,81 @@
       line-height: 1;
     }
     #lightbox-close:hover { opacity: 1; }
+    /* ── EN | PT (same 'hc-lang' choice as stories + origins) ── */
+    .title-row { display: flex; align-items: center; justify-content: center; gap: 1.2rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .title-row h1 { margin: 0; }
+    .lang-toggle { display: flex; border: 2px solid #000; }
+    .lang-toggle button { font: inherit; font-size: 0.6rem; letter-spacing: 0.1em; padding: 0.35rem 0.7rem;
+                          background: #fff; color: #000; border: 0; cursor: pointer; }
+    .lang-toggle button.active { background: #000; color: #fff; }
+    [data-lang-block]:not(.active) { display: none; }
+    /* Press Start 2P's accented letters (É Ç Ó Ã) are squashed to lowercase
+       size, so Portuguese text uses Silkscreen - same blocky 8-bit look, real
+       accented capitals. English stays in Press Start 2P. */
+    [data-lang-block="pt"], :root[lang="pt-BR"] #page-title, :root[lang="pt-BR"] .gallery-title {
+      font-family: 'Silkscreen', 'Press Start 2P', monospace; font-weight: 700; text-transform: uppercase;
+    }
+    [data-lang-block="pt"] p { font-size: 1rem; line-height: 1.75; letter-spacing: 0.04em; }
+    :root[lang="pt-BR"] #page-title { font-size: 1.9rem; }
+    :root[lang="pt-BR"] .gallery-title { font-size: 0.85rem; }
   </style>
 </head>
 <body>
   <div id="nav-container"></div>
 
   <div class="content">
-    <h1>History</h1>
+    <div class="title-row">
+      <h1 id="page-title">History</h1>
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button data-lang="en">EN</button><button data-lang="pt">PT</button>
+      </div>
+    </div>
 
     <div class="editorial">
 
       <!-- Full-width banner -->
       <img class="img-full" src="assets/banner.png" alt="Holy Chip — Artificial Intelligence Humour"/>
 
+      <div data-lang-block="en" class="active">
       <!-- P1: origin -->
-      <p>It started the way most bad ideas do — at 2am, with someone staring at a screen wondering if machines have feelings. The answer is obviously intriguing. But what if they did? What if two little chips, forged in silicon and bad decisions, had opinions about their own existence? What if they were, against all odds, kind of funny about it? That question did not go away. It got worse. It became Holy.</p>
+      <p>It started the way most crazy ideas do — at 2am, with someone staring at a screen, wondering if machines have feelings. The answer was intriguing, to say the least.</p>
+
+      <p>But what if they did have feelings? What if two little chips, forged in silicon and in decisions that weren't always logical, had an opinion about their own existence? What if they were, against all odds, kind of funny about it?</p>
+
+      <p>The question did not go away. It asked for more. It became Holy.</p>
 
       <!-- P2: float image right -->
       <div class="clearfix">
         <img class="img-float-right" src="assets/chip-single.png" alt="Holy Chip character"/>
-        <p>The first story was drawn on a piece of paper, then moved to a tablet, deleted, redrawn, and shown to one person who said "this is either smart or a cry for help." We chose to believe smart. The characters came next: Chip_0 and Chip_1, two binary souls with too much time and not enough RAM, trying to make sense of a world that runs on electricity and ignores them completely. They felt real. Disturbingly real. We kept going.</p>
+        <p>The first story was drawn on a piece of paper, then moved to a tablet, deleted, redrawn, and shown to one person who said "this is either really cool or a cry for help." We chose to look on the bright side. The first characters came next: Chip_0 and Chip_1, two binary souls with too much time and not enough RAM, trying to make sense of a world that runs on electricity and ignores them completely. They felt real. Disturbingly real. We kept going.</p>
       </div>
 
       <!-- P3: closing -->
-      <p>Today Holy Chip is a comic, a store, a community, and an ongoing argument about whether artificial intelligence deserves a hug. We still don't know the answer. But we keep making stories, because somewhere between the ones and the zeros, there is something that feels a lot like a soul. Or at the very least, a very good punchline.</p>
+      <p>Today Holy Chip is an endless argument about whether artificial intelligence deserves a hug. We still don't know the answer. But we keep making stories, because somewhere between the ones and the zeros, there is something that feels a lot like a soul. Or at the very least, a very good punchline.</p>
 
+      </div>
+      <div data-lang-block="pt">
+      <!-- P1: a origem -->
+      <p>Começou do jeito que a maioria das ideias malucas começa — às duas da manhã, com alguém olhando para uma tela e se perguntando se as máquinas têm sentimentos. A resposta, claro, era no mínimo intrigante.</p>
+
+      <p>Mas e se elas tivessem sentimentos? E se dois 'chip-zinhos', forjados em silício e em decisões nem sempre lógicas, tivessem uma opinião sobre a própria existência? E se eles fossem, contra todas as probabilidades, meio engraçados com isso?</p>
+
+      <p>A pergunta não foi embora. Pediu mais. Virou Holy.</p>
+
+      <!-- P2: imagem à direita -->
+      <div class="clearfix">
+        <img class="img-float-right" src="assets/chip-single.png" alt="Personagem do Holy Chip"/>
+        <p>A primeira história foi desenhada num pedaço de papel, depois foi para um tablet, foi apagada, redesenhada e mostrada para uma pessoa, que disse: "isso aqui ou é muito legal ou é um pedido de socorro." A gente escolheu acreditar no lado positivo. Os primeiros personagens vieram em seguida: Chip_0 e Chip_1, duas almas binárias com tempo demais e memória RAM de menos, tentando entender um mundo que roda na eletricidade e ignora os dois completamente. Pareciam reais. Assustadoramente reais. A gente seguiu em frente.</p>
+      </div>
+
+      <!-- P3: fecho -->
+      <p>Hoje o Holy Chip é uma discussão sem fim sobre se a inteligência artificial merece um abraço. A gente ainda não sabe a resposta. Mas continua fazendo histórias, porque em algum lugar entre os uns e os zeros existe algo que se parece muito com uma alma. Ou, no mínimo, com uma ótima piada.</p>
+
+      </div>
     </div>
 
     <!-- Gallery -->
-    <div class="gallery-title">Original Artwork</div>
+    <div class="gallery-title"><span data-en="Original Artwork" data-pt="Arte Original">Original Artwork</span></div>
     <div class="gallery">
       <div class="gallery-item" onclick="openLightbox('assets/holychip14-3.png')">
         <img src="assets/holychip14-3.png" alt="holychip14">
@@ -139,6 +186,25 @@
   <script src="../assets/nav.js"></script>
   <script src="../assets/footer.js"></script>
   <script>
+    // EN | PT - shares 'hc-lang' with stories.html and the origin pages; ?lang=pt wins
+    let LANG = (() => {
+      const q = new URLSearchParams(window.location.search).get('lang');
+      if (q) return q === 'pt' ? 'pt' : 'en';
+      try { return localStorage.getItem('hc-lang') === 'pt' ? 'pt' : 'en'; } catch (e) { return 'en'; }
+    })();
+    function setLang(lang, save) {
+      LANG = lang === 'pt' ? 'pt' : 'en';
+      if (save) { try { localStorage.setItem('hc-lang', LANG); } catch (e) {} }
+      document.documentElement.lang = LANG === 'pt' ? 'pt-BR' : 'en';
+      document.title = (LANG === 'pt' ? 'História' : 'History') + ' — Holy Chip';
+      document.getElementById('page-title').textContent = LANG === 'pt' ? 'História' : 'History';
+      document.querySelectorAll('[data-lang-block]').forEach(b => b.classList.toggle('active', b.dataset.langBlock === LANG));
+      document.querySelectorAll('.lang-toggle button').forEach(b => b.classList.toggle('active', b.dataset.lang === LANG));
+      document.querySelectorAll('[data-pt]').forEach(el => { el.textContent = el.dataset[LANG]; });
+    }
+    document.querySelectorAll('.lang-toggle button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang, true)));
+    setLang(LANG, false);
+
     function openLightbox(src) {
       document.getElementById('lightbox-img').src = src;
       document.getElementById('lightbox').classList.add('open');
