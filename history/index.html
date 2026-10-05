@@ -100,15 +100,15 @@
                           background: #fff; color: #000; border: 0; cursor: pointer; }
     .lang-toggle button.active { background: #000; color: #fff; }
     [data-lang-block]:not(.active) { display: none; }
-    /* Press Start 2P's accented letters (É Ç Ó Ã) are squashed to lowercase
-       size, so Portuguese text uses Silkscreen - same blocky 8-bit look, real
-       accented capitals. English stays in Press Start 2P. */
-    [data-lang-block="pt"], :root[lang="pt-BR"] #page-title, :root[lang="pt-BR"] .gallery-title {
+    /* One font for BOTH languages: Silkscreen Bold. Press Start 2P squashes
+       accented capitals (É Ç Ó Ã) to lowercase size, so the Portuguese can't use
+       it - and EN and PT must look the same (user, 2026-10-05). */
+    .editorial, #page-title, .gallery-title {
       font-family: 'Silkscreen', 'Press Start 2P', monospace; font-weight: 700; text-transform: uppercase;
     }
-    [data-lang-block="pt"] p { font-size: 1rem; line-height: 1.75; letter-spacing: 0.04em; }
-    :root[lang="pt-BR"] #page-title { font-size: 1.9rem; }
-    :root[lang="pt-BR"] .gallery-title { font-size: 0.85rem; }
+    .editorial p { font-size: 1rem; line-height: 1.75; letter-spacing: 0.04em; }
+    #page-title { font-size: 1.9rem; }
+    .gallery-title { font-size: 0.85rem; }
   </style>
 </head>
 <body>
