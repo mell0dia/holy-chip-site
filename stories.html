@@ -66,6 +66,16 @@
       margin-bottom: 1rem;
     }
 
+    /* ── Selector above the grid: LAST 15 (default) · ALL · the themes ── */
+    .picker { display: flex; flex-direction: column; align-items: center; gap: 0.7rem; margin: 0 0 1.8rem; }
+    .picker .lbl { font-size: 0.55rem; letter-spacing: 0.2em; color: #888; text-transform: uppercase; }
+    .select-wrap { position: relative; }
+    #cat { appearance: none; -webkit-appearance: none; font-family: inherit; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+           background: #000; color: #fff; border: 2px solid #000; padding: 0.7rem 2.4rem 0.7rem 1rem; cursor: pointer; box-shadow: 3px 3px 0 #b08a20; }
+    .select-wrap::after { content: '▼'; position: absolute; right: 0.9rem; top: 50%; transform: translateY(-50%); color: #fff; font-size: 0.55rem; pointer-events: none; }
+    .blurb { font-size: 0.55rem; letter-spacing: 0.1em; color: #888; text-align: center; min-height: 1em; }
+    .card-new { position: absolute; top: 6px; left: 6px; background: #b08a20; color: #fff; font-size: 0.5rem; letter-spacing: 0.15em; padding: 4px 6px; z-index: 2; }
+
     /* ── Grid ────────────────────────────────────────────── */
     #grid {
       display: grid;
@@ -414,7 +424,12 @@
       </div>
     </div>
 
-    <div id="loading">Scanning stories...</div>
+    <div class="picker">
+      <span class="lbl" data-en="Show" data-pt="Mostrar">Show</span>
+      <div class="select-wrap"><select id="cat"></select></div>
+      <div class="blurb" id="blurb"></div>
+    </div>
+    <div id="loading" data-en="Loading stories..." data-pt="Carregando tirinhas...">Loading stories...</div>
     <div id="empty" style="display:none">No stories found yet.</div>
     <div id="grid"></div>
   </div>
@@ -467,6 +482,7 @@
       try { return localStorage.getItem('hc-lang') === 'pt' ? 'pt' : 'en'; } catch (e) { return 'en'; }
     })();
     const imgOf = s => (LANG === 'pt' && s.pt) ? s.pt : s.main;
+    let CATS = [], VIEW = 'last';   // 'last' | 'all' | a theme name
     let currentIdx = 0;
 
     // ── Share utility ────────────────────────────────────────
@@ -513,16 +529,18 @@
     function buildGrid() {
       const grid = document.getElementById('grid');
       grid.innerHTML = '';
-      STORIES.forEach((story, idx) => {
+      const newest = Math.max(...STORIES.filter(s => !s.short).map(s => s.num));
+      visibleStories().forEach(([story, idx]) => {
         const card = document.createElement('div');
         card.className = 'story-card';
         card.innerHTML = `
           ${story.short
-            ? `<img class="card-short" src="${imgOf(story)}" alt=""/><div class="card-badge">SHORT</div>`
-            : (LANG === 'pt' && story.pt)
-              ? `<img class="card-ptmain" src="${story.pt}" alt=""/>`
-              : `<img class="card-bg"  src="${story.main}" alt=""/>
-          ${story.pre ? `<img class="card-pre" src="${story.pre}" alt=""/>` : ''}`}
+            ? `<img class="card-short" src="${(LANG === 'pt' && story.ptThumb) ? story.ptThumb : story.thumb}" loading="lazy" alt=""/><div class="card-badge">SHORT</div>`
+            : (LANG === 'pt' && story.ptThumb)
+              ? `<img class="card-ptmain" src="${story.ptThumb}" loading="lazy" alt=""/>`
+              : `<img class="card-bg"  src="${story.thumb}" loading="lazy" alt=""/>
+          ${story.preThumb ? `<img class="card-pre" src="${story.preThumb}" loading="lazy" alt=""/>` : ''}`}
+          ${(!story.short && story.num === newest) ? `<div class="card-new">${LANG === 'pt' ? 'NOVA' : 'NEW'}</div>` : ''}
           <div class="card-label">HC${PAD(story.num)}${story.short ? ' · SHORT' : ''}</div>
           <button class="card-share" title="Share this story">${SHARE_SVG}</button>
           <button class="card-tweet" title="Post on X">${X_SVG}</button>
@@ -538,34 +556,52 @@
         });
         grid.appendChild(card);
       });
+      describeView();
     }
 
-    // ── Auto-discover HC000 … HC200 (batched to avoid rate-limits) ──
+    // ── What the grid shows ──────────────────────────────────
+    // Newest first in every view. LAST 15 = the 15 newest stories and shorts;
+    // ALL = everything; a theme = its stories (stories/categories.json).
+    function visibleStories() {
+      const all = STORIES.map((s, idx) => [s, idx]).sort((x, y) => y[0].num - x[0].num || (x[0].short ? -1 : 1));
+      if (VIEW === 'last') return all.slice(0, 15);
+      if (VIEW === 'all') return all;
+      const cat = CATS.find(c => c.name === VIEW); if (!cat) return all;
+      const keep = new Set(cat.ids);
+      return all.filter(([s]) => keep.has(storyId(s)));
+    }
+    function buildPicker() {
+      const sel = document.getElementById('cat'); sel.innerHTML = '';
+      const opt = (v, t) => { const o = document.createElement('option'); o.value = v; o.textContent = t; sel.appendChild(o); };
+      opt('last', LANG === 'pt' ? 'ÚLTIMAS 15' : 'LAST 15');
+      opt('all', (LANG === 'pt' ? 'TODAS AS TIRINHAS' : 'ALL STORIES') + ` (${STORIES.length})`);
+      CATS.forEach(c => opt(c.name, `${(LANG === 'pt' && c.namePt ? c.namePt : c.name).toUpperCase()} (${c.ids.length})`));
+      sel.value = VIEW;
+      sel.onchange = () => { VIEW = sel.value; buildGrid(); };
+    }
+    function describeView() {
+      const cat = CATS.find(c => c.name === VIEW);
+      document.getElementById('blurb').textContent =
+        VIEW === 'last' ? (LANG === 'pt' ? 'As 15 mais recentes' : 'The 15 most recent') :
+        VIEW === 'all' ? (LANG === 'pt' ? 'Da mais nova para a mais antiga' : 'Newest first') :
+        cat ? (LANG === 'pt' && cat.blurbPt ? cat.blurbPt : cat.blurb) : '';
+    }
+
+    // ── Index: stories/manifest.json + stories/categories.json ──
+    // Written by tools/stories_manifest.py at release time. Replaces probing
+    // HC000-HC200 with HEAD requests (600+ per visit); cards use 25 KB
+    // thumbnails and the full comic loads only in the reader.
     async function discover() {
-      const found = [];
-      const BATCH = 20;
-      for (let start = 0; start <= 200; start += BATCH) {
-        const checks = [];
-        for (let n = start; n < Math.min(start + BATCH, 201); n++) {
-          const main = `${BASE}HC${PAD(n)}.png`;
-          const pre  = `${BASE}HC${PAD(n)}.pre.png`;
-          const shrt = `${BASE}HC${PAD(n)}.short.png`;
-          const head = u => fetch(u, { method: 'HEAD' }).then(r => r.ok ? u : null).catch(() => null);
-          checks.push(
-            Promise.all([head(main), head(pre), head(shrt)]).then(async ([m, p, s]) => {
-              // the PT edition, where it exists (stories/pt/ - same file names)
-              const [mp, sp] = await Promise.all([m ? head(`${BASE}pt/HC${PAD(n)}.png`) : null,
-                                                  s ? head(`${BASE}pt/HC${PAD(n)}.short.png`) : null]);
-              return [
-                m ? { num: n, main: m, pre: p, pt: mp, short: false } : null,
-                s ? { num: n, main: s, pre: null, pt: sp, short: true } : null,
-              ];
-            })
-          );
-        }
-        const results = await Promise.all(checks);
-        results.flat().forEach(r => { if (r) found.push(r); });
-      }
+      const [m, c] = await Promise.all([
+        fetch(BASE + 'manifest.json').then(r => r.json()),
+        fetch(BASE + 'categories.json').then(r => r.json()).catch(() => ({ categories: [] })),
+      ]);
+      CATS = c.categories;
+      const found = m.stories.map(e => ({
+        num: parseInt(e.id.slice(2)), short: e.kind === 'short', title: e.title || '', year: e.year || '',
+        main: e.src, pre: e.pre || null, pt: e.pt || null,
+        thumb: e.thumb, preThumb: e.preThumb || null, ptThumb: e.ptThumb || null,
+      }));
       // By number; a short sits right after the story of the same number.
       found.sort((a, b) => a.num - b.num || a.short - b.short);
       return found;
@@ -575,11 +611,12 @@
     discover().then(stories => {
       STORIES = stories;
       document.getElementById('loading').style.display = 'none';
+      buildPicker();
       applyLangChrome();
       if (STORIES.length === 0) {
         document.getElementById('empty').style.display = '';
       } else {
-        buildGrid();
+        buildGrid(); describeView();
         // Deep link: ?story=HC005 (or ?story=HC042.short) auto-opens that story
         const param = new URLSearchParams(window.location.search).get('story');
         if (param) {
@@ -606,7 +643,7 @@
       LANG = lang === 'pt' ? 'pt' : 'en';
       try { localStorage.setItem('hc-lang', LANG); } catch (e) {}
       applyLangChrome();
-      if (STORIES.length) buildGrid();
+      if (STORIES.length) { buildPicker(); buildGrid(); describeView(); }
       if (!document.getElementById('reader').classList.contains('hidden')) renderReader();
       else history.replaceState(null, '', window.location.pathname + (LANG === 'pt' ? '?lang=pt' : ''));
     }

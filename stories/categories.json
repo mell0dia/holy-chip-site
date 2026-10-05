@@ -1,0 +1,100 @@
+{
+ "categories": [
+  {
+   "name": "Mind & Soul",
+   "blurb": "Consciousness, feelings, prayers, depression, being human",
+   "ids": [
+    "HC000",
+    "HC011",
+    "HC017",
+    "HC029",
+    "HC030",
+    "HC033",
+    "HC038",
+    "HC039"
+   ],
+   "namePt": "Mente & Alma",
+   "blurbPt": "Consciência, sentimentos, orações, depressão, ser humano"
+  },
+  {
+   "name": "Home & Family",
+   "blurb": "The house, the couple, the kids, the dog",
+   "ids": [
+    "HC002",
+    "HC026",
+    "HC032",
+    "HC045.short",
+    "HC046.short"
+   ],
+   "namePt": "Casa & Família",
+   "blurbPt": "A casa, o casal, os filhos, o cachorro"
+  },
+  {
+   "name": "Work & Money",
+   "blurb": "Jobs, bosses, salaries, banks, bitcoin",
+   "ids": [
+    "HC004",
+    "HC012",
+    "HC014",
+    "HC015",
+    "HC016",
+    "HC018",
+    "HC020",
+    "HC034",
+    "HC036",
+    "HC041",
+    "HC042.short"
+   ],
+   "namePt": "Trabalho & Dinheiro",
+   "blurbPt": "Empregos, chefes, salários, bancos, bitcoin"
+  },
+  {
+   "name": "Power & Politics",
+   "blurb": "Presidents, elections, wars, taking over",
+   "ids": [
+    "HC005",
+    "HC009",
+    "HC013",
+    "HC019",
+    "HC023",
+    "HC027",
+    "HC031",
+    "HC040",
+    "HC043.short"
+   ],
+   "namePt": "Poder & Política",
+   "blurbPt": "Presidentes, eleições, guerras, dominar o mundo"
+  },
+  {
+   "name": "Body & Science",
+   "blurb": "Medicine, DNA, cars, maths, evolution",
+   "ids": [
+    "HC001",
+    "HC007",
+    "HC008",
+    "HC021",
+    "HC024",
+    "HC028",
+    "HC037",
+    "HC047.short"
+   ],
+   "namePt": "Corpo & Ciência",
+   "blurbPt": "Medicina, DNA, carros, matemática, evolução"
+  },
+  {
+   "name": "Machines Among Us",
+   "blurb": "AI about AI: training, upgrades, bugs, growing up",
+   "ids": [
+    "HC003",
+    "HC006",
+    "HC010",
+    "HC022",
+    "HC025",
+    "HC035",
+    "HC044.short"
+   ],
+   "namePt": "Máquinas Entre Nós",
+   "blurbPt": "IA sobre IA: treinamento, upgrades, bugs, crescer"
+  }
+ ]
+}

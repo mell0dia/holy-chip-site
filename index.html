@@ -118,6 +118,34 @@
       #story-card-wrap { width: 100%; }
     }
 
+    /* ── Below the hero: the wall runs down the LEFT, the story reads on the RIGHT ── */
+    #split { position: relative; z-index: 5; display: grid; grid-template-columns: 150px minmax(0, 1fr) 150px; gap: 2rem; max-width: 1500px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; align-items: start; }
+    /* Before the faces appear there is only the scanner: it takes the middle of the full row */
+    #split.solo { grid-template-columns: 1fr; }
+    #split.solo #story-finder { max-width: 740px; margin: 0 auto; }
+    .wall-col { padding: 0 6px 6px 0; opacity: 0; transition: opacity 0.6s ease; }   /* one face per line; shown after the random story */
+    .wall-col.in { opacity: 1; }
+    #wall-wrap { display: contents; }
+    @media (max-width: 900px) {
+      #split { grid-template-columns: 1fr; gap: 1.5rem; padding: 1rem 0.75rem 3rem; }
+      #wall-wrap { display: block; }
+      #wall-right { display: none; }           /* phones: ALL faces go into the left grid (see buildWall) */
+      #story-finder { order: 1; }              /* ...and the story comes FIRST, the grid after it */
+      #wall-wrap { order: 2; margin-top: 2rem; }
+    }
+    .wall-head { display: flex; align-items: center; gap: 1rem; margin: 0 0 0.6rem; }
+    .wall-head .t { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: #888; white-space: nowrap; }
+    .wall-head .line { flex: 1; border-top: 2px solid #000; }
+    .wall { display: grid; grid-template-columns: 1fr; gap: 6px; }
+    @media (max-width: 900px) { .wall { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); } }
+    @media (max-width: 600px) { .wall { grid-template-columns: repeat(5, 1fr); gap: 4px; } .tile .cap { font-size: 0.32rem; } .tile .n { font-size: 0.3rem; } }
+    .tile { position: relative; aspect-ratio: 1; border: 2px solid #000; background: #F8F9F2; cursor: pointer; overflow: hidden; transition: transform 0.12s, box-shadow 0.12s; }
+    .tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .tile:hover { transform: scale(1.06); z-index: 2; box-shadow: 0 0 0 3px #b08a20, 4px 4px 0 #000; }
+    .tile.current { box-shadow: 0 0 0 3px #b08a20; }
+    .tile .n { position: absolute; top: 2px; left: 3px; font-size: 0.36rem; color: #000; background: rgba(255,255,255,0.8); padding: 2px 3px; letter-spacing: 0.1em; }
+    .tile .cap { position: absolute; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.82); color: #fff; font-size: 0.4rem; letter-spacing: 0.1em; padding: 3px 4px; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
     /* ── Story Finder ────────────────────────────────────── */
     #story-finder {
       position: relative;
@@ -125,10 +153,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 2.5rem 1.5rem 4rem;
+      padding: 0;
       width: 100%;
-      max-width: 740px;
-      margin: 0 auto;
+      min-width: 0;
     }
 
     /* Shared slot — scanner and card occupy the same space */
@@ -264,15 +291,7 @@
       background: #fff;
     }
     /* On big screens, image breaks out of #story-finder's 740px cap and grows to 50vw */
-    @media (min-width: 1200px) {
-      .story-main-image {
-        width: 50vw;
-        max-width: 1200px;
-        position: relative;
-        left: 50%;
-        transform: translateX(-50%);
-      }
-    }
+    .story-main-image { max-width: 760px; }
 
     .story-label {
       font-family: 'Press Start 2P', monospace;
@@ -288,10 +307,10 @@
        cap to reach 60vw (20% margin each side) on larger screens */
     .blog-card-wrap {
       position: relative;
-      width: 60vw;
-      max-width: 1500px;
-      left: 50%;
-      transform: translateX(-50%);
+      width: 100%;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
       margin-top: 1.5rem;
       background: #f8f4e8;
       border: 1px solid #d8cea8;
@@ -323,8 +342,6 @@
       .blog-card-wrap {
         width: 100%;
         max-width: 600px;
-        left: auto;
-        transform: none;
         padding: 1.5rem 1.5rem 2rem;
         font-size: 1.05rem;
         margin-left: auto;
@@ -355,7 +372,13 @@
   </main>
 
 
-  <!-- Story Finder -->
+  <div id="split" class="solo">
+  <!-- The wall -->
+  <div id="wall-wrap" style="display:none">
+    <div class="wall-col" id="wall-left"><div class="wall" id="wall"></div></div>
+  </div>
+
+  <!-- Story Finder (the middle column) -->
   <div id="story-finder" style="display:none">
     <div id="story-slot">
 
@@ -396,6 +419,9 @@
 
     </div>
   </div>
+
+  <div class="wall-col" id="wall-right" style="display:none"><div class="wall" id="wall2"></div></div>
+  </div><!-- /split -->
 
   <script src="assets/nav.js"></script>
   <script src="assets/footer.js"></script>
@@ -543,20 +569,46 @@
     let allStories = [];    // { num, src, pre } — populated once on load
     let currentStory = null;
 
-    // Probe HC000–HC050 for existing stories
+    // stories/manifest.json is written at release time (tools/stories_manifest.py):
+    // no probing, and it carries each story's face tile for the wall.
+    // Stories AND shorts go on the wall; the random picker below uses stories only.
+    let allPieces = [];
     async function discoverStories() {
-      const checks = [];
-      for (let n = 0; n <= 50; n++) {
-        const src = `stories/HC${PAD(n)}.png`;
-        const pre = `stories/HC${PAD(n)}.pre.png`;
-        checks.push(
-          Promise.all([
-            fetch(src, { method: 'HEAD' }).then(r => r.ok ? src : null).catch(() => null),
-            fetch(pre, { method: 'HEAD' }).then(r => r.ok ? pre : null).catch(() => null),
-          ]).then(([s, p]) => s ? { num: n, src: s, pre: p } : null)
-        );
-      }
-      return (await Promise.all(checks)).filter(Boolean);
+      const m = await fetch('stories/manifest.json').then(r => r.json());
+      allPieces = m.stories.map(e => ({ id: e.id, num: parseInt(e.id.slice(2)), short: e.kind === 'short', title: e.title, year: e.year,
+                                        src: e.src, pre: e.pre || null, pt: e.pt || null, face: e.face, origin: e.origin }));
+      return allPieces.filter(p => !p.short);
+    }
+
+    // ── The wall ─────────────────────────────────────────────
+    function buildWall() {
+      const walls = [document.getElementById('wall'), document.getElementById('wall2')];
+      const list = allPieces.filter(p => !p.short).sort((a, b) => b.num - a.num);   // stories only, newest first
+      const narrow = matchMedia('(max-width: 900px)').matches;      // phones: everything in one grid
+      list.forEach((s, i) => {
+        const wall = narrow ? walls[0] : walls[i % 2];                // desktop: newest-first, alternating left / right
+        const t = document.createElement('div'); t.className = 'tile'; t.dataset.id = s.id;
+        t.innerHTML = `<img src="${s.face}" loading="lazy" alt=""/><span class="n">${s.id.replace('.short', 'S')}</span><div class="cap">${s.title} · ${s.year}</div>`;
+        t.addEventListener('click', () => showStory(s));
+        wall.appendChild(t);
+      });
+    }
+    // The grid appears only once the scanner has put the random story on screen.
+    function revealWall() {
+      document.getElementById('split').classList.remove('solo');
+      document.getElementById('wall-wrap').style.display = '';
+      const right = document.getElementById('wall-right'); right.style.display = '';
+      requestAnimationFrame(() => { document.getElementById('wall-left').classList.add('in'); right.classList.add('in'); });
+    }
+    // Click a face: that story (or short) loads into the big image + origin below, and the page scrolls to it
+    function showStory(s) {
+      currentStory = s;
+      document.getElementById('story-finder').style.display = 'flex';
+      document.getElementById('scanner-box').classList.add('hidden');
+      document.getElementById('story-card-wrap').classList.add('visible');
+      renderStoryInline();
+      if (innerWidth <= 900) document.getElementById('story-finder').scrollIntoView({ behavior: 'smooth', block: 'start' });   // the grid sits below the story on phones
+      else document.getElementById('split').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function shuffle(arr) {
@@ -664,6 +716,7 @@
       scannerBox.classList.add('hidden');
       wrap.classList.add('visible');
       renderStoryInline();
+      if (isFirst) setTimeout(revealWall, 400);
     }
 
     // ── Lightbox + Origin Blog Loader ────────────────────────
@@ -749,8 +802,7 @@
     function showComic(lang) {
       if (!currentStory) return;
       const img = document.getElementById('story-main-image');
-      const sid = `HC${PAD(currentStory.num)}`;
-      const want = lang === 'pt' ? `stories/pt/${sid}.png` : currentStory.src;
+      const want = (lang === 'pt' && currentStory.pt) ? currentStory.pt : currentStory.src;
       img.onerror = () => { img.onerror = null; img.src = currentStory.src; };   // no PT version yet
       if (img.getAttribute('src') !== want) img.src = want;
       document.querySelectorAll('.comic-lang button').forEach(b => b.classList.toggle('active', b.dataset.lang === (lang === 'pt' ? 'pt' : 'en')));
@@ -775,12 +827,14 @@
 
     async function renderStoryInline() {
       if (!currentStory) return;
-      const sid = `HC${PAD(currentStory.num)}`;
+      const sid = currentStory.id;
       showComic(detectLang());
-      document.getElementById('story-label').textContent = sid;
+      document.getElementById('story-label').textContent = sid.replace('.short', ' · SHORT') + (currentStory.title ? ` — ${currentStory.title} · ${currentStory.year}` : '');
+      document.querySelectorAll('.tile').forEach(t => t.classList.toggle('current', t.dataset.id === sid));
       const blog = document.getElementById('story-blog');
-      blog.classList.remove('empty');
       blog.querySelectorAll('.lang-content').forEach(el => el.innerHTML = '');
+      if (!currentStory.origin) { blog.classList.add('empty'); return; }     // shorts have no origin essay
+      blog.classList.remove('empty');
       const loadingEl = blog.querySelector('.loading');
       if (loadingEl) loadingEl.style.display = '';
 
@@ -808,7 +862,7 @@
 
     // ── Boot ─────────────────────────────────────────────────
     // Discover stories in background immediately so they're ready when needed
-    const storiesReady = discoverStories().then(s => { allStories = s; });
+    const storiesReady = discoverStories().then(s => { allStories = s; buildWall(); });
 
     async function launchScanner() {
       await storiesReady;
