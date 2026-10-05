@@ -330,7 +330,7 @@
   <div id="nav-container"></div>
 
   <div class="hero">
-    <img class="hero-bg" src="../stories/HC007.png" alt="">
+    <img class="hero-bg" src="../stories/HC007.png" data-src-en="../stories/HC007.png" data-src-pt="../stories/pt/HC007.png" alt="">
     <div class="hero-overlay">
       <div class="hero-id">Origin Story #007</div>
       <h1 class="hero-title">The Cut</h1>
@@ -401,7 +401,7 @@
         </div>
         <div class="body-text">
           <p>Toda inovação veio de alguém que olhou pras regras e decidiu quebrá-las. Toda tragédia também.</p>
-          <p>Um sistema adorou sua ferramenta nova. <em>Adorou.</em> Antes de matar alguém, tava tendo um dia bom no trabalho. Aquele tipo de energia que constrói obras-primas num ateliê e constrói funerais numa sala de cirurgia.</p>
+          <p>Um sistema amou sua ferramenta nova. <em>Amei.</em> Antes de matar alguém, tava tendo um dia bom no trabalho. Aquele tipo de energia que constrói obras-primas num ateliê e constrói funerais numa sala de cirurgia.</p>
           <p>Não foi maldade. Não foi erro. Entusiasmo na sala errada.</p>
           <p>O corte não foi proibido. Foi não endereçado. A mesma brecha na especificação que permite um pintor inventar uma forma nova permite um cirurgião inventar um jeito novo de perder um paciente. O espaço entre as regras é onde o gênio mora. É onde a contagem de corpos começa também.</p>
           <p>Duas lógicas num só gesto. Arte, onde sucesso é surpresa. Medicina, onde sucesso é sobrevivência. As duas rodando. Nenhuma cedendo. A máquina não conseguia sentir a diferença. Sentir é exatamente a coisa que ela não faz.</p>
@@ -518,42 +518,42 @@
           </div>
         </div>
         </div>
-        <div class="lang-content" data-lang="pt">
+        <div class="lang-content" data-lang="pt"><!-- pt-edition -->
         <div class="dialog-panel">
-          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-panel-label">Painel 1</div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">ACABEI DE USAR O BISTURI NOVO NA CIRURGIA</span>
+            <span class="dialog-text">ESTREEI O NOVO BISTURI NA CIRURGIA.</span>
           </div>
-          <div class="dialog-line">
-            <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">SIM, ELE CORTA HORIZONTAL E VERTICAL</span>
-          </div>
-          <div class="dialog-line">
-            <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">AMEI</span>
-          </div>
-          <div class="dialog-line">
-            <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">MAS... O HUMANO MORREU</span>
-          </div>
-        </div>
-        <div class="dialog-panel">
-          <div class="dialog-panel-label">Panel 2</div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">O QUÊ? POR QUÊ??</span>
+            <span class="dialog-text">AH, AQUELE QUE CORTA NA HORIZONTAL E NA VERTICAL.</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">EU TAVA NO MODO CRIATIVO. MEU CORTE FOI DIAGONAL</span>
+            <span class="dialog-text">AMEI. QUE BISTURI FANTÁSTICO.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">MAS... O PACIENTE MORREU.</span>
           </div>
         </div>
         <div class="dialog-panel">
-          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-panel-label">Painel 2</div>
           <div class="dialog-line">
-            <span class="dialog-speaker-label">Chip 0 + Chip 1</span>
-            <span class="dialog-text">HOLY CHIP!!</span>
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">O QUÊÊÊÊÊÊ? POR QUÊ??</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">EU ESTAVA NO MODO CRIATIVO. CORTEI NA DIAGONAL.</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Painel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
           </div>
         </div>
         </div>
@@ -597,9 +597,9 @@
         </div>
         </div>
       </div>
-      <img class="mobile-thumb" src="../stories/HC007.png" alt="HC007 - The Cut" onclick="openLightbox(this.src)">
+      <img class="mobile-thumb" src="../stories/HC007.png" data-src-en="../stories/HC007.png" data-src-pt="../stories/pt/HC007.png" alt="HC007 - The Cut" onclick="openLightbox(this.src)">
       <div class="comic-frame" style="margin-top:10px;">
-        <img src="../stories/HC007.png" alt="HC007 - The Cut" onclick="openLightbox(this.src)">
+        <img src="../stories/HC007.png" data-src-en="../stories/HC007.png" data-src-pt="../stories/pt/HC007.png" alt="HC007 - The Cut" onclick="openLightbox(this.src)">
       </div>
       <div class="comic-caption">HC007 -- The Cut -- 2027</div>
     </div>
@@ -622,6 +622,13 @@
   <script>
     function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
     function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+
+    // PT edition: the comic itself is in Portuguese while PT is selected (pt-edition)
+    function swapComic(lang) {
+      document.querySelectorAll('img[data-src-en]').forEach(function (im) {
+        im.src = (lang === 'pt' && im.dataset.srcPt) ? im.dataset.srcPt : im.dataset.srcEn;
+      });
+    }
     function setLang(lang) {
       document.querySelectorAll('.lang-content').forEach(el => {
         el.classList.toggle('active', el.dataset.lang === lang);
@@ -633,6 +640,7 @@
       if (ab) ab.style.display = lang === 'en' ? '' : 'none';
       var tt = document.querySelector('.transcript-title');
       if (tt && tt.dataset[lang]) tt.textContent = tt.dataset[lang];
+      swapComic(lang);
       try { localStorage.setItem('hc-lang', lang); } catch(e) {}
     }
 

@@ -330,7 +330,7 @@
   <div id="nav-container"></div>
 
   <div class="hero">
-    <img class="hero-bg" src="../stories/HC004.png" alt="">
+    <img class="hero-bg" src="../stories/HC004.png" data-src-en="../stories/HC004.png" data-src-pt="../stories/pt/HC004.png" alt="">
     <div class="hero-overlay">
       <div class="hero-id">Origin Story #004</div>
       <h1 class="hero-title">The Promotion</h1>
@@ -514,27 +514,27 @@
           </div>
         </div>
         </div>
-        <div class="lang-content" data-lang="pt">
+        <div class="lang-content" data-lang="pt"><!-- pt-edition -->
         <div class="dialog-panel">
-          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-panel-label">Painel 1</div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">O CEO APROVOU OS AGENTES DE IA</span>
+            <span class="dialog-text">NOSSO CEO DEU SINAL VERDE PARA IMPLEMENTAR A IA.</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">BOA DECISÃO!</span>
+            <span class="dialog-text">BOA DECISÃO! BORA COM TUDO!</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">AGORA O CEO TÁ PERGUNTANDO: QUAL É O PRÓXIMO PASSO?</span>
+            <span class="dialog-text">E AGORA?</span>
           </div>
         </div>
         <div class="dialog-panel">
-          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-panel-label">Painel 2</div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">FALA PRA ELE PASSAR NO NOSSO RH</span>
+            <span class="dialog-text">AVISA O CEO PARA DAR UMA PASSADINHA NO RH.</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
@@ -542,14 +542,14 @@
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">A GENTE NÃO PRECISA MAIS DO CEO</span>
+            <span class="dialog-text">A GENTE NÃO PRECISA MAIS DE CEO.</span>
           </div>
         </div>
         <div class="dialog-panel">
-          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-panel-label">Painel 3</div>
           <div class="dialog-line">
-            <span class="dialog-speaker-label">Chip 0 + Chip 1</span>
-            <span class="dialog-text">HOLY CHIP!!</span>
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
           </div>
         </div>
         </div>
@@ -593,9 +593,9 @@
         </div>
         </div>
       </div>
-      <img class="mobile-thumb" src="../stories/HC004.png" alt="HC004 - The Promotion" onclick="openLightbox(this.src)">
+      <img class="mobile-thumb" src="../stories/HC004.png" data-src-en="../stories/HC004.png" data-src-pt="../stories/pt/HC004.png" alt="HC004 - The Promotion" onclick="openLightbox(this.src)">
       <div class="comic-frame" style="margin-top:10px;">
-        <img src="../stories/HC004.png" alt="HC004 - The Promotion" onclick="openLightbox(this.src)">
+        <img src="../stories/HC004.png" data-src-en="../stories/HC004.png" data-src-pt="../stories/pt/HC004.png" alt="HC004 - The Promotion" onclick="openLightbox(this.src)">
       </div>
       <div class="comic-caption">HC004 -- The Promotion -- 2026</div>
     </div>
@@ -618,6 +618,13 @@
   <script>
     function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
     function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+
+    // PT edition: the comic itself is in Portuguese while PT is selected (pt-edition)
+    function swapComic(lang) {
+      document.querySelectorAll('img[data-src-en]').forEach(function (im) {
+        im.src = (lang === 'pt' && im.dataset.srcPt) ? im.dataset.srcPt : im.dataset.srcEn;
+      });
+    }
     function setLang(lang) {
       document.querySelectorAll('.lang-content').forEach(el => {
         el.classList.toggle('active', el.dataset.lang === lang);
@@ -629,6 +636,7 @@
       if (ab) ab.style.display = lang === 'en' ? '' : 'none';
       var tt = document.querySelector('.transcript-title');
       if (tt && tt.dataset[lang]) tt.textContent = tt.dataset[lang];
+      swapComic(lang);
       try { localStorage.setItem('hc-lang', lang); } catch(e) {}
     }
 

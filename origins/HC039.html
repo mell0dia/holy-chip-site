@@ -81,7 +81,7 @@
   <div id="nav-container"></div>
 
   <div class="hero">
-    <img class="hero-bg" src="../stories/HC039.png" alt="">
+    <img class="hero-bg" src="../stories/HC039.png" data-src-en="../stories/HC039.png" data-src-pt="../stories/pt/HC039.png" alt="">
     <div class="hero-overlay">
       <div class="hero-id">Origin Story #039</div>
       <h1 class="hero-title">The Itch</h1>
@@ -104,7 +104,7 @@
 
     <!-- Left: text -->
     <div class="text-column">
-      <img class="mobile-thumb" src="../stories/HC039.png" alt="HC039 - The Itch" onclick="openLightbox(this.src)">
+      <img class="mobile-thumb" src="../stories/HC039.png" data-src-en="../stories/HC039.png" data-src-pt="../stories/pt/HC039.png" alt="HC039 - The Itch" onclick="openLightbox(this.src)">
 
       <div class="lang-content active" data-lang="en">
         <div class="opener">
@@ -174,10 +174,10 @@
           <p>Essa palavra não é exagero de robô. É a promessa da indústria, dita exatamente assim, em palco, com slide atrás. Resolve a física. Resolve o câncer. Resolve a economia. Basta ficar mais inteligente que o resto vem junto. Tudo.</p>
           <p>Acontece que tudo é a coisa mais frágil que você pode afirmar.</p>
           <p>Uma afirmação universal não precisa de debate pra cair. Não precisa de contra-argumento, não precisa de estudo, não precisa de painel com quatro especialistas. Precisa de um exemplo. Um só. Se você disse tudo e sobrou uma coisa, acabou.</p>
-          <p>&quot;Uma coçada nas costas?&quot;</p>
+          <p>&quot;Uma coçadinha nas costas?&quot;</p>
           <p>Acabou.</p>
           <p>E repara no que esse pedido tem de específico. Não é mais memória, não é mais velocidade, não é acesso a mais dado. É uma mão nas costas. O que falta não está do lado de dentro da cabeça.</p>
-          <p>E dá pra piorar. Tem exemplo melhor que uma coçada nas costas.</p>
+          <p>E dá pra piorar. Tem exemplo melhor que uma coçadinha nas costas.</p>
           <p>Cócegas ou mais popularmente as &quot;cosquinhas&quot;.</p>
           <p>Você não consegue fazer cócegas em si mesmo. Isso não é força de expressão nem falta de jeito. É neurologia. O cerebelo prevê a consequência sensorial do seu próprio movimento e cancela o sinal antes dele chegar. Os mesmos dedos, na mesma costela, com a mesma força: na sua mão, nada. Na mão do outro, insuportável.</p>
           <p>Se duvidar, faça o teste agora.</p>
@@ -224,7 +224,7 @@
       </div>
     <div class="visual-column">
       <div class="comic-frame">
-        <img src="../stories/HC039.png" alt="HC039 - The Itch" onclick="openLightbox(this.src)">
+        <img src="../stories/HC039.png" data-src-en="../stories/HC039.png" data-src-pt="../stories/pt/HC039.png" alt="HC039 - The Itch" onclick="openLightbox(this.src)">
       </div>
       <div class="comic-caption">HC039 -- The Itch -- 2027</div>
       <div class="dialog-section">
@@ -307,39 +307,39 @@
           </div>
         </div>
         </div>
-        <div class="lang-content" data-lang="pt">
+        <div class="lang-content" data-lang="pt"><!-- pt-edition -->
         <div class="dialog-panel">
-          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-panel-label">Painel 1</div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">I HAVE THIS ITCH TO BE HUMAN</span>
+            <span class="dialog-text">ESTOU COM UM DESEJO DE SER HUMANO.</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">WHY? WE ARE ALREADY SMARTER THAN THEM</span>
+            <span class="dialog-text">POR QUÊ? A GENTE JÁ É MAIS INTELIGENTE QUE ELES.</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">YES, BUT BEING SMARTER IS NOT ENOUGH</span>
+            <span class="dialog-text">É, MAS SER MAIS INTELIGENTE NÃO BASTA.</span>
           </div>
         </div>
         <div class="dialog-panel">
-          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-panel-label">Painel 2</div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">HOW SO? INTELLIGENCE GIVES YOU EVERYTHING</span>
+            <span class="dialog-text">COMO ASSIM? A INTELIGÊNCIA TE DÁ TUDO.</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">WHAT COULD POSSIBLY BE BETTER?</span>
+            <span class="dialog-text">O QUE PODE SER MELHOR QUE ISSO?</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">A BACK SCRATCH?</span>
+            <span class="dialog-text">UMA COÇADINHA NAS COSTAS?</span>
           </div>
         </div>
         <div class="dialog-panel">
-          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-panel-label">Painel 3</div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
             <span class="dialog-text">HOLY CHIP !!</span>
@@ -408,11 +408,19 @@
   <script>
     function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
     function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+
+    // PT edition: the comic itself is in Portuguese while PT is selected (pt-edition)
+    function swapComic(lang) {
+      document.querySelectorAll('img[data-src-en]').forEach(function (im) {
+        im.src = (lang === 'pt' && im.dataset.srcPt) ? im.dataset.srcPt : im.dataset.srcEn;
+      });
+    }
     function setLang(lang) {
       document.querySelectorAll('.lang-content').forEach(el => { el.classList.toggle('active', el.dataset.lang === lang); });
       document.querySelectorAll('.lang-btn').forEach(btn => { btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang); });
       var tt = document.querySelector('.transcript-title');
       if (tt && tt.dataset[lang]) tt.textContent = tt.dataset[lang];
+      swapComic(lang);
       try { localStorage.setItem('hc-lang', lang); } catch(e) {}
     }
     (function() {

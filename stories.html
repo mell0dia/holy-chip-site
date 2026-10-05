@@ -39,6 +39,18 @@
       text-transform: uppercase;
     }
 
+    .lang-toggle { margin-left: auto; display: flex; gap: 0; border: 2px solid #000; align-self: center; }
+    .page-header { flex-wrap: wrap; row-gap: 0.6rem; }
+    #story-count { white-space: nowrap; }
+    @media (max-width: 600px) {
+      .page-header { align-items: center; }
+      .lang-toggle { order: 2; }
+      #story-count { order: 3; flex-basis: 100%; }
+    }
+    .lang-toggle button { font: inherit; font-size: 0.75rem; letter-spacing: 0.1em; padding: 0.3rem 0.7rem;
+                          background: #fff; color: #000; border: 0; cursor: pointer; }
+    .lang-toggle button.active { background: #000; color: #fff; }
+
     #story-count {
       font-size: 0.75rem;
       color: #888;
@@ -110,6 +122,17 @@
     }
 
     /* Short story = the 2-frame image itself, no pre overlay */
+    /* PT edition: no Portuguese teaser panel yet, so the card shows the top of
+       the Portuguese strip itself, full strength. */
+    .card-ptmain {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: top;
+      filter: grayscale(100%);
+    }
+
     .card-short {
       position: absolute;
       inset: 0;
@@ -384,8 +407,11 @@
 
   <div class="page">
     <div class="page-header">
-      <h1>Stories</h1>
+      <h1 id="page-title">Stories</h1>
       <span id="story-count"></span>
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button data-lang="en">EN</button><button data-lang="pt">PT</button>
+      </div>
     </div>
 
     <div id="loading">Scanning stories...</div>
@@ -409,15 +435,15 @@
         <div class="reader-footer-right">
           <a id="btn-origin-reader" href="#" title="Read the origin story">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-            Read Origin
+            <span data-en="Read Origin" data-pt="Ler a Origem">Read Origin</span>
           </a>
           <button id="btn-tweet-reader">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            Post
+            <span data-en="Post" data-pt="Postar">Post</span>
           </button>
           <button id="btn-share-reader">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-            Share
+            <span data-en="Share" data-pt="Compartilhar">Share</span>
           </button>
         </div>
       </div>
@@ -431,6 +457,16 @@
     const BASE = 'stories/';
     const PAD  = n => String(n).padStart(3, '0');
     let STORIES = [];
+
+    // ── Language: EN (default) or PT (the Brazilian-Portuguese edition, stories/pt/).
+    // Shares the 'hc-lang' key with the origin pages, so Read Origin opens in the
+    // same language. ?lang=pt in a link wins over the saved choice.
+    let LANG = (() => {
+      const q = new URLSearchParams(window.location.search).get('lang');
+      if (q) return q === 'pt' ? 'pt' : 'en';
+      try { return localStorage.getItem('hc-lang') === 'pt' ? 'pt' : 'en'; } catch (e) { return 'en'; }
+    })();
+    const imgOf = s => (LANG === 'pt' && s.pt) ? s.pt : s.main;
     let currentIdx = 0;
 
     // ── Share utility ────────────────────────────────────────
@@ -460,7 +496,7 @@
     const storyId = s => 'HC' + PAD(s.num) + (s.short ? '.short' : '');
 
     function storyURL(story) {
-      return window.location.origin + window.location.pathname + '?story=' + storyId(story);
+      return window.location.origin + window.location.pathname + '?story=' + storyId(story) + (LANG === 'pt' ? '&lang=pt' : '');
     }
 
     // ── Share icon SVG ───────────────────────────────────────
@@ -482,8 +518,10 @@
         card.className = 'story-card';
         card.innerHTML = `
           ${story.short
-            ? `<img class="card-short" src="${story.main}" alt=""/><div class="card-badge">SHORT</div>`
-            : `<img class="card-bg"  src="${story.main}" alt=""/>
+            ? `<img class="card-short" src="${imgOf(story)}" alt=""/><div class="card-badge">SHORT</div>`
+            : (LANG === 'pt' && story.pt)
+              ? `<img class="card-ptmain" src="${story.pt}" alt=""/>`
+              : `<img class="card-bg"  src="${story.main}" alt=""/>
           ${story.pre ? `<img class="card-pre" src="${story.pre}" alt=""/>` : ''}`}
           <div class="card-label">HC${PAD(story.num)}${story.short ? ' · SHORT' : ''}</div>
           <button class="card-share" title="Share this story">${SHARE_SVG}</button>
@@ -514,10 +552,15 @@
           const shrt = `${BASE}HC${PAD(n)}.short.png`;
           const head = u => fetch(u, { method: 'HEAD' }).then(r => r.ok ? u : null).catch(() => null);
           checks.push(
-            Promise.all([head(main), head(pre), head(shrt)]).then(([m, p, s]) => [
-              m ? { num: n, main: m, pre: p, short: false } : null,
-              s ? { num: n, main: s, pre: null, short: true } : null,
-            ])
+            Promise.all([head(main), head(pre), head(shrt)]).then(async ([m, p, s]) => {
+              // the PT edition, where it exists (stories/pt/ - same file names)
+              const [mp, sp] = await Promise.all([m ? head(`${BASE}pt/HC${PAD(n)}.png`) : null,
+                                                  s ? head(`${BASE}pt/HC${PAD(n)}.short.png`) : null]);
+              return [
+                m ? { num: n, main: m, pre: p, pt: mp, short: false } : null,
+                s ? { num: n, main: s, pre: null, pt: sp, short: true } : null,
+              ];
+            })
           );
         }
         const results = await Promise.all(checks);
@@ -532,11 +575,7 @@
     discover().then(stories => {
       STORIES = stories;
       document.getElementById('loading').style.display = 'none';
-      const nShort = STORIES.filter(s => s.short).length;
-      const nStory = STORIES.length - nShort;
-      document.getElementById('story-count').textContent =
-        nStory + ' stor' + (nStory === 1 ? 'y' : 'ies') +
-        (nShort ? ' · ' + nShort + ' short' + (nShort === 1 ? '' : 's') : '');
+      applyLangChrome();
       if (STORIES.length === 0) {
         document.getElementById('empty').style.display = '';
       } else {
@@ -550,6 +589,30 @@
       }
     });
 
+    function applyLangChrome() {
+      document.querySelectorAll('.lang-toggle button').forEach(b => b.classList.toggle('active', b.dataset.lang === LANG));
+      // the pixel font has no accented capitals (HISTÓRIAS came out broken): TIRINHAS
+      document.getElementById('page-title').textContent = LANG === 'pt' ? 'Tirinhas' : 'Stories';
+      document.documentElement.lang = LANG === 'pt' ? 'pt-BR' : 'en';
+      document.querySelectorAll('[data-pt]').forEach(el => { el.textContent = el.dataset[LANG]; });
+      const nShort = STORIES.filter(s => s.short).length;
+      const nStory = STORIES.length - nShort;
+      document.getElementById('story-count').textContent = LANG === 'pt'
+        ? nStory + ' tirinha' + (nStory === 1 ? '' : 's') + (nShort ? ' · ' + nShort + ' short' + (nShort === 1 ? '' : 's') : '')
+        : nStory + ' stor' + (nStory === 1 ? 'y' : 'ies') + (nShort ? ' · ' + nShort + ' short' + (nShort === 1 ? '' : 's') : '');
+    }
+
+    function setLang(lang) {
+      LANG = lang === 'pt' ? 'pt' : 'en';
+      try { localStorage.setItem('hc-lang', LANG); } catch (e) {}
+      applyLangChrome();
+      if (STORIES.length) buildGrid();
+      if (!document.getElementById('reader').classList.contains('hidden')) renderReader();
+      else history.replaceState(null, '', window.location.pathname + (LANG === 'pt' ? '?lang=pt' : ''));
+    }
+    document.querySelectorAll('.lang-toggle button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+    applyLangChrome();
+
     // ── Reader ──────────────────────────────────────────────
     function openReader(idx) {
       currentIdx = idx;
@@ -561,12 +624,12 @@
     function closeReader() {
       document.getElementById('reader').classList.add('hidden');
       document.body.style.overflow = '';
-      history.replaceState(null, '', window.location.pathname);
+      history.replaceState(null, '', window.location.pathname + (LANG === 'pt' ? '?lang=pt' : ''));
     }
 
     function renderReader() {
       const story = STORIES[currentIdx];
-      document.getElementById('reader-story').src = story.main;
+      document.getElementById('reader-story').src = imgOf(story);
       document.getElementById('reader-label').textContent = `HC${PAD(story.num)}${story.short ? ' · SHORT' : ''} — ${currentIdx + 1} / ${STORIES.length}`;
       document.getElementById('btn-prev').classList.toggle('hidden', currentIdx === 0);
       document.getElementById('btn-next').classList.toggle('hidden', currentIdx === STORIES.length - 1);
@@ -574,7 +637,7 @@
       const origin = document.getElementById('btn-origin-reader');
       origin.style.display = story.short ? 'none' : '';
       origin.href = `origins/HC${PAD(story.num)}.html`;
-      history.replaceState(null, '', '?story=' + storyId(story));
+      history.replaceState(null, '', '?story=' + storyId(story) + (LANG === 'pt' ? '&lang=pt' : ''));
     }
 
     function navigateReader(dir) {

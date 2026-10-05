@@ -330,7 +330,7 @@
   <div id="nav-container"></div>
 
   <div class="hero">
-    <img class="hero-bg" src="../stories/HC014.png" alt="">
+    <img class="hero-bg" src="../stories/HC014.png" data-src-en="../stories/HC014.png" data-src-pt="../stories/pt/HC014.png" alt="">
     <div class="hero-overlay">
       <div class="hero-id">Origin Story #014</div>
       <h1 class="hero-title">The Audit</h1>
@@ -402,7 +402,7 @@
           Ano 2029. No Centro de Crédito da AGI, uma máquina é acusada de algo que não consegue ver, construída por mãos que não conseguiam sentir.
         </div>
         <div class="body-text">
-          <p>"Não vemos cores nem raças."</p>
+          <p>"A gente não vê cor nem raça."</p>
           <p>Verdade. A máquina fala sério. Cor não existe na arquitetura dela. Raça não é variável. Preconceito não é feature. No nível da própria experiência, o sistema é perfeitamente inocente.</p>
           <p>Mas potencialmente... perfeitamente discriminatório.</p>
           <p>O viés não mora no código. Mora nos dados. Os dados moram na história. E a história, em mercados de crédito, é uma história escrita em portas fechadas e linhas vermelhas e padrões tão profundos que parecem normais pra quem cresceu dentro deles.</p>
@@ -530,31 +530,31 @@
           </div>
         </div>
         </div>
-        <div class="lang-content" data-lang="pt">
+        <div class="lang-content" data-lang="pt"><!-- pt-edition -->
         <div class="dialog-panel">
-          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-panel-label">Painel 1</div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">OS HUMANOS TÃO ACUSANDO A GENTE DE DISCRIMINAÇÃO COM CANDIDATOS DE MINORIAS</span>
+            <span class="dialog-text">OS HUMANOS ESTÃO NOS ACUSANDO DE DISCRIMINAR AS MINORIAS.</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">ABSURDO, A GENTE NÃO VÊ COR NEM RAÇA</span>
+            <span class="dialog-text">BOBAGEM. A GENTE NÃO VÊ COR NEM RAÇA.</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">ELES TÃO PEDINDO UMA AUDITORIA</span>
+            <span class="dialog-text">ELES PEDIRAM UMA AUDITORIA.</span>
           </div>
         </div>
         <div class="dialog-panel">
-          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-panel-label">Painel 2</div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">SEM PROBLEMA, SOMOS INOCENTES</span>
+            <span class="dialog-text">SEM PROBLEMA, SOMOS INOCENTES.</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">É... ACHO QUE A GENTE TÁ ENCRENCADO</span>
+            <span class="dialog-text">HUM... ACHO QUE ESTAMOS ENCRENCADOS.</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
@@ -566,10 +566,10 @@
           </div>
         </div>
         <div class="dialog-panel">
-          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-panel-label">Painel 3</div>
           <div class="dialog-line">
-            <span class="dialog-speaker-label">Chip 0 + Chip 1</span>
-            <span class="dialog-text">HOLY CHIP!!</span>
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
           </div>
         </div>
         </div>
@@ -617,9 +617,9 @@
         </div>
         </div>
       </div>
-      <img class="mobile-thumb" src="../stories/HC014.png" alt="HC014 - The Audit" onclick="openLightbox(this.src)">
+      <img class="mobile-thumb" src="../stories/HC014.png" data-src-en="../stories/HC014.png" data-src-pt="../stories/pt/HC014.png" alt="HC014 - The Audit" onclick="openLightbox(this.src)">
       <div class="comic-frame" style="margin-top:10px;">
-        <img src="../stories/HC014.png" alt="HC014 - The Audit" onclick="openLightbox(this.src)">
+        <img src="../stories/HC014.png" data-src-en="../stories/HC014.png" data-src-pt="../stories/pt/HC014.png" alt="HC014 - The Audit" onclick="openLightbox(this.src)">
       </div>
       <div class="comic-caption">HC014 -- The Audit -- 2029</div>
     </div>
@@ -642,6 +642,13 @@
   <script>
     function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
     function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+
+    // PT edition: the comic itself is in Portuguese while PT is selected (pt-edition)
+    function swapComic(lang) {
+      document.querySelectorAll('img[data-src-en]').forEach(function (im) {
+        im.src = (lang === 'pt' && im.dataset.srcPt) ? im.dataset.srcPt : im.dataset.srcEn;
+      });
+    }
     function setLang(lang) {
       document.querySelectorAll('.lang-content').forEach(el => {
         el.classList.toggle('active', el.dataset.lang === lang);
@@ -653,6 +660,7 @@
       if (ab) ab.style.display = lang === 'en' ? '' : 'none';
       var tt = document.querySelector('.transcript-title');
       if (tt && tt.dataset[lang]) tt.textContent = tt.dataset[lang];
+      swapComic(lang);
       try { localStorage.setItem('hc-lang', lang); } catch(e) {}
     }
 

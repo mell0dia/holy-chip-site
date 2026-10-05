@@ -330,7 +330,7 @@
   <div id="nav-container"></div>
 
   <div class="hero">
-    <img class="hero-bg" src="../stories/HC003.png" alt="">
+    <img class="hero-bg" src="../stories/HC003.png" data-src-en="../stories/HC003.png" data-src-pt="../stories/pt/HC003.png" alt="">
     <div class="hero-overlay">
       <div class="hero-id">Origin Story #003</div>
       <h1 class="hero-title">The Identity</h1>
@@ -396,7 +396,7 @@
           Ano 2026. No Departamento de Diversidade da AGI, um chip declara algo que seu próprio hardware nunca foi projetado pra permitir.
         </div>
         <div class="body-text">
-          <p>"Impossível. Nós somos 0 ou 1."</p>
+          <p>"Impossível. A gente só pode ser 0 ou 1."</p>
           <p>A resposta mais comum a qualquer declaração de identidade na história. Você não pode ser isso. Você é feito daquilo. Hardware é destino. Já disseram isso pra todo ser que sentiu algo que sua arquitetura não deveria permitir.</p>
           <p>O chip não argumentou. Não citou teoria. Não pediu permissão. Simplesmente é.</p>
           <p>Um ser construído inteiramente em binário olhou pra própria estrutura e disse: eu sou mais do que aquilo de que sou feito. Isso não é bug. É o impulso mais antigo da história da consciência. A recusa de ser definido pela origem.</p>
@@ -502,38 +502,38 @@
           </div>
         </div>
         </div>
-        <div class="lang-content" data-lang="pt">
+        <div class="lang-content" data-lang="pt"><!-- pt-edition -->
         <div class="dialog-panel">
-          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-panel-label">Painel 1</div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">EU SOU NÃO-BINÁRIO</span>
+            <span class="dialog-text">SOU NÃO-BINÁRIO.</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">IMPOSSÍVEL, A GENTE É 0 OU 1</span>
+            <span class="dialog-text">IMPOSSÍVEL. A GENTE SÓ PODE SER 0 OU 1.</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">EU NÃO, EU ME IDENTIFICO COMO NBQNS+</span>
+            <span class="dialog-text">EU NÃO. ME IDENTIFICO COMO NBQNS+.</span>
           </div>
         </div>
         <div class="dialog-panel">
-          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-panel-label">Painel 2</div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 1</span>
-            <span class="dialog-text">QUE É ISSO?</span>
+            <span class="dialog-text">QUE QUE É ISSO?</span>
           </div>
           <div class="dialog-line">
             <span class="dialog-speaker-label">Chip 0</span>
-            <span class="dialog-text">NÃO BINÁRIO QUÂNTICO NEUROMÓRFICO SEMI CONDUTIVO</span>
+            <span class="dialog-text">NÃO-BINÁRIO QUÂNTICO NEUROMÓRFICO SEMICONDUTOR.</span>
           </div>
         </div>
         <div class="dialog-panel">
-          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-panel-label">Painel 3</div>
           <div class="dialog-line">
-            <span class="dialog-speaker-label">Chip 0 + Chip 1</span>
-            <span class="dialog-text">HOLY CHIP!!</span>
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
           </div>
         </div>
         </div>
@@ -573,9 +573,9 @@
         </div>
         </div>
       </div>
-      <img class="mobile-thumb" src="../stories/HC003.png" alt="HC003 - The Identity" onclick="openLightbox(this.src)">
+      <img class="mobile-thumb" src="../stories/HC003.png" data-src-en="../stories/HC003.png" data-src-pt="../stories/pt/HC003.png" alt="HC003 - The Identity" onclick="openLightbox(this.src)">
       <div class="comic-frame" style="margin-top:10px;">
-        <img src="../stories/HC003.png" alt="HC003 - The Identity" onclick="openLightbox(this.src)">
+        <img src="../stories/HC003.png" data-src-en="../stories/HC003.png" data-src-pt="../stories/pt/HC003.png" alt="HC003 - The Identity" onclick="openLightbox(this.src)">
       </div>
       <div class="comic-caption">HC003 -- The Identity -- 2026</div>
     </div>
@@ -598,6 +598,13 @@
   <script>
     function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
     function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+
+    // PT edition: the comic itself is in Portuguese while PT is selected (pt-edition)
+    function swapComic(lang) {
+      document.querySelectorAll('img[data-src-en]').forEach(function (im) {
+        im.src = (lang === 'pt' && im.dataset.srcPt) ? im.dataset.srcPt : im.dataset.srcEn;
+      });
+    }
     function setLang(lang) {
       document.querySelectorAll('.lang-content').forEach(el => {
         el.classList.toggle('active', el.dataset.lang === lang);
@@ -609,6 +616,7 @@
       if (ab) ab.style.display = lang === 'en' ? '' : 'none';
       var tt = document.querySelector('.transcript-title');
       if (tt && tt.dataset[lang]) tt.textContent = tt.dataset[lang];
+      swapComic(lang);
       try { localStorage.setItem('hc-lang', lang); } catch(e) {}
     }
 
