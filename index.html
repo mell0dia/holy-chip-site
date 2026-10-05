@@ -61,12 +61,21 @@
       to   { opacity: 1; transform: scale(1); }
     }
 
-    .hero-img {
-      width: 100%;
-      height: auto;
-      display: block;
-      /* no filter — image is pre-processed */
-    }
+    /* The hero is assets/hero.png split into layers (assets/hero/): base, two
+       eyes, mouth, bubble, each at the pixel position it came from. The eyes and
+       mouth follow the pointer; the bubble breathes. */
+    #hero { position: relative; width: 100%; aspect-ratio: 1492 / 734; user-select: none; }
+    #hero img { position: absolute; display: block; pointer-events: none; -webkit-user-drag: none; }
+    #hero .base { left: 0; top: 0; width: 100%; height: 100%; }
+    #hero .part { will-change: transform; }
+    #eye-l { left: 18.901%; top: 49.046%; width: 8.713%; }
+    #eye-r { left: 34.048%; top: 44.278%; width: 7.306%; }
+    #mouth { left: 26.005%; top: 70.027%; width: 8.981%; }
+    #hero .eye.blink { animation: heroBlink 0.16s ease-in-out; }
+    @keyframes heroBlink { 50% { transform: var(--look, none) scaleY(0.08); } }
+    #bubble { left: 59.92%; top: 17.439%; width: 36.93%; transform-origin: 12% 100%; animation: breathe 1.8s ease-in-out infinite; }
+    @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.09); } }
+    @media (prefers-reduced-motion: reduce) { #bubble, #hero .eye.blink { animation: none; } }
 
     .tagline, .tagline-2 {
       font-size: 0.75rem;
@@ -96,7 +105,7 @@
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
     @media (max-width: 768px) {
-      .card { padding: 0; box-shadow: 4px 4px 0 #000; }
+      .card { padding: 0; }
       #story-card-wrap { width: 92%; }
       .scanner { font-size: 0.72rem; }
     }
@@ -333,7 +342,13 @@
 
   <main class="hero">
     <div class="card">
-      <img src="assets/hero.png" alt="Holy Chip" class="hero-img"/>
+      <div id="hero">
+        <img class="base" src="assets/hero/hero_base.png" alt="Holy Chip"/>
+        <img class="part eye" id="eye-l" src="assets/hero/hero_eye_l.png" alt=""/>
+        <img class="part eye" id="eye-r" src="assets/hero/hero_eye_r.png" alt=""/>
+        <img class="part" id="mouth" src="assets/hero/hero_mouth.png" alt=""/>
+        <img id="bubble" src="assets/hero/hero_bubble.png" alt="HOLY CHIP!"/>
+      </div>
       <p class="tagline"><span id="typewriter-1"></span><span class="cursor" id="cursor-1"></span></p>
       <p class="tagline-2"><span id="typewriter-2"></span><span class="cursor" id="cursor-2" style="display:none"></span></p>
     </div>
@@ -423,6 +438,43 @@
       layer.appendChild(img);
       animateChip(img);
     });
+
+    // ── Living hero: eyes + mouth follow the pointer, blink ───
+    (function () {
+      const hero = document.getElementById('hero');
+      const eyes = [document.getElementById('eye-l'), document.getElementById('eye-r')];
+      const mouth = document.getElementById('mouth');
+      let target = { x: 0, y: 0 }, look = { x: 0, y: 0 }, lastPointer = 0;
+      function aimAt(cx, cy) {
+        const r = hero.getBoundingClientRect();
+        target.x = Math.max(-1, Math.min(1, (cx - (r.left + r.width * 0.3)) / (r.width * 0.55)));
+        target.y = Math.max(-1, Math.min(1, (cy - (r.top + r.height * 0.55)) / (r.height * 0.7)));
+        lastPointer = performance.now();
+      }
+      addEventListener('pointermove', e => aimAt(e.clientX, e.clientY), { passive: true });
+      addEventListener('touchmove', e => aimAt(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+      function tick(now) {
+        if (now - lastPointer > 2500) {          // no pointer (phones, idle): look around slowly
+          target.x = Math.sin(now / 1900) * 0.7;
+          target.y = Math.sin(now / 2700 + 1) * 0.5;
+        }
+        look.x += (target.x - look.x) * 0.12;
+        look.y += (target.y - look.y) * 0.12;
+        const r = hero.getBoundingClientRect();
+        const ex = look.x * r.width * 0.024, ey = look.y * r.height * 0.032;
+        const mx = look.x * r.width * 0.014, my = look.y * r.height * 0.02;
+        for (const e of eyes) { e.style.setProperty('--look', `translate(${ex}px, ${ey}px)`); e.style.transform = `translate(${ex}px, ${ey}px)`; }
+        mouth.style.transform = `translate(${mx}px, ${my}px)`;
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+      (function blinkLoop() {
+        setTimeout(() => {
+          for (const e of eyes) { e.classList.remove('blink'); void e.offsetWidth; e.classList.add('blink'); }
+          blinkLoop();
+        }, 2600 + Math.random() * 3200);
+      })();
+    })();
 
     // ── Typewriter ───────────────────────────────────────────
     const tw1 = document.getElementById('typewriter-1');
