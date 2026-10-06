@@ -260,6 +260,8 @@
 
     // Handle form submission - CLOUDFLARE WORKER
     document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
+      try { const f = new FormData(e.target); fetch('https://holychip.netlify.app/.netlify/functions/ping', { method: 'POST', headers: { 'Content-Type': 'application/json' }, keepalive: true,
+        body: JSON.stringify({ event: 'checkout_started', product: cart.map(i => i.productName || i.name || '').join(', ').slice(0, 80), country: f.get('country') || '' }) }).catch(() => {}); } catch (err) {}
       e.preventDefault();
 
       const formData = new FormData(e.target);

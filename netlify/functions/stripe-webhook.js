@@ -470,6 +470,34 @@ exports.handler = async (event) => {
       }
     }
 
+    // Someone reached Stripe's payment page and left: Stripe expires the
+    // session after 24h and sends this. Email it - it is the only trace of a
+    // near-customer (user, 2026-10-06). The daily store test voids its own
+    // sessions straight away, so those arrive as 'expired' too: skip them.
+    if (stripeEvent.type === 'checkout.session.expired') {
+      const session = stripeEvent.data.object;
+      if (session.metadata?.storeTest === '1') {
+        return { statusCode: 200, headers, body: JSON.stringify({ received: true, test: true }) };
+      }
+      let cart = [];
+      try { cart = JSON.parse(session.metadata?.cartData || '[]'); } catch (e) {}
+      const amount = (session.amount_total / 100).toFixed(2);
+      const country = session.customer_details?.address?.country || session.shipping_details?.address?.country || '?';
+      const email = session.customer_details?.email || session.customer_email || '';
+      await sendEmail(
+        `Holy Chip: abandoned checkout - $${amount} - ${country}`,
+        `<div style="font-family:Calibri;font-size:13px;">
+          <h2 style="color:#b08a20;">Someone reached payment and left</h2>
+          <p>A shopper filled the checkout form, got Stripe's payment page, and did not pay. Stripe expired the session after 24h.</p>
+          <p><strong>Cart total:</strong> $${amount} USD &nbsp; <strong>Country:</strong> ${country}${email ? ` &nbsp; <strong>Email given:</strong> ${email}` : ''}</p>
+          <h3>Cart</h3>
+          ${cartToHtml(cart)}
+          <hr>
+          <p style="font-size:11px;color:#888;">Stripe Session: ${session.id} · created ${new Date(session.created * 1000).toISOString()}</p>
+        </div>`
+      );
+    }
+
     return {
       statusCode: 200,
       headers,

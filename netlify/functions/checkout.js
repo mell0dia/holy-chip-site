@@ -2,7 +2,7 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const PRINTIFY_CONFIG = {
-  apiToken: process.env.PRINTIFY_API_TOKEN || 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6IjIxNGYwMjJiYjU4NTgyMGU5Y2M1MjM5N2NlMDM0ZGYwNWQ5OWEwNjVlZjUxMjAxMDc3YWU2NmRjMTU1MmVjNjMyNTExZDdhMDE2NDI1Y2JiIiwiaWF0IjoxNzcxMDE1MzYxLjU3MDc5NiwibmJmIjoxNzcxMDE1MzYxLjU3MDc5OCwiZXhwIjoxODAyNTUxMzYxLjU2Mzk3MSwic3ViIjoiMjYzNjY3MzkiLCJzY29wZXMiOlsic2hvcHMubWFuYWdlIiwic2hvcHMucmVhZCIsImNhdGFsb2cucmVhZCIsIm9yZGVycy5yZWFkIiwib3JkZXJzLndyaXRlIiwicHJvZHVjdHMucmVhZCIsInByb2R1Y3RzLndyaXRlIiwid2ViaG9va3MucmVhZCIsIndlYmhvb2tzLndyaXRlIiwidXBsb2Fkcy5yZWFkIiwidXBsb2Fkcy53cml0ZSIsInByaW50X3Byb3ZpZGVycy5yZWFkIiwidXNlci5pbmZvIl19.hCbQjh8QWaO1ex0_A6RmgB-0t_Q6auD1UeoLCSS3ZzhPC4gEFsPHHsVyTb5VVHEDvZkaDLrV9XJR8j8HFuWbdJApNUPHycXDBbRS7LwOMPYJD1jS5dmPv1MhofCF22FRsDArIkMIe9k3FjjsuINkOB3vgER99GqbGwIddxmBuNX6foePwqtlv7Hml3xlMCxQLaknHepFK7hXgV9JHaSTJUPNLSTq71bvfaapCZAGBIbxJvBsLhkLjUIqxVNiL_mP3b_c7SeKf7nbged1nObMQCz8GM42WiBnFkpeQN4ZGMFLrB4BtjgCqOAS8Bm-1GZUeQRkliqY6wNz47c1keNegwZOp17Kewv5JHI4qIVHVyuEHWRq-XD8jKOygnh43uBKk3TPp50NdCcDY0czGZquIb_K8DpimYnM-yfnHDLzsjfsP6bz1kzbU6cZZ-ZSCkOFhJAl2NCELYZ3o0sPsDYlCrdOOW4B7nFP7jsOtBDUUCUS02lwAnB_L95YyktFkOi2bJwIdNhW1mNVbQKjlNXPlGCSttdV33IXNYVN8SfAXucDCg4CtvOPf_9SbK25iJYzrWbdirAbiji1X1QK5cUOyS8yI1bVJg9-73sGzZVdfY5HjHrHSETkVPq6o63SYgrx3zE8Qy1j4Y3h8U--dhIIPuUSnvxIEU1IMPo1XsI-sFs',
+  apiToken: process.env.PRINTIFY_API_TOKEN,   // set on Netlify; never hardcode (a leaked token was removed 2026-10-06)
   shopId: process.env.PRINTIFY_SHOP_ID || '26508747',
   apiBase: 'https://api.printify.com/v1'
 };
@@ -132,7 +132,8 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { cart, shipping } = JSON.parse(event.body);
+    const body = JSON.parse(event.body);
+    const { cart, shipping } = body;
 
     if (!cart || cart.length === 0) {
       return {
@@ -229,13 +230,14 @@ exports.handler = async (event) => {
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: 'https://mell0dia.github.io/holy-chip-site/success.html?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: 'https://mell0dia.github.io/holy-chip-site/checkout.html',
+      success_url: 'https://www.holy-chip.com/success.html?session_id={CHECKOUT_SESSION_ID}',
+      cancel_url: 'https://www.holy-chip.com/checkout.html',
       customer_email: shipping.email,
       shipping_address_collection: {
         allowed_countries: ['US', 'CA', 'GB', 'AU']
       },
       metadata: {
+        storeTest: body.storeTest === true ? '1' : '0',   // the daily store test marks its sessions
         shippingCost: shippingCost.toString(),
         // Store cart data for webhook to create Printify order
         cartData: JSON.stringify(cart.map(item => ({

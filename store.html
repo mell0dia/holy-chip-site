@@ -635,6 +635,9 @@
       }
 
       localStorage.setItem('holyChipCart', JSON.stringify(cart));
+      // funnel counter: product + country only, no personal data (see netlify/functions/ping.js)
+      try { fetch('https://holychip.netlify.app/.netlify/functions/ping', { method: 'POST', headers: { 'Content-Type': 'application/json' }, keepalive: true,
+        body: JSON.stringify({ event: 'add_to_cart', product: `${chip} ${productType}${size ? ' ' + size : ''}`, country: (navigator.language || '').split('-')[1] || '' }) }).catch(() => {}); } catch (e) {}
       updateCartCount();
       animateCart();
     }
