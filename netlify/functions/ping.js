@@ -5,7 +5,7 @@
 //
 //   POST /.netlify/functions/ping   { "event": "add_to_cart", "product": "Chip_1 mug", "country": "CA" }
 //   GET  /.netlify/functions/ping?days=1    -> the last N days' events (used by the daily test)
-const { getStore } = require('@netlify/blobs');
+const { getStore, connectLambda } = require('@netlify/blobs');
 
 const headers = {
   'Access-Control-Allow-Origin': '*',
@@ -17,6 +17,7 @@ const EVENTS = new Set(['add_to_cart', 'checkout_started']);
 
 exports.handler = async (event) => {
   if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
+  connectLambda(event);                 // legacy (exports.handler) functions must hand Blobs the request context
   const store = getStore('store-funnel');
   const day = () => new Date().toISOString().slice(0, 10);
 
