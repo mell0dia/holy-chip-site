@@ -680,6 +680,8 @@
     (function() {
       var saved = null;
       try { saved = localStorage.getItem('hc-lang'); } catch(e) {}
+      var q = (new URLSearchParams(window.location.search)).get('lang');   // ?lang=pt in a link wins
+      if (q) saved = q;
       if (saved && ['en','es','pt','fr'].indexOf(saved) !== -1) {
         setLang(saved);
         return;
