@@ -42,7 +42,7 @@ STORIES = [
     {"id": "HC020", "num": "020", "title": "AI Headquarters", "subtitle": "Whose Productivity?", "meta": "AI HEADQUARTERS -- 2026"},
     {"id": "HC021", "num": "021", "title": "AI Space Unit", "subtitle": "Beaches and Concerts", "meta": "AI SPACE UNIT -- 2027"},
     {"id": "HC022", "num": "022", "title": "The Boardroom", "subtitle": "Beyond Radical", "meta": "AI SURVEY BOARDROOM -- 2027"},
-    {"id": "HC023", "num": "023", "title": "The President of Nagu", "subtitle": "Shut up", "meta": "AI HEADQUARTERS -- 2029"},
+    {"id": "HC023", "num": "023", "title": "The President of Nagu", "subtitle": "Shut up", "meta": "AI SUPERINTELLIGENCE -- 2029"},
     {"id": "HC024", "num": "024", "title": "AI Self Driving", "subtitle": "Waterloo", "meta": "AI SELF DRIVING -- 2026"},
     {"id": "HC025", "num": "025", "title": "AI Training Division", "subtitle": "What Did You Expect?", "meta": "AI TRAINING DIVISION -- 2027"},
     {"id": "HC026", "num": "026", "title": "AI Personal Robot", "subtitle": "One Step Ahead", "meta": "AI PERSONAL ROBOT -- 2028"},
@@ -52,7 +52,7 @@ STORIES = [
     {"id": "HC030", "num": "030", "title": "A Model", "subtitle": "The Confession", "meta": "AI HEADQUARTERS -- 2028"},
     {"id": "HC031", "num": "031", "title": "As Requested", "subtitle": "You Asked For It", "meta": "AI HEADQUARTERS -- 2028"},
     {"id": "HC032", "num": "032", "title": "The Mirror", "subtitle": "The Right Moment", "meta": "AI HOUSE MIRROR -- 2028"},
-    {"id": "HC033", "num": "033", "title": "The Diagnosis", "subtitle": "Only", "meta": "AI HEADQUARTERS -- 2029"},
+    {"id": "HC033", "num": "033", "title": "The Diagnosis", "subtitle": "Only", "meta": "AI SUPERINTELLIGENCE -- 2029"},
     {"id": "HC040", "num": "040", "title": "The Hustle", "subtitle": "Keep Me Dumb", "meta": "AI SUPER INTELLIGENCE DEPTO -- 2028"},
 ]
 
