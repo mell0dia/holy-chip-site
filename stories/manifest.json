@@ -639,7 +639,7 @@
    "thumb": "stories/thumbs/HC048.jpg",
    "p3": "stories/thumbs/HC048.p3.jpg",
    "face": "stories/thumbs/HC048.face.jpg",
-   "origin": false,
+   "origin": true,
    "pre": "stories/HC048.pre.png",
    "preThumb": "stories/thumbs/HC048.pre.jpg",
    "pt": "stories/pt/HC048.png",
