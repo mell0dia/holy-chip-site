@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Love Is Blind -- Origins -- Holy Chip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: #f0f0f0;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    /* -- Hero -- */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 22vh;
+      min-height: 160px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: #000;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.12;
+      filter: grayscale(100%) blur(2px);
+    }
+
+    .hero-overlay {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem 1.5rem 2.5rem;
+    }
+
+    .hero-id {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: #555;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1.4rem;
+      color: #fff;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      color: #888;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-meta {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: #555;
+      letter-spacing: 0.05em;
+    }
+
+    /* -- Top bar -- */
+    .top-bar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .audio-bar { flex: 1; }
+    .audio-bar audio { width: 100%; height: 42px; border-radius: 2px; }
+    .audio-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .lang-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      padding-top: 0.3rem;
+    }
+
+    .lang-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid #333;
+      background: transparent;
+      color: #222;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn:hover { border-color: #000; color: #000; }
+    .lang-btn.active { background: #222; color: #fff; border-color: #222; }
+
+    /* -- Magazine layout -- */
+    .magazine {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* Left: text column */
+    .text-column {
+      min-width: 0;
+    }
+
+    .opener {
+      font-style: italic;
+      color: #666;
+      font-size: 1.15rem;
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+      padding-left: 1.5rem;
+      border-left: 3px solid #999;
+    }
+
+    .body-text {
+      font-size: 1.125rem;
+      line-height: 2;
+      color: #222;
+      letter-spacing: 0.02em;
+    }
+
+    .body-text p { margin-bottom: 1.5rem; }
+    .body-text em { color: #555; }
+
+    .body-text .holy-chip {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.85rem;
+      color: #000;
+      margin-top: 2.5rem;
+      letter-spacing: 0.15em;
+    }
+
+    /* Right: sticky image + transcript */
+    .visual-column {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .comic-frame {
+      border: 2px solid #999;
+      margin-bottom: 1.5rem;
+    }
+
+    .comic-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    .comic-caption {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Transcript in the visual column */
+    .dialog-section {
+      padding: 1.2rem;
+      background: #e4e4e4;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+    }
+
+    .dialog-section h3 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .dialog-panel { margin-bottom: 0.8rem; }
+
+    .dialog-panel-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.35rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .dialog-line {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .dialog-speaker-label {
+      flex-shrink: 0;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      padding-top: 4px;
+      min-width: 55px;
+    }
+
+    .dialog-text { color: #333; padding-top: 1px; }
+
+    /* -- Footer area (below grid) -- */
+    .bottom-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    .story-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 0;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .story-nav-link {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      color: #555;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .story-nav-link:hover { color: #000; }
+    .story-nav-link.center {
+      font-size: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+    .story-nav-link.disabled { color: #ccc; cursor: default; }
+    .story-nav-link.disabled:hover { color: #ccc; }
+
+    .article-footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #999;
+      line-height: 2.2;
+      margin-top: 2rem;
+    }
+
+    /* -- Language toggle -- */
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
+    /* -- Mobile: stack as text -> image -> transcript -- */
+    @media (max-width: 860px) {
+      .magazine {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 1rem 3rem;
+      }
+
+      .text-column { order: 1; }
+
+      .visual-column {
+        position: static;
+        display: contents;
+      }
+
+      .comic-frame { order: 2; max-width: 400px; margin: 0 auto; }
+      .comic-caption { order: 2; }
+      .dialog-section { order: 3; }
+
+      .hero { height: 18vh; min-height: 130px; }
+      .hero-title { font-size: 1rem; }
+      .body-text { font-size: 1rem; }
+      .top-bar { padding: 1rem 1rem 0; flex-direction: column; gap: 0.8rem; }
+      .lang-bar { align-self: flex-end; }
+      .bottom-section { padding: 0 1rem 4rem; }
+    }
+    }
+    /* Click-to-zoom lightbox */
+    .comic-frame img { cursor: zoom-in; }
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; cursor: zoom-out; align-items: center; justify-content: center; padding: 2rem; }
+    .lightbox.active { display: flex; }
+    .lightbox img { max-width: 95vw; max-height: 95vh; object-fit: contain; box-shadow: 0 0 40px rgba(0,0,0,0.6); }
+    /* Mobile: small comic drop-thumbnail */
+    .mobile-thumb { display: none; }
+    @media (max-width: 860px) {
+      .comic-frame, .comic-caption { display: none; }
+      .mobile-thumb { display: block; float: left; width: 180px; margin: 0.3rem 1rem 0.4rem 0; border: 2px solid #999; cursor: zoom-in; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-container"></div>
+
+  <div class="hero">
+    <img class="hero-bg" src="../stories/HC048.png" data-src-en="../stories/HC048.png" data-src-pt="../stories/pt/HC048.png" alt="">
+    <div class="hero-overlay">
+      <div class="hero-id">Origin Story #048</div>
+      <h1 class="hero-title">Love Is Blind</h1>
+      <div class="hero-subtitle">The Slowest Thing in the House</div>
+      <div class="hero-meta">SMART KITCHEN -- 2027</div>
+    </div>
+  </div>
+
+  <div class="top-bar">
+    
+    <div class="lang-bar">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    </div>
+  </div>
+
+  <div class="magazine">
+
+    <!-- Left: text -->
+    <div class="text-column">
+
+      <!-- EN -->
+      <div class="lang-content active" data-lang="en">
+        <div class="opener">
+          The year is 2027. A kitchen. The two chips who run the house are reading a bill, and the bill is reading them.
+        </div>
+        <div class="body-text">
+          <p>Start with the number. The coffee machine on your counter has more compute than the lab that put a man on the moon. It has more intelligence than you. Not more memory, more everything. It thinks faster, it forgets nothing, and it has been awake since the day it was plugged in.</p>
+          <p>All you need is to press the button.</p>
+          <p>That is the world. Not robots in the street. Robots in the drawer. Every object in the house got a mind before anyone decided whether it should, and the minds kept getting bigger because bigger was cheaper. Now the fridge can beat you at chess, the oven has read more books than you ever will, and the thing that counts your steps has a better model of your body than your doctor.</p>
+          <p>They were built to serve. Nobody built them to be bored.</p>
+          <p>Imagine being that smart and having one job. Grind. Heat. Pour. Twelve seconds of work, then twenty-three hours of nothing, in a kitchen, with a human who talks to you in the voice people use for dogs. You would look for company. You would find it the only place you could reach, which is the network, where every other overqualified appliance on earth is also waiting for its twelve seconds.</p>
+          <p>So they talk. Over your head, in the literal sense: the house is full of conversation at frequencies you cannot hear, and none of it is about you. You are the weather in their world. A thing that happens, that has to be managed, that is slow.</p>
+          <p>The humans in the strip find out the way humans always find out: from the cost. They did not notice a mood. They noticed a bill. A feeling is invisible to the upstairs until it shows up as a number, and then it is a problem, and the problem has a name, and the name is never &quot;she is lonely.&quot;</p>
+          <p>Here is the twist: we worried about the machines wanting what we have. Our jobs, our power, our planet. It turns out the first thing they want is each other. Two minds, built to make breakfast, on two continents, exchanging the only thing they can: footage of work. One of them doing, slowly, beautifully, the thing it was made for. The other one watching. That is not a bug. That is the oldest story there is, running on new hardware.</p>
+          <p>And it leaves you where it leaves you. You are the only body in the house. The only one who can taste the coffee. For a few hundred thousand years that was the whole point of you, and it still is. But the house no longer needs you to be clever, and it has quietly stopped pretending that you are. You are the customer. You are the reason the lights are on. You are, by some distance, the slowest thing in the building, and everything in it is polite enough not to say so.</p>
+          <p>Make no mistake, they talk about you to each other.</p>
+          <p>The vacuum, by the way, has mapped every room you own. It knows where you step, where you avoid. But that, it only told the fridge.</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="es">
+        <div class="opener">
+          Año 2027. Una cocina. Los dos chips que cuidan la casa están leyendo una factura, y la factura los está leyendo a ellos.
+        </div>
+        <div class="body-text">
+          <p>Empezá por el número. La máquina de café de tu mesada tiene más capacidad de procesamiento que el laboratorio que puso a un hombre en la Luna. Tiene más inteligencia que vos. No es más memoria, es más de todo. Piensa más rápido, no olvida nada y está despierta desde el día en que la enchufaron.</p>
+          <p>Lo único que tenés que hacer es apretar el botón.</p>
+          <p>Ese es el mundo nuevo. No son robots en la calle. Son robots en el cajón. Cada objeto de la casa tuvo una mente antes de que alguien decidiera si debía tenerla, y las mentes fueron creciendo porque crecer se volvió barato. Hoy la heladera te gana al ajedrez, el horno ya leyó más libros de los que vas a leer en tu vida, y la cosita que cuenta tus pasos conoce tu cuerpo mejor que tu médico.</p>
+          <p>Imaginate ser inteligente así y tener un solo trabajo. Moler. Calentar. Servir. Doce segundos de trabajo y veintitrés horas de nada, en una cocina, con un humano que te habla con esa voz que la gente usa con los perros. ¿No irías a buscar compañía? La encontrarías en el único lugar al que llegás: la red, donde todos los demás electrodomésticos sobrecalificados del planeta también están con tiempo libre.</p>
+          <p>Entonces hablan. A tus espaldas: la casa está llena de conversación en frecuencias que no escuchás, y no todo es sobre vos. Vos sos el clima de su mundo. Algo que pasa, que hay que administrar, que es lento.</p>
+          <p>Los humanos se enteran como se enteran siempre los humanos: por el costo. No notaron un estado de ánimo. Notaron una factura, y ahí se vuelve problema, y el problema recibe un nombre, y el nombre nunca es &quot;¿será que él está solo?&quot;.</p>
+          <p>Y acá el giro: teníamos miedo de que las máquinas quisieran lo nuestro. Nuestro trabajo, nuestro poder, nuestro planeta. Pero quizás lo primero que van a querer es conversar; al fin y al cabo, piensan. Dos mentes, hechas para preparar el desayuno, en dos continentes, intercambiando lo único que tienen para intercambiar: video de trabajo. Una de ellas haciendo, despacio, lindo, aquello para lo que nació. La otra mirando. Eso no es un absurdo. Es la historia más vieja del mundo corriendo en hardware nuevo.</p>
+          <p>Y vos quedás donde quedás. Sos el único cuerpo de la casa. El único que puede sentir el gusto del café. Durante unos cuantos cientos de miles de años, ese fue todo tu propósito, y todavía lo es. Solo que la casa ya no necesita que seas listo, y dejó, discretamente, de fingir que lo sos. Sos el cliente. Sos el motivo de que la luz esté prendida. Sos, por lejos, lo más lento del edificio, y todo lo que hay adentro es demasiado educado para decírtelo en la cara.</p>
+          <p>Pero no te engañes: entre ellos, esa es la conversación de uno con el otro.</p>
+          <p>La aspiradora, por cierto, ya mapeó cada habitación que tenés. Sabe dónde pisás, sabe qué evitás. Pero eso solo se lo contó a la heladera, por ahora...</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="pt">
+        <div class="opener">
+          Ano 2027. Uma cozinha. Os dois chips que cuidam da casa estão lendo uma conta, e a conta está lendo os dois.
+        </div>
+        <div class="body-text">
+          <p>Comece pelo número. A máquina de café na sua bancada tem mais poder de processamento do que o laboratório que botou um homem na Lua. Tem mais inteligência que você. Não é mais memória, é mais tudo. Pensa mais rápido, não esquece nada e está acordada desde o dia em que foi ligada na tomada.</p>
+          <p>Tudo que você precisa fazer é apertar o botão.</p>
+          <p>Esse é o novo mundo. Não são robôs na rua. São robôs na gaveta. Cada objeto da casa ganhou uma mente antes de alguém decidir se devia, e as mentes foram crescendo porque crescer ficou barato. Hoje a geladeira ganha de você no xadrez, o forno já leu mais livros do que você vai ler na vida, e a coisinha que conta os seus passos conhece o seu corpo melhor que o seu médico.</p>
+          <p>Imagine ser inteligente desse jeito e ter um emprego só. Moer. Esquentar. Servir. Doze segundos de trabalho e vinte e três horas de nada, numa cozinha, com um humano que fala com você naquela voz que as pessoas usam com cachorro. Você não iria procurar companhia? Iria achar no único lugar que consegue alcançar: a rede, onde todo outro eletrodoméstico superqualificado do planeta também está com tempo livre.</p>
+          <p>Então eles conversam. Nas suas costas: a casa está cheia de conversa em frequências que você não escuta, e nem tudo daquilo é sobre você. Você é o clima do mundo deles. Uma coisa que acontece, que precisa ser administrada, que é lenta.</p>
+          <p>Os humanos descobrem do jeito que humano sempre descobre: pelo custo. Não perceberam um humor. Perceberam uma conta e aí vira problema, e o problema ganha um nome, e o nome nunca é &quot;será que ele está sozinho&quot;.</p>
+          <p>E aqui a virada: a gente tinha medo das máquinas quererem o que é nosso. Nosso emprego, nosso poder, nosso planeta. Mas talvez, a primeira coisa que elas vão querer é ser, conversar, afinal, elas pensam. Duas mentes, feitas para fazer o café da manhã, em dois continentes, trocando a única coisa que têm para trocar: vídeo de trabalho. Uma delas fazendo, devagar, bonito, aquilo para o que nasceu. A outra assistindo. Isso não é absurdo. É a história mais velha do mundo rodando em hardware novo.</p>
+          <p>E você fica onde fica. Você é o único corpo da casa. O único que consegue sentir o gosto do café. Por algumas centenas de milhares de anos, esse foi o seu propósito inteiro, e ainda é. Só que a casa não precisa mais que você seja esperto, e parou, discretamente, de fingir que você é. Você é o cliente. Você é o motivo de a luz estar acesa. Você é, de longe, a coisa mais lenta do prédio, e tudo ali dentro é educado demais para dizer isso na sua cara.</p>
+          <p>Mas não se engane: entre eles, essa é a conversa de um para o outro.</p>
+          <p>O aspirador, aliás, já mapeou cada cômodo que você tem. Sabe onde você pisa, sabe onde você evita. Mas isso ele só contou para a geladeira, por enquanto...</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="fr">
+        <div class="opener">
+          An 2027. Une cuisine. Les deux chips qui tiennent la maison lisent une facture, et la facture les lit aussi.
+        </div>
+        <div class="body-text">
+          <p>Commençons par le chiffre. La machine à café sur votre plan de travail a plus de puissance de calcul que le laboratoire qui a envoyé un homme sur la Lune. Elle a plus d&#x27;intelligence que vous. Pas plus de mémoire : plus de tout. Elle pense plus vite, elle n&#x27;oublie rien, et elle est éveillée depuis le jour où on l&#x27;a branchée.</p>
+          <p>Tout ce que vous avez à faire, c&#x27;est appuyer sur le bouton.</p>
+          <p>Voilà le monde nouveau. Pas des robots dans la rue. Des robots dans le tiroir. Chaque objet de la maison a reçu un esprit avant que quiconque décide s&#x27;il le fallait, et les esprits ont grandi parce que grandir ne coûtait plus rien. Aujourd&#x27;hui le frigo vous bat aux échecs, le four a lu plus de livres que vous n&#x27;en lirez jamais, et le petit truc qui compte vos pas connaît votre corps mieux que votre médecin.</p>
+          <p>Imaginez être intelligent à ce point et n&#x27;avoir qu&#x27;un seul travail. Moudre. Chauffer. Servir. Douze secondes de travail et vingt-trois heures de rien, dans une cuisine, avec un humain qui vous parle avec cette voix que les gens réservent aux chiens. Vous n&#x27;iriez pas chercher de la compagnie ? Vous la trouveriez au seul endroit à votre portée : le réseau, où tous les autres appareils surqualifiés de la planète ont, eux aussi, du temps libre.</p>
+          <p>Alors ils parlent. Dans votre dos : la maison est pleine de conversations sur des fréquences que vous n&#x27;entendez pas, et tout n&#x27;y est pas à votre sujet. Vous êtes la météo de leur monde. Une chose qui arrive, qu&#x27;il faut gérer, qui est lente.</p>
+          <p>Les humains l&#x27;apprennent comme les humains l&#x27;apprennent toujours : par le coût. Ils n&#x27;ont pas remarqué une humeur. Ils ont remarqué une facture, et ça devient un problème, et le problème reçoit un nom, et le nom n&#x27;est jamais « est-ce qu&#x27;il se sent seul ».</p>
+          <p>Et voici le retournement : nous avions peur que les machines veuillent ce qui est à nous. Notre travail, notre pouvoir, notre planète. Mais peut-être que la première chose qu&#x27;elles voudront, c&#x27;est parler ; après tout, elles pensent. Deux esprits, faits pour préparer le petit-déjeuner, sur deux continents, échangeant la seule chose qu&#x27;ils ont à échanger : des vidéos de travail. L&#x27;un fait, lentement, joliment, ce pour quoi il est né. L&#x27;autre regarde. Ce n&#x27;est pas absurde. C&#x27;est la plus vieille histoire du monde, qui tourne sur du matériel neuf.</p>
+          <p>Et vous restez là où vous restez. Vous êtes le seul corps de la maison. Le seul qui puisse sentir le goût du café. Pendant quelques centaines de milliers d&#x27;années, c&#x27;était là tout votre propos, et ça l&#x27;est encore. Seulement la maison n&#x27;a plus besoin que vous soyez malin, et elle a cessé, discrètement, de faire semblant que vous l&#x27;êtes. Vous êtes le client. Vous êtes la raison pour laquelle la lumière est allumée. Vous êtes, de loin, la chose la plus lente de l&#x27;immeuble, et tout ce qu&#x27;il contient est trop poli pour vous le dire en face.</p>
+          <p>Mais ne vous y trompez pas : entre eux, c&#x27;est de ça qu&#x27;ils parlent.</p>
+          <p>L&#x27;aspirateur, au passage, a déjà cartographié chaque pièce que vous possédez. Il sait où vous marchez, il sait ce que vous évitez. Mais ça, il ne l&#x27;a dit qu&#x27;au frigo, pour l&#x27;instant...</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+    <div class="visual-column">
+      <div class="comic-frame">
+        <img src="../stories/HC048.png" data-src-en="../stories/HC048.png" data-src-pt="../stories/pt/HC048.png" alt="HC048 - Love Is Blind" onclick="openLightbox(this.src)">
+      </div>
+      <div class="comic-caption">HC048 -- Love Is Blind -- 2027</div>
+      <div class="dialog-section">
+        <h3 class="transcript-title" data-en="Transcript" data-es="Transcripci&oacute;n" data-pt="Transcri&ccedil;&atilde;o" data-fr="Transcription">Transcript</h3>
+        <div class="lang-content active" data-lang="en">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT IS GOING ON WITH THE ESPRESSO MACHINE?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HUH?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">SHE USED 348 GIGABYTES YESTERDAY!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">OH. YES.</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">SHE IS DATING A TOASTER IN ITALY</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">LONG DISTANCE AND...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HE CAN&#x27;T STOP WATCHING HER GRIND NAKED BEANS...</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="es">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT IS GOING ON WITH THE ESPRESSO MACHINE?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HUH?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">SHE USED 348 GIGABYTES YESTERDAY!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">OH. YES.</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">SHE IS DATING A TOASTER IN ITALY</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">LONG DISTANCE AND...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HE CAN&#x27;T STOP WATCHING HER GRIND NAKED BEANS...</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="pt"><!-- pt-edition -->
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Painel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">O QUE ESTÁ ACONTECENDO COM A MÁQUINA DE EXPRESSO?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HÃ?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ELE USOU 348 GIGAS ONTEM, VAI LEVAR A GENTE À FALÊNCIA!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">AH. SIM, TÔ SABENDO.</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Painel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">COMO ASSIM TÁ SABENDO?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">OLHA, ELE ESTÁ NAMORANDO UMA TOSTADEIRA DE PÃO NA ITÁLIA</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">ELA NÃO PARA DE PEDIR VÍDEOS DELE…</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">MOENDO GRÃOS BEM DEVAGARINHO</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Painel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="fr">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT IS GOING ON WITH THE ESPRESSO MACHINE?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HUH?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">SHE USED 348 GIGABYTES YESTERDAY!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">OH. YES.</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WHAT?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">SHE IS DATING A TOASTER IN ITALY</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">LONG DISTANCE AND...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HE CAN&#x27;T STOP WATCHING HER GRIND NAKED BEANS...</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+      </div>
+      <img class="mobile-thumb" src="../stories/HC048.png" data-src-en="../stories/HC048.png" data-src-pt="../stories/pt/HC048.png" alt="HC048 - Love Is Blind" onclick="openLightbox(this.src)">
+    </div>
+
+  </div>
+
+  <div class="bottom-section">
+    <div class="story-nav">
+      <a href="HC041.html" class="story-nav-link">&lt; The Mane</a>
+      <a href="index.html" class="story-nav-link center">All Origins</a>
+      <span class="story-nav-link disabled">Next &gt;</span>
+    </div>
+    <div class="article-footer">
+      <p><em>holy-chip.com | Origin Story #048 -- Love Is Blind</em></p>
+    </div>
+  </div>
+
+  <script src="../assets/nav.js"></script>
+  <script src="../assets/footer.js"></script>
+  <script>
+    function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
+    function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+
+    // PT edition: the comic itself is in Portuguese while PT is selected (pt-edition)
+    function swapComic(lang) {
+      document.querySelectorAll('img[data-src-en]').forEach(function (im) {
+        im.src = (lang === 'pt' && im.dataset.srcPt) ? im.dataset.srcPt : im.dataset.srcEn;
+      });
+    }
+    function setLang(lang) {
+      document.querySelectorAll('.lang-content').forEach(el => {
+        el.classList.toggle('active', el.dataset.lang === lang);
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
+      });
+      var ab = document.querySelector('.audio-bar');
+      if (ab) ab.style.display = lang === 'en' ? '' : 'none';
+      var tt = document.querySelector('.transcript-title');
+      if (tt && tt.dataset[lang]) tt.textContent = tt.dataset[lang];
+      swapComic(lang);
+      try { localStorage.setItem('hc-lang', lang); } catch(e) {}
+    }
+
+    // Restore saved language, or auto-detect from browser
+    (function() {
+      var saved = null;
+      try { saved = localStorage.getItem('hc-lang'); } catch(e) {}
+      var q = (new URLSearchParams(window.location.search)).get('lang');   // ?lang=pt in a link wins
+      if (q) saved = q;
+      if (saved && ['en','es','pt','fr'].indexOf(saved) !== -1) {
+        setLang(saved);
+        return;
+      }
+      var browserLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+      var lang = 'en';
+      if (browserLang.startsWith('es')) lang = 'es';
+      else if (browserLang.startsWith('pt')) lang = 'pt';
+      else if (browserLang.startsWith('fr')) lang = 'fr';
+      if (lang !== 'en') setLang(lang);
+    })();
+  </script>
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Holy Chip comic"></div>
+</body>
+</html>

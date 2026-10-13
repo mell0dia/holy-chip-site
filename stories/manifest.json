@@ -348,7 +348,7 @@
   {
    "id": "HC023",
    "kind": "story",
-   "title": "AI HEADQUARTERS",
+   "title": "AI SUPERINTELLIGENCE",
    "year": "2029",
    "src": "stories/HC023.png",
    "thumb": "stories/thumbs/HC023.jpg",
@@ -629,6 +629,21 @@
    "preThumb": "stories/thumbs/HC041.pre.jpg",
    "pt": "stories/pt/HC041.png",
    "ptThumb": "stories/thumbs/HC041.pt.jpg"
+  },
+  {
+   "id": "HC048",
+   "kind": "story",
+   "title": "SMART KITCHEN",
+   "year": "2027",
+   "src": "stories/HC048.png",
+   "thumb": "stories/thumbs/HC048.jpg",
+   "p3": "stories/thumbs/HC048.p3.jpg",
+   "face": "stories/thumbs/HC048.face.jpg",
+   "origin": false,
+   "pre": "stories/HC048.pre.png",
+   "preThumb": "stories/thumbs/HC048.pre.jpg",
+   "pt": "stories/pt/HC048.png",
+   "ptThumb": "stories/thumbs/HC048.pt.jpg"
   },
   {
    "id": "HC042.short",
