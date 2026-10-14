@@ -646,6 +646,21 @@
    "ptThumb": "stories/thumbs/HC048.pt.jpg"
   },
   {
+   "id": "HC049",
+   "kind": "story",
+   "title": "AI LONGEVITY DEPT.",
+   "year": "2041",
+   "src": "stories/HC049.png",
+   "thumb": "stories/thumbs/HC049.jpg",
+   "p3": "stories/thumbs/HC049.p3.jpg",
+   "face": "stories/thumbs/HC049.face.jpg",
+   "origin": true,
+   "pre": "stories/HC049.pre.png",
+   "preThumb": "stories/thumbs/HC049.pre.jpg",
+   "pt": "stories/pt/HC049.png",
+   "ptThumb": "stories/thumbs/HC049.pt.jpg"
+  },
+  {
    "id": "HC042.short",
    "kind": "short",
    "title": "AI CHIEF OF STAFF",

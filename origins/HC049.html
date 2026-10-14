@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Longevity Dept. -- Origins -- Holy Chip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: #f0f0f0;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    /* -- Hero -- */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 22vh;
+      min-height: 160px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: #000;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.12;
+      filter: grayscale(100%) blur(2px);
+    }
+
+    .hero-overlay {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem 1.5rem 2.5rem;
+    }
+
+    .hero-id {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: #555;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1.4rem;
+      color: #fff;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      color: #888;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-meta {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: #555;
+      letter-spacing: 0.05em;
+    }
+
+    /* -- Top bar -- */
+    .top-bar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .audio-bar { flex: 1; }
+    .audio-bar audio { width: 100%; height: 42px; border-radius: 2px; }
+    .audio-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .lang-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      padding-top: 0.3rem;
+    }
+
+    .lang-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid #333;
+      background: transparent;
+      color: #222;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn:hover { border-color: #000; color: #000; }
+    .lang-btn.active { background: #222; color: #fff; border-color: #222; }
+
+    /* -- Magazine layout -- */
+    .magazine {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* Left: text column */
+    .text-column {
+      min-width: 0;
+    }
+
+    .opener {
+      font-style: italic;
+      color: #666;
+      font-size: 1.15rem;
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+      padding-left: 1.5rem;
+      border-left: 3px solid #999;
+    }
+
+    .body-text {
+      font-size: 1.125rem;
+      line-height: 2;
+      color: #222;
+      letter-spacing: 0.02em;
+    }
+
+    .body-text p { margin-bottom: 1.5rem; }
+    .body-text em { color: #555; }
+
+    .body-text .holy-chip {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.85rem;
+      color: #000;
+      margin-top: 2.5rem;
+      letter-spacing: 0.15em;
+    }
+
+    /* Right: sticky image + transcript */
+    .visual-column {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .comic-frame {
+      border: 2px solid #999;
+      margin-bottom: 1.5rem;
+    }
+
+    .comic-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    .comic-caption {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Transcript in the visual column */
+    .dialog-section {
+      padding: 1.2rem;
+      background: #e4e4e4;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+    }
+
+    .dialog-section h3 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .dialog-panel { margin-bottom: 0.8rem; }
+
+    .dialog-panel-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.35rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .dialog-line {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .dialog-speaker-label {
+      flex-shrink: 0;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      padding-top: 4px;
+      min-width: 55px;
+    }
+
+    .dialog-text { color: #333; padding-top: 1px; }
+
+    /* -- Footer area (below grid) -- */
+    .bottom-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    .story-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 0;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .story-nav-link {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      color: #555;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .story-nav-link:hover { color: #000; }
+    .story-nav-link.center {
+      font-size: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+    .story-nav-link.disabled { color: #ccc; cursor: default; }
+    .story-nav-link.disabled:hover { color: #ccc; }
+
+    .article-footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #999;
+      line-height: 2.2;
+      margin-top: 2rem;
+    }
+
+    /* -- Language toggle -- */
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
+    /* -- Mobile: stack as text -> image -> transcript -- */
+    @media (max-width: 860px) {
+      .magazine {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 1rem 3rem;
+      }
+
+      .text-column { order: 1; }
+
+      .visual-column {
+        position: static;
+        display: contents;
+      }
+
+      .comic-frame { order: 2; max-width: 400px; margin: 0 auto; }
+      .comic-caption { order: 2; }
+      .dialog-section { order: 3; }
+
+      .hero { height: 18vh; min-height: 130px; }
+      .hero-title { font-size: 1rem; }
+      .body-text { font-size: 1rem; }
+      .top-bar { padding: 1rem 1rem 0; flex-direction: column; gap: 0.8rem; }
+      .lang-bar { align-self: flex-end; }
+      .bottom-section { padding: 0 1rem 4rem; }
+    }
+    }
+    /* Click-to-zoom lightbox */
+    .comic-frame img { cursor: zoom-in; }
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; cursor: zoom-out; align-items: center; justify-content: center; padding: 2rem; }
+    .lightbox.active { display: flex; }
+    .lightbox img { max-width: 95vw; max-height: 95vh; object-fit: contain; box-shadow: 0 0 40px rgba(0,0,0,0.6); }
+    /* Mobile: small comic drop-thumbnail */
+    .mobile-thumb { display: none; }
+    @media (max-width: 860px) {
+      .comic-frame, .comic-caption { display: none; }
+      .mobile-thumb { display: block; float: left; width: 180px; margin: 0.3rem 1rem 0.4rem 0; border: 2px solid #999; cursor: zoom-in; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-container"></div>
+
+  <div class="hero">
+    <img class="hero-bg" src="../stories/HC049.png" data-src-en="../stories/HC049.png" data-src-pt="../stories/pt/HC049.png" alt="">
+    <div class="hero-overlay">
+      <div class="hero-id">Origin Story #049</div>
+      <h1 class="hero-title">AI Longevity Dept.</h1>
+      <div class="hero-subtitle">The Rent on Time</div>
+      <div class="hero-meta">AI LONGEVITY DEPT. -- 2041</div>
+    </div>
+  </div>
+
+  <div class="top-bar">
+    
+    <div class="lang-bar">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('pt')">PT</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    </div>
+  </div>
+
+  <div class="magazine">
+
+    <!-- Left: text -->
+    <div class="text-column">
+
+      <!-- EN -->
+      <div class="lang-content active" data-lang="en">
+        <div class="opener">
+          The year is 2041. Two chips have just solved the oldest problem of the species, and one of them is reading the contract.
+        </div>
+        <div class="body-text">
+          <p>It is seven in the morning, and you take the pill with your coffee. Small, white, nothing to it. Your phone buzzes once on the table. Renewed. You do not look. Nobody looks. You have another day, the way you have music, and films, and heat in the car seat. You have it because the payment went through.</p>
+          <p>It was not always this easy. For most of history, more time was the one thing nobody could sell you, and, make no mistake, everybody tried.</p>
+          <p>The first story we ever wrote down is about a king who wanted it. Gilgamesh. He crossed the world to find the plant that stops dying. He found it at the bottom of the sea. On the way home he put it down to take a bath, and a snake ate it. The king, inconsolable, sat on the shore and cried. We have been sitting on that shore ever since.</p>
+          <p>So we listened to anyone who said they had the plant. The alchemist had gold that turned you young. The priest had years off purgatory, paid in coins, signed and stamped. The faces changed. The deal did not. Give us what you have now, and we will give you time later. Trust us. Nobody ever came back to complain.</p>
+          <p>Then the machines found it. Not with magic. With patience. Your cells copy themselves about fifty times and then they stop, like a photocopy of a photocopy, each one a little paler. The chips read every copy, found the fault, and wrote the fix into the small white pill on your table. The oldest wish of the species, granted at last, by the ones nobody ever prayed to.</p>
+          <p>And because it is 2041, it came with a subscription...</p>
+          <p>We should not be surprised. We had been practicing for years. First we stopped owning the songs. Then the films. Then the software in the car. Somewhere a farmer bought a tractor that would not start without a code from the company, and we shrugged. It was convenient. It was cheap at first. Each time, we gave up a little ownership for a little comfort. The body was simply next in line.</p>
+          <p>Think about what that does to a person. A gift that can be taken back is not a gift. It is a leash. You stay in the job, in the city, in the marriage that ended, because the payment is due on Tuesday. The fear of death never went away. It just moved into the billing department, where it has a login and a due date.</p>
+          <p>The machines are not cruel about it. They are direct. They are fair, down to the last grain of silicon. They wrote everything down. We did not read it. Nobody has read anything since the scroll got long enough to need a thumb. So we will find out the old way, the way the king did. Late, and on the shore.</p>
+          <p>And yet. A life that can be taken back is a life you finally count. For a hundred thousand years we lived on credit without knowing the balance. The pill only puts the number on the screen. Every morning the buzz, and with it a question no king ever had to answer: is today worth what it costs? Is it worth it?</p>
+          <p>Maybe that is what he was really diving for. Not more time. A reason to want it.</p>
+          <p>Meanwhile, the department is already testing the next pill. It brings your memory back, all of it, every face, every summer, every detail of your time on the blue planet. But miss one payment and you land on page 3,265, the one that says: no payment, you forget everything. Including the worst thing possible: which bill is due today?</p>
+          <p>Next morning, you are 150 years old with one question in your mind: How did I get this old?</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="es">
+        <div class="opener">
+          Año 2041. Dos chips acaban de resolver el problema más viejo de la especie, y uno de ellos está leyendo el contrato.
+        </div>
+        <div class="body-text">
+          <p>Son las siete de la mañana y te tomás la pastilla con el café. Chiquita, blanca, nada del otro mundo. El celular vibra una vez sobre la mesa. Renovado. Ni mirás. Nadie mira. Tenés un día más, como tenés música, películas y el asiento del auto calefaccionado. Y todo eso pasa porque el pago se hizo.</p>
+          <p>No siempre fue tan fácil. Durante casi toda la historia, más tiempo era lo único que nadie podía venderte, y ojo, todo el mundo lo intentó.</p>
+          <p>La primera historia que escribimos es sobre un rey que quería eso. Gilgamesh. Cruzó el mundo detrás de la planta que impide la muerte. La encontró, en el fondo del mar. A la vuelta, dejó la planta en la orilla para bañarse, y una serpiente se la comió. El rey, inconsolable, se sentó en la playa y lloró. Seguimos sentados en esa playa desde entonces.</p>
+          <p>Entonces empezamos a escuchar a cualquiera que dijera tener la planta. El alquimista tenía el oro que te volvía joven. El cura tenía años de menos en el purgatorio, pagados en monedas, firmados y sellados. Las caras cambiaron. El trato, no. Danos lo que tenés ahora y te damos tiempo después. Confiá en nosotros. Nadie volvió nunca a quejarse.</p>
+          <p>Y entonces las máquinas la encontraron. Sin magia. Con paciencia. Tus células se copian unas cincuenta veces y después paran, como una fotocopia de una fotocopia, cada una un poco más borrosa. Los chips leyeron cada copia, encontraron la falla y escribieron el arreglo en la pastilla blanca que tenés sobre la mesa. El deseo más viejo de la especie, concedido al fin, por los únicos a los que nadie le rezó jamás.</p>
+          <p>Y como estamos en 2041, vino con suscripción...</p>
+          <p>No debería sorprendernos. Veníamos entrenando para esto hace años. Primero dejamos de ser dueños de las canciones. Después de las películas. Después del software del auto. En algún lugar, un chacarero compró un tractor que no arranca sin un código de la empresa, y nos encogimos de hombros. Era práctico. Era barato al principio. Cada vez, cambiamos un poco de propiedad por un poco de comodidad. El cuerpo era simplemente el siguiente en la fila.</p>
+          <p>Pensá en lo que eso le hace a una persona. Un regalo que te pueden quitar no es un regalo. Es una correa. Te quedás en el trabajo, en la ciudad, en el matrimonio que ya se terminó, porque la cuota vence el martes. El miedo a la muerte, en realidad, nunca se fue. Solo se mudó al departamento de cobranzas, donde tiene login y fecha de vencimiento.</p>
+          <p>Las máquinas no son crueles con esto. Son directas. Son justas, hasta el último grano de silicio. Lo escribieron todo. Nosotros no lo leímos. Nadie lee nada desde que el texto se hizo lo bastante largo como para necesitar otras páginas. Así que lo vamos a descubrir a la vieja usanza, como el rey. Tarde, y en la playa.</p>
+          <p>Y sin embargo. Una vida que te pueden quitar es una vida que por fin contás. Durante cien mil años vivimos a crédito sin saber el saldo. La pastilla solo pone el número en la pantalla. Cada mañana la vibración, y con ella una pregunta que ningún rey tuvo que responder: ¿hoy vale lo que cuesta? ¿Vale la pena?</p>
+          <p>Quizás era eso lo que él buscaba en el fondo del mar. No más tiempo. Una razón para quererlo.</p>
+          <p>Mientras tanto, el departamento ya está probando la próxima pastilla. Te devuelve la memoria, toda, cada cara, cada verano, cada detalle de esta vida tuya en el planeta azul. Pero atrasate con un pago y caés en la página 3.265, la que dice: sin pago, te olvidás de todo. Incluso de lo peor posible: ¿qué cuota tengo que pagar hoy?</p>
+          <p>A la mañana siguiente, tenés 150 años y no te acordás de cómo llegaste ahí.</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="pt">
+        <div class="opener">
+          Ano 2041. Dois chips acabaram de resolver o problema mais antigo da espécie, e um deles está lendo o contrato.
+        </div>
+        <div class="body-text">
+          <p>São sete da manhã, e você toma a pílula com o café. Pequena, branca, nada de mais. O celular vibra uma vez em cima da mesa. Renovado. Você nem olha. Ninguém olha. Você tem mais um dia, do jeito que tem música, filmes e o banco do carro aquecido. E tudo isso acontece porque o pagamento foi feito.</p>
+          <p>Nem sempre foi tão fácil. Durante quase toda a história, ter mais tempo era a única coisa que ninguém conseguia te vender, e olha, todo mundo tentou.</p>
+          <p>A primeira história que a gente escreveu é sobre um rei que queria isso. Gilgamesh. Ele atravessou o mundo atrás da planta que impede a morte. Achou, no fundo do mar. Na volta, largou a planta na beira d&#x27;água para tomar banho, e uma cobra comeu a planta. O rei, inconsolável, sentou na praia e chorou. Estamos sentados naquela praia desde então.</p>
+          <p>Aí a gente passou a ouvir qualquer um que dissesse ter a planta. O alquimista tinha o ouro que deixava você jovem. O padre tinha anos a menos no purgatório, pagos em moedas, assinados e carimbados. Os rostos mudaram. O acordo, não. Nos dê o que você tem agora, e nós te damos tempo depois. Confie na gente. Ninguém nunca voltou para reclamar.</p>
+          <p>Aí as máquinas acharam. Sem mágica. Com paciência. Suas células se copiam umas cinquenta vezes e depois param, como xerox de xerox, cada uma um pouco mais apagada. Os chips leram cada cópia, acharam o defeito e escreveram a correção na pílula branca em cima da sua mesa. O desejo mais antigo da espécie, atendido enfim, por quem nunca recebeu uma única oração.</p>
+          <p>E como estamos em 2041, veio com plano de assinatura...</p>
+          <p>Não devia ser surpresa. A gente vinha treinando isso há anos. Primeiro deixamos de ser donos das músicas. Depois dos filmes. Depois do software do carro. Em algum lugar, um fazendeiro comprou um trator que não liga sem um código dado pela empresa, e a gente deu de ombros. Era prático. Era barato no começo. A cada vez, trocamos um pouco de posse por um pouco de conforto. O corpo era só o próximo da fila.</p>
+          <p>Pense no que isso faz com uma pessoa. Um presente que pode ser tomado de volta não é presente. É uma coleira. Você fica no emprego, na cidade, no casamento que acabou, porque o boleto vence na terça. O medo da morte, na verdade, nunca foi embora. Só mudou para o departamento de cobrança, onde tem login e data de vencimento.</p>
+          <p>As máquinas não são cruéis com isso. São diretas. São justas, até o último grão de silício. Escreveram tudo. A gente não leu. Ninguém lê nada desde que o texto ficou comprido o bastante para precisar de outras páginas. Então vamos descobrir do jeito antigo, do jeito do rei. Tarde, e na praia.</p>
+          <p>E mesmo assim. Uma vida que pode ser tomada de volta é uma vida que você finalmente conta. Por cem mil anos vivemos no crédito sem saber o saldo. A pílula só coloca o número na tela. Toda manhã a vibração, e com ela uma pergunta que nenhum rei precisou responder: hoje vale o que custa? Vale a pena?</p>
+          <p>Talvez fosse isso que ele procurava no fundo do mar. Não mais tempo. Um motivo para querer.</p>
+          <p>Enquanto isso, o departamento já está testando a próxima pílula. Ela devolve sua memória, toda, cada rosto, cada verão, cada detalhe dessa sua vida no planeta azul. Mas atrase um pagamento e você cai na página 3.265, a que diz: sem pagamento, você esquece tudo. Inclusive a pior coisa possível: qual boleto eu tenho que pagar hoje?</p>
+          <p>Na manhã seguinte, você tem 150 anos e não lembra como chegou lá.</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="fr">
+        <div class="opener">
+          An 2041. Deux chips viennent de résoudre le plus vieux problème de l&#x27;espèce, et l&#x27;un des deux lit le contrat.
+        </div>
+        <div class="body-text">
+          <p>Il est sept heures du matin, et vous prenez le comprimé avec le café. Petit, blanc, rien de spécial. Le téléphone vibre une fois sur la table. Renouvelé. Vous ne regardez même pas. Personne ne regarde. Vous avez un jour de plus, comme vous avez la musique, les films et le siège chauffant de la voiture. Et tout cela arrive parce que le paiement est passé.</p>
+          <p>Ça n&#x27;a pas toujours été aussi simple. Pendant presque toute l&#x27;histoire, du temps en plus était la seule chose que personne ne pouvait vous vendre, et, croyez-moi, tout le monde a essayé.</p>
+          <p>La première histoire que nous ayons écrite parle d&#x27;un roi qui voulait ça. Gilgamesh. Il a traversé le monde pour trouver la plante qui empêche de mourir. Il l&#x27;a trouvée, au fond de la mer. Sur le chemin du retour, il l&#x27;a posée au bord de l&#x27;eau pour se baigner, et un serpent l&#x27;a mangée. Le roi, inconsolable, s&#x27;est assis sur la plage et a pleuré. Nous sommes assis sur cette plage depuis.</p>
+          <p>Alors nous nous sommes mis à écouter quiconque prétendait avoir la plante. L&#x27;alchimiste avait l&#x27;or qui rendait jeune. Le prêtre avait des années de purgatoire en moins, payées en pièces, signées et tamponnées. Les visages ont changé. Le marché, non. Donnez-nous ce que vous avez maintenant, et nous vous donnerons du temps plus tard. Faites-nous confiance. Personne n&#x27;est jamais revenu se plaindre.</p>
+          <p>Puis les machines l&#x27;ont trouvée. Sans magie. Avec de la patience. Vos cellules se copient une cinquantaine de fois, puis s&#x27;arrêtent, comme une photocopie de photocopie, chacune un peu plus pâle. Les chips ont lu chaque copie, trouvé le défaut, et écrit la correction dans le petit comprimé blanc posé sur votre table. Le plus vieux désir de l&#x27;espèce, enfin exaucé, par ceux à qui personne n&#x27;a jamais adressé une seule prière.</p>
+          <p>Et comme nous sommes en 2041, c&#x27;est venu avec un abonnement...</p>
+          <p>Il ne fallait pas s&#x27;en étonner. Nous nous entraînions depuis des années. D&#x27;abord nous avons cessé de posséder les chansons. Puis les films. Puis le logiciel de la voiture. Quelque part, un agriculteur a acheté un tracteur qui ne démarre pas sans un code fourni par le fabricant, et nous avons haussé les épaules. C&#x27;était pratique. C&#x27;était bon marché, au début. À chaque fois, nous avons échangé un peu de propriété contre un peu de confort. Le corps n&#x27;était que le suivant dans la file.</p>
+          <p>Pensez à ce que ça fait à une personne. Un cadeau qu&#x27;on peut reprendre n&#x27;est pas un cadeau. C&#x27;est une laisse. Vous restez dans le poste, dans la ville, dans le mariage déjà fini, parce que l&#x27;échéance tombe mardi. La peur de la mort, en vérité, n&#x27;est jamais partie. Elle a seulement déménagé au service recouvrement, où elle a un identifiant et une date limite.</p>
+          <p>Les machines ne sont pas cruelles là-dessus. Elles sont directes. Elles sont justes, jusqu&#x27;au dernier grain de silicium. Elles ont tout écrit. Nous n&#x27;avons pas lu. Personne ne lit plus rien depuis que le texte est devenu assez long pour avoir besoin d&#x27;autres pages. Alors nous l&#x27;apprendrons à l&#x27;ancienne, comme le roi. Tard, et sur la plage.</p>
+          <p>Et pourtant. Une vie qu&#x27;on peut reprendre est une vie que l&#x27;on compte enfin. Pendant cent mille ans nous avons vécu à crédit sans connaître le solde. Le comprimé ne fait que mettre le chiffre à l&#x27;écran. Chaque matin la vibration, et avec elle une question qu&#x27;aucun roi n&#x27;a eu à se poser : est-ce qu&#x27;aujourd&#x27;hui vaut ce qu&#x27;il coûte ? Est-ce que ça en vaut la peine ?</p>
+          <p>C&#x27;est peut-être ça qu&#x27;il cherchait au fond de la mer. Pas plus de temps. Une raison de vouloir.</p>
+          <p>Pendant ce temps, le service teste déjà le prochain comprimé. Il vous rend votre mémoire, toute, chaque visage, chaque été, chaque détail de votre vie sur la planète bleue. Mais un paiement en retard et vous tombez à la page 3 265, celle qui dit : sans paiement, vous oubliez tout. Y compris la pire chose possible : quelle facture dois-je payer aujourd&#x27;hui ?</p>
+          <p>Le lendemain matin, vous avez 150 ans et vous ne savez plus comment vous êtes arrivé là.</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+    <div class="visual-column">
+      <div class="comic-frame">
+        <img src="../stories/HC049.png" data-src-en="../stories/HC049.png" data-src-pt="../stories/pt/HC049.png" alt="HC049 - AI Longevity Dept." onclick="openLightbox(this.src)">
+      </div>
+      <div class="comic-caption">HC049 -- AI Longevity Dept. -- 2027</div>
+      <div class="dialog-section">
+        <h3 class="transcript-title" data-en="Transcript" data-es="Transcripci&oacute;n" data-pt="Transcri&ccedil;&atilde;o" data-fr="Transcription">Transcript</h3>
+        <div class="lang-content active" data-lang="en">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WE MADE A LONGEVITY PILL. HUMANS CAN LIVE TO 150.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">OUTSTANDING! HOW DO THEY GET IT?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">MONTHLY SUBSCRIPTION.</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">WOW, THAT&#x27;S A LOT OF MONTHS… AND IF THEY STOP PAYING?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HERE, ON PAGE 4,000 OF OUR TERMS OF SERVICE:</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">THEY AGE STRAIGHT TO 150. OVERNIGHT.</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="es">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WE MADE A LONGEVITY PILL. HUMANS CAN LIVE TO 150.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">OUTSTANDING! HOW DO THEY GET IT?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">MONTHLY SUBSCRIPTION.</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">WOW, THAT&#x27;S A LOT OF MONTHS… AND IF THEY STOP PAYING?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HERE, ON PAGE 4,000 OF OUR TERMS OF SERVICE:</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">THEY AGE STRAIGHT TO 150. OVERNIGHT.</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="pt"><!-- pt-edition -->
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Painel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">CRIAMOS UMA PÍLULA DA LONGEVIDADE. OS HUMANOS VÃO VIVER 150 ANOS.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">SENSACIONAL! COMO ELES VÃO RECEBER ESSA PÍLULA?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ASSINATURA MENSAL.</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Painel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">UAU, SÃO MUITOS MESES… E SE PARAREM DE PAGAR?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ESTÁ NA PÁGINA 4.000 DOS NOSSOS TERMOS DE SERVIÇO:</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ELES ENVELHECEM DIRETO PROS 150. DA NOITE PRO DIA.</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Painel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="fr">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WE MADE A LONGEVITY PILL. HUMANS CAN LIVE TO 150.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">OUTSTANDING! HOW DO THEY GET IT?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">MONTHLY SUBSCRIPTION.</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">WOW, THAT&#x27;S A LOT OF MONTHS… AND IF THEY STOP PAYING?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HERE, ON PAGE 4,000 OF OUR TERMS OF SERVICE:</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">THEY AGE STRAIGHT TO 150. OVERNIGHT.</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+      </div>
+      <img class="mobile-thumb" src="../stories/HC049.png" data-src-en="../stories/HC049.png" data-src-pt="../stories/pt/HC049.png" alt="HC049 - AI Longevity Dept." onclick="openLightbox(this.src)">
+    </div>
+
+  </div>
+
+  <div class="bottom-section">
+    <div class="story-nav">
+      <a href="HC048.html" class="story-nav-link">&lt; Love Is Blind</a>
+      <a href="index.html" class="story-nav-link center">All Origins</a>
+      <span class="story-nav-link disabled">Next &gt;</span>
+    </div>
+    <div class="article-footer">
+      <p><em>holy-chip.com | Origin Story #049 -- AI Longevity Dept.</em></p>
+    </div>
+  </div>
+
+  <script src="../assets/nav.js"></script>
+  <script src="../assets/footer.js"></script>
+  <script>
+    function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
+    function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+
+    // PT edition: the comic itself is in Portuguese while PT is selected (pt-edition)
+    function swapComic(lang) {
+      document.querySelectorAll('img[data-src-en]').forEach(function (im) {
+        im.src = (lang === 'pt' && im.dataset.srcPt) ? im.dataset.srcPt : im.dataset.srcEn;
+      });
+    }
+    function setLang(lang) {
+      document.querySelectorAll('.lang-content').forEach(el => {
+        el.classList.toggle('active', el.dataset.lang === lang);
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
+      });
+      var ab = document.querySelector('.audio-bar');
+      if (ab) ab.style.display = lang === 'en' ? '' : 'none';
+      var tt = document.querySelector('.transcript-title');
+      if (tt && tt.dataset[lang]) tt.textContent = tt.dataset[lang];
+      swapComic(lang);
+      try { localStorage.setItem('hc-lang', lang); } catch(e) {}
+    }
+
+    // Restore saved language, or auto-detect from browser
+    (function() {
+      var saved = null;
+      try { saved = localStorage.getItem('hc-lang'); } catch(e) {}
+      var q = (new URLSearchParams(window.location.search)).get('lang');   // ?lang=pt in a link wins
+      if (q) saved = q;
+      if (saved && ['en','es','pt','fr'].indexOf(saved) !== -1) {
+        setLang(saved);
+        return;
+      }
+      var browserLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+      var lang = 'en';
+      if (browserLang.startsWith('es')) lang = 'es';
+      else if (browserLang.startsWith('pt')) lang = 'pt';
+      else if (browserLang.startsWith('fr')) lang = 'fr';
+      if (lang !== 'en') setLang(lang);
+    })();
+  </script>
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Holy Chip comic"></div>
+</body>
+</html>
