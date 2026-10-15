@@ -132,6 +132,10 @@
     }
 
     /* Left: text column */
+    /* -- documentary video (doc-video) -- */
+    .doc-video { margin: 0 0 2rem; }
+    .doc-video video { display: block; width: 100%; max-width: 360px; margin: 0 auto; aspect-ratio: 9 / 16; background: #000; border-radius: 10px; }
+    .doc-video .doc-caption { text-align: center; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: .6; margin: .6rem 0 0; }
     .text-column {
       min-width: 0;
     }
@@ -353,6 +357,14 @@
 
     <!-- Left: text -->
     <div class="text-column">
+<!-- doc-video -->
+      <div class="doc-video">
+        <video id="doc-video" controls preload="metadata" playsinline src="../videos/HC048.doc.mp4"
+               data-src-en="../videos/HC048.doc.mp4" data-src-pt="../videos/HC048.doc.pt.mp4"></video>
+        <p class="doc-caption" data-en="The story behind, in two minutes" data-es="La historia detr&aacute;s, en dos minutos"
+           data-pt="A hist&oacute;ria por tr&aacute;s, em dois minutos" data-fr="L'histoire derri&egrave;re, en deux minutes">The story behind, in two minutes</p>
+      </div>
+      <!-- doc-video -->
 
       <!-- EN -->
       <div class="lang-content active" data-lang="en">
@@ -652,6 +664,13 @@
         im.src = (lang === 'pt' && im.dataset.srcPt) ? im.dataset.srcPt : im.dataset.srcEn;
       });
     }
+    // doc-video: the Portuguese video while PT is selected
+    function swapVideo(lang) {
+      var v = document.getElementById('doc-video'); if (!v) return;
+      var want = (lang === 'pt' && v.dataset.srcPt) ? v.dataset.srcPt : v.dataset.srcEn;
+      if (v.getAttribute('src') !== want) { var t = v.currentTime; v.setAttribute('src', want); v.load(); }
+      var c = document.querySelector('.doc-caption'); if (c && c.dataset[lang]) c.innerHTML = c.dataset[lang];
+    }
     function setLang(lang) {
       document.querySelectorAll('.lang-content').forEach(el => {
         el.classList.toggle('active', el.dataset.lang === lang);
@@ -664,6 +683,7 @@
       var tt = document.querySelector('.transcript-title');
       if (tt && tt.dataset[lang]) tt.textContent = tt.dataset[lang];
       swapComic(lang);
+      swapVideo(lang);
       try { localStorage.setItem('hc-lang', lang); } catch(e) {}
     }
 
