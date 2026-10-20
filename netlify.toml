@@ -6,3 +6,8 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+# ping.js needs @netlify/blobs; git-triggered builds shipped it WITHOUT the module (502 "Cannot find module", 2026-10-16..20).
+# Bundling just this function with esbuild inlines the dependency.
+[functions.ping]
+  node_bundler = "esbuild"
