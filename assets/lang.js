@@ -106,7 +106,7 @@
         else el.style.backgroundImage = `url("${s}")`;
       });
       const btn = document.getElementById('hc-lang-btn');
-      if (btn) { const L = LANGS.find(l => l.code === c); btn.innerHTML = `${FLAGS[L.flag]}<b>▾</b>`; btn.title = L.name; }
+      if (btn) { const L = LANGS.find(l => l.code === c); btn.innerHTML = `${FLAGS[L.flag]}<span>${L.name}</span><b>▾</b>`; btn.title = L.name; }   // flag + language name (user, 2026-10-21)
       document.querySelectorAll('.hc-lang-opt').forEach(o => o.classList.toggle('active', o.dataset.lang === c));
     },
     // the selector, put in the header by nav.js
