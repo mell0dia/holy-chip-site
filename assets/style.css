@@ -359,3 +359,28 @@ p, .page-subtitle, .step-title, label, li {
     text-align: left;
   }
 }
+
+/* ── Language selector (assets/lang.js) - one button, list on click, built to grow ── */
+.hc-lang { position: relative; margin-right: 4px; }
+.hc-lang-btn {
+  display: flex; align-items: center; gap: 6px; height: 28px; padding: 0 8px;
+  background: none; color: var(--nav-fg); cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.25); border-radius: 3px;
+  font-family: 'Press Start 2P', monospace; font-size: 9px; letter-spacing: 0.06em;
+  transition: background 0.2s, border-color 0.2s;
+}
+.hc-lang-btn:hover { background: var(--nav-hover); border-color: rgba(255,255,255,0.55); }
+.hc-lang-btn b { font-weight: normal; font-size: 8px; opacity: 0.7; }
+.hc-lang svg { display: block; flex: none; border-radius: 2px; box-shadow: 0 0 0 1px rgba(255,255,255,0.25); }
+.hc-lang-menu {
+  position: absolute; right: 0; top: calc(100% + 6px); z-index: 1000; list-style: none; margin: 0;
+  background: #1a1a2e; border: 1px solid rgba(255,255,255,0.25); border-radius: 4px; padding: 4px; min-width: 170px;
+}
+.hc-lang-menu[hidden] { display: none; }
+.hc-lang-opt {
+  display: flex; align-items: center; gap: 10px; width: 100%; background: none; border: none; cursor: pointer;
+  color: var(--nav-fg); font-family: 'Press Start 2P', monospace; font-size: 9px; letter-spacing: 0.04em;
+  padding: 9px 10px; border-radius: 3px; text-align: left;
+}
+.hc-lang-opt:hover { background: var(--nav-hover); color: #fff; }
+.hc-lang-opt.active { background: rgba(255,255,255,0.12); color: #fff; }

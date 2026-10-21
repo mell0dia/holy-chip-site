@@ -394,9 +394,6 @@
 
       <div id="story-card-wrap">
         <div class="story-top-bar">
-          <div class="comic-lang" role="group" aria-label="Story language">
-            <button data-lang="en">EN</button><button data-lang="pt">PT</button>
-          </div>
           <button class="another-btn" id="another-btn" title="Show another story" aria-label="Another story">
             <span class="icon">↻</span>
           </button>
@@ -407,12 +404,6 @@
         <img class="story-main-image" id="story-main-image" src="" alt=""/>
         <div class="story-label" id="story-label"></div>
         <article class="blog-card-wrap empty" id="story-blog">
-          <div class="lang-bar">
-            <button class="lang-btn" data-lang="en">EN</button>
-            <button class="lang-btn" data-lang="es">ES</button>
-            <button class="lang-btn" data-lang="pt">PT</button>
-            <button class="lang-btn" data-lang="fr">FR</button>
-          </div>
           <div class="loading">Loading origin…</div>
           <div class="lang-content" data-lang="en"></div>
           <div class="lang-content" data-lang="es"></div>
@@ -427,6 +418,8 @@
   <div class="wall-col" id="wall-right" style="display:none"><div class="wall" id="wall2"></div></div>
   </div><!-- /split -->
 
+  <script src="assets/lang-files.js"></script>
+  <script src="assets/lang.js"></script>
   <script src="assets/nav.js"></script>
   <script src="assets/footer.js"></script>
 
@@ -780,46 +773,27 @@
       return result;
     }
 
-    function detectLang() {
-      const q = new URLSearchParams(window.location.search).get('lang');
-      if (q && ['en','es','pt','fr'].includes(q)) return q;
-      try {
-        const saved = localStorage.getItem('hc-lang');
-        if (saved && ['en','es','pt','fr'].includes(saved)) return saved;
-      } catch (e) {}
-      const bl = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
-      if (bl.startsWith('es')) return 'es';
-      if (bl.startsWith('pt')) return 'pt';
-      if (bl.startsWith('fr')) return 'fr';
-      return 'en';
-    }
+    // Language: the header selector (assets/lang.js) decides; the comic falls back to
+    // English when the chosen language has no version of it, the blog text likewise.
+    function detectLang() { return window.HCLang ? HCLang.current : 'en'; }
 
-    // The comic exists in EN and PT (stories/pt/HC###.png); ES/FR read the English comic.
     function showComic(lang) {
       if (!currentStory) return;
       const img = document.getElementById('story-main-image');
-      const want = (lang === 'pt' && currentStory.pt) ? currentStory.pt : currentStory.src;
-      img.onerror = () => { img.onerror = null; img.src = currentStory.src; };   // no PT version yet
+      const want = window.HCLang ? HCLang.src(currentStory.src, lang) : currentStory.src;
+      img.onerror = () => { img.onerror = null; img.src = currentStory.src; };   // safety net: English
       if (img.getAttribute('src') !== want) img.src = want;
-      document.querySelectorAll('.comic-lang button').forEach(b => b.classList.toggle('active', b.dataset.lang === (lang === 'pt' ? 'pt' : 'en')));
     }
 
     function setStoryLang(lang) {
-      if (!['en','es','pt','fr'].includes(lang)) lang = 'en';
       showComic(lang);
       const blog = document.getElementById('story-blog');
-      blog.querySelectorAll('.lang-content').forEach(el => el.classList.toggle('active', el.dataset.lang === lang));
-      blog.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
-      try { localStorage.setItem('hc-lang', lang); } catch (e) {}
+      const blocks = [...blog.querySelectorAll('.lang-content')];
+      const pick = blocks.some(el => el.dataset.lang === lang && el.innerHTML.trim()) ? lang : 'en';
+      blocks.forEach(el => el.classList.toggle('active', el.dataset.lang === pick));
     }
 
-    document.querySelectorAll('.comic-lang button').forEach(btn => {
-      btn.addEventListener('click', () => setStoryLang(btn.dataset.lang));
-    });
-
-    document.querySelectorAll('#story-blog .lang-btn').forEach(btn => {
-      btn.addEventListener('click', () => setStoryLang(btn.dataset.lang));
-    });
+    document.addEventListener('hc:lang', e => setStoryLang(e.detail.lang));
 
     async function renderStoryInline() {
       if (!currentStory) return;
@@ -856,7 +830,7 @@
     // random pick has no stable address). Phone share sheet, else copy + toast.
     document.getElementById('share-btn').addEventListener('click', () => {
       if (!currentStory) return;
-      const url = `${location.origin}${location.pathname.replace(/[^/]*$/, '')}stories.html?story=${currentStory.id}` + (detectLang() === 'pt' ? '&lang=pt' : '');
+      const url = `${location.origin}${location.pathname.replace(/[^/]*$/, '')}stories.html?story=${currentStory.id}` + (window.HCLang ? HCLang.param('&') : '');
       const title = `Holy Chip — ${currentStory.id} ${currentStory.title}`;
       if (navigator.share) navigator.share({ url, title }).catch(() => {});
       else navigator.clipboard.writeText(url).then(() => toast('Link copied!')).catch(() => toast('Copy: ' + url));

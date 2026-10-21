@@ -38,6 +38,7 @@
         }).join('')}
       </ul>
       <div class="nav-right">
+        ${window.HCLang ? window.HCLang.selectorHTML() : ''}
         <div class="nav-socials">
           <a href="https://x.com/holychipcomics" target="_blank" rel="noopener noreferrer" class="nav-social" title="@holychipcomics on X" aria-label="X">${xIcon}</a>
           <a href="https://facebook.com/hlchip" target="_blank" rel="noopener noreferrer" class="nav-social" title="Holy Chip on Facebook" aria-label="Facebook">${fbIcon}</a>
@@ -95,6 +96,8 @@
     const container = document.getElementById('nav-container');
     if (!container) return;
     container.innerHTML = navHTML;
+
+    if (window.HCLang) window.HCLang.wireSelector();   // language selector (assets/lang.js)
 
     const toggle    = document.getElementById('nav-toggle');
     const navList   = document.getElementById('nav-list');
