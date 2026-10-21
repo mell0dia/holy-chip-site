@@ -915,7 +915,11 @@
    "face": "stories/thumbs/HC046.short.face.jpg",
    "origin": false,
    "pt": "stories/pt/HC046.short.png",
-   "ptThumb": "stories/thumbs/HC046.short.pt.jpg"
+   "ptThumb": "stories/thumbs/HC046.short.pt.jpg",
+   "es": "stories/HC046.short.es.png",
+   "esThumb": "stories/thumbs/HC046.short.es.jpg",
+   "fr": "stories/HC046.short.fr.png",
+   "frThumb": "stories/thumbs/HC046.short.fr.jpg"
   },
   {
    "id": "HC047.short",
@@ -928,7 +932,11 @@
    "face": "stories/thumbs/HC047.short.face.jpg",
    "origin": false,
    "pt": "stories/pt/HC047.short.png",
-   "ptThumb": "stories/thumbs/HC047.short.pt.jpg"
+   "ptThumb": "stories/thumbs/HC047.short.pt.jpg",
+   "es": "stories/HC047.short.es.png",
+   "esThumb": "stories/thumbs/HC047.short.es.jpg",
+   "fr": "stories/HC047.short.fr.png",
+   "frThumb": "stories/thumbs/HC047.short.fr.jpg"
   }
  ]
 }
