@@ -1,5 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
+/* Press Start 2P has no usable accented letters (TRÊS, NÔTRES, PROMOÇÃO came out broken).
+   Same family name + a unicode-range: the browser takes ONLY À-ÿ from Silkscreen Bold at
+   125%, which matches it; every other letter stays Press Start 2P. */
+@font-face {
+  font-family: 'Press Start 2P';
+  src: url('fonts/silkscreen-bold-latin.woff2') format('woff2');
+  unicode-range: U+00C0-00FF, U+0152-0153, U+0178;
+  size-adjust: 125%;
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ── Global: uppercase everything ── */
 body, input, textarea, select, button, a, p, span, div, h1, h2, h3, h4, h5, h6, li, td, th, label {
   text-transform: uppercase;

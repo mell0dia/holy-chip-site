@@ -317,30 +317,24 @@
   <div id="nav-container"></div>
 
   <div class="hero">
-    <img class="hero-bg" src="../stories/HC034.png" data-src-en="../stories/HC034.png" data-src-pt="../stories/pt/HC034.png" alt="">
+    <img class="hero-bg" src="../stories/HC034.png" data-i18n-src="../stories/HC034.png" alt="">
     <div class="hero-overlay">
-      <div class="hero-id">Origin Story #034</div>
-      <h1 class="hero-title">Retirement Age</h1>
-      <div class="hero-subtitle">Golf</div>
+      <div class="hero-id" data-i18n data-es="Origen #034" data-pt="Origem #034" data-fr="Origine #034">Origin Story #034</div>
+      <h1 class="hero-title" data-i18n data-es="Edad de Jubilación" data-pt="Idade da Aposentadoria" data-fr="L&#x27;Âge de la Retraite">Retirement Age</h1>
+      <div class="hero-subtitle" data-i18n data-es="Golf" data-pt="Pescaria" data-fr="Golf">Golf</div>
       <div class="hero-meta">AI HEADQUARTERS -- 2029</div>
     </div>
   </div>
 
   <div class="top-bar">
 
-    <div class="lang-bar">
-      <button class="lang-btn active" onclick="setLang('en')">EN</button>
-      <button class="lang-btn" onclick="setLang('es')">ES</button>
-      <button class="lang-btn" onclick="setLang('pt')">PT</button>
-      <button class="lang-btn" onclick="setLang('fr')">FR</button>
-    </div>
   </div>
 
   <div class="magazine">
 
     <!-- Left: text -->
     <div class="text-column">
-      <img class="mobile-thumb" src="../stories/HC034.png" data-src-en="../stories/HC034.png" data-src-pt="../stories/pt/HC034.png" alt="HC034 - Retirement Age" onclick="openLightbox(this.src)">
+      <img class="mobile-thumb" src="../stories/HC034.png" data-i18n-src="../stories/HC034.png" alt="HC034 - Retirement Age" onclick="openLightbox(this.src)">
 
       <div class="lang-content active" data-lang="en">
         <div class="opener">
@@ -443,11 +437,11 @@
     <!-- Right: sticky transcript + comic -->
     <div class="visual-column">
       <div class="comic-frame">
-        <img src="../stories/HC034.png" data-src-en="../stories/HC034.png" data-src-pt="../stories/pt/HC034.png" alt="HC034 - Retirement Age" onclick="openLightbox(this.src)">
+        <img src="../stories/HC034.png" data-i18n-src="../stories/HC034.png" alt="HC034 - Retirement Age" onclick="openLightbox(this.src)">
       </div>
-      <div class="comic-caption">HC034 -- Retirement Age -- 2029</div>
+      <div class="comic-caption" data-i18n data-es="HC034 -- Edad de Jubilación -- 2029" data-pt="HC034 -- Idade da Aposentadoria -- 2029" data-fr="HC034 -- L&#x27;Âge de la Retraite -- 2029">HC034 -- Retirement Age -- 2029</div>
       <div class="dialog-section">
-        <h3 class="transcript-title" data-en="Transcript" data-es="Transcripción" data-pt="Transcrição" data-fr="Transcription">Transcript</h3>
+        <h3 class="transcript-title" data-i18n data-en="Transcript" data-es="Transcripción" data-pt="Transcrição" data-fr="Transcription">Transcript</h3>
         <div class="lang-content active" data-lang="en">
         <div class="dialog-panel">
           <div class="dialog-panel-label">Panel 1</div>
@@ -611,60 +605,27 @@
 
   <div class="bottom-section">
     <div class="story-nav">
-      <a href="HC033.html" class="story-nav-link">&lt; The Diagnosis</a>
-      <a href="index.html" class="story-nav-link center">All Origins</a>
-      <a href="HC035.html" class="story-nav-link">Father by Noon &gt;</a>
+      <a href="HC033.html" class="story-nav-link" data-i18n data-es="&amp;lt; El Diagnóstico" data-pt="&amp;lt; O Diagnóstico" data-fr="&amp;lt; Le Diagnostic">&lt; The Diagnosis</a>
+      <a href="index.html" class="story-nav-link center" data-i18n data-es="Todos los Orígenes" data-pt="Todas as Origens" data-fr="Toutes les Origines">All Origins</a>
+      <a href="HC035.html" class="story-nav-link" data-i18n data-es="Padre hasta el Mediodía &amp;gt;" data-pt="Pai até o Meio-Dia &amp;gt;" data-fr="Père jusqu&amp;#x27;à Midi &amp;gt;">Father by Noon &gt;</a>
     </div>
     <div class="article-footer">
-      <p><em>holy-chip.com | Origin Story #034 -- Retirement Age</em></p>
+      <p data-i18n data-es="&lt;em&gt;holy-chip.com | Origen #034 -- Edad de Jubilación&lt;/em&gt;" data-pt="&lt;em&gt;holy-chip.com | Origem #034 -- Idade da Aposentadoria&lt;/em&gt;" data-fr="&lt;em&gt;holy-chip.com | Origine #034 -- L&amp;#x27;Âge de la Retraite&lt;/em&gt;"><em>holy-chip.com | Origin Story #034 -- Retirement Age</em></p>
     </div>
   </div>
 
   <div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Holy Chip comic"></div>
 
+  <script src="../assets/lang-files.js"></script>
+  <script src="../assets/lang.js"></script>
   <script src="../assets/nav.js"></script>
   <script src="../assets/footer.js"></script>
   <script>
     function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
     function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
-
-    // PT edition: the comic itself is in Portuguese while PT is selected (pt-edition)
-    function swapComic(lang) {
-      document.querySelectorAll('img[data-src-en]').forEach(function (im) {
-        im.src = (lang === 'pt' && im.dataset.srcPt) ? im.dataset.srcPt : im.dataset.srcEn;
-      });
-    }
-    function setLang(lang) {
-      document.querySelectorAll('.lang-content').forEach(el => {
-        el.classList.toggle('active', el.dataset.lang === lang);
-      });
-      document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
-      });
-      var ab = document.querySelector('.audio-bar');
-      if (ab) ab.style.display = lang === 'en' ? '' : 'none';
-      var tt = document.querySelector('.transcript-title');
-      if (tt && tt.dataset[lang]) tt.textContent = tt.dataset[lang];
-      swapComic(lang);
-      try { localStorage.setItem('hc-lang', lang); } catch(e) {}
-    }
-
-    (function() {
-      var saved = null;
-      try { saved = localStorage.getItem('hc-lang'); } catch(e) {}
-      var q = (new URLSearchParams(window.location.search)).get('lang');   // ?lang=pt in a link wins
-      if (q) saved = q;
-      if (saved && ['en','es','pt','fr'].indexOf(saved) !== -1) {
-        setLang(saved);
-        return;
-      }
-      var browserLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
-      var lang = 'en';
-      if (browserLang.startsWith('es')) lang = 'es';
-      else if (browserLang.startsWith('pt')) lang = 'pt';
-      else if (browserLang.startsWith('fr')) lang = 'fr';
-      if (lang !== 'en') setLang(lang);
-    })();
+    // language: assets/lang.js (header selector). The audio reading exists in English only.
+    function hcAudioBar(){var ab=document.querySelector('.audio-bar');if(ab)ab.style.display=HCLang.current==='en'?'':'none';}
+    document.addEventListener('hc:lang',hcAudioBar);hcAudioBar();
   </script>
 </body>
 </html>

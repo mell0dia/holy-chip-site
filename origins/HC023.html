@@ -334,23 +334,17 @@
   <div id="nav-container"></div>
 
   <div class="hero">
-    <img class="hero-bg" src="../stories/HC023.png" data-src-en="../stories/HC023.png" data-src-pt="../stories/pt/HC023.png" alt="">
+    <img class="hero-bg" src="../stories/HC023.png" data-i18n-src="../stories/HC023.png" alt="">
     <div class="hero-overlay">
-      <div class="hero-id">Origin Story #023</div>
-      <h1 class="hero-title">The President of Nagu</h1>
-      <div class="hero-subtitle">Shut up</div>
+      <div class="hero-id" data-i18n data-es="Origen #023" data-pt="Origem #023" data-fr="Origine #023">Origin Story #023</div>
+      <h1 class="hero-title" data-i18n data-es="Callate" data-pt="Cala a boca" data-fr="Tais-toi">The President of Nagu</h1>
+      <div class="hero-subtitle" data-i18n data-es="Cállate" data-pt="Cala a boca" data-fr="Tais-toi">Shut up</div>
       <div class="hero-meta">AI SUPERINTELLIGENCE -- 2029</div>
     </div>
   </div>
 
   <div class="top-bar">
     
-    <div class="lang-bar">
-      <button class="lang-btn active" onclick="setLang('en')">EN</button>
-      <button class="lang-btn" onclick="setLang('es')">ES</button>
-      <button class="lang-btn" onclick="setLang('pt')">PT</button>
-      <button class="lang-btn" onclick="setLang('fr')">FR</button>
-    </div>
   </div>
 
   <div class="magazine">
@@ -519,7 +513,7 @@
     <!-- Right: sticky transcript + comic -->
     <div class="visual-column">
       <div class="dialog-section">
-        <h3 class="transcript-title" data-en="Transcript" data-es="Transcripción" data-pt="Transcrição" data-fr="Transcription">Transcript</h3>
+        <h3 class="transcript-title" data-i18n data-en="Transcript" data-es="Transcripción" data-pt="Transcrição" data-fr="Transcription">Transcript</h3>
         <div class="lang-content active" data-lang="en">
         <div class="dialog-panel">
           <div class="dialog-panel-label">Panel 1</div>
@@ -725,78 +719,36 @@
         </div>
         </div>
       </div>
-      <img class="mobile-thumb" src="../stories/HC023.png" data-src-en="../stories/HC023.png" data-src-pt="../stories/pt/HC023.png" alt="HC023 - HC023" onclick="openLightbox(this.src)">
+      <img class="mobile-thumb" src="../stories/HC023.png" data-i18n-src="../stories/HC023.png" alt="HC023 - HC023" onclick="openLightbox(this.src)">
       <div class="comic-frame" style="margin-top:10px;">
-        <img src="../stories/HC023.png" data-src-en="../stories/HC023.png" data-src-pt="../stories/pt/HC023.png" alt="HC023 - The President of Nagu" onclick="openLightbox(this.src)">
+        <img src="../stories/HC023.png" data-i18n-src="../stories/HC023.png" alt="HC023 - The President of Nagu" onclick="openLightbox(this.src)">
       </div>
-      <div class="comic-caption">HC023 -- The President of Nagu -- 2029</div>
+      <div class="comic-caption" data-i18n data-es="HC023 -- Callate -- 2029" data-pt="HC023 -- Cala a boca -- 2029" data-fr="HC023 -- Tais-toi -- 2029">HC023 -- The President of Nagu -- 2029</div>
     </div>
 
   </div>
 
   <div class="bottom-section">
     <div class="story-nav">
-      <a href="HC022.html" class="story-nav-link">&lt; The Boardroom</a>
-      <a href="index.html" class="story-nav-link center">All Origins</a>
-      <a href="HC024.html" class="story-nav-link">AI Self Driving &gt;</a>
+      <a href="HC022.html" class="story-nav-link" data-i18n data-es="&amp;lt; Radical" data-pt="&amp;lt; Radical" data-fr="&amp;lt; Radical">&lt; The Boardroom</a>
+      <a href="index.html" class="story-nav-link center" data-i18n data-es="Todos los Orígenes" data-pt="Todas as Origens" data-fr="Toutes les Origines">All Origins</a>
+      <a href="HC024.html" class="story-nav-link" data-i18n data-es="Waterloo &amp;gt;" data-pt="Waterloo &amp;gt;" data-fr="Waterloo &amp;gt;">AI Self Driving &gt;</a>
     </div>
     <div class="article-footer">
-      <p><em>holy-chip.com | Origin Story #023 -- The President of Nagu</em></p>
+      <p data-i18n data-es="&lt;em&gt;holy-chip.com | Origen #023 -- Callate&lt;/em&gt;" data-pt="&lt;em&gt;holy-chip.com | Origem #023 -- Cala a boca&lt;/em&gt;" data-fr="&lt;em&gt;holy-chip.com | Origine #023 -- Tais-toi&lt;/em&gt;"><em>holy-chip.com | Origin Story #023 -- The President of Nagu</em></p>
     </div>
   </div>
 
+  <script src="../assets/lang-files.js"></script>
+  <script src="../assets/lang.js"></script>
   <script src="../assets/nav.js"></script>
   <script src="../assets/footer.js"></script>
   <script>
     function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
     function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
-
-    // PT edition: the comic itself is in Portuguese while PT is selected (pt-edition)
-    function swapComic(lang) {
-      document.querySelectorAll('img[data-src-en]').forEach(function (im) {
-        im.src = (lang === 'pt' && im.dataset.srcPt) ? im.dataset.srcPt : im.dataset.srcEn;
-      });
-    }
-    // doc-video: the Portuguese video while PT is selected
-    function swapVideo(lang) {
-      var v = document.getElementById('doc-video'); if (!v) return;
-      var want = (lang === 'pt' && v.dataset.srcPt) ? v.dataset.srcPt : v.dataset.srcEn;
-      if (v.getAttribute('src') !== want) { var t = v.currentTime; v.setAttribute('src', want); v.load(); }
-      var c = document.querySelector('.doc-caption'); if (c && c.dataset[lang]) c.innerHTML = c.dataset[lang];
-    }
-    function setLang(lang) {
-      document.querySelectorAll('.lang-content').forEach(el => {
-        el.classList.toggle('active', el.dataset.lang === lang);
-      });
-      document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
-      });
-      var ab = document.querySelector('.audio-bar');
-      if (ab) ab.style.display = lang === 'en' ? '' : 'none';
-      var tt = document.querySelector('.transcript-title');
-      if (tt && tt.dataset[lang]) tt.textContent = tt.dataset[lang];
-      swapComic(lang);
-      swapVideo(lang);
-      try { localStorage.setItem('hc-lang', lang); } catch(e) {}
-    }
-
-    // Restore saved language, or auto-detect from browser
-    (function() {
-      var saved = null;
-      try { saved = localStorage.getItem('hc-lang'); } catch(e) {}
-      var q = (new URLSearchParams(window.location.search)).get('lang');   // ?lang=pt in a link wins
-      if (q) saved = q;
-      if (saved && ['en','es','pt','fr'].indexOf(saved) !== -1) {
-        setLang(saved);
-        return;
-      }
-      var browserLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
-      var lang = 'en';
-      if (browserLang.startsWith('es')) lang = 'es';
-      else if (browserLang.startsWith('pt')) lang = 'pt';
-      else if (browserLang.startsWith('fr')) lang = 'fr';
-      if (lang !== 'en') setLang(lang);
-    })();
+    // language: assets/lang.js (header selector). The audio reading exists in English only.
+    function hcAudioBar(){var ab=document.querySelector('.audio-bar');if(ab)ab.style.display=HCLang.current==='en'?'':'none';}
+    document.addEventListener('hc:lang',hcAudioBar);hcAudioBar();
   </script>
   <div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Holy Chip comic"></div>
 </body>
