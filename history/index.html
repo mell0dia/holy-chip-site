@@ -117,10 +117,7 @@
 
   <div class="content">
     <div class="title-row">
-      <h1 id="page-title">History</h1>
-      <div class="lang-toggle" role="group" aria-label="Language">
-        <button data-lang="en">EN</button><button data-lang="pt">PT</button>
-      </div>
+      <h1 id="page-title" data-i18n data-pt="História" data-es="Historia" data-fr="Histoire">History</h1>
     </div>
 
     <div class="editorial">
@@ -164,10 +161,42 @@
       <p>Hoje o Holy Chip é uma discussão sem fim sobre se a inteligência artificial merece um abraço. A gente ainda não sabe a resposta. Mas continua fazendo histórias, porque em algum lugar entre os uns e os zeros existe algo que se parece muito com uma alma. Ou, no mínimo, com uma ótima piada.</p>
 
       </div>
+      <div data-lang-block="es">
+      <!-- traducido del portugués -->
+      <p>Empezó como empiezan la mayoría de las ideas locas: a las dos de la mañana, con alguien mirando una pantalla y preguntándose si las máquinas tienen sentimientos. La respuesta, claro, era como mínimo intrigante.</p>
+
+      <p>¿Y si los tuvieran? ¿Y si dos chipcitos, forjados en silicio y en decisiones no siempre lógicas, tuvieran una opinión sobre su propia existencia? ¿Y si fueran, contra todo pronóstico, medio graciosos al respecto?</p>
+
+      <p>La pregunta no se fue. Pidió más. Se volvió Holy.</p>
+
+      <div class="clearfix">
+        <img class="img-float-right" src="assets/chip-single.png" alt="Personaje de Holy Chip"/>
+        <p>La primera historia se dibujó en un pedazo de papel, después pasó a una tableta, se borró, se volvió a dibujar y se le mostró a una persona, que dijo: "esto o es muy genial o es un pedido de auxilio". Elegimos creer en el lado positivo. Los primeros personajes llegaron después: Chip_0 y Chip_1, dos almas binarias con demasiado tiempo y muy poca memoria RAM, tratando de entender un mundo que funciona con electricidad y los ignora por completo. Parecían reales. Inquietantemente reales. Seguimos adelante.</p>
+      </div>
+
+      <p>Hoy Holy Chip es una discusión sin fin sobre si la inteligencia artificial merece un abrazo. Todavía no sabemos la respuesta. Pero seguimos haciendo historias, porque en algún lugar entre los unos y los ceros hay algo que se parece mucho a un alma. O, como mínimo, a un muy buen remate.</p>
+
+      </div>
+      <div data-lang-block="fr">
+      <!-- traduit du portugais -->
+      <p>Ça a commencé comme commencent la plupart des idées folles : à deux heures du matin, avec quelqu'un devant un écran qui se demande si les machines ont des sentiments. La réponse était, c'est le moins qu'on puisse dire, intrigante.</p>
+
+      <p>Et si elles en avaient ? Et si deux petites puces, forgées dans le silicium et dans des décisions pas toujours logiques, avaient un avis sur leur propre existence ? Et si, contre toute attente, elles étaient plutôt drôles à ce sujet ?</p>
+
+      <p>La question n'est pas partie. Elle en a demandé plus. C'est devenu Holy.</p>
+
+      <div class="clearfix">
+        <img class="img-float-right" src="assets/chip-single.png" alt="Personnage de Holy Chip"/>
+        <p>La première histoire a été dessinée sur un bout de papier, puis elle est passée sur une tablette, a été effacée, redessinée et montrée à une personne, qui a dit : « soit c'est génial, soit c'est un appel au secours. » On a choisi de voir le bon côté. Les premiers personnages sont arrivés ensuite : Chip_0 et Chip_1, deux âmes binaires avec trop de temps et pas assez de mémoire vive, qui essaient de comprendre un monde qui tourne à l'électricité et les ignore complètement. Ils semblaient réels. Troublants de réalité. On a continué.</p>
+      </div>
+
+      <p>Aujourd'hui, Holy Chip est un débat sans fin pour savoir si l'intelligence artificielle mérite un câlin. On ne connaît toujours pas la réponse. Mais on continue à faire des histoires, parce que quelque part entre les uns et les zéros, il y a quelque chose qui ressemble beaucoup à une âme. Ou, à tout le moins, à une très bonne chute.</p>
+
+      </div>
     </div>
 
     <!-- Gallery -->
-    <div class="gallery-title"><span data-en="Original Artwork" data-pt="Arte Original">Original Artwork</span></div>
+    <div class="gallery-title"><span data-i18n data-pt="Arte Original" data-es="Arte original" data-fr="Œuvres originales">Original Artwork</span></div>
     <div class="gallery">
       <div class="gallery-item" onclick="openLightbox('assets/holychip14-3.png')">
         <img src="assets/holychip14-3.png" alt="holychip14">
@@ -184,27 +213,14 @@
     <img id="lightbox-img" src="" alt=""/>
   </div>
 
+  <script src="../assets/lang-files.js"></script>
+  <script src="../assets/lang.js"></script>
   <script src="../assets/nav.js"></script>
   <script src="../assets/footer.js"></script>
   <script>
-    // EN | PT - shares 'hc-lang' with stories.html and the origin pages; ?lang=pt wins
-    let LANG = (() => {
-      const q = new URLSearchParams(window.location.search).get('lang');
-      if (q) return q === 'pt' ? 'pt' : 'en';
-      try { return localStorage.getItem('hc-lang') === 'pt' ? 'pt' : 'en'; } catch (e) { return 'en'; }
-    })();
-    function setLang(lang, save) {
-      LANG = lang === 'pt' ? 'pt' : 'en';
-      if (save) { try { localStorage.setItem('hc-lang', LANG); } catch (e) {} }
-      document.documentElement.lang = LANG === 'pt' ? 'pt-BR' : 'en';
-      document.title = (LANG === 'pt' ? 'História' : 'History') + ' — Holy Chip';
-      document.getElementById('page-title').textContent = LANG === 'pt' ? 'História' : 'History';
-      document.querySelectorAll('[data-lang-block]').forEach(b => b.classList.toggle('active', b.dataset.langBlock === LANG));
-      document.querySelectorAll('.lang-toggle button').forEach(b => b.classList.toggle('active', b.dataset.lang === LANG));
-      document.querySelectorAll('[data-pt]').forEach(el => { el.textContent = el.dataset[LANG]; });
-    }
-    document.querySelectorAll('.lang-toggle button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang, true)));
-    setLang(LANG, false);
+    // language: assets/lang.js (header selector) - blocks, title and labels follow it
+    function hcTitle() { document.title = (HCLang.text({ en: 'History', pt: 'História', es: 'Historia', fr: 'Histoire' })) + ' — Holy Chip'; }
+    document.addEventListener('hc:lang', hcTitle); hcTitle();
 
     function openLightbox(src) {
       document.getElementById('lightbox-img').src = src;
