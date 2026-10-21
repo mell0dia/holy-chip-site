@@ -839,35 +839,32 @@
   <!-- ── LANDING SCREEN ── -->
   <div class="landing" id="landing">
     <div class="landing-card">
-      <div class="landing-title">Builder</div>
-      <div class="landing-subtitle">
-        Write a Holy Chip story. We review every submission.<br>
-        Your script could become the next comic.
-      </div>
-      <div class="landing-prompt">Choose your path</div>
+      <div class="landing-title" data-tr-key="title">Builder</div>
+      <div class="landing-subtitle" data-tr-key="intro">Write a Holy Chip story. We review every submission.<br>Your script could become the next comic.</div>
+      <div class="landing-prompt" data-tr-key="path">Choose your path</div>
 
       <div class="track-selector">
         <button class="track-card" onclick="choosePath('open')">
           <span class="track-card-icon">&#9998;</span>
-          <div class="track-card-title">Open Submission</div>
-          <div class="track-card-desc">No wallet needed.</div>
+          <div class="track-card-title" data-tr-key="open">Open Submission</div>
+          <div class="track-card-desc" data-tr-key="noWallet">No wallet needed.</div>
           <div class="track-detail">
-            <li>Pick 2 Chips from the 12 available</li>
-            <li>Write a 3-panel comic script</li>
-            <li>We review every submission personally</li>
-            <li>If selected, your story becomes a comic</li>
+            <li data-tr-key="o1">Pick 2 Chips from the 12 available</li>
+            <li data-tr-key="o2">Write a 3-panel comic script</li>
+            <li data-tr-key="o3">We review every submission personally</li>
+            <li data-tr-key="o4">If selected, your story becomes a comic</li>
           </div>
         </button>
         <button class="track-card" onclick="choosePath('nft')">
           <span class="track-card-icon">&#9830;</span>
-          <div class="track-card-title">NFT Holder</div>
-          <div class="track-card-desc">Feature your NFT in the story.</div>
-          <div class="track-badge">20% Revenue Share</div>
+          <div class="track-card-title" data-tr-key="nft">NFT Holder</div>
+          <div class="track-card-desc" data-tr-key="nftDesc">Feature your NFT in the story.</div>
+          <div class="track-badge" data-tr-key="share">20% Revenue Share</div>
           <div class="track-detail">
-            <li>Connect your Phantom wallet</li>
-            <li>Your NFT becomes Chip A</li>
-            <li>Pick Chip B from the 12 available</li>
-            <li>If selected, earn 20% of the primary sale</li>
+            <li data-tr-key="n1">Connect your Phantom wallet</li>
+            <li data-tr-key="n2">Your NFT becomes Chip A</li>
+            <li data-tr-key="n3">Pick Chip B from the 12 available</li>
+            <li data-tr-key="n4">If selected, earn 20% of the primary sale</li>
           </div>
         </button>
       </div>
@@ -878,22 +875,22 @@
   <div class="page" id="form-page">
 
     <div class="page-header">
-      <h1 id="page-title" style="color:#0A6821">Builder</h1>
-      <p class="page-subtitle" id="page-sub">Write a Holy Chip story. We review every submission.</p>
-      <button onclick="goBack()" style="background:none;border:none;font-family:'Press Start 2P',monospace;font-size:0.55rem;color:#888;cursor:pointer;margin-top:0.5rem;padding:0;letter-spacing:0.08em;">&#8592; Change track</button>
+      <h1 id="page-title" style="color:#0A6821" data-tr-key="title">Builder</h1>
+      <p class="page-subtitle" id="page-sub" data-tr-key="introShort">Write a Holy Chip story. We review every submission.</p>
+      <button onclick="goBack()" style="background:none;border:none;font-family:'Press Start 2P',monospace;font-size:0.55rem;color:#888;cursor:pointer;margin-top:0.5rem;padding:0;letter-spacing:0.08em;" data-tr-key="back">&#8592; Change track</button>
     </div>
 
     <!-- Wallet Connect (Track B only) -->
     <div class="wallet-section hidden" id="wallet-section">
       <div id="wallet-not-connected">
-        <button class="wallet-connect-btn" id="wallet-connect-btn" onclick="connectWallet()">Connect Phantom Wallet</button>
-        <div class="wallet-status" id="wallet-status">Connect your Phantom wallet to verify NFT ownership.<br><span style="font-size:0.45rem;opacity:0.7;">Tip: Switch accounts in Phantom before connecting to use a different wallet.</span></div>
+        <button class="wallet-connect-btn" id="wallet-connect-btn" onclick="connectWallet()" data-tr-key="connect">Connect Phantom Wallet</button>
+        <div class="wallet-status" id="wallet-status"><span data-tr-key="verify">Connect your Phantom wallet to verify NFT ownership.</span><br><span style="font-size:0.45rem;opacity:0.7;" data-tr-key="tip">Tip: Switch accounts in Phantom before connecting to use a different wallet.</span></div>
       </div>
       <div id="wallet-connected" style="display:none">
         <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
-          <span style="font-size:0.6rem;color:#888;">Connected:</span>
+          <span style="font-size:0.6rem;color:#888;" data-tr-key="connected">Connected:</span>
           <span class="wallet-address" id="wallet-address-display"></span>
-          <button class="wallet-disconnect" onclick="disconnectWallet()">Disconnect</button>
+          <button class="wallet-disconnect" onclick="disconnectWallet()" data-tr-key="disconnect">Disconnect</button>
         </div>
       </div>
     </div>
@@ -902,7 +899,7 @@
     <div id="nft-pickers" style="display:none">
       <div style="border:2px solid #000; margin-bottom:1.5rem; padding:1rem;">
         <div class="col-section-title" style="font-size:0.8rem; color:#000; cursor:pointer;" onclick="togglePicker('a')">
-          Chip A <span style="font-size:0.55rem;color:#888;font-weight:normal;">— Your NFT</span>
+          Chip A <span style="font-size:0.55rem;color:#888;font-weight:normal;" data-tr-key="yourNft">— Your NFT</span>
           <span id="picker-a-arrow" style="float:right;font-size:1.2rem;line-height:1;">▾</span>
         </div>
         <!-- Collapsed summary (hidden until selection) -->
@@ -911,7 +908,7 @@
             <img id="picker-a-summary-img" src="" style="width:64px;height:64px;object-fit:cover;border:2px solid #0A6821;">
             <div style="flex:1;">
               <div id="picker-a-summary-name" style="font-size:0.65rem;font-weight:bold;color:#0A6821;"></div>
-              <div style="font-size:0.45rem;color:#888;margin-top:0.3rem;">Click to change selection</div>
+              <div style="font-size:0.45rem;color:#888;margin-top:0.3rem;" data-tr-key="change">Click to change selection</div>
             </div>
             <div style="font-size:0.7rem;color:#0A6821;">&#9998;</div>
           </div>
@@ -919,7 +916,7 @@
         <!-- Expandable picker content -->
         <div id="picker-a-content">
           <div id="nft-picker-a">
-            <div class="nft-picker-loading">Loading your NFTs...</div>
+            <div class="nft-picker-loading" data-tr-key="loadingNfts">Loading your NFTs...</div>
           </div>
         </div>
       </div>
@@ -929,7 +926,7 @@
     <div id="nft-char-b-picker" style="display:none">
       <div style="border:2px solid #000; margin-bottom:1.5rem; padding:1rem;">
         <div class="col-section-title" style="font-size:0.8rem; color:#000; cursor:pointer;" onclick="togglePicker('b')">
-          Chip B <span style="font-size:0.55rem;color:#888;font-weight:normal;">— Pick from the 12</span>
+          Chip B <span style="font-size:0.55rem;color:#888;font-weight:normal;" data-tr-key="from12">— Pick from the 12</span>
           <span id="picker-b-arrow" style="float:right;font-size:1.2rem;line-height:1;">▾</span>
         </div>
         <!-- Collapsed summary (hidden until selection) -->
@@ -938,7 +935,7 @@
             <img id="picker-b-summary-img" src="" style="width:64px;height:64px;object-fit:cover;border:2px solid #0A6821;">
             <div style="flex:1;">
               <div id="picker-b-summary-name" style="font-size:0.65rem;font-weight:bold;color:#0A6821;"></div>
-              <div style="font-size:0.45rem;color:#888;margin-top:0.3rem;">Click to change selection</div>
+              <div style="font-size:0.45rem;color:#888;margin-top:0.3rem;" data-tr-key="change">Click to change selection</div>
             </div>
             <div style="font-size:0.7rem;color:#0A6821;">&#9998;</div>
           </div>
@@ -953,7 +950,7 @@
     <!-- Instructions help button for NFT track -->
     <div id="nft-instructions" style="display:none;text-align:right;">
       <button class="help-btn" onclick="document.getElementById('help-modal').classList.add('open')">
-        <span class="help-icon">?</span> How it works
+        <span class="help-icon">?</span> <span data-tr-key="how">How it works</span>
         <div class="help-tooltip">
           <img src="stories/HC009.png" alt="Story panel preview"/>
         </div>
@@ -964,18 +961,14 @@
     <div class="help-modal-overlay" id="help-modal" onclick="if(event.target===this)this.classList.remove('open')">
       <div class="help-modal">
         <button class="help-modal-close" onclick="document.getElementById('help-modal').classList.remove('open')">&times;</button>
-        <div class="col-section-title" style="margin-bottom:1rem;">Instructions</div>
+        <div class="col-section-title" style="margin-bottom:1rem;" data-tr-key="instr">Instructions</div>
         <div style="display:flex;gap:1.5rem;align-items:start;flex-wrap:wrap;">
-          <div style="flex:1;min-width:200px;font-size:0.55rem;line-height:1.8;">
-            A story has 3 panels.<br><br>
-            Panels 1 & 2 carry the conversation — Chips go back and forth.<br><br>
-            Panel 3 is the punchline — one line, one Chip, maximum impact.
-          </div>
+          <div style="flex:1;min-width:200px;font-size:0.55rem;line-height:1.8;" data-tr-key="instrText">A story has 3 panels.<br><br>Panels 1 & 2 carry the conversation — Chips go back and forth.<br><br>Panel 3 is the punchline — one line, one Chip, maximum impact.</div>
           <div class="panel-reference-img-wrap" style="margin-left:0;width:220px;min-width:220px;">
             <img src="stories/HC009.png" alt="Story panel layout reference" style="width:100%;"/>
-            <div class="panel-ref-label" style="top:25%">Panel 1</div>
-            <div class="panel-ref-label" style="top:54%">Panel 2</div>
-            <div class="panel-ref-label" style="top:81%">Panel 3</div>
+            <div class="panel-ref-label" style="top:25%" data-tr-key="p1">Panel 1</div>
+            <div class="panel-ref-label" style="top:54%" data-tr-key="p2">Panel 2</div>
+            <div class="panel-ref-label" style="top:81%" data-tr-key="p3">Panel 3</div>
           </div>
         </div>
       </div>
@@ -988,15 +981,15 @@
 
         <!-- LEFT: Step 1 — Characters -->
         <div class="col-left">
-          <div class="col-section-title">Step 1 — Pick your Chips</div>
+          <div class="col-section-title" data-tr-key="step1">Step 1 — Pick your Chips</div>
 
           <div class="char-select-block">
-            <div class="char-select-label">A — Left</div>
+            <div class="char-select-label" data-tr-key="aLeft">A — Left</div>
             <div class="char-custom-select" id="char-a-picker">
               <div class="char-trigger" id="char-a-trigger">
                 <div class="char-trigger-placeholder" id="char-a-ph">?</div>
                 <img class="char-trigger-img" id="char-a-img" alt=""/>
-                <span class="char-trigger-empty" id="char-a-empty">— pick —</span>
+                <span class="char-trigger-empty" id="char-a-empty" data-tr-key="pick">— pick —</span>
                 <span class="char-trigger-name" id="char-a-name" style="display:none"></span>
                 <span class="char-trigger-arrow">▾</span>
               </div>
@@ -1005,12 +998,12 @@
           </div>
 
           <div class="char-select-block">
-            <div class="char-select-label">B — Right</div>
+            <div class="char-select-label" data-tr-key="bRight">B — Right</div>
             <div class="char-custom-select" id="char-b-picker">
               <div class="char-trigger" id="char-b-trigger">
                 <div class="char-trigger-placeholder" id="char-b-ph">?</div>
                 <img class="char-trigger-img" id="char-b-img" alt=""/>
-                <span class="char-trigger-empty" id="char-b-empty">— pick —</span>
+                <span class="char-trigger-empty" id="char-b-empty" data-tr-key="pick">— pick —</span>
                 <span class="char-trigger-name" id="char-b-name" style="display:none"></span>
                 <span class="char-trigger-arrow">▾</span>
               </div>
@@ -1021,14 +1014,14 @@
 
         <!-- RIGHT: Instructions -->
         <div class="col-right">
-          <div class="col-section-title">Instructions</div>
+          <div class="col-section-title" data-tr-key="instr">Instructions</div>
           <div class="instr-inner">
-            <p class="panel-reference-note">A story has 3 panels.<br><br>Panels 1 & 2 carry the conversation — Chips go back and forth.<br><br>Panel 3 is the punchline — one line, one Chip, maximum impact.</p>
+            <p class="panel-reference-note" data-tr-key="instrText">A story has 3 panels.<br><br>Panels 1 & 2 carry the conversation — Chips go back and forth.<br><br>Panel 3 is the punchline — one line, one Chip, maximum impact.</p>
             <div class="panel-reference-img-wrap">
               <img src="stories/HC009.png" alt="Story panel layout reference"/>
-              <div class="panel-ref-label" style="top:25%">Panel 1</div>
-              <div class="panel-ref-label" style="top:54%">Panel 2</div>
-              <div class="panel-ref-label" style="top:81%">Panel 3</div>
+              <div class="panel-ref-label" style="top:25%" data-tr-key="p1">Panel 1</div>
+              <div class="panel-ref-label" style="top:54%" data-tr-key="p2">Panel 2</div>
+              <div class="panel-ref-label" style="top:81%" data-tr-key="p3">Panel 3</div>
             </div>
           </div>
         </div>
@@ -1037,28 +1030,28 @@
 
       <!-- SECTION 2: Script (full width) -->
       <div class="form-section">
-        <div class="section-title">Step 2 — The Script</div>
+        <div class="section-title" data-tr-key="step2">Step 2 — The Script</div>
 
         <div class="field-group">
-          <label class="field-label" for="story-title">Story Title</label>
-          <input type="text" id="story-title" placeholder="e.g. THE UPGRADE" maxlength="80" autocomplete="off"/>
+          <label class="field-label" for="story-title" data-tr-key="storyTitle">Story Title</label>
+          <input type="text" id="story-title" placeholder="e.g. THE UPGRADE" data-tr-key="titlePh" data-tr-prop="placeholder" maxlength="80" autocomplete="off"/>
         </div>
 
         <!-- Panel 1 -->
         <div class="panel-block">
-          <div class="panel-header"><span>Panel 1</span></div>
+          <div class="panel-header"><span data-tr-key="p1">Panel 1</span></div>
           <div class="panel-body" id="panel-1-body"></div>
         </div>
 
         <!-- Panel 2 -->
         <div class="panel-block">
-          <div class="panel-header"><span>Panel 2</span></div>
+          <div class="panel-header"><span data-tr-key="p2">Panel 2</span></div>
           <div class="panel-body" id="panel-2-body"></div>
         </div>
 
         <!-- Panel 3 -->
         <div class="panel-block">
-          <div class="panel-header"><span>Panel 3 — Punchline</span></div>
+          <div class="panel-header"><span data-tr-key="p3punch">Panel 3 — Punchline</span></div>
           <div class="panel-body" id="panel-3-body"></div>
         </div>
 
@@ -1066,43 +1059,41 @@
 
       <!-- SECTION 3: Details -->
       <div class="form-section">
-        <div class="section-title">Step 3 — Your Details</div>
+        <div class="section-title" data-tr-key="step3">Step 3 — Your Details</div>
         <div class="field-group">
-          <label class="field-label" for="submitter-email">Email <span style="color:#0A6821">*</span></label>
-          <input type="email" id="submitter-email" placeholder="your@email.com" autocomplete="email"/>
+          <label class="field-label" for="submitter-email" data-tr-key="email">Email <span style="color:#0A6821">*</span></label>
+          <input type="email" id="submitter-email" placeholder="your@email.com" data-tr-key="emailPh" data-tr-prop="placeholder" autocomplete="email"/>
         </div>
         <div class="field-group">
-          <label class="field-label" for="story-pitch">Story Pitch <span style="color:#888;font-size:0.65rem">(optional)</span></label>
-          <textarea id="story-pitch" placeholder="2–3 sentences about the idea behind this story..."></textarea>
+          <label class="field-label" for="story-pitch" data-tr-key="pitch">Story Pitch <span style="color:#888;font-size:0.65rem">(optional)</span></label>
+          <textarea id="story-pitch" placeholder="2–3 sentences about the idea behind this story..." data-tr-key="pitchPh" data-tr-prop="placeholder"></textarea>
         </div>
       </div>
 
       <!-- SECTION 4: Agreement (Track A) -->
       <div class="form-section" id="agreement-open">
-        <div class="section-title">Step 4 — Agreement</div>
+        <div class="section-title" data-tr-key="step4">Step 4 — Agreement</div>
         <label class="consent-block">
           <input type="checkbox" id="consent-check"/>
-          <span class="consent-text">I understand that Holy Chip retains full and exclusive rights to this story, including the right to use, modify, publish, monetize, or reject it without any obligation or compensation to me. I make no claim to any revenue generated from this submission.</span>
+          <span class="consent-text" data-tr-key="consentOpen">I understand that Holy Chip retains full and exclusive rights to this story, including the right to use, modify, publish, monetize, or reject it without any obligation or compensation to me. I make no claim to any revenue generated from this submission.</span>
         </label>
       </div>
 
       <!-- SECTION 4: Agreement (Track B — NFT) -->
       <div class="form-section" id="agreement-nft" style="display:none">
-        <div class="section-title">Step 4 — Agreement</div>
-        <div style="background:#0d0d1a;color:#0f0;padding:0.7rem 1rem;font-size:0.6rem;line-height:1.8;margin-bottom:1rem;border:2px solid #0A6821;">
-          As an NFT holder, you earn <strong style="color:#fff">20% of the primary sale</strong> if your story is selected and minted. Revenue is sent to your connected wallet.
-        </div>
+        <div class="section-title" data-tr-key="step4">Step 4 — Agreement</div>
+        <div style="background:#0d0d1a;color:#0f0;padding:0.7rem 1rem;font-size:0.6rem;line-height:1.8;margin-bottom:1rem;border:2px solid #0A6821;" data-tr-key="nftEarn">As an NFT holder, you earn <strong style="color:#fff">20% of the primary sale</strong> if your story is selected and minted. Revenue is sent to your connected wallet.</div>
         <label class="consent-block" style="margin-bottom:1rem">
           <input type="checkbox" id="consent-revenue"/>
-          <span class="consent-text">I understand that if this story is selected, minted, and sold, I will receive 20% of the primary sale revenue sent to my connected wallet. Holy Chip retains full rights to the story, all creative assets, and the remaining revenue. Selection is not guaranteed.</span>
+          <span class="consent-text" data-tr-key="consentRevenue">I understand that if this story is selected, minted, and sold, I will receive 20% of the primary sale revenue sent to my connected wallet. Holy Chip retains full rights to the story, all creative assets, and the remaining revenue. Selection is not guaranteed.</span>
         </label>
         <label class="consent-block">
           <input type="checkbox" id="consent-rights"/>
-          <span class="consent-text">I grant Holy Chip the right to use my NFT's Chip in this story and any derivative works. I confirm I am the rightful owner of the connected wallet and the selected NFT.</span>
+          <span class="consent-text" data-tr-key="consentRights">I grant Holy Chip the right to use my NFT's Chip in this story and any derivative works. I confirm I am the rightful owner of the connected wallet and the selected NFT.</span>
         </label>
       </div>
 
-      <button type="button" id="submit-btn">Submit Story</button>
+      <button type="button" id="submit-btn" data-tr-key="submit">Submit Story</button>
       <div id="form-status"></div>
 
     </form>
@@ -1110,21 +1101,28 @@
     <!-- Success screen (outside form so it stays visible) -->
     <div id="submit-success" style="display:none; text-align:center; padding: 3rem 1rem;">
       <div style="font-size:2.5rem; margin-bottom:1.5rem;">✓</div>
-      <h2 style="font-size:1rem; letter-spacing:0.15em; margin-bottom:1.2rem;">STORY RECEIVED</h2>
-      <p style="font-size:0.7rem; line-height:2; color:#444; max-width:480px; margin:0 auto 1.5rem;" id="success-message">
-        Thank you for your submission.<br>
-        We review every story personally. We'll be in touch.
-      </p>
-      <a href="stories.html" style="display:inline-block; border:2px solid #000; padding:0.6rem 1.4rem; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; text-decoration:none; color:#000;">
-        Browse Stories →
-      </a>
+      <h2 style="font-size:1rem; letter-spacing:0.15em; margin-bottom:1.2rem;" data-tr-key="received">STORY RECEIVED</h2>
+      <p style="font-size:0.7rem; line-height:2; color:#444; max-width:480px; margin:0 auto 1.5rem;" id="success-message" data-tr-key="thanks">Thank you for your submission.<br>We review every story personally. We'll be in touch.</p>
+      <a href="stories.html" style="display:inline-block; border:2px solid #000; padding:0.6rem 1.4rem; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; text-decoration:none; color:#000;" data-tr-key="browse">Browse Stories →</a>
     </div>
 
   </div>
 
+  <script src="assets/lang-files.js"></script>
+  <script src="assets/lang.js"></script>
   <script src="assets/nav.js"></script>
   <script src="assets/footer.js"></script>
   <script>
+    // ── Language (assets/lang.js): every text on this page comes from BT ──
+    // Static elements carry data-tr-key (and data-tr-prop for placeholders);
+    // trSet() tags elements the script creates, so a flag change re-translates them too.
+    const BT = {"title": {"en": "Builder", "pt": "Oficina", "es": "Taller", "fr": "Atelier"}, "intro": {"en": "Write a Holy Chip story. We review every submission.<br>Your script could become the next comic.", "pt": "Escreva uma história do Holy Chip. Lemos todas as propostas.<br>Seu roteiro pode virar a próxima tirinha.", "es": "Escribe una historia de Holy Chip. Revisamos cada propuesta.<br>Tu guion podría ser la próxima historieta.", "fr": "Écrivez une histoire Holy Chip. Nous lisons chaque proposition.<br>Votre scénario pourrait devenir la prochaine BD."}, "introShort": {"en": "Write a Holy Chip story. We review every submission.", "pt": "Escreva uma história do Holy Chip. Lemos todas as propostas.", "es": "Escribe una historia de Holy Chip. Revisamos cada propuesta.", "fr": "Écrivez une histoire Holy Chip. Nous lisons chaque proposition."}, "path": {"en": "Choose your path", "pt": "Escolha seu caminho", "es": "Elige tu camino", "fr": "Choisissez votre voie"}, "open": {"en": "Open Submission", "pt": "Envio Aberto", "es": "Envío Abierto", "fr": "Proposition libre"}, "noWallet": {"en": "No wallet needed.", "pt": "Não precisa de carteira.", "es": "No necesitas billetera.", "fr": "Pas besoin de portefeuille."}, "o1": {"en": "Pick 2 Chips from the 12 available", "pt": "Escolha 2 Chips entre os 12 disponíveis", "es": "Elige 2 Chips de los 12 disponibles", "fr": "Choisissez 2 Chips parmi les 12 disponibles"}, "o2": {"en": "Write a 3-panel comic script", "pt": "Escreva um roteiro de 3 quadros", "es": "Escribe un guion de 3 viñetas", "fr": "Écrivez un scénario en 3 cases"}, "o3": {"en": "We review every submission personally", "pt": "Lemos cada proposta pessoalmente", "es": "Revisamos cada propuesta personalmente", "fr": "Nous lisons chaque proposition personnellement"}, "o4": {"en": "If selected, your story becomes a comic", "pt": "Se for escolhida, sua história vira tirinha", "es": "Si es elegida, tu historia se convierte en historieta", "fr": "Si elle est retenue, votre histoire devient une BD"}, "nft": {"en": "NFT Holder", "pt": "Dono de NFT", "es": "Poseedor de NFT", "fr": "Détenteur de NFT"}, "nftDesc": {"en": "Feature your NFT in the story.", "pt": "Coloque seu NFT na história.", "es": "Pon tu NFT en la historia.", "fr": "Mettez votre NFT dans l'histoire."}, "share": {"en": "20% Revenue Share", "pt": "20% da receita", "es": "20% de los ingresos", "fr": "20 % des revenus"}, "n1": {"en": "Connect your Phantom wallet", "pt": "Conecte sua carteira Phantom", "es": "Conecta tu billetera Phantom", "fr": "Connectez votre portefeuille Phantom"}, "n2": {"en": "Your NFT becomes Chip A", "pt": "Seu NFT vira o Chip A", "es": "Tu NFT se convierte en el Chip A", "fr": "Votre NFT devient le Chip A"}, "n3": {"en": "Pick Chip B from the 12 available", "pt": "Escolha o Chip B entre os 12 disponíveis", "es": "Elige el Chip B de los 12 disponibles", "fr": "Choisissez le Chip B parmi les 12 disponibles"}, "n4": {"en": "If selected, earn 20% of the primary sale", "pt": "Se for escolhida, ganhe 20% da venda primária", "es": "Si es elegida, gana el 20% de la venta primaria", "fr": "Si elle est retenue, touchez 20 % de la vente primaire"}, "openSub": {"en": "Pick two Chips, write a 3-panel script.", "pt": "Escolha dois Chips, escreva um roteiro de 3 quadros.", "es": "Elige dos Chips, escribe un guion de 3 viñetas.", "fr": "Choisissez deux Chips, écrivez un scénario en 3 cases."}, "nftSub": {"en": "Connect your wallet, feature your NFT, earn 20% revenue share.", "pt": "Conecte sua carteira, coloque seu NFT, ganhe 20% da receita.", "es": "Conecta tu billetera, pon tu NFT, gana el 20% de los ingresos.", "fr": "Connectez votre portefeuille, mettez votre NFT en scène, touchez 20 % des revenus."}, "back": {"en": "&#8592; Change track", "pt": "&#8592; Trocar de caminho", "es": "&#8592; Cambiar de camino", "fr": "&#8592; Changer de voie"}, "connect": {"en": "Connect Phantom Wallet", "pt": "Conectar carteira Phantom", "es": "Conectar billetera Phantom", "fr": "Connecter le portefeuille Phantom"}, "verify": {"en": "Connect your Phantom wallet to verify NFT ownership.", "pt": "Conecte sua carteira Phantom para confirmar que o NFT é seu.", "es": "Conecta tu billetera Phantom para verificar que el NFT es tuyo.", "fr": "Connectez votre portefeuille Phantom pour vérifier que le NFT vous appartient."}, "tip": {"en": "Tip: Switch accounts in Phantom before connecting to use a different wallet.", "pt": "Dica: troque de conta no Phantom antes de conectar para usar outra carteira.", "es": "Consejo: cambia de cuenta en Phantom antes de conectar para usar otra billetera.", "fr": "Astuce : changez de compte dans Phantom avant de vous connecter pour utiliser un autre portefeuille."}, "connected": {"en": "Connected:", "pt": "Conectada:", "es": "Conectada:", "fr": "Connecté :"}, "disconnect": {"en": "Disconnect", "pt": "Desconectar", "es": "Desconectar", "fr": "Déconnecter"}, "yourNft": {"en": "— Your NFT", "pt": "— Seu NFT", "es": "— Tu NFT", "fr": "— Votre NFT"}, "change": {"en": "Click to change selection", "pt": "Clique para trocar", "es": "Haz clic para cambiar", "fr": "Cliquez pour changer"}, "loadingNfts": {"en": "Loading your NFTs...", "pt": "Carregando seus NFTs...", "es": "Cargando tus NFTs...", "fr": "Chargement de vos NFT..."}, "from12": {"en": "— Pick from the 12", "pt": "— Escolha entre os 12", "es": "— Elige entre los 12", "fr": "— Choisissez parmi les 12"}, "how": {"en": "How it works", "pt": "Como funciona", "es": "Cómo funciona", "fr": "Comment ça marche"}, "instr": {"en": "Instructions", "pt": "Instruções", "es": "Instrucciones", "fr": "Instructions"}, "instrText": {"en": "A story has 3 panels.<br><br>Panels 1 & 2 carry the conversation — Chips go back and forth.<br><br>Panel 3 is the punchline — one line, one Chip, maximum impact.", "pt": "Uma história tem 3 quadros.<br><br>Os quadros 1 e 2 levam a conversa — os Chips vão e voltam.<br><br>O quadro 3 é o desfecho — uma fala, um Chip, impacto máximo.", "es": "Una historia tiene 3 viñetas.<br><br>Las viñetas 1 y 2 llevan la conversación — los Chips van y vienen.<br><br>La viñeta 3 es el remate — una línea, un Chip, máximo impacto.", "fr": "Une histoire a 3 cases.<br><br>Les cases 1 et 2 portent la conversation — les Chips se répondent.<br><br>La case 3, c'est la chute — une réplique, un Chip, impact maximal."}, "p1": {"en": "Panel 1", "pt": "Quadro 1", "es": "Viñeta 1", "fr": "Case 1"}, "p2": {"en": "Panel 2", "pt": "Quadro 2", "es": "Viñeta 2", "fr": "Case 2"}, "p3": {"en": "Panel 3", "pt": "Quadro 3", "es": "Viñeta 3", "fr": "Case 3"}, "p3punch": {"en": "Panel 3 — Punchline", "pt": "Quadro 3 — Desfecho", "es": "Viñeta 3 — Remate", "fr": "Case 3 — La chute"}, "step1": {"en": "Step 1 — Pick your Chips", "pt": "Passo 1 — Escolha seus Chips", "es": "Paso 1 — Elige tus Chips", "fr": "Étape 1 — Choisissez vos Chips"}, "aLeft": {"en": "A — Left", "pt": "A — Esquerda", "es": "A — Izquierda", "fr": "A — Gauche"}, "bRight": {"en": "B — Right", "pt": "B — Direita", "es": "B — Derecha", "fr": "B — Droite"}, "pick": {"en": "— pick —", "pt": "— escolha —", "es": "— elige —", "fr": "— choisir —"}, "step2": {"en": "Step 2 — The Script", "pt": "Passo 2 — O Roteiro", "es": "Paso 2 — El Guion", "fr": "Étape 2 — Le Scénario"}, "storyTitle": {"en": "Story Title", "pt": "Título da história", "es": "Título de la historia", "fr": "Titre de l'histoire"}, "titlePh": {"en": "e.g. THE UPGRADE", "pt": "ex.: A ATUALIZAÇÃO", "es": "ej.: LA ACTUALIZACIÓN", "fr": "ex. : LA MISE À JOUR"}, "step3": {"en": "Step 3 — Your Details", "pt": "Passo 3 — Seus dados", "es": "Paso 3 — Tus datos", "fr": "Étape 3 — Vos coordonnées"}, "email": {"en": "Email <span style=\"color:#0A6821\">*</span>", "pt": "E-mail <span style=\"color:#0A6821\">*</span>", "es": "Correo <span style=\"color:#0A6821\">*</span>", "fr": "E-mail <span style=\"color:#0A6821\">*</span>"}, "emailPh": {"en": "your@email.com", "pt": "seu@email.com", "es": "tu@correo.com", "fr": "votre@email.com"}, "pitch": {"en": "Story Pitch <span style=\"color:#888;font-size:0.65rem\">(optional)</span>", "pt": "A ideia da história <span style=\"color:#888;font-size:0.65rem\">(opcional)</span>", "es": "La idea de la historia <span style=\"color:#888;font-size:0.65rem\">(opcional)</span>", "fr": "L'idée de l'histoire <span style=\"color:#888;font-size:0.65rem\">(facultatif)</span>"}, "pitchPh": {"en": "2–3 sentences about the idea behind this story...", "pt": "2–3 frases sobre a ideia por trás da história...", "es": "2–3 frases sobre la idea detrás de la historia...", "fr": "2–3 phrases sur l'idée derrière l'histoire..."}, "step4": {"en": "Step 4 — Agreement", "pt": "Passo 4 — Acordo", "es": "Paso 4 — Acuerdo", "fr": "Étape 4 — Accord"}, "consentOpen": {"en": "I understand that Holy Chip retains full and exclusive rights to this story, including the right to use, modify, publish, monetize, or reject it without any obligation or compensation to me. I make no claim to any revenue generated from this submission.", "pt": "Entendo que o Holy Chip mantém direitos totais e exclusivos sobre esta história, incluindo o direito de usar, modificar, publicar, monetizar ou recusá-la, sem nenhuma obrigação ou compensação para mim. Não reivindico nenhuma receita gerada por este envio.", "es": "Entiendo que Holy Chip conserva los derechos plenos y exclusivos sobre esta historia, incluido el derecho a usarla, modificarla, publicarla, monetizarla o rechazarla, sin ninguna obligación ni compensación hacia mí. No reclamo ningún ingreso generado por este envío.", "fr": "Je comprends que Holy Chip conserve l'intégralité et l'exclusivité des droits sur cette histoire, y compris le droit de l'utiliser, la modifier, la publier, la monétiser ou la refuser, sans aucune obligation ni compensation envers moi. Je ne revendique aucun revenu généré par cette proposition."}, "nftEarn": {"en": "As an NFT holder, you earn <strong style=\"color:#fff\">20% of the primary sale</strong> if your story is selected and minted. Revenue is sent to your connected wallet.", "pt": "Como dono de NFT, você ganha <strong style=\"color:#fff\">20% da venda primária</strong> se sua história for escolhida e mintada. A receita vai para a sua carteira conectada.", "es": "Como poseedor de NFT, ganas el <strong style=\"color:#fff\">20% de la venta primaria</strong> si tu historia es elegida y acuñada. Los ingresos se envían a tu billetera conectada.", "fr": "En tant que détenteur de NFT, vous touchez <strong style=\"color:#fff\">20 % de la vente primaire</strong> si votre histoire est retenue et mintée. Les revenus sont envoyés sur votre portefeuille connecté."}, "consentRevenue": {"en": "I understand that if this story is selected, minted, and sold, I will receive 20% of the primary sale revenue sent to my connected wallet. Holy Chip retains full rights to the story, all creative assets, and the remaining revenue. Selection is not guaranteed.", "pt": "Entendo que, se esta história for escolhida, mintada e vendida, receberei 20% da receita da venda primária na minha carteira conectada. O Holy Chip mantém todos os direitos sobre a história, todos os elementos criativos e o restante da receita. A escolha não é garantida.", "es": "Entiendo que, si esta historia es elegida, acuñada y vendida, recibiré el 20% de los ingresos de la venta primaria en mi billetera conectada. Holy Chip conserva todos los derechos sobre la historia, todos los recursos creativos y el resto de los ingresos. La selección no está garantizada.", "fr": "Je comprends que si cette histoire est retenue, mintée et vendue, je recevrai 20 % des revenus de la vente primaire sur mon portefeuille connecté. Holy Chip conserve tous les droits sur l'histoire, tous les éléments créatifs et le reste des revenus. La sélection n'est pas garantie."}, "consentRights": {"en": "I grant Holy Chip the right to use my NFT's Chip in this story and any derivative works. I confirm I am the rightful owner of the connected wallet and the selected NFT.", "pt": "Concedo ao Holy Chip o direito de usar o Chip do meu NFT nesta história e em qualquer obra derivada. Confirmo que sou o dono legítimo da carteira conectada e do NFT escolhido.", "es": "Concedo a Holy Chip el derecho de usar el Chip de mi NFT en esta historia y en cualquier obra derivada. Confirmo que soy el legítimo propietario de la billetera conectada y del NFT seleccionado.", "fr": "J'accorde à Holy Chip le droit d'utiliser le Chip de mon NFT dans cette histoire et dans toute œuvre dérivée. Je confirme être le propriétaire légitime du portefeuille connecté et du NFT sélectionné."}, "submit": {"en": "Submit Story", "pt": "Enviar história", "es": "Enviar historia", "fr": "Envoyer l'histoire"}, "received": {"en": "STORY RECEIVED", "pt": "HISTÓRIA RECEBIDA", "es": "HISTORIA RECIBIDA", "fr": "HISTOIRE REÇUE"}, "thanks": {"en": "Thank you for your submission.<br>We review every story personally. We'll be in touch.", "pt": "Obrigado pelo envio.<br>Lemos cada história pessoalmente. Entraremos em contato.", "es": "Gracias por tu envío.<br>Revisamos cada historia personalmente. Te contactaremos.", "fr": "Merci pour votre proposition.<br>Nous lisons chaque histoire personnellement. Nous vous recontacterons."}, "thanksNft": {"en": "Thank you for your NFT holder submission.<br>If selected, you'll earn 20% of the primary sale sent to your wallet.<br>We review every story personally. We'll be in touch.", "pt": "Obrigado pelo seu envio como dono de NFT.<br>Se for escolhida, você ganha 20% da venda primária na sua carteira.<br>Lemos cada história pessoalmente. Entraremos em contato.", "es": "Gracias por tu envío como poseedor de NFT.<br>Si es elegida, ganarás el 20% de la venta primaria en tu billetera.<br>Revisamos cada historia personalmente. Te contactaremos.", "fr": "Merci pour votre proposition de détenteur de NFT.<br>Si elle est retenue, vous toucherez 20 % de la vente primaire sur votre portefeuille.<br>Nous lisons chaque histoire personnellement. Nous vous recontacterons."}, "browse": {"en": "Browse Stories →", "pt": "Ver as tirinhas →", "es": "Ver las historietas →", "fr": "Voir les histoires →"}, "noPhantom": {"en": "Phantom wallet not found. <a href=\"https://phantom.app\" target=\"_blank\">Install Phantom</a> and refresh.", "pt": "Carteira Phantom não encontrada. <a href=\"https://phantom.app\" target=\"_blank\">Instale o Phantom</a> e recarregue a página.", "es": "No se encontró la billetera Phantom. <a href=\"https://phantom.app\" target=\"_blank\">Instala Phantom</a> y recarga la página.", "fr": "Portefeuille Phantom introuvable. <a href=\"https://phantom.app\" target=\"_blank\">Installez Phantom</a> puis rechargez la page."}, "connecting": {"en": "Connecting...", "pt": "Conectando...", "es": "Conectando...", "fr": "Connexion..."}, "cancelled": {"en": "Connection cancelled. Click to try again.", "pt": "Conexão cancelada. Clique para tentar de novo.", "es": "Conexión cancelada. Haz clic para intentarlo de nuevo.", "fr": "Connexion annulée. Cliquez pour réessayer."}, "failedConn": {"en": "Connection failed: ", "pt": "Falha na conexão: ", "es": "Error de conexión: ", "fr": "Échec de la connexion : "}, "noOwn": {"en": "You don't own any Holy Chip NFTs.<br><a href=\"https://magiceden.us/marketplace/holy_chip\" target=\"_blank\">Buy one on Magic Eden</a>", "pt": "Você não tem nenhum NFT do Holy Chip.<br><a href=\"https://magiceden.us/marketplace/holy_chip\" target=\"_blank\">Compre um na Magic Eden</a>", "es": "No tienes ningún NFT de Holy Chip.<br><a href=\"https://magiceden.us/marketplace/holy_chip\" target=\"_blank\">Compra uno en Magic Eden</a>", "fr": "Vous n'avez aucun NFT Holy Chip.<br><a href=\"https://magiceden.us/marketplace/holy_chip\" target=\"_blank\">Achetez-en un sur Magic Eden</a>"}, "noAvail": {"en": "No available NFTs at the moment.", "pt": "Nenhum NFT disponível no momento.", "es": "No hay NFTs disponibles por el momento.", "fr": "Aucun NFT disponible pour le moment."}, "search": {"en": "Search by name or Chip...", "pt": "Buscar por nome ou Chip...", "es": "Buscar por nombre o Chip...", "fr": "Rechercher par nom ou Chip..."}, "of": {"en": "of", "pt": "de", "es": "de", "fr": "sur"}, "dialogPh": {"en": "DIALOG LINE...", "pt": "FALA...", "es": "DIÁLOGO...", "fr": "RÉPLIQUE..."}, "removeLine": {"en": "Remove line", "pt": "Remover fala", "es": "Quitar línea", "fr": "Supprimer la réplique"}, "punchNote": {"en": "This is the punchline — one line, maximum impact.", "pt": "Este é o desfecho — uma fala, impacto máximo.", "es": "Este es el remate — una línea, máximo impacto.", "fr": "C'est la chute — une réplique, impact maximal."}, "line1Ph": {"en": "LINE 1...", "pt": "FALA 1...", "es": "LÍNEA 1...", "fr": "RÉPLIQUE 1..."}, "line2": {"en": "Line 2 (optional)", "pt": "Fala 2 (opcional)", "es": "Línea 2 (opcional)", "fr": "Réplique 2 (facultative)"}, "line2Ph": {"en": "LINE 2...", "pt": "FALA 2...", "es": "LÍNEA 2...", "fr": "RÉPLIQUE 2..."}, "eWallet": {"en": "Please connect your wallet first.", "pt": "Conecte sua carteira primeiro.", "es": "Conecta tu billetera primero.", "fr": "Connectez d'abord votre portefeuille."}, "eNft": {"en": "Please select your NFT (Chip A).", "pt": "Escolha seu NFT (Chip A).", "es": "Elige tu NFT (Chip A).", "fr": "Choisissez votre NFT (Chip A)."}, "eB": {"en": "Please select Chip B.", "pt": "Escolha o Chip B.", "es": "Elige el Chip B.", "fr": "Choisissez le Chip B."}, "eA": {"en": "Please select Chip A.", "pt": "Escolha o Chip A.", "es": "Elige el Chip A.", "fr": "Choisissez le Chip A."}, "eTitle": {"en": "Please enter a story title.", "pt": "Dê um título à história.", "es": "Ponle un título a la historia.", "fr": "Donnez un titre à l'histoire."}, "ePanel": {"en": "Panel {n} needs at least one dialog line.", "pt": "O quadro {n} precisa de pelo menos uma fala.", "es": "La viñeta {n} necesita al menos una línea.", "fr": "La case {n} doit avoir au moins une réplique."}, "eEmail": {"en": "Please enter a valid email address.", "pt": "Digite um e-mail válido.", "es": "Escribe un correo válido.", "fr": "Saisissez une adresse e-mail valide."}, "eRevenue": {"en": "Please accept the revenue share agreement.", "pt": "Aceite o acordo de divisão de receita.", "es": "Acepta el acuerdo de reparto de ingresos.", "fr": "Acceptez l'accord de partage des revenus."}, "eRights": {"en": "Please accept the rights grant.", "pt": "Aceite a cessão de direitos.", "es": "Acepta la cesión de derechos.", "fr": "Acceptez la cession de droits."}, "eAgree": {"en": "Please accept the agreement to submit.", "pt": "Aceite o acordo para enviar.", "es": "Acepta el acuerdo para enviar.", "fr": "Acceptez l'accord pour envoyer."}, "submitting": {"en": "Submitting...", "pt": "Enviando...", "es": "Enviando...", "fr": "Envoi..."}, "failedSubmit": {"en": "Submission failed. Please try again or email us directly.", "pt": "O envio falhou. Tente de novo ou mande um e-mail para a gente.", "es": "El envío falló. Inténtalo de nuevo o escríbenos por correo.", "fr": "L'envoi a échoué. Réessayez ou écrivez-nous directement."}};
+    const t = (k, vars) => { let v = window.HCLang ? HCLang.text(BT[k]) : BT[k].en; for (const n in (vars || {})) v = v.replace('{' + n + '}', vars[n]); return v; };
+    function trSet(el, key, prop) { el.dataset.trKey = key; if (prop) el.dataset.trProp = prop; el[prop || 'innerHTML'] = t(key); return el; }
+    function trApply() { document.querySelectorAll('[data-tr-key]').forEach(el => { el[el.dataset.trProp || 'innerHTML'] = t(el.dataset.trKey); }); }
+    document.addEventListener('hc:lang', trApply);
+    trApply();
+
     // ── Track & Wallet State ──────────────────────────────────
     const PROXY = 'https://holychip.netlify.app/.netlify/functions';
     let currentTrack = 'open';
@@ -1188,11 +1186,11 @@
       formPage.classList.add('visible');
 
       if (track === 'open') {
-        document.getElementById('page-title').textContent = 'Open Submission';
-        document.getElementById('page-sub').textContent = 'Pick two Chips, write a 3-panel script.';
+        trSet(document.getElementById('page-title'), 'open');
+        trSet(document.getElementById('page-sub'), 'openSub');
       } else {
-        document.getElementById('page-title').textContent = 'NFT Holder';
-        document.getElementById('page-sub').textContent = 'Connect your wallet, feature your NFT, earn 20% revenue share.';
+        trSet(document.getElementById('page-title'), 'nft');
+        trSet(document.getElementById('page-sub'), 'nftSub');
       }
 
       applyTrackVisibility();
@@ -1252,12 +1250,12 @@
       const btn = document.getElementById('wallet-connect-btn');
 
       if (!window.solana?.isPhantom) {
-        statusEl.innerHTML = 'Phantom wallet not found. <a href="https://phantom.app" target="_blank">Install Phantom</a> and refresh.';
+        statusEl.innerHTML = t('noPhantom');
         return;
       }
 
       btn.disabled = true;
-      btn.textContent = 'Connecting...';
+      btn.textContent = t('connecting');
 
       try {
         const resp = await window.solana.connect();
@@ -1288,10 +1286,10 @@
 
       } catch (err) {
         statusEl.textContent = err.message === 'User rejected the request.'
-          ? 'Connection cancelled. Click to try again.'
-          : 'Connection failed: ' + err.message;
+          ? t('cancelled')
+          : t('failedConn') + err.message;
         btn.disabled = false;
-        btn.textContent = 'Connect Phantom Wallet';
+        btn.textContent = t('connect');
       }
     }
 
@@ -1305,8 +1303,8 @@
       document.getElementById('wallet-not-connected').style.display = '';
       document.getElementById('wallet-connected').style.display = 'none';
       document.getElementById('wallet-connect-btn').disabled = false;
-      document.getElementById('wallet-connect-btn').textContent = 'Connect Phantom Wallet';
-      document.getElementById('wallet-status').textContent = 'Connect your Phantom wallet to verify NFT ownership.';
+      document.getElementById('wallet-connect-btn').textContent = t('connect');
+      document.getElementById('wallet-status').textContent = t('verify');
       document.getElementById('nft-pickers').style.display = 'none';
 
       applyTrackVisibility();
@@ -1337,7 +1335,7 @@
 
     // ── Fetch NFTs via verify-wallet function ───────────────────
     async function fetchNFTs() {
-      document.getElementById('nft-picker-a').innerHTML = '<div class="nft-picker-loading">Loading your NFTs...</div>';
+      document.getElementById('nft-picker-a').innerHTML = `<div class="nft-picker-loading" data-tr-key="loadingNfts">${t('loadingNfts')}</div>`;
 
       try {
         const res = await fetch(`${PROXY}/verify-wallet`, {
@@ -1370,9 +1368,9 @@
 
       if (nfts.length === 0) {
         if (side === 'a') {
-          container.innerHTML = '<div class="nft-picker-empty">You don\'t own any Holy Chip NFTs.<br><a href="https://magiceden.us/marketplace/holy_chip" target="_blank">Buy one on Magic Eden</a></div>';
+          container.innerHTML = `<div class="nft-picker-empty" data-tr-key="noOwn">${t('noOwn')}</div>`;
         } else {
-          container.innerHTML = '<div class="nft-picker-empty">No available NFTs at the moment.</div>';
+          container.innerHTML = `<div class="nft-picker-empty" data-tr-key="noAvail">${t('noAvail')}</div>`;
         }
         return;
       }
@@ -1383,7 +1381,7 @@
       const search = document.createElement('input');
       search.className = 'nft-picker-search';
       search.type = 'text';
-      search.placeholder = 'Search by name or Chip...';
+      trSet(search, 'search', 'placeholder');
       container.appendChild(search);
 
       // Count
@@ -1423,7 +1421,7 @@
           card.style.display = match ? '' : 'none';
           if (match) visible++;
         });
-        count.textContent = q ? `${visible} of ${nfts.length} NFTs` : `${nfts.length} NFTs`;
+        count.textContent = q ? `${visible} ${t('of')} ${nfts.length} NFTs` : `${nfts.length} NFTs`;
       });
     }
 
@@ -1729,7 +1727,7 @@
       const input = document.createElement('input');
       input.className = 'dialog-text';
       input.type = 'text';
-      input.placeholder = 'DIALOG LINE...';
+      trSet(input, 'dialogPh', 'placeholder');
       input.maxLength = 120;
       input.autocomplete = 'off';
       input.addEventListener('input', saveDraft);
@@ -1739,7 +1737,7 @@
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'btn-remove-line';
-        btn.title = 'Remove line';
+        trSet(btn, 'removeLine', 'title');
         btn.textContent = '✕';
         btn.addEventListener('click', () => { row.remove(); saveDraft(); });
         row.appendChild(btn);
@@ -1777,7 +1775,7 @@
       if (punchline) {
         const note = document.createElement('div');
         note.className = 'panel-note';
-        note.textContent = 'This is the punchline — one line, maximum impact.';
+        trSet(note, 'punchNote', 'textContent');
         body.appendChild(note);
       }
     }
@@ -1791,7 +1789,7 @@
       speakerRow.appendChild(makeSpeakerPicker('A', false));
       const input1 = document.createElement('input');
       input1.className = 'dialog-text'; input1.type = 'text';
-      input1.placeholder = 'LINE 1...'; input1.maxLength = 100; input1.autocomplete = 'off';
+      trSet(input1, 'line1Ph', 'placeholder'); input1.maxLength = 100; input1.autocomplete = 'off';
       input1.addEventListener('input', saveDraft);
       speakerRow.appendChild(input1);
       speakerRow.appendChild(document.createElement('div'));
@@ -1800,11 +1798,11 @@
       line2.className = 'dialog-row';
       const lbl = document.createElement('div');
       lbl.style.cssText = 'font-size:0.7rem;color:#aaa;letter-spacing:0.08em;padding:0.5rem 0';
-      lbl.textContent = 'Line 2 (optional)';
+      trSet(lbl, 'line2', 'textContent');
       line2.appendChild(lbl);
       const input2 = document.createElement('input');
       input2.className = 'dialog-text'; input2.type = 'text';
-      input2.placeholder = 'LINE 2...'; input2.maxLength = 100; input2.autocomplete = 'off';
+      trSet(input2, 'line2Ph', 'placeholder'); input2.maxLength = 100; input2.autocomplete = 'off';
       input2.addEventListener('input', saveDraft);
       line2.appendChild(input2);
       line2.appendChild(document.createElement('div'));
@@ -1937,43 +1935,43 @@
       let firstError = null;
 
       if (data.track === 'nft') {
-        if (!data.wallet) { firstError = firstError || 'Please connect your wallet first.'; }
-        if (!data.charA) { firstError = firstError || 'Please select your NFT (Chip A).'; }
-        if (!data.charB) { markError('#char-b-picker'); firstError = firstError || 'Please select Chip B.'; }
+        if (!data.wallet) { firstError = firstError || t('eWallet'); }
+        if (!data.charA) { firstError = firstError || t('eNft'); }
+        if (!data.charB) { markError('#char-b-picker'); firstError = firstError || t('eB'); }
       } else {
-        if (!data.charA) { markError('#char-a-picker'); firstError = firstError || 'Please select Chip A.'; }
-        if (!data.charB) { markError('#char-b-picker'); firstError = firstError || 'Please select Chip B.'; }
+        if (!data.charA) { markError('#char-a-picker'); firstError = firstError || t('eA'); }
+        if (!data.charB) { markError('#char-b-picker'); firstError = firstError || t('eB'); }
       }
 
-      if (!data.title.trim()) { markError('#story-title'); firstError = firstError || 'Please enter a story title.'; }
+      if (!data.title.trim()) { markError('#story-title'); firstError = firstError || t('eTitle'); }
 
       for (let i = 0; i < 3; i++) {
         const panel = data.panels[i];
         if (!panel.length || !panel[0].text.trim()) {
           const body = document.getElementById(`panel-${i + 1}-body`);
           if (body) body.querySelectorAll('.dialog-text').forEach(t => { if (!t.value.trim()) t.classList.add('field-error'); });
-          firstError = firstError || `Panel ${i + 1} needs at least one dialog line.`;
+          firstError = firstError || t('ePanel', { n: i + 1 });
         }
       }
 
       if (!data.email.trim() || !data.email.includes('@')) {
         markError('#submitter-email');
-        firstError = firstError || 'Please enter a valid email address.';
+        firstError = firstError || t('eEmail');
       }
 
       if (data.track === 'nft') {
         if (!data.consentRevenue) {
           markError(document.querySelector('#agreement-nft .consent-block'));
-          firstError = firstError || 'Please accept the revenue share agreement.';
+          firstError = firstError || t('eRevenue');
         }
         if (!data.consentRights) {
           markError(document.querySelectorAll('#agreement-nft .consent-block')[1]);
-          firstError = firstError || 'Please accept the rights grant.';
+          firstError = firstError || t('eRights');
         }
       } else {
         if (!data.consent) {
           markError(document.querySelector('#agreement-open .consent-block'));
-          firstError = firstError || 'Please accept the agreement to submit.';
+          firstError = firstError || t('eAgree');
         }
       }
 
@@ -2000,7 +1998,7 @@
 
       const btn = document.getElementById('submit-btn');
       btn.disabled = true;
-      btn.textContent = 'Submitting...';
+      btn.textContent = t('submitting');
       statusEl.style.display = 'none';
 
       try {
@@ -2034,8 +2032,7 @@
           document.getElementById('nft-pickers').style.display = 'none';
           document.querySelector('.page-header').style.display = 'none';
           if (data.track === 'nft') {
-            document.getElementById('success-message').innerHTML =
-              'Thank you for your NFT holder submission.<br>If selected, you\'ll earn 20% of the primary sale sent to your wallet.<br>We review every story personally. We\'ll be in touch.';
+            trSet(document.getElementById('success-message'), 'thanksNft');
           }
           document.getElementById('submit-success').style.display = 'block';
           window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2044,10 +2041,10 @@
         }
       } catch (err) {
         statusEl.className = 'error';
-        statusEl.textContent = 'Submission failed. Please try again or email us directly.';
+        statusEl.textContent = t('failedSubmit');
         statusEl.style.display = 'block';
         btn.disabled = false;
-        btn.textContent = 'Submit Story';
+        btn.textContent = t('submit');
       }
     }
 
