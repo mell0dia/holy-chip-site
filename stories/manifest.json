@@ -826,7 +826,11 @@
    "pre": "stories/HC049.pre.png",
    "preThumb": "stories/thumbs/HC049.pre.jpg",
    "pt": "stories/pt/HC049.png",
-   "ptThumb": "stories/thumbs/HC049.pt.jpg"
+   "ptThumb": "stories/thumbs/HC049.pt.jpg",
+   "es": "stories/HC049.es.png",
+   "esThumb": "stories/thumbs/HC049.es.jpg",
+   "fr": "stories/HC049.fr.png",
+   "frThumb": "stories/thumbs/HC049.fr.jpg"
   },
   {
    "id": "HC042.short",
