@@ -126,6 +126,19 @@
       this.apply();
     },
   };
+
+  // PREVIEW ONLY (languages branch): ?font=chakra shows the page text in Chakra Petch,
+  // the History page font, to compare with the pixel font. The menu is left alone.
+  const PREVIEW_FONT = new URLSearchParams(location.search).get('font');
+  if (PREVIEW_FONT === 'chakra' || PREVIEW_FONT === 'chakra-big') {
+    const l = document.createElement('link'); l.rel = 'stylesheet';
+    l.href = 'https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&display=swap'; document.head.appendChild(l);
+    const st = document.createElement('style');
+    // chakra-big: font-size-adjust scales Chakra Petch up to the pixel font's visual size
+    st.textContent = 'body *:not(.site-nav):not(.site-nav *):not(svg):not(svg *) { font-family: "Chakra Petch", sans-serif !important;' +
+      (PREVIEW_FONT === 'chakra-big' ? ' font-size-adjust: 0.78; font-weight: 600; }' : ' }');
+    document.head.appendChild(st);
+  }
   window.HCLang = HCLang;
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => HCLang.apply());
   else HCLang.apply();
