@@ -39,14 +39,17 @@
   }
   function decide() {
     const q = new URLSearchParams(location.search).get('lang');
-    if (q && CODES.includes(q)) return q;
+    if (q && CODES.includes(q)) { try { localStorage.setItem(KEY, q); } catch (e) {} return q; }   // a shared link's language sticks while browsing on
     try { const s = localStorage.getItem(KEY); if (s && CODES.includes(s)) return s; } catch (e) {}
     return fromBrowser();
   }
 
   // site-root-relative path of an URL attribute ("../stories/HC001.png" -> "stories/HC001.png")
-  function rootPath(p) { try { return new URL(p, location.href).pathname.replace(/^\//, ''); } catch (e) { return p; } }
-  function variantOf(p, code) { return p.replace(/(\.[a-z0-9]+)$/i, '.' + code + '$1'); }
+  function rootPath(p) { try { return decodeURIComponent(new URL(p, location.href).pathname.replace(/^\//, '')); } catch (e) { return p; } }
+  function variantOf(p, code) {                        // keeps a ?v= cache-buster: HC015.png?v=1 -> HC015.pt.png?v=1
+    const m = p.match(/^([^?#]*?)(\.[a-z0-9]+)([?#].*)?$/i);
+    return m ? m[1] + '.' + code + m[2] + (m[3] || '') : p;
+  }
 
   const HCLang = {
     LANGS, CODES, current: decide(),
@@ -103,7 +106,7 @@
         else el.style.backgroundImage = `url("${s}")`;
       });
       const btn = document.getElementById('hc-lang-btn');
-      if (btn) { const L = LANGS.find(l => l.code === c); btn.innerHTML = `${FLAGS[L.flag]}<span>${c.toUpperCase()}</span><b>▾</b>`; }
+      if (btn) { const L = LANGS.find(l => l.code === c); btn.innerHTML = `${FLAGS[L.flag]}<b>▾</b>`; btn.title = L.name; }
       document.querySelectorAll('.hc-lang-opt').forEach(o => o.classList.toggle('active', o.dataset.lang === c));
     },
     // the selector, put in the header by nav.js
