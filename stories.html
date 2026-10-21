@@ -419,17 +419,14 @@
     <div class="page-header">
       <h1 id="page-title">Stories</h1>
       <span id="story-count"></span>
-      <div class="lang-toggle" role="group" aria-label="Language">
-        <button data-lang="en">EN</button><button data-lang="pt">PT</button>
-      </div>
     </div>
 
     <div class="picker">
-      <span class="lbl" data-en="Show" data-pt="Mostrar">Show</span>
+      <span class="lbl" data-i18n data-pt="Mostrar" data-es="Mostrar" data-fr="Afficher">Show</span>
       <div class="select-wrap"><select id="cat"></select></div>
       <div class="blurb" id="blurb"></div>
     </div>
-    <div id="loading" data-en="Loading stories..." data-pt="Carregando tirinhas...">Loading stories...</div>
+    <div id="loading" data-i18n data-pt="Carregando tirinhas..." data-es="Cargando historietas..." data-fr="Chargement des histoires...">Loading stories...</div>
     <div id="empty" style="display:none">No stories found yet.</div>
     <div id="grid"></div>
   </div>
@@ -450,21 +447,23 @@
         <div class="reader-footer-right">
           <a id="btn-origin-reader" href="#" title="Read the origin story">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-            <span data-en="Read Origin" data-pt="Ler a Origem">Read Origin</span>
+            <span data-i18n data-pt="Ler a Origem" data-es="Leer el origen" data-fr="Lire l'origine">Read Origin</span>
           </a>
           <button id="btn-tweet-reader">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            <span data-en="Post" data-pt="Postar">Post</span>
+            <span data-i18n data-pt="Postar" data-es="Publicar" data-fr="Publier">Post</span>
           </button>
           <button id="btn-share-reader">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-            <span data-en="Share" data-pt="Compartilhar">Share</span>
+            <span data-i18n data-pt="Compartilhar" data-es="Compartir" data-fr="Partager">Share</span>
           </button>
         </div>
       </div>
     </div>
   </div>
 
+  <script src="assets/lang-files.js"></script>
+  <script src="assets/lang.js"></script>
   <script src="assets/nav.js"></script>
   <script src="assets/footer.js"></script>
 
@@ -473,15 +472,22 @@
     const PAD  = n => String(n).padStart(3, '0');
     let STORIES = [];
 
-    // ── Language: EN (default) or PT (the Brazilian-Portuguese edition, stories/pt/).
-    // Shares the 'hc-lang' key with the origin pages, so Read Origin opens in the
-    // same language. ?lang=pt in a link wins over the saved choice.
-    let LANG = (() => {
-      const q = new URLSearchParams(window.location.search).get('lang');
-      if (q) return q === 'pt' ? 'pt' : 'en';
-      try { return localStorage.getItem('hc-lang') === 'pt' ? 'pt' : 'en'; } catch (e) { return 'en'; }
-    })();
-    const imgOf = s => (LANG === 'pt' && s.pt) ? s.pt : s.main;
+    // ── Language: the header selector (assets/lang.js) decides. Each comic/thumbnail
+    // shows its language version when one exists (name.<lang>.ext), English otherwise;
+    // labels use UI[...] (English when a translation is missing).
+    const LANG_ = () => HCLang.current;
+    const T = map => HCLang.text(map);
+    const UI = {
+      title: { en: 'Stories', pt: 'Tirinhas', es: 'Historietas', fr: 'Histoires' },   // the pixel title font has no accented capitals
+      last: { en: 'LAST 15', pt: 'ÚLTIMAS 15', es: 'ÚLTIMAS 15', fr: 'LES 15 DERNIÈRES' },
+      all: { en: 'ALL STORIES', pt: 'TODAS AS TIRINHAS', es: 'TODAS LAS HISTORIETAS', fr: 'TOUTES LES HISTOIRES' },
+      lastBlurb: { en: 'The 15 most recent', pt: 'As 15 mais recentes', es: 'Las 15 más recientes', fr: 'Les 15 plus récentes' },
+      allBlurb: { en: 'Newest first', pt: 'Da mais nova para a mais antiga', es: 'De la más nueva a la más antigua', fr: 'De la plus récente à la plus ancienne' },
+      neu: { en: 'NEW', pt: 'NOVA', es: 'NUEVA', fr: 'NOUVEAU' },
+      story: { en: ['story', 'stories'], pt: ['tirinha', 'tirinhas'], es: ['historieta', 'historietas'], fr: ['histoire', 'histoires'] },
+    };
+    const imgOf = s => HCLang.src(s.main);
+    const catText = (c, f) => c[f + LANG_().charAt(0).toUpperCase() + LANG_().slice(1)] || c[f];   // name / namePt / nameEs …
     let CATS = [], VIEW = 'last';   // 'last' | 'all' | a theme name
     let currentIdx = 0;
 
@@ -512,7 +518,7 @@
     const storyId = s => 'HC' + PAD(s.num) + (s.short ? '.short' : '');
 
     function storyURL(story) {
-      return window.location.origin + window.location.pathname + '?story=' + storyId(story) + (LANG === 'pt' ? '&lang=pt' : '');
+      return window.location.origin + window.location.pathname + '?story=' + storyId(story) + HCLang.param('&');
     }
 
     // ── Share icon SVG ───────────────────────────────────────
@@ -535,12 +541,12 @@
         card.className = 'story-card';
         card.innerHTML = `
           ${story.short
-            ? `<img class="card-short" src="${(LANG === 'pt' && story.ptThumb) ? story.ptThumb : story.thumb}" loading="lazy" alt=""/><div class="card-badge">SHORT</div>`
-            : (LANG === 'pt' && story.ptThumb)
-              ? `<img class="card-ptmain" src="${story.ptThumb}" loading="lazy" alt=""/>`
+            ? `<img class="card-short" src="${HCLang.src(story.thumb)}" loading="lazy" alt=""/><div class="card-badge">SHORT</div>`
+            : HCLang.src(story.thumb) !== story.thumb
+              ? `<img class="card-ptmain" src="${HCLang.src(story.thumb)}" loading="lazy" alt=""/>`
               : `<img class="card-bg"  src="${story.thumb}" loading="lazy" alt=""/>
           ${story.preThumb ? `<img class="card-pre" src="${story.preThumb}" loading="lazy" alt=""/>` : ''}`}
-          ${(!story.short && story.num === newest) ? `<div class="card-new">${LANG === 'pt' ? 'NOVA' : 'NEW'}</div>` : ''}
+          ${(!story.short && story.num === newest) ? `<div class="card-new">${T(UI.neu)}</div>` : ''}
           <div class="card-label">HC${PAD(story.num)}${story.short ? ' · SHORT' : ''}</div>
           <button class="card-share" title="Share this story">${SHARE_SVG}</button>
           <button class="card-tweet" title="Post on X">${X_SVG}</button>
@@ -573,18 +579,18 @@
     function buildPicker() {
       const sel = document.getElementById('cat'); sel.innerHTML = '';
       const opt = (v, t) => { const o = document.createElement('option'); o.value = v; o.textContent = t; sel.appendChild(o); };
-      opt('last', LANG === 'pt' ? 'ÚLTIMAS 15' : 'LAST 15');
-      opt('all', (LANG === 'pt' ? 'TODAS AS TIRINHAS' : 'ALL STORIES') + ` (${STORIES.length})`);
-      CATS.forEach(c => opt(c.name, `${(LANG === 'pt' && c.namePt ? c.namePt : c.name).toUpperCase()} (${c.ids.length})`));
+      opt('last', T(UI.last));
+      opt('all', T(UI.all) + ` (${STORIES.length})`);
+      CATS.forEach(c => opt(c.name, `${catText(c, 'name').toUpperCase()} (${c.ids.length})`));
       sel.value = VIEW;
       sel.onchange = () => { VIEW = sel.value; buildGrid(); };
     }
     function describeView() {
       const cat = CATS.find(c => c.name === VIEW);
       document.getElementById('blurb').textContent =
-        VIEW === 'last' ? (LANG === 'pt' ? 'As 15 mais recentes' : 'The 15 most recent') :
-        VIEW === 'all' ? (LANG === 'pt' ? 'Da mais nova para a mais antiga' : 'Newest first') :
-        cat ? (LANG === 'pt' && cat.blurbPt ? cat.blurbPt : cat.blurb) : '';
+        VIEW === 'last' ? T(UI.lastBlurb) :
+        VIEW === 'all' ? T(UI.allBlurb) :
+        cat ? catText(cat, 'blurb') : '';
     }
 
     // ── Index: stories/manifest.json + stories/categories.json ──
@@ -627,27 +633,19 @@
     });
 
     function applyLangChrome() {
-      document.querySelectorAll('.lang-toggle button').forEach(b => b.classList.toggle('active', b.dataset.lang === LANG));
-      // the pixel font has no accented capitals (HISTÓRIAS came out broken): TIRINHAS
-      document.getElementById('page-title').textContent = LANG === 'pt' ? 'Tirinhas' : 'Stories';
-      document.documentElement.lang = LANG === 'pt' ? 'pt-BR' : 'en';
-      document.querySelectorAll('[data-pt]').forEach(el => { el.textContent = el.dataset[LANG]; });
+      document.getElementById('page-title').textContent = T(UI.title);
       const nShort = STORIES.filter(s => s.short).length;
       const nStory = STORIES.length - nShort;
-      document.getElementById('story-count').textContent = LANG === 'pt'
-        ? nStory + ' tirinha' + (nStory === 1 ? '' : 's') + (nShort ? ' · ' + nShort + ' short' + (nShort === 1 ? '' : 's') : '')
-        : nStory + ' stor' + (nStory === 1 ? 'y' : 'ies') + (nShort ? ' · ' + nShort + ' short' + (nShort === 1 ? '' : 's') : '');
+      const w = UI.story[LANG_()] || UI.story.en;
+      document.getElementById('story-count').textContent =
+        nStory + ' ' + w[nStory === 1 ? 0 : 1] + (nShort ? ' · ' + nShort + ' short' + (nShort === 1 ? '' : 's') : '');
     }
 
-    function setLang(lang) {
-      LANG = lang === 'pt' ? 'pt' : 'en';
-      try { localStorage.setItem('hc-lang', LANG); } catch (e) {}
+    document.addEventListener('hc:lang', () => {
       applyLangChrome();
       if (STORIES.length) { buildPicker(); buildGrid(); describeView(); }
       if (!document.getElementById('reader').classList.contains('hidden')) renderReader();
-      else history.replaceState(null, '', window.location.pathname + (LANG === 'pt' ? '?lang=pt' : ''));
-    }
-    document.querySelectorAll('.lang-toggle button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+    });
     applyLangChrome();
 
     // ── Reader ──────────────────────────────────────────────
@@ -661,7 +659,7 @@
     function closeReader() {
       document.getElementById('reader').classList.add('hidden');
       document.body.style.overflow = '';
-      history.replaceState(null, '', window.location.pathname + (LANG === 'pt' ? '?lang=pt' : ''));
+      history.replaceState(null, '', window.location.pathname + HCLang.param('?'));
     }
 
     function renderReader() {
@@ -673,8 +671,8 @@
       // Shorts have no origin page (yet) — hide the button rather than link to a 404.
       const origin = document.getElementById('btn-origin-reader');
       origin.style.display = story.short ? 'none' : '';
-      origin.href = `origins/HC${PAD(story.num)}.html`;
-      history.replaceState(null, '', '?story=' + storyId(story) + (LANG === 'pt' ? '&lang=pt' : ''));
+      origin.href = `origins/HC${PAD(story.num)}.html` + HCLang.param('?');
+      history.replaceState(null, '', '?story=' + storyId(story) + HCLang.param('&'));
     }
 
     function navigateReader(dir) {

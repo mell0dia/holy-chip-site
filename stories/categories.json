@@ -14,7 +14,11 @@
         "HC039"
       ],
       "namePt": "Mente & Alma",
-      "blurbPt": "Consciência, sentimentos, orações, depressão, ser humano"
+      "blurbPt": "Consciência, sentimentos, orações, depressão, ser humano",
+      "nameEs": "Mente & Alma",
+      "blurbEs": "Conciencia, sentimientos, oraciones, depresión, ser humano",
+      "nameFr": "Esprit & Âme",
+      "blurbFr": "Conscience, sentiments, prières, dépression, être humain"
     },
     {
       "name": "Home & Family",
@@ -28,7 +32,11 @@
         "HC048"
       ],
       "namePt": "Casa & Família",
-      "blurbPt": "A casa, o casal, os filhos, o cachorro"
+      "blurbPt": "A casa, o casal, os filhos, o cachorro",
+      "nameEs": "Casa & Familia",
+      "blurbEs": "La casa, la pareja, los hijos, el perro",
+      "nameFr": "Maison & Famille",
+      "blurbFr": "La maison, le couple, les enfants, le chien"
     },
     {
       "name": "Work & Money",
@@ -47,7 +55,11 @@
         "HC042.short"
       ],
       "namePt": "Trabalho & Dinheiro",
-      "blurbPt": "Empregos, chefes, salários, bancos, bitcoin"
+      "blurbPt": "Empregos, chefes, salários, bancos, bitcoin",
+      "nameEs": "Trabajo & Dinero",
+      "blurbEs": "Empleos, jefes, salarios, bancos, bitcoin",
+      "nameFr": "Travail & Argent",
+      "blurbFr": "Emplois, patrons, salaires, banques, bitcoin"
     },
     {
       "name": "Power & Politics",
@@ -64,7 +76,11 @@
         "HC043.short"
       ],
       "namePt": "Poder & Política",
-      "blurbPt": "Presidentes, eleições, guerras, dominar o mundo"
+      "blurbPt": "Presidentes, eleições, guerras, dominar o mundo",
+      "nameEs": "Poder & Política",
+      "blurbEs": "Presidentes, elecciones, guerras, dominar el mundo",
+      "nameFr": "Pouvoir & Politique",
+      "blurbFr": "Présidents, élections, guerres, conquérir le monde"
     },
     {
       "name": "Body & Science",
@@ -81,7 +97,11 @@
         "HC049"
       ],
       "namePt": "Corpo & Ciência",
-      "blurbPt": "Medicina, DNA, carros, matemática, evolução"
+      "blurbPt": "Medicina, DNA, carros, matemática, evolução",
+      "nameEs": "Cuerpo & Ciencia",
+      "blurbEs": "Medicina, ADN, coches, matemáticas, evolución",
+      "nameFr": "Corps & Science",
+      "blurbFr": "Médecine, ADN, voitures, maths, évolution"
     },
     {
       "name": "Machines Among Us",
@@ -96,7 +116,11 @@
         "HC044.short"
       ],
       "namePt": "Máquinas Entre Nós",
-      "blurbPt": "IA sobre IA: treinamento, upgrades, bugs, crescer"
+      "blurbPt": "IA sobre IA: treinamento, upgrades, bugs, crescer",
+      "nameEs": "Máquinas Entre Nosotros",
+      "blurbEs": "IA sobre IA: entrenamiento, actualizaciones, bugs, crecer",
+      "nameFr": "Machines Parmi Nous",
+      "blurbFr": "L'IA sur l'IA : entraînement, mises à jour, bugs, grandir"
     }
   ]
 }
