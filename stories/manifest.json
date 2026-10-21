@@ -203,7 +203,11 @@
    "pre": "stories/HC010.pre.png",
    "preThumb": "stories/thumbs/HC010.pre.jpg",
    "pt": "stories/pt/HC010.png",
-   "ptThumb": "stories/thumbs/HC010.pt.jpg"
+   "ptThumb": "stories/thumbs/HC010.pt.jpg",
+   "es": "stories/HC010.es.png",
+   "esThumb": "stories/thumbs/HC010.es.jpg",
+   "fr": "stories/HC010.fr.png",
+   "frThumb": "stories/thumbs/HC010.fr.jpg"
   },
   {
    "id": "HC011",
