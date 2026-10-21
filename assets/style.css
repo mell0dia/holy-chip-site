@@ -423,3 +423,10 @@ body *:not(.site-nav):not(.site-nav *):not(svg):not(svg *) {
 .hc-lang-btn span { font-family: 'Chakra Petch', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: none; }
 .hc-lang-opt span { font-family: 'Chakra Petch', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.02em; }
 @media (max-width: 1400px) { .nav-link { padding-left: 16px; padding-right: 16px; } }
+
+/* Reading text in normal sentence case (user, 2026-10-21: "respect the reader").
+   The global rule above uppercases everything; the origin blog and the landing blog
+   card are read, not scanned, so they keep the writer's own capitals. Titles, labels
+   and transcripts (the comic's own lettering) stay uppercase. */
+.text-column .lang-content, .text-column .lang-content *,
+.blog-card-wrap p, .blog-card-wrap .opener, .blog-card-wrap .lead { text-transform: none !important; }
