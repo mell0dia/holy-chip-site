@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Chakra+Petch:wght@500;600;700&display=swap');
 
 /* Press Start 2P has no usable accented letters (TRÊS, NÔTRES, PROMOÇÃO came out broken).
    Same family name + a unicode-range: the browser takes ONLY À-ÿ from Silkscreen Bold at
@@ -397,3 +397,22 @@ p, .page-subtitle, .step-title, label, li {
 }
 .hc-lang-opt:hover { background: var(--nav-hover); color: #fff; }
 .hc-lang-opt.active { background: rgba(255,255,255,0.12); color: #fff; }
+
+/* ── Site lettering: Chakra Petch, the comics' own lettering (real accented capitals),
+   enlarged with font-size-adjust to the pixel font's visual size - picked on the Builder
+   (user, 2026-10-21) and applied site-wide on the languages branch. The menu keeps the
+   pixel font. Long reading text (blogs, transcripts) gets a calmer size below. ── */
+body *:not(.site-nav):not(.site-nav *):not(svg):not(svg *) {
+  font-family: 'Chakra Petch', sans-serif !important;
+  font-size-adjust: 0.78;
+  font-weight: 600;
+}
+/* Long reading text was set in a narrow monospace, not the pixel font: the enlargement
+   above would make it shout. Blogs, transcripts, excerpts and the landing blog card
+   read at a calmer size and weight. */
+.text-column, .text-column *, .dialog-text, .hero-meta, .origin-excerpt, .page-intro,
+.blog-card-wrap p, .blog-card-wrap .opener, .editorial p {
+  font-size-adjust: 0.5 !important;
+  font-weight: 500 !important;
+}
+.text-column .opener, .text-column .opener *, .blog-card-wrap .lead { font-weight: 600 !important; }
