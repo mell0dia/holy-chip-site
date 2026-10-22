@@ -925,6 +925,25 @@
    "itThumb": "stories/thumbs/HC049.it.jpg"
   },
   {
+   "id": "HC050",
+   "kind": "story",
+   "title": "AI BIG TECH",
+   "year": "2029",
+   "src": "stories/HC050.png",
+   "thumb": "stories/thumbs/HC050.jpg",
+   "p3": "stories/thumbs/HC050.p3.jpg",
+   "face": "stories/thumbs/HC050.face.jpg",
+   "origin": false,
+   "pt": "stories/pt/HC050.png",
+   "ptThumb": "stories/thumbs/HC050.pt.jpg",
+   "es": "stories/HC050.es.png",
+   "esThumb": "stories/thumbs/HC050.es.jpg",
+   "fr": "stories/HC050.fr.png",
+   "frThumb": "stories/thumbs/HC050.fr.jpg",
+   "it": "stories/HC050.it.png",
+   "itThumb": "stories/thumbs/HC050.it.jpg"
+  },
+  {
    "id": "HC042.short",
    "kind": "short",
    "title": "AI CHIEF OF STAFF",

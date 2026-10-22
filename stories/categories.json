@@ -56,7 +56,8 @@
         "HC034",
         "HC036",
         "HC041",
-        "HC042.short"
+        "HC042.short",
+        "HC050"
       ],
       "namePt": "Trabalho & Dinheiro",
       "blurbPt": "Empregos, chefes, salários, bancos, bitcoin",
@@ -79,7 +80,8 @@
         "HC027",
         "HC031",
         "HC040",
-        "HC043.short"
+        "HC043.short",
+        "HC050"
       ],
       "namePt": "Poder & Política",
       "blurbPt": "Presidentes, eleições, guerras, dominar o mundo",

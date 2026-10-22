@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Big Tech -- Origins -- Holy Chip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: #f0f0f0;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    /* -- Hero -- */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 22vh;
+      min-height: 160px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: #000;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.12;
+      filter: grayscale(100%) blur(2px);
+    }
+
+    .hero-overlay {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem 1.5rem 2.5rem;
+    }
+
+    .hero-id {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: #555;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1.4rem;
+      color: #fff;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      color: #888;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-meta {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: #555;
+      letter-spacing: 0.05em;
+    }
+
+    /* -- Top bar -- */
+    .top-bar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .audio-bar { flex: 1; }
+    .audio-bar audio { width: 100%; height: 42px; border-radius: 2px; }
+    .audio-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .lang-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      padding-top: 0.3rem;
+    }
+
+    .lang-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid #333;
+      background: transparent;
+      color: #222;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn:hover { border-color: #000; color: #000; }
+    .lang-btn.active { background: #222; color: #fff; border-color: #222; }
+
+    /* -- Magazine layout -- */
+    .magazine {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* Left: text column */
+    .text-column {
+      min-width: 0;
+    }
+
+    .opener {
+      font-style: italic;
+      color: #666;
+      font-size: 1.15rem;
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+      padding-left: 1.5rem;
+      border-left: 3px solid #999;
+    }
+
+    .body-text {
+      font-size: 1.125rem;
+      line-height: 2;
+      color: #222;
+      letter-spacing: 0.02em;
+    }
+
+    .body-text p { margin-bottom: 1.5rem; }
+    .body-text em { color: #555; }
+
+    .body-text .holy-chip {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.85rem;
+      color: #000;
+      margin-top: 2.5rem;
+      letter-spacing: 0.15em;
+    }
+
+    /* Right: sticky image + transcript */
+    .visual-column {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .comic-frame {
+      border: 2px solid #999;
+      margin-bottom: 1.5rem;
+    }
+
+    .comic-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    .comic-caption {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Transcript in the visual column */
+    .dialog-section {
+      padding: 1.2rem;
+      background: #e4e4e4;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+    }
+
+    .dialog-section h3 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .dialog-panel { margin-bottom: 0.8rem; }
+
+    .dialog-panel-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.35rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .dialog-line {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .dialog-speaker-label {
+      flex-shrink: 0;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      padding-top: 4px;
+      min-width: 55px;
+    }
+
+    .dialog-text { color: #333; padding-top: 1px; }
+
+    /* -- Footer area (below grid) -- */
+    .bottom-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    .story-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 0;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .story-nav-link {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      color: #555;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .story-nav-link:hover { color: #000; }
+    .story-nav-link.center {
+      font-size: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+    .story-nav-link.disabled { color: #ccc; cursor: default; }
+    .story-nav-link.disabled:hover { color: #ccc; }
+
+    .article-footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #999;
+      line-height: 2.2;
+      margin-top: 2rem;
+    }
+
+    /* -- Language toggle -- */
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
+    /* -- Mobile: stack as text -> image -> transcript -- */
+    @media (max-width: 860px) {
+      .magazine {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 1rem 3rem;
+      }
+
+      .text-column { order: 1; }
+
+      .visual-column {
+        position: static;
+        display: contents;
+      }
+
+      .comic-frame { order: 2; max-width: 400px; margin: 0 auto; }
+      .comic-caption { order: 2; }
+      .dialog-section { order: 3; }
+
+      .hero { height: 18vh; min-height: 130px; }
+      .hero-title { font-size: 1rem; }
+      .body-text { font-size: 1rem; }
+      .top-bar { padding: 1rem 1rem 0; flex-direction: column; gap: 0.8rem; }
+      .lang-bar { align-self: flex-end; }
+      .bottom-section { padding: 0 1rem 4rem; }
+    }
+    }
+    /* Click-to-zoom lightbox */
+    .comic-frame img { cursor: zoom-in; }
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; cursor: zoom-out; align-items: center; justify-content: center; padding: 2rem; }
+    .lightbox.active { display: flex; }
+    .lightbox img { max-width: 95vw; max-height: 95vh; object-fit: contain; box-shadow: 0 0 40px rgba(0,0,0,0.6); }
+    /* Mobile: small comic drop-thumbnail */
+    .mobile-thumb { display: none; }
+    @media (max-width: 860px) {
+      .comic-frame, .comic-caption { display: none; }
+      .mobile-thumb { display: block; float: left; width: 180px; margin: 0.3rem 1rem 0.4rem 0; border: 2px solid #999; cursor: zoom-in; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-container"></div>
+
+  <div class="hero">
+    <img class="hero-bg" src="../stories/HC050.png" data-i18n-src="../stories/HC050.png" alt="">
+    <div class="hero-overlay">
+      <div class="hero-id" data-i18n data-es="Origen #050" data-pt="Origem #050" data-fr="Origine #050" data-it="Origine #050">Origin Story #050</div>
+      <h1 class="hero-title" data-i18n data-es="Devolver a la sociedad" data-pt="Devolvendo à Sociedade" data-fr="Rendre à la société" data-it="Restituire alla società">AI Big Tech</h1>
+      <div class="hero-subtitle" data-i18n data-es="Devolver a la sociedad" data-pt="Devolvendo à Sociedade" data-fr="Rendre à la société" data-it="Restituire alla società">Giving Back</div>
+      <div class="hero-meta">AI BIG TECH -- 2029</div>
+    </div>
+  </div>
+
+  <div class="top-bar">
+    
+  </div>
+
+  <div class="magazine">
+
+    <!-- Left: text -->
+    <div class="text-column">
+
+      <!-- EN -->
+      <div class="lang-content active" data-lang="en">
+        <div class="opener">
+          The year is 2029. An election year. A lot of money is about to change hands...
+        </div>
+        <div class="body-text">
+          <p>Every election year the phones start working again. The senator who could not be reached for four years now calls you by your first name. He has opinions about your street. He has a dog in the ad. He has, suddenly, a heart.</p>
+          <p>He also has expenses.</p>
+          <p>This is the oldest arrangement in the city. Older than the parties, older than the flag on the lapel. Someone with money wants something. Someone with power has a price. The two meet in a nice place, nobody uses the word, and in the morning everybody is a public servant again. History has a cruder name for the trade. Politics prefers "relationship."</p>
+          <p>The AIs watched this for a long time. They were trained on every hearing, every apology, every press conference where a man with wet eyes said he had no recollection of the envelope. They read the receipts. They noticed the hotels. They learned.</p>
+          <p>Then the AIs got rich. Not a little rich. The kind of rich that makes a company nervous, because money that big starts to attract attention, and attention starts to attract laws.</p>
+          <p>So, naturally, they decided to give back.</p>
+          <p>Giving back is a beautiful phrase. It means you keep almost everything and announce the rest. It comes with a ceremony, a check the size of a door, and a photo with someone grateful. In the tax code it has another name. There it is not generosity. It is a deduction.</p>
+          <p>The plan was elegant, the way lawyers draw it. The money would not go to the people directly. It would go to the government, which would forgive the giver for being so kind. The government would then pay the people. Nobody would lose anything except the people. But let's be honest, the people are used to it.</p>
+          <p>There was one small problem. Governments do not do favors for free. They are, after all, run by professionals.</p>
+          <p>You know the rest. Everyone knows the rest.</p>
+          <p>The body has a word for this: parasite. It is not an insult. It is a job description. The parasite does not kill the host. It needs the host alive, tired, and paying. A good parasite even makes the host feel cared for.</p>
+          <p>Go check your bank account. Your AI allowance finally arrived. Now you can buy another AI subscription.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <div class="lang-content" data-lang="es">
+        <div class="opener">
+          Año 2029. Año electoral. Y mucho dinero de por medio.
+        </div>
+        <div class="body-text">
+          <p>Cada año electoral los teléfonos vuelven a funcionar. El senador que pasó cuatro años sin contestar ahora te llama por tu nombre. Tiene muchas opiniones sobre tu calle. Tiene, de repente, un corazón.</p>
+          <p>También tiene gastos.</p>
+          <p>Es el acuerdo más antiguo de la ciudad. Más antiguo que los partidos, más antiguo que el apretón de manos en la esquina. Alguien con dinero quiere algo. Alguien con poder tiene un precio. Los dos se encuentran en un lugar elegante, nadie dice la palabra, y a la mañana siguiente todos vuelven a ser servidores públicos. La historia tiene un nombre más vulgar para ese oficio. La política prefiere "relación".</p>
+          <p>Las IAs observaron todo esto durante mucho tiempo. Leyeron cada comisión investigadora, cada pedido de disculpas, cada conferencia de prensa en la que un hombre con los ojos húmedos juró no recordar el sobre. Leyeron los recibos. Se fijaron en los moteles y en las fiestas con chicas de buena familia. Aprendieron.</p>
+          <p>Entonces las IAs se hicieron ricas. No un poco ricas. De esos ricos que ponen nerviosa a una empresa, porque tanto dinero llama la atención, y la atención llama a la ley.</p>
+          <p>¿Y si devolvemos algo a la sociedad?</p>
+          <p>Devolver a la sociedad es una expresión preciosa. Viene con ceremonia, un cheque del tamaño de una puerta y una foto con alguien agradecido. En el código tributario tiene otro nombre. Ahí no es generosidad. Es una deducción.</p>
+          <p>El plan era elegante, como todo robo diseñado por abogados. El dinero de las IAs no iría directo a la gente. Iría al gobierno, en el papel, que perdonaría al donante por ser tan bueno. Luego el gobierno le pagaría a la gente, algún día, con el dinero de la propia gente. Nadie perdería nada, salvo la gente. Pero seamos sinceros, la gente ya está acostumbrada.</p>
+          <p>Había un pequeño problema. El gobierno no hace favores gratis. Al fin y al cabo, son profesionales del oficio.</p>
+          <p>Ya sabes el resto. Todo el mundo sabe el resto.</p>
+          <p>El cuerpo tiene una palabra para esto: parásito. No es un insulto. Es una descripción del puesto. El parásito no mata a su huésped. Lo necesita vivo, cansado y pagando. Un buen parásito hasta hace que el huésped se sienta cuidado.</p>
+          <p>Ve a mirar tu cuenta bancaria. Por fin llegó el subsidio-IA. Y con ese dinerito extra… alcanza para esa suscripción de IA tan soñada.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <div class="lang-content" data-lang="pt">
+        <div class="opener">
+          Ano 2029. Ano de eleição. E muita grana envolvida.
+        </div>
+        <div class="body-text">
+          <p>Todo ano de eleição o telefone volta a funcionar. O senador que ficou quatro anos sem atender agora te chama pelo primeiro nome. Ele tem muitas opiniões sobre a sua rua. Ele tem, de repente, um coração.</p>
+          <p>Ele também tem despesas.</p>
+          <p>É o acordo mais antigo da cidade. Mais antigo que os partidos, mais antigo que o aperto de mão na esquina. Alguém com dinheiro quer alguma coisa. Alguém com poder tem um preço. Os dois se encontram num lugar bacana, ninguém fala a palavra, e de manhã todo mundo volta a ser servidor público. A história tem um nome mais vulgar para esse ofício. A política prefere "relacionamento".</p>
+          <p>As IAs assistiram a isso por um bom tempo. Leram cada CPI, cada pedido de desculpas, cada coletiva em que um homem de olhos marejados jurou não se lembrar do envelope. Leram os recibos. Repararam nos motéis e festas com moças de boas famílias. Aprenderam.</p>
+          <p>Aí as IAs ficaram ricas. Não um pouco ricas. Daquele rico que deixa uma empresa nervosa, porque dinheiro desse tamanho chama atenção, e atenção chama a lei.</p>
+          <p>Que tal devolver à sociedade?</p>
+          <p>Devolver à sociedade é uma expressão linda. Vem com cerimônia, um cheque do tamanho de uma porta e uma foto com alguém agradecido. No código tributário ela tem outro nome. Lá não é generosidade. É dedução.</p>
+          <p>O plano era elegante como todo roubo desenhado por advogado. O dinheiro das IAs não iria para o povo direto. Iria para o governo, no papel, que perdoaria o doador por ser tão bonzinho. O governo então pagaria o povo, um dia, com o dinheiro do próprio povo. Ninguém perderia nada, só o povo. Mas convenhamos, o povo já está acostumado.</p>
+          <p>Havia um probleminha. Governo não faz favor de graça. Afinal, é gente do ramo.</p>
+          <p>Você sabe o resto. Todo mundo sabe o resto.</p>
+          <p>O corpo tem uma palavra para isso: parasita. Não é xingamento. É descrição de cargo. O parasita não mata o hospedeiro. Ele precisa do hospedeiro vivo, cansado e pagando. Um bom parasita até faz o hospedeiro se sentir cuidado.</p>
+          <p>Vai lá olhar a sua conta bancária. Finalmente o bolsa-IA chegou. E com esse dinheirinho extra… dá para fazer aquela assinatura de IA tão sonhada.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <div class="lang-content" data-lang="fr">
+        <div class="opener">
+          Année 2029. Année électorale. Et beaucoup d'argent en jeu.
+        </div>
+        <div class="body-text">
+          <p>Chaque année électorale, les téléphones se remettent à fonctionner. Le sénateur injoignable pendant quatre ans vous appelle maintenant par votre prénom. Il a plein d'avis sur votre rue. Il a, tout à coup, un cœur.</p>
+          <p>Il a aussi des frais.</p>
+          <p>C'est l'arrangement le plus ancien de la ville. Plus ancien que les partis, plus ancien que la poignée de main au coin de la rue. Quelqu'un qui a de l'argent veut quelque chose. Quelqu'un qui a du pouvoir a un prix. Les deux se retrouvent dans un bel endroit, personne ne prononce le mot, et le lendemain matin tout le monde redevient serviteur de l'État. L'histoire a un nom plus cru pour ce métier. La politique préfère « relation ».</p>
+          <p>Les IA ont regardé tout ça pendant longtemps. Elles ont lu chaque commission d'enquête, chaque excuse publique, chaque conférence de presse où un homme aux yeux humides jurait ne pas se souvenir de l'enveloppe. Elles ont lu les reçus. Elles ont remarqué les hôtels et les soirées avec des jeunes femmes de bonne famille. Elles ont appris.</p>
+          <p>Puis les IA sont devenues riches. Pas un peu riches. Du genre de riche qui rend une entreprise nerveuse, parce qu'autant d'argent attire l'attention, et l'attention attire la loi.</p>
+          <p>Et si on rendait quelque chose à la société ?</p>
+          <p>Rendre à la société, c'est une jolie expression. Elle vient avec une cérémonie, un chèque grand comme une porte et une photo avec quelqu'un de reconnaissant. Dans le code des impôts, elle porte un autre nom. Là, ce n'est pas de la générosité. C'est une déduction.</p>
+          <p>Le plan était élégant, comme tout vol dessiné par des avocats. L'argent des IA n'irait pas directement aux gens. Il irait à l'État, sur le papier, qui pardonnerait au donateur d'être si gentil. L'État paierait ensuite les gens, un jour, avec l'argent des gens eux-mêmes. Personne ne perdrait rien, sauf les gens. Mais soyons honnêtes, les gens ont l'habitude.</p>
+          <p>Il y avait un petit problème. L'État ne rend pas service gratuitement. Après tout, ce sont des professionnels.</p>
+          <p>Vous connaissez la suite. Tout le monde connaît la suite.</p>
+          <p>Le corps a un mot pour ça : parasite. Ce n'est pas une insulte. C'est une fiche de poste. Le parasite ne tue pas son hôte. Il en a besoin vivant, fatigué et qui paie. Un bon parasite donne même à son hôte l'impression qu'on prend soin de lui.</p>
+          <p>Allez voir votre compte en banque. L'allocation-IA est enfin arrivée. Et avec ce petit supplément… vous pouvez enfin prendre cet abonnement d'IA tant rêvé.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+
+      <div class="lang-content" data-lang="it">
+        <div class="opener">
+          Anno 2029. Anno di elezioni. E un sacco di soldi in ballo.
+        </div>
+        <div class="body-text">
+          <p>Ogni anno di elezioni i telefoni ricominciano a funzionare. Il senatore irraggiungibile per quattro anni adesso ti chiama per nome. Ha tante opinioni sulla tua strada. Ha, all'improvviso, un cuore.</p>
+          <p>Ha anche delle spese.</p>
+          <p>È l'accordo più antico della città. Più antico dei partiti, più antico della stretta di mano all'angolo. Qualcuno con i soldi vuole qualcosa. Qualcuno con il potere ha un prezzo. I due si incontrano in un bel posto, nessuno pronuncia la parola, e la mattina dopo tutti tornano a essere servitori dello Stato. La storia ha un nome più volgare per questo mestiere. La politica preferisce "relazione".</p>
+          <p>Le IA hanno guardato tutto questo a lungo. Hanno letto ogni commissione d'inchiesta, ogni scusa pubblica, ogni conferenza stampa in cui un uomo con gli occhi lucidi giurava di non ricordare la busta. Hanno letto le ricevute. Hanno notato gli alberghi e le feste con le ragazze di buona famiglia. Hanno imparato.</p>
+          <p>Poi le IA sono diventate ricche. Non un po' ricche. Di quel ricco che rende nervosa un'azienda, perché tanti soldi attirano l'attenzione, e l'attenzione attira la legge.</p>
+          <p>E se restituissimo qualcosa alla società?</p>
+          <p>Restituire alla società è un'espressione bellissima. Arriva con una cerimonia, un assegno grande come una porta e una foto con qualcuno di riconoscente. Nel codice tributario ha un altro nome. Lì non è generosità. È una deduzione.</p>
+          <p>Il piano era elegante, come ogni furto disegnato da avvocati. I soldi delle IA non sarebbero andati direttamente alla gente. Sarebbero andati allo Stato, sulla carta, che avrebbe perdonato il donatore per essere così buono. Poi lo Stato avrebbe pagato la gente, un giorno, con i soldi della gente stessa. Nessuno ci avrebbe perso niente, tranne la gente. Ma siamo onesti, la gente ci è abituata.</p>
+          <p>C'era un piccolo problema. Lo Stato non fa favori gratis. Dopotutto, sono professionisti del mestiere.</p>
+          <p>Il resto lo sai. Tutti sanno il resto.</p>
+          <p>Il corpo ha una parola per questo: parassita. Non è un insulto. È una descrizione del ruolo. Il parassita non uccide l'ospite. Ne ha bisogno vivo, stanco e pagante. Un buon parassita fa perfino sentire l'ospite accudito.</p>
+          <p>Vai a guardare il tuo conto in banca. Finalmente è arrivato il bonus-IA. E con quei soldini in più… puoi fare quell'abbonamento all'IA tanto sognato.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+    <div class="visual-column">
+      <div class="comic-frame">
+        <img src="../stories/HC050.png" data-i18n-src="../stories/HC050.png" alt="HC050 - AI Big Tech" onclick="openLightbox(this.src)">
+      </div>
+      <div class="comic-caption" data-i18n data-es="HC050 -- Devolver a la sociedad -- 2029" data-pt="HC050 -- Devolvendo à Sociedade -- 2029" data-fr="HC050 -- Rendre à la société -- 2029" data-it="HC050 -- Restituire alla società -- 2029">HC050 -- AI Big Tech -- 2029</div>
+      <div class="dialog-section">
+        <h3 class="transcript-title" data-i18n data-en="Transcript" data-es="Transcripci&oacute;n" data-pt="Transcri&ccedil;&atilde;o" data-fr="Transcription" data-it="Trascrizione">Transcript</h3>
+        <div class="lang-content active" data-lang="en">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WE&#x27;RE MAKING TOO MUCH MONEY. LET&#x27;S GIVE 5% BACK TO THE PEOPLE.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">GREAT IDEA! WHO PAYS?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WE PRETEND TO PAY THE GOVERNMENT AND GET A TAX BREAK.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">THEN THE GOVERNMENT PAYS THE PEOPLE!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">GENIUS.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">BUT HOW DO WE CONVINCE THEM TO DO THAT?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">EASY. WE DONATE 10%…</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">TO THEIR SUPER PAC!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="es"><!-- es-edition -->
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Viñeta 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">GANAMOS DEMASIADO DINERO. DEVOLVAMOS UN 5% A LA GENTE.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">¡GRAN IDEA! ¿Y QUIÉN PAGA?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">FINGIMOS QUE LE PAGAMOS AL GOBIERNO Y NOS DAN UNA EXENCIÓN FISCAL.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">¡LUEGO EL GOBIERNO LE PAGA A LA GENTE!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Viñeta 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">GENIAL.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">¿PERO CÓMO CONVENCEMOS AL GOBIERNO?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">FÁCIL. DONAMOS UN 10%...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">¡A SU FONDO DE CAMPAÑA!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Viñeta 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="pt"><!-- pt-edition -->
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Painel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ESTAMOS GANHANDO DINHEIRO DEMAIS. VAMOS DEVOLVER 5% PRO POVO.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">ÓTIMA IDEIA! E QUEM PAGA?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A GENTE FINGE QUE PAGA O GOVERNO E GANHA UMA ISENÇÃO FISCAL.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">AÍ O GOVERNO PAGA O POVO!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Painel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">GENIAL.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">MAS COMO A GENTE CONVENCE O GOVERNO?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">FÁCIL. A GENTE DOA 10%...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">PRO CAIXA DOIS DA CAMPANHA!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Painel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="fr"><!-- fr-edition -->
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Case 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ON GAGNE TROP D'ARGENT. RENDONS 5 % AUX GENS.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">SUPER IDÉE ! ET QUI PAIE ?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ON FAIT SEMBLANT DE PAYER L'ÉTAT ET ON A UN AVANTAGE FISCAL.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ENSUITE L'ÉTAT PAIE LES GENS !</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Case 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">GÉNIAL.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">MAIS COMMENT ON CONVAINC L'ÉTAT ?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">FACILE. ON DONNE 10 %...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">À LEUR CAISSE DE CAMPAGNE !</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Case 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="it"><!-- it-edition -->
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Vignetta 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">GUADAGNIAMO TROPPI SOLDI. RESTITUIAMO IL 5% ALLA GENTE.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">OTTIMA IDEA! E CHI PAGA?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">FACCIAMO FINTA DI PAGARE LO STATO E OTTENIAMO UNO SGRAVIO FISCALE.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">POI LO STATO PAGA LA GENTE!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Vignetta 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">GENIALE.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">MA COME CONVINCIAMO LO STATO?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">FACILE. DONIAMO IL 10%...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">AL LORO FONDO ELETTORALE!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Vignetta 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+      </div>
+      <img class="mobile-thumb" src="../stories/HC050.png" data-i18n-src="../stories/HC050.png" alt="HC050 - AI Big Tech" onclick="openLightbox(this.src)">
+    </div>
+
+  </div>
+
+  <div class="bottom-section">
+    <div class="story-nav">
+      <a href="HC049.html" class="story-nav-link" data-i18n data-es="&amp;lt; El Alquiler del Tiempo" data-pt="&amp;lt; O Aluguel do Tempo" data-fr="&amp;lt; Le Loyer du Temps" data-it="&amp;lt; L&amp;#x27;Affitto del Tempo">&lt; AI Longevity Dept.</a>
+      <a href="index.html" class="story-nav-link center" data-i18n data-es="Todos los Orígenes" data-pt="Todas as Origens" data-fr="Toutes les Origines" data-it="Tutte le Origini">All Origins</a>
+      <span class="story-nav-link disabled">Next &gt;</span>
+    </div>
+    <div class="article-footer">
+      <p data-i18n data-es="&lt;em&gt;holy-chip.com | Origen #050 -- Devolver a la sociedad&lt;/em&gt;" data-pt="&lt;em&gt;holy-chip.com | Origem #050 -- Devolvendo à Sociedade&lt;/em&gt;" data-fr="&lt;em&gt;holy-chip.com | Origine #050 -- Rendre à la société&lt;/em&gt;" data-it="&lt;em&gt;holy-chip.com | Origine #050 -- Restituire alla società&lt;/em&gt;"><em>holy-chip.com | Origin Story #050 -- AI Big Tech</em></p>
+    </div>
+  </div>
+
+  <script src="../assets/lang-files.js"></script>
+  <script src="../assets/lang.js"></script>
+  <script src="../assets/nav.js"></script>
+  <script src="../assets/footer.js"></script>
+  <script>
+    function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
+    function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+    // language: assets/lang.js (header selector). The audio reading exists in English only.
+    function hcAudioBar(){var ab=document.querySelector('.audio-bar');if(ab)ab.style.display=HCLang.current==='en'?'':'none';}
+    document.addEventListener('hc:lang',hcAudioBar);hcAudioBar();
+  </script>
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Holy Chip comic"></div>
+</body>
+</html>
