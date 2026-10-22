@@ -19,6 +19,7 @@
     { code: 'pt', name: 'Português', flag: 'br' },
     { code: 'es', name: 'Español',   flag: 'es' },
     { code: 'fr', name: 'Français',  flag: 'fr' },
+    { code: 'it', name: 'Italiano',  flag: 'it' },
   ];
   const CODES = LANGS.map(l => l.code);
   const KEY = 'hc-lang';
