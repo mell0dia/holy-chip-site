@@ -409,6 +409,7 @@
           <div class="lang-content" data-lang="es"></div>
           <div class="lang-content" data-lang="pt"></div>
           <div class="lang-content" data-lang="fr"></div>
+          <div class="lang-content" data-lang="it"></div>
         </article>
       </div>
 
@@ -759,7 +760,7 @@
 
     async function loadStoryBlogs(sid) {
       if (blogCache[sid]) return blogCache[sid];
-      const variants = { en: '.blog.md', es: '.blog.es.md', pt: '.blog.pt.md', fr: '.blog.fr.md' };
+      const variants = { en: '.blog.md', es: '.blog.es.md', pt: '.blog.pt.md', fr: '.blog.fr.md', it: '.blog.it.md' };
       const result = {};
       await Promise.all(Object.entries(variants).map(async ([lang, suffix]) => {
         try {

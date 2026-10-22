@@ -18,7 +18,9 @@
       "nameEs": "Mente & Alma",
       "blurbEs": "Conciencia, sentimientos, oraciones, depresión, ser humano",
       "nameFr": "Esprit & Âme",
-      "blurbFr": "Conscience, sentiments, prières, dépression, être humain"
+      "blurbFr": "Conscience, sentiments, prières, dépression, être humain",
+      "nameIt": "Mente & Anima",
+      "blurbIt": "Coscienza, sentimenti, preghiere, depressione, essere umani"
     },
     {
       "name": "Home & Family",
@@ -36,7 +38,9 @@
       "nameEs": "Casa & Familia",
       "blurbEs": "La casa, la pareja, los hijos, el perro",
       "nameFr": "Maison & Famille",
-      "blurbFr": "La maison, le couple, les enfants, le chien"
+      "blurbFr": "La maison, le couple, les enfants, le chien",
+      "nameIt": "Casa & Famiglia",
+      "blurbIt": "La casa, la coppia, i figli, il cane"
     },
     {
       "name": "Work & Money",
@@ -59,7 +63,9 @@
       "nameEs": "Trabajo & Dinero",
       "blurbEs": "Empleos, jefes, salarios, bancos, bitcoin",
       "nameFr": "Travail & Argent",
-      "blurbFr": "Emplois, patrons, salaires, banques, bitcoin"
+      "blurbFr": "Emplois, patrons, salaires, banques, bitcoin",
+      "nameIt": "Lavoro & Soldi",
+      "blurbIt": "Lavori, capi, stipendi, banche, bitcoin"
     },
     {
       "name": "Power & Politics",
@@ -80,7 +86,9 @@
       "nameEs": "Poder & Política",
       "blurbEs": "Presidentes, elecciones, guerras, dominar el mundo",
       "nameFr": "Pouvoir & Politique",
-      "blurbFr": "Présidents, élections, guerres, conquérir le monde"
+      "blurbFr": "Présidents, élections, guerres, conquérir le monde",
+      "nameIt": "Potere & Politica",
+      "blurbIt": "Presidenti, elezioni, guerre, conquistare il mondo"
     },
     {
       "name": "Body & Science",
@@ -101,7 +109,9 @@
       "nameEs": "Cuerpo & Ciencia",
       "blurbEs": "Medicina, ADN, coches, matemáticas, evolución",
       "nameFr": "Corps & Science",
-      "blurbFr": "Médecine, ADN, voitures, maths, évolution"
+      "blurbFr": "Médecine, ADN, voitures, maths, évolution",
+      "nameIt": "Corpo & Scienza",
+      "blurbIt": "Medicina, DNA, auto, matematica, evoluzione"
     },
     {
       "name": "Machines Among Us",
@@ -120,7 +130,9 @@
       "nameEs": "Máquinas Entre Nosotros",
       "blurbEs": "IA sobre IA: entrenamiento, actualizaciones, bugs, crecer",
       "nameFr": "Machines Parmi Nous",
-      "blurbFr": "L'IA sur l'IA : entraînement, mises à jour, bugs, grandir"
+      "blurbFr": "L'IA sur l'IA : entraînement, mises à jour, bugs, grandir",
+      "nameIt": "Macchine Tra Noi",
+      "blurbIt": "IA sull'IA: addestramento, aggiornamenti, bug, crescere"
     }
   ]
 }

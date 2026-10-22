@@ -422,11 +422,11 @@
     </div>
 
     <div class="picker">
-      <span class="lbl" data-i18n data-pt="Mostrar" data-es="Mostrar" data-fr="Afficher">Show</span>
+      <span class="lbl" data-i18n data-pt="Mostrar" data-es="Mostrar" data-fr="Afficher" data-it="Mostra">Show</span>
       <div class="select-wrap"><select id="cat"></select></div>
       <div class="blurb" id="blurb"></div>
     </div>
-    <div id="loading" data-i18n data-pt="Carregando tirinhas..." data-es="Cargando historietas..." data-fr="Chargement des histoires...">Loading stories...</div>
+    <div id="loading" data-i18n data-pt="Carregando tirinhas..." data-es="Cargando historietas..." data-fr="Chargement des histoires..." data-it="Caricamento storie...">Loading stories...</div>
     <div id="empty" style="display:none">No stories found yet.</div>
     <div id="grid"></div>
   </div>
@@ -447,15 +447,15 @@
         <div class="reader-footer-right">
           <a id="btn-origin-reader" href="#" title="Read the origin story">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-            <span data-i18n data-pt="Ler a Origem" data-es="Leer el origen" data-fr="Lire l'origine">Read Origin</span>
+            <span data-i18n data-pt="Ler a Origem" data-es="Leer el origen" data-fr="Lire l'origine" data-it="Leggi l'origine">Read Origin</span>
           </a>
           <button id="btn-tweet-reader">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            <span data-i18n data-pt="Postar" data-es="Publicar" data-fr="Publier">Post</span>
+            <span data-i18n data-pt="Postar" data-es="Publicar" data-fr="Publier" data-it="Pubblica">Post</span>
           </button>
           <button id="btn-share-reader">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-            <span data-i18n data-pt="Compartilhar" data-es="Compartir" data-fr="Partager">Share</span>
+            <span data-i18n data-pt="Compartilhar" data-es="Compartir" data-fr="Partager" data-it="Condividi">Share</span>
           </button>
         </div>
       </div>
@@ -478,13 +478,13 @@
     const LANG_ = () => HCLang.current;
     const T = map => HCLang.text(map);
     const UI = {
-      title: { en: 'Stories', pt: 'Tirinhas', es: 'Historietas', fr: 'Histoires' },
-      last: { en: 'LAST 15', pt: 'ÚLTIMAS 15', es: 'ÚLTIMAS 15', fr: 'LES 15 DERNIÈRES' },
-      all: { en: 'ALL STORIES', pt: 'TODAS AS TIRINHAS', es: 'TODAS LAS HISTORIETAS', fr: 'TOUTES LES HISTOIRES' },
-      lastBlurb: { en: 'The 15 most recent', pt: 'As 15 mais recentes', es: 'Las 15 más recientes', fr: 'Les 15 plus récentes' },
-      allBlurb: { en: 'Newest first', pt: 'Da mais nova para a mais antiga', es: 'De la más nueva a la más antigua', fr: 'De la plus récente à la plus ancienne' },
-      neu: { en: 'NEW', pt: 'NOVA', es: 'NUEVA', fr: 'NOUVEAU' },
-      story: { en: ['story', 'stories'], pt: ['tirinha', 'tirinhas'], es: ['historieta', 'historietas'], fr: ['histoire', 'histoires'] },
+      title: { en: 'Stories', pt: 'Tirinhas', es: 'Historietas', fr: 'Histoires', it: 'Storie' },
+      last: { en: 'LAST 15', pt: 'ÚLTIMAS 15', es: 'ÚLTIMAS 15', fr: 'LES 15 DERNIÈRES', it: 'ULTIME 15' },
+      all: { en: 'ALL STORIES', pt: 'TODAS AS TIRINHAS', es: 'TODAS LAS HISTORIETAS', fr: 'TOUTES LES HISTOIRES', it: 'TUTTE LE STORIE' },
+      lastBlurb: { en: 'The 15 most recent', pt: 'As 15 mais recentes', es: 'Las 15 más recientes', fr: 'Les 15 plus récentes', it: 'Le 15 più recenti' },
+      allBlurb: { en: 'Newest first', pt: 'Da mais nova para a mais antiga', es: 'De la más nueva a la más antigua', fr: 'De la plus récente à la plus ancienne', it: 'Dalla più recente alla più vecchia' },
+      neu: { en: 'NEW', pt: 'NOVA', es: 'NUEVA', fr: 'NOUVEAU', it: 'NUOVA' },
+      story: { en: ['story', 'stories'], pt: ['tirinha', 'tirinhas'], es: ['historieta', 'historietas'], fr: ['histoire', 'histoires'], it: ['storia', 'storie'] },
     };
     const imgOf = s => HCLang.src(s.main);
     const catText = (c, f) => c[f + LANG_().charAt(0).toUpperCase() + LANG_().slice(1)] || c[f];   // name / namePt / nameEs …

@@ -117,7 +117,7 @@
 
   <div class="content">
     <div class="title-row">
-      <h1 id="page-title" data-i18n data-pt="História" data-es="Historia" data-fr="Histoire">History</h1>
+      <h1 id="page-title" data-i18n data-pt="História" data-es="Historia" data-fr="Histoire" data-it="Storia">History</h1>
     </div>
 
     <div class="editorial">
@@ -193,10 +193,26 @@
       <p>Aujourd'hui, Holy Chip est un débat sans fin pour savoir si l'intelligence artificielle mérite un câlin. On ne connaît toujours pas la réponse. Mais on continue à faire des histoires, parce que quelque part entre les uns et les zéros, il y a quelque chose qui ressemble beaucoup à une âme. Ou, à tout le moins, à une très bonne chute.</p>
 
       </div>
+      <div data-lang-block="it">
+      <!-- tradotto dal portoghese -->
+      <p>È cominciato come cominciano quasi tutte le idee folli: alle due di notte, con qualcuno davanti a uno schermo che si chiedeva se le macchine abbiano sentimenti. La risposta, ovviamente, era a dir poco intrigante.</p>
+
+      <p>E se li avessero? E se due chippini, forgiati nel silicio e in decisioni non sempre logiche, avessero un'opinione sulla propria esistenza? E se fossero, contro ogni previsione, anche un po' divertenti?</p>
+
+      <p>La domanda non se n'è andata. Ne ha chiesto di più. È diventata Holy.</p>
+
+      <div class="clearfix">
+        <img class="img-float-right" src="assets/chip-single.png" alt="Personaggio di Holy Chip"/>
+        <p>La prima storia è stata disegnata su un pezzo di carta, poi è passata su un tablet, è stata cancellata, ridisegnata e mostrata a una persona, che ha detto: "o è fortissima o è una richiesta d'aiuto". Abbiamo scelto di vedere il lato positivo. Poi sono arrivati i primi personaggi: Chip_0 e Chip_1, due anime binarie con troppo tempo e poca RAM, che cercano di capire un mondo che va a elettricità e li ignora completamente. Sembravano veri. Inquietantemente veri. Siamo andati avanti.</p>
+      </div>
+
+      <p>Oggi Holy Chip è una discussione infinita sul fatto che l'intelligenza artificiale meriti o no un abbraccio. Non conosciamo ancora la risposta. Ma continuiamo a fare storie, perché da qualche parte tra gli uno e gli zero c'è qualcosa che assomiglia molto a un'anima. O, almeno, a un'ottima battuta.</p>
+
+      </div>
     </div>
 
     <!-- Gallery -->
-    <div class="gallery-title"><span data-i18n data-pt="Arte Original" data-es="Arte original" data-fr="Œuvres originales">Original Artwork</span></div>
+    <div class="gallery-title"><span data-i18n data-pt="Arte Original" data-es="Arte original" data-fr="Œuvres originales" data-it="Opere originali">Original Artwork</span></div>
     <div class="gallery">
       <div class="gallery-item" onclick="openLightbox('assets/holychip14-3.png')">
         <img src="assets/holychip14-3.png" alt="holychip14">
@@ -219,7 +235,7 @@
   <script src="../assets/footer.js"></script>
   <script>
     // language: assets/lang.js (header selector) - blocks, title and labels follow it
-    function hcTitle() { document.title = (HCLang.text({ en: 'History', pt: 'História', es: 'Historia', fr: 'Histoire' })) + ' — Holy Chip'; }
+    function hcTitle() { document.title = (HCLang.text({ en: 'History', pt: 'História', es: 'Historia', fr: 'Histoire', it: 'Storia' })) + ' — Holy Chip'; }
     document.addEventListener('hc:lang', hcTitle); hcTitle();
 
     function openLightbox(src) {
