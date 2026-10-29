@@ -125,7 +125,8 @@
         "HC022",
         "HC025",
         "HC035",
-        "HC044.short"
+        "HC044.short",
+        "HC051"
       ],
       "namePt": "Máquinas Entre Nós",
       "blurbPt": "IA sobre IA: treinamento, upgrades, bugs, crescer",

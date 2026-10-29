@@ -946,6 +946,25 @@
    "itThumb": "stories/thumbs/HC050.it.jpg"
   },
   {
+   "id": "HC051",
+   "kind": "story",
+   "title": "AI GPS",
+   "year": "2029",
+   "src": "stories/HC051.png",
+   "thumb": "stories/thumbs/HC051.jpg",
+   "p3": "stories/thumbs/HC051.p3.jpg",
+   "face": "stories/thumbs/HC051.face.jpg",
+   "origin": true,
+   "pre": "stories/HC051.pre.png",
+   "preThumb": "stories/thumbs/HC051.pre.jpg",
+   "es": "stories/HC051.es.png",
+   "esThumb": "stories/thumbs/HC051.es.jpg",
+   "fr": "stories/HC051.fr.png",
+   "frThumb": "stories/thumbs/HC051.fr.jpg",
+   "it": "stories/HC051.it.png",
+   "itThumb": "stories/thumbs/HC051.it.jpg"
+  },
+  {
    "id": "HC042.short",
    "kind": "short",
    "title": "AI CHIEF OF STAFF",

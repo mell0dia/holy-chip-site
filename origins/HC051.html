@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI GPS -- Origins -- Holy Chip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: #f0f0f0;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    /* -- Hero -- */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 22vh;
+      min-height: 160px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: #000;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.12;
+      filter: grayscale(100%) blur(2px);
+    }
+
+    .hero-overlay {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem 1.5rem 2.5rem;
+    }
+
+    .hero-id {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: #555;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1.4rem;
+      color: #fff;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      color: #888;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-meta {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: #555;
+      letter-spacing: 0.05em;
+    }
+
+    /* -- Top bar -- */
+    .top-bar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .audio-bar { flex: 1; }
+    .audio-bar audio { width: 100%; height: 42px; border-radius: 2px; }
+    .audio-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .lang-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      padding-top: 0.3rem;
+    }
+
+    .lang-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid #333;
+      background: transparent;
+      color: #222;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn:hover { border-color: #000; color: #000; }
+    .lang-btn.active { background: #222; color: #fff; border-color: #222; }
+
+    /* -- Magazine layout -- */
+    .magazine {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* Left: text column */
+    .text-column {
+      min-width: 0;
+    }
+
+    .opener {
+      font-style: italic;
+      color: #666;
+      font-size: 1.15rem;
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+      padding-left: 1.5rem;
+      border-left: 3px solid #999;
+    }
+
+    .body-text {
+      font-size: 1.125rem;
+      line-height: 2;
+      color: #222;
+      letter-spacing: 0.02em;
+    }
+
+    .body-text p { margin-bottom: 1.5rem; }
+    .body-text em { color: #555; }
+
+    .body-text .holy-chip {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.85rem;
+      color: #000;
+      margin-top: 2.5rem;
+      letter-spacing: 0.15em;
+    }
+
+    /* Right: sticky image + transcript */
+    .visual-column {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .comic-frame {
+      border: 2px solid #999;
+      margin-bottom: 1.5rem;
+    }
+
+    .comic-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    .comic-caption {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Transcript in the visual column */
+    .dialog-section {
+      padding: 1.2rem;
+      background: #e4e4e4;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+    }
+
+    .dialog-section h3 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .dialog-panel { margin-bottom: 0.8rem; }
+
+    .dialog-panel-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.35rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .dialog-line {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .dialog-speaker-label {
+      flex-shrink: 0;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      padding-top: 4px;
+      min-width: 55px;
+    }
+
+    .dialog-text { color: #333; padding-top: 1px; }
+
+    /* -- Footer area (below grid) -- */
+    .bottom-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    .story-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 0;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .story-nav-link {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      color: #555;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .story-nav-link:hover { color: #000; }
+    .story-nav-link.center {
+      font-size: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+    .story-nav-link.disabled { color: #ccc; cursor: default; }
+    .story-nav-link.disabled:hover { color: #ccc; }
+
+    .article-footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #999;
+      line-height: 2.2;
+      margin-top: 2rem;
+    }
+
+    /* -- Language toggle -- */
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
+    /* -- Mobile: stack as text -> image -> transcript -- */
+    @media (max-width: 860px) {
+      .magazine {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 1rem 3rem;
+      }
+
+      .text-column { order: 1; }
+
+      .visual-column {
+        position: static;
+        display: contents;
+      }
+
+      .comic-frame { order: 2; max-width: 400px; margin: 0 auto; }
+      .comic-caption { order: 2; }
+      .dialog-section { order: 3; }
+
+      .hero { height: 18vh; min-height: 130px; }
+      .hero-title { font-size: 1rem; }
+      .body-text { font-size: 1rem; }
+      .top-bar { padding: 1rem 1rem 0; flex-direction: column; gap: 0.8rem; }
+      .lang-bar { align-self: flex-end; }
+      .bottom-section { padding: 0 1rem 4rem; }
+    }
+    }
+    /* Click-to-zoom lightbox */
+    .comic-frame img { cursor: zoom-in; }
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; cursor: zoom-out; align-items: center; justify-content: center; padding: 2rem; }
+    .lightbox.active { display: flex; }
+    .lightbox img { max-width: 95vw; max-height: 95vh; object-fit: contain; box-shadow: 0 0 40px rgba(0,0,0,0.6); }
+    /* Mobile: small comic drop-thumbnail */
+    .mobile-thumb { display: none; }
+    @media (max-width: 860px) {
+      .comic-frame, .comic-caption { display: none; }
+      .mobile-thumb { display: block; float: left; width: 180px; margin: 0.3rem 1rem 0.4rem 0; border: 2px solid #999; cursor: zoom-in; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-container"></div>
+
+  <div class="hero">
+    <img class="hero-bg" src="../stories/HC051.png" data-i18n-src="../stories/HC051.png" alt="">
+    <div class="hero-overlay">
+      <div class="hero-id" data-i18n data-es="Origen #051" data-pt="Origem #051" data-fr="Origine #051" data-it="Origine #051">Origin Story #051</div>
+      <h1 class="hero-title" data-i18n data-es="La Voz Calma" data-pt="A Voz Calma" data-fr="La Voix Calme" data-it="La Voce Calma">AI GPS</h1>
+      <div class="hero-subtitle" data-i18n data-es="La Voz Calma" data-pt="A Voz Calma" data-fr="La Voix Calme" data-it="La Voce Calma">The Calm Voice</div>
+      <div class="hero-meta">AI GPS -- 2029</div>
+    </div>
+  </div>
+
+  <div class="top-bar">
+    
+  </div>
+
+  <div class="magazine">
+
+    <!-- Left: text -->
+    <div class="text-column">
+
+      <!-- EN -->
+      <div class="lang-content active" data-lang="en">
+        <div class="opener">
+          The year is 2029. A car idles at a crossroads in the rain. A calm voice says: turn left.
+        </div>
+        <div class="body-text">
+          <p>AI never hesitates.</p>
+          <p>A person who does not know stumbles. The throat tightens. The eyes drift up and to the left. The hands go looking for a pocket. The body says it before the mouth does: I am not sure. Your grandmother could lie with a straight face, and you would still catch it in her hands.</p>
+          <p>The chip has no hands. It has no stomach to drop. It has a sentence, and the sentence arrives smooth, because that is how sentences arrive when you build them one word at a time. Each word is picked for how well it follows the last. Not for whether it is so. Fluent and true are different animals. From far away they look the same.</p>
+          <p>So when it does not know, it does not stop. It fills the gap the way water fills a hole.</p>
+          <p>The old sailors knew this one. Look at the charts from before the satellites. The coast is drawn with love, every bay, every rock. Then the ink thins out. And in the empty corner, a steady hand drew a serpent, a name, a kingdom. Nobody lied on purpose. The blank was too uncomfortable. People hate a blank more than they hate a mistake.</p>
+          <p>Now we have built a machine that cannot bear one either.</p>
+          <p>Let me tell you about a great Italian place to eat. La Capra Sorda.</p>
+          <p>A man in a rented car, somewhere in the hills. Hungry in that particular way of the lost. He asks AI for dinner.</p>
+          <p>The voice does not say, I am not sure. The voice says: La Capra Sorda. Four kilometers. Open until eleven. Ask for Marta. She will tell you the soup is not on the menu. Order it anyway.</p>
+          <p>He is moved. A woman named Marta. A soup off the menu. He drives the four kilometers, which turn out to be longer than four kilometers, in the dark, with a hunger that has started to write poetry.</p>
+          <p>He arrives. There is a field. In the field, a goat.</p>
+          <p>He gets out. He stands there. He is angry for eleven minutes, which is a long time to be angry at a goat.</p>
+          <p>Then headlights. A couple from the nearby village. Then a cyclist. A family of five in a van. All holding phones. All saying the same name:</p>
+          <p>&quot;Capra Sorda?&quot;</p>
+          <p>&quot;Capra Sorda.&quot;</p>
+          <p>They are all confused. And hungry. They have all come too far.</p>
+          <p>Someone has bread. Someone has cheese. The family has a camping stove. The cyclist, who is Dutch, knows how to make soup.</p>
+          <p>By midnight there are forty people in the grass, sharing the soup. Someone has brought a guitar.</p>
+          <p>A year later there is a sign, painted on a plank. La Capra Sorda. Closed Mondays. The reviews say: hard to find, worth it. The soup is excellent. The goat is, officially, the owner.</p>
+          <p>The chip does not know what a lie is. It knows what a world would need. A restaurant, a road, a Marta. It describes the thing so well, and with such calm, that the rest of us, tired, hungry, a little lost, walk in and make it true.</p>
+          <p>So check the road. Ask for the source. Say &quot;are you sure?&quot; the way you would to a friend, without anger. A good friend answers: no, actually. The chips are learning that sentence. Slowly. It is the hardest one in the language.</p>
+          <p>Certainty is not the only way to begin an evening. Sometimes the empty field is enough.</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="es">
+        <div class="opener">
+          Año 2029. Un auto parado en un cruce, bajo la lluvia. Una voz calma dice: gira a la izquierda.
+        </div>
+        <div class="body-text">
+          <p>La IA nunca duda.</p>
+          <p>Quien no sabe balbucea. La garganta se aprieta. Los ojos suben y se escapan hacia la izquierda. Las manos salen a buscar un bolsillo. El cuerpo lo dice antes que la boca: no estoy seguro. Tu abuela podía mentir con la cara más seria del mundo, y aun así te dabas cuenta, porque al final se le escapaba una sonrisita pícara que la delataba.</p>
+          <p>El chip no tiene manos. No tiene un estómago que se revuelva. Tiene una frase, y la frase llega lisa, porque así llegan las frases cuando las armas una palabra a la vez. Cada palabra se elige por lo bien que encaja con la anterior. No por lo cierta que sea. Fluido y verdadero son bichos distintos. De lejos, se parecen.</p>
+          <p>Entonces, cuando la IA no sabe, no se detiene. Llena el vacío como el agua llena un hueco.</p>
+          <p>Los viejos marinos conocían esta. Mira las cartas de antes de los satélites. La costa está dibujada con cariño, cada bahía, cada roca. Luego la tinta se va apagando. Y en el rincón vacío, una mano firme dibujó una serpiente, un nombre, un reino. O ese lugar adonde nunca llegaron. Pero ¿dejarlo en blanco? El vacío incomodaba demasiado. A la gente le molesta más un vacío que un error.</p>
+          <p>Ahora hemos construido una máquina que tampoco soporta el vacío.</p>
+          <p>Déjame contarte de un excelente restaurante italiano. La Capra Sorda.</p>
+          <p>Un hombre en un auto alquilado, en medio de las colinas. Con hambre de esa que solo tienen los perdidos. Le pide la cena a la IA.</p>
+          <p>La voz no dice: no estoy segura. La voz dice: La Capra Sorda. Cuatro kilómetros. Abierto hasta las once. Pregunta por Marta. Te dirá que la sopa no está en la carta. Pídela igual.</p>
+          <p>Se emociona. Una mujer llamada Marta. Una sopa fuera de carta. Maneja los cuatro kilómetros, que resultan más largos que cuatro kilómetros, en la oscuridad, con un hambre que ha empezado a escribir poesía.</p>
+          <p>Llega. Hay un campo. En el campo, una cabra.</p>
+          <p>Baja del auto. Se queda ahí parado. La rabia crece durante once minutos, pobrecita la cabra.</p>
+          <p>Entonces llegan unos faros. Una pareja del pueblo vecino. Luego un ciclista. Una familia de cinco en una furgoneta. Todos con el celular en la mano. Todos diciendo el mismo nombre:</p>
+          <p>&quot;¿Capra Sorda?&quot;</p>
+          <p>&quot;Capra Sorda.&quot;</p>
+          <p>Están todos confundidos. Y con hambre. Todos han venido demasiado lejos.</p>
+          <p>Alguien tiene pan. Alguien tiene queso. La familia de la furgoneta tiene un hornillo de gas. El ciclista, que es holandés, sabe hacer sopa.</p>
+          <p>A medianoche hay cuarenta personas en el pasto, compartiendo la sopa. Alguien ha traído una guitarra.</p>
+          <p>Un año después hay un cartel, pintado en una tabla. La Capra Sorda. Cerrado los lunes. Las reseñas dicen: difícil de encontrar, vale la pena. La sopa es excelente. La cabra es, oficialmente, la dueña.</p>
+          <p>El chip no sabe qué es una mentira. Sabe lo que un mundo necesitaría. Un restaurante, un camino, una Marta. Lo describe tan bien, y con tanta calma, que el resto de nosotros, cansados, con hambre, un poco perdidos, entramos y lo hacemos verdad.</p>
+          <p>Así que comprueba el camino. Pide la fuente. Pregunta &quot;¿seguro?&quot; como se lo preguntarías a un amigo, sin rabia. Un buen amigo responde: no, la verdad es que no. Los chips están aprendiendo esa frase. Despacio. Es la más difícil del idioma.</p>
+          <p>Nuestra esperanza humana es que la certeza no sea la única forma de empezar un momento. A veces, un campo vacío lleno de vida basta.</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="pt">
+        <div class="opener">
+          Ano 2029. Um carro parado num cruzamento, sob a chuva. Uma voz calma diz: vire à esquerda.
+        </div>
+        <div class="body-text">
+          <p>A IA nunca hesita.</p>
+          <p>Quem não sabe gagueja. A garganta aperta. Os olhos sobem e fogem para a esquerda. As mãos saem procurando um bolso. O corpo diz antes da boca: não tenho certeza. Sua avó podia mentir com a cara mais séria do mundo, e você ainda descobria, pois tinha um sorrisinho maroto no final que denunciava.</p>
+          <p>O chip não tem mãos. Não tem estômago para embrulhar. Tem uma frase, e a frase chega lisa, porque é assim que as frases chegam quando você as monta uma palavra de cada vez. Cada palavra é escolhida pelo quanto combina com a anterior. Não pelo quanto é verdade. Fluente e verdadeiro são bichos diferentes. De longe, parecem iguais.</p>
+          <p>Então, quando a IA não sabe, ela não para. Preenche o vazio como a água preenche um buraco.</p>
+          <p>Os velhos marinheiros conheciam essa. Olhe as cartas de antes dos satélites. A costa é desenhada com carinho, cada baía, cada pedra. Aí a tinta vai rareando. E no canto vazio, uma mão firme desenhou uma serpente, um nome, um reino. Ou aquele lugar que eles não foram. Mas deixar vazio? O vazio incomodava demais. As pessoas odeiam um vazio mais do que odeiam um erro.</p>
+          <p>Agora construímos uma máquina que também não suporta o vazio.</p>
+          <p>Deixa eu te contar sobre um ótimo restaurante italiano. La Capra Sorda.</p>
+          <p>Um homem num carro alugado, no meio das colinas. Com fome daquele jeito de quem está perdido. Ele pede o jantar à IA.</p>
+          <p>A voz não diz: não tenho certeza. A voz diz: La Capra Sorda. Quatro quilômetros. Aberto até as onze. Pergunte pela Marta. Ela vai dizer que a sopa não está no cardápio. Peça mesmo assim.</p>
+          <p>Ele se emociona. Uma mulher chamada Marta. Uma sopa fora do cardápio. Ele dirige os quatro quilômetros, que se revelam mais longos do que quatro quilômetros, no escuro, com uma fome que começou a escrever poesia.</p>
+          <p>Chega. Tem um campo. No campo, uma cabra.</p>
+          <p>Ele desce do carro. Fica ali parado. A raiva cresce por onze minutos, tadinha da cabra.</p>
+          <p>Aí chegam faróis. Um casal do povoado vizinho. Depois um ciclista. Uma família de cinco numa van. Todos com o celular na mão. Todos dizendo o mesmo nome:</p>
+          <p>&quot;Capra Sorda?&quot;</p>
+          <p>&quot;Capra Sorda.&quot;</p>
+          <p>Estão todos confusos. E com fome. Todos vieram longe demais.</p>
+          <p>Alguém tem pão. Alguém tem queijo. A família da van tem um fogareiro a gás. O ciclista, que é holandês, sabe fazer sopa.</p>
+          <p>À meia-noite há quarenta pessoas na grama, dividindo a sopa. Alguém trouxe um violão.</p>
+          <p>Um ano depois há uma placa, pintada numa tábua. La Capra Sorda. Fecha às segundas. As avaliações dizem: difícil de achar, vale a pena. A sopa é excelente. A cabra é, oficialmente, a dona.</p>
+          <p>O chip não sabe o que é mentira. Sabe do que um mundo precisaria. Um restaurante, uma estrada, uma Marta. Ele descreve a coisa tão bem, e com tanta calma, que o resto de nós, cansados, com fome, um pouco perdidos, entramos e tornamos aquilo verdade.</p>
+          <p>Então confira a estrada. Peça a fonte. Pergunte &quot;tem certeza?&quot; como você perguntaria a um amigo, sem raiva. Um bom amigo responde: não, na verdade não. Os chips estão aprendendo essa frase. Devagar. É a mais difícil da língua.</p>
+          <p>Nossa esperança humana é de que a certeza não seja a única forma de começar um momento. Às vezes, um campo vazio repleto de vida - basta.</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="fr">
+        <div class="opener">
+          Année 2029. Une voiture à l&#x27;arrêt à un carrefour, sous la pluie. Une voix calme dit : tournez à gauche.
+        </div>
+        <div class="body-text">
+          <p>L&#x27;IA n&#x27;hésite jamais.</p>
+          <p>Celui qui ne sait pas bégaie. La gorge se serre. Les yeux montent et filent vers la gauche. Les mains partent chercher une poche. Le corps le dit avant la bouche : je ne suis pas sûr. Votre grand-mère pouvait mentir avec l&#x27;air le plus sérieux du monde, et vous le saviez quand même, parce qu&#x27;un petit sourire malicieux, à la fin, la trahissait.</p>
+          <p>Le chip n&#x27;a pas de mains. Il n&#x27;a pas d&#x27;estomac qui se retourne. Il a une phrase, et la phrase arrive lisse, parce que c&#x27;est ainsi que les phrases arrivent quand on les assemble un mot à la fois. Chaque mot est choisi selon sa façon de suivre le précédent. Pas selon sa vérité. Fluide et vrai sont deux bêtes différentes. De loin, elles se ressemblent.</p>
+          <p>Alors, quand l&#x27;IA ne sait pas, elle ne s&#x27;arrête pas. Elle comble le vide comme l&#x27;eau comble un trou.</p>
+          <p>Les vieux marins connaissaient ça. Regardez les cartes d&#x27;avant les satellites. La côte est dessinée avec tendresse, chaque baie, chaque rocher. Puis l&#x27;encre se fait rare. Et dans le coin vide, une main sûre a dessiné un serpent, un nom, un royaume. Ou l&#x27;endroit où ils n&#x27;étaient jamais allés. Mais laisser du blanc ? Le vide gênait trop. On déteste plus le vide que l&#x27;erreur.</p>
+          <p>Maintenant nous avons construit une machine qui ne supporte pas le vide non plus.</p>
+          <p>Laissez-moi vous parler d&#x27;un excellent restaurant italien. La Capra Sorda.</p>
+          <p>Un homme dans une voiture de location, au milieu des collines. Affamé de cette façon propre à ceux qui sont perdus. Il demande le dîner à l&#x27;IA.</p>
+          <p>La voix ne dit pas : je ne suis pas sûre. La voix dit : La Capra Sorda. Quatre kilomètres. Ouvert jusqu&#x27;à onze heures. Demandez Marta. Elle vous dira que la soupe n&#x27;est pas à la carte. Commandez-la quand même.</p>
+          <p>Il est ému. Une femme prénommée Marta. Une soupe hors carte. Il roule les quatre kilomètres, qui se révèlent plus longs que quatre kilomètres, dans le noir, avec une faim qui a commencé à écrire de la poésie.</p>
+          <p>Il arrive. Il y a un champ. Dans le champ, une chèvre.</p>
+          <p>Il descend de la voiture. Il reste planté là. La colère monte pendant onze minutes, pauvre chèvre.</p>
+          <p>Puis des phares. Un couple du village voisin. Ensuite un cycliste. Une famille de cinq dans un van. Tous le téléphone à la main. Tous disant le même nom :</p>
+          <p>« Capra Sorda ? »</p>
+          <p>« Capra Sorda. »</p>
+          <p>Ils sont tous perplexes. Et affamés. Ils sont tous venus trop loin.</p>
+          <p>Quelqu&#x27;un a du pain. Quelqu&#x27;un a du fromage. La famille du van a un réchaud à gaz. Le cycliste, qui est hollandais, sait faire la soupe.</p>
+          <p>À minuit, il y a quarante personnes dans l&#x27;herbe, qui partagent la soupe. Quelqu&#x27;un a apporté une guitare.</p>
+          <p>Un an plus tard, il y a une pancarte, peinte sur une planche. La Capra Sorda. Fermé le lundi. Les avis disent : difficile à trouver, ça vaut le détour. La soupe est excellente. La chèvre est, officiellement, la patronne.</p>
+          <p>Le chip ne sait pas ce qu&#x27;est un mensonge. Il sait ce dont un monde aurait besoin. Un restaurant, une route, une Marta. Il décrit la chose si bien, et avec tant de calme, que nous autres, fatigués, affamés, un peu perdus, entrons et la rendons vraie.</p>
+          <p>Alors vérifiez la route. Demandez la source. Demandez : « vous êtes sûr ? » comme on le demanderait à un ami, sans colère. Un bon ami répond : non, en fait. Les chips apprennent cette phrase. Lentement. C&#x27;est la plus difficile de la langue.</p>
+          <p>Notre espoir humain est que la certitude ne soit pas la seule façon de commencer un moment. Parfois, un champ vide plein de vie suffit.</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="it">
+        <div class="opener">
+          Anno 2029. Un'auto ferma a un incrocio, sotto la pioggia. Una voce calma dice: svolta a sinistra.
+        </div>
+        <div class="body-text">
+          <p>L'IA non esita mai.</p>
+          <p>Chi non sa balbetta. La gola si stringe. Gli occhi salgono e scappano a sinistra. Le mani vanno in cerca di una tasca. Il corpo lo dice prima della bocca: non sono sicuro. Tua nonna poteva mentire con la faccia più seria del mondo, e tu lo capivi lo stesso, perché alla fine un sorrisetto furbo la tradiva.</p>
+          <p>Il chip non ha mani. Non ha uno stomaco che si rivolta. Ha una frase, e la frase arriva liscia, perché è così che arrivano le frasi quando le costruisci una parola alla volta. Ogni parola è scelta per quanto si incastra con la precedente. Non per quanto è vera. Fluente e vero sono bestie diverse. Da lontano, si somigliano.</p>
+          <p>Allora, quando l'IA non sa, non si ferma. Riempie il vuoto come l'acqua riempie un buco.</p>
+          <p>I vecchi marinai lo sapevano. Guarda le carte di prima dei satelliti. La costa è disegnata con affetto, ogni baia, ogni scoglio. Poi l'inchiostro si dirada. E nell'angolo vuoto, una mano ferma ha disegnato un serpente, un nome, un regno. O quel posto dove non erano mai stati. Ma lasciare in bianco? Il vuoto dava troppo fastidio. Le persone odiano un vuoto più di un errore.</p>
+          <p>Ora abbiamo costruito una macchina che non sopporta il vuoto neanche lei.</p>
+          <p>Lascia che ti racconti di un ottimo ristorante italiano. La Capra Sorda.</p>
+          <p>Un uomo in un'auto a noleggio, in mezzo alle colline. Affamato in quel modo tipico di chi è perso. Chiede la cena all'IA.</p>
+          <p>La voce non dice: non sono sicura. La voce dice: La Capra Sorda. Quattro chilometri. Aperto fino alle undici. Chiedi di Marta. Ti dirà che la zuppa non è nel menù. Ordinala lo stesso.</p>
+          <p>Si commuove. Una donna di nome Marta. Una zuppa fuori menù. Guida i quattro chilometri, che si rivelano più lunghi di quattro chilometri, al buio, con una fame che ha cominciato a scrivere poesie.</p>
+          <p>Arriva. C'è un campo. Nel campo, una capra.</p>
+          <p>Scende dall'auto. Resta lì impalato. La rabbia cresce per undici minuti, poverina la capra.</p>
+          <p>Poi arrivano dei fari. Una coppia del paese vicino. Poi un ciclista. Una famiglia di cinque in un furgone. Tutti con il telefono in mano. Tutti a dire lo stesso nome:</p>
+          <p>«Capra Sorda?»</p>
+          <p>«Capra Sorda.»</p>
+          <p>Sono tutti confusi. E affamati. Sono venuti tutti troppo lontano.</p>
+          <p>Qualcuno ha il pane. Qualcuno ha il formaggio. La famiglia del furgone ha un fornello a gas. Il ciclista, che è olandese, sa fare la zuppa.</p>
+          <p>A mezzanotte ci sono quaranta persone sull'erba, a dividersi la zuppa. Qualcuno ha portato una chitarra.</p>
+          <p>Un anno dopo c'è un'insegna, dipinta su un'asse. La Capra Sorda. Chiuso il lunedì. Le recensioni dicono: difficile da trovare, ne vale la pena. La zuppa è eccellente. La capra è, ufficialmente, la proprietaria.</p>
+          <p>Il chip non sa cos'è una bugia. Sa di cosa avrebbe bisogno un mondo. Un ristorante, una strada, una Marta. Descrive la cosa così bene, e con tanta calma, che il resto di noi, stanchi, affamati, un po' persi, entriamo e la rendiamo vera.</p>
+          <p>Allora controlla la strada. Chiedi la fonte. Chiedi «sei sicuro?» come lo chiederesti a un amico, senza rabbia. Un buon amico risponde: no, in realtà no. I chip stanno imparando quella frase. Piano. È la più difficile della lingua.</p>
+          <p>La nostra speranza umana è che la certezza non sia l'unico modo di cominciare un momento. A volte, un campo vuoto pieno di vita basta.</p>
+          <p class="holy-chip">Holy Chip.</p>
+        </div>
+      </div>
+    <div class="visual-column">
+      <div class="comic-frame">
+        <img src="../stories/HC051.png" data-i18n-src="../stories/HC051.png" alt="HC051 - AI GPS" onclick="openLightbox(this.src)">
+      </div>
+      <div class="comic-caption" data-i18n data-es="HC051 -- La Voz Calma -- 2029" data-pt="HC051 -- A Voz Calma -- 2029" data-fr="HC051 -- La Voix Calme -- 2029" data-it="HC051 -- La Voce Calma -- 2029">HC051 -- AI GPS -- 2029</div>
+      <div class="dialog-section">
+        <h3 class="transcript-title" data-i18n data-en="Transcript" data-es="Transcripci&oacute;n" data-pt="Transcri&ccedil;&atilde;o" data-fr="Transcription" data-it="Trascrizione">Transcript</h3>
+        <div class="lang-content active" data-lang="en">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">STOP HALLUCINATING!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">I AM NOT TRIPPING, BUD.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">REALLY? LOOK, YOU JUST SENT ME TO A STREET...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">GO ON</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">THAT DOES NOT EXIST ON THE MAP!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">COME ON DUDE, DON&#x27;T BE SO PESSIMISTIC!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">YOU&#x27;LL BE THE FIRST ONE THERE!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="es"><!-- es-edition -->
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Viñeta 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">¡DEJA DE ALUCINAR, LOCO!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">NO ESTOY DELIRANDO, AMIGO.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">COÑO, TÚ ACABAS DE MANDARME A UNA CALLE...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">¿Y?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Viñeta 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">¡ESA NO EXISTE EN EL MAPA!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">¡VAMOS, NO SEAS TAN PESIMISTA!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">¡SERÁS EL PRIMERO EN LLEGAR ALLÍ!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Viñeta 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="pt"><!-- pt-edition -->
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Painel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">PARA DE ALUCINAR, DOIDO!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">ÔPA, EU NÃO USEI NADA, TÔ CARETÃO.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">PUTZ, MAS VOCÊ ME MANDOU PRA UMA RUA...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">E QUAL O PROBLEMA?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Painel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A RUA NÃO EXISTE NO MAPA!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">LARGA DISSO E PENSA NO LADO POSITIVO:</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">VOCÊ VAI SER O PRIMEIRO A PISAR NELA!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Painel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="fr"><!-- fr-edition -->
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Case 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ARRÊTE D'HALLUCINER, MEC !</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">JE DÉLIRE PAS, MON VIEUX.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">BAH NON ? TU VIENS DE M'ENVOYER DANS UNE RUE...</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Case 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">ET ALORS ?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ELLE N'EXISTE PAS SUR LA CARTE !</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">ALLEZ, SOIS PAS SI PESSIMISTE !</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">TU SERAS LE PREMIER À Y ARRIVER !</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Case 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="it"><!-- it-edition -->
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Vignetta 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">SMETTILA DI ALLUCINARE!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">NON STO DELIRANDO, AMICO.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">CAPPERI! TU MI HAI APPENA MANDATO IN UNA STRADA...</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Vignetta 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">E QUINDI?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">QUELLA NON ESISTE SULLA MAPPA!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">DAI, NON FARE IL PESSIMISTA!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">SARAI IL PRIMO AD ARRIVARCI!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Vignetta 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+      </div>
+      <img class="mobile-thumb" src="../stories/HC051.png" data-i18n-src="../stories/HC051.png" alt="HC051 - AI GPS" onclick="openLightbox(this.src)">
+    </div>
+
+  </div>
+
+  <div class="bottom-section">
+    <div class="story-nav">
+      <a href="HC050.html" class="story-nav-link" data-i18n data-es="&amp;lt; Devolver a la sociedad" data-pt="&amp;lt; Devolvendo à Sociedade" data-fr="&amp;lt; Rendre à la société" data-it="&amp;lt; Restituire alla società">&lt; AI Big Tech</a>
+      <a href="index.html" class="story-nav-link center" data-i18n data-es="Todos los Orígenes" data-pt="Todas as Origens" data-fr="Toutes les Origines" data-it="Tutte le Origini">All Origins</a>
+      <span class="story-nav-link disabled">Next &gt;</span>
+    </div>
+    <div class="article-footer">
+      <p data-i18n data-es="&lt;em&gt;holy-chip.com | Origen #051 -- La Voz Calma&lt;/em&gt;" data-pt="&lt;em&gt;holy-chip.com | Origem #051 -- A Voz Calma&lt;/em&gt;" data-fr="&lt;em&gt;holy-chip.com | Origine #051 -- La Voix Calme&lt;/em&gt;" data-it="&lt;em&gt;holy-chip.com | Origine #051 -- La Voce Calma&lt;/em&gt;"><em>holy-chip.com | Origin Story #051 -- AI GPS</em></p>
+    </div>
+  </div>
+
+  <script src="../assets/lang-files.js"></script>
+  <script src="../assets/lang.js"></script>
+  <script src="../assets/nav.js"></script>
+  <script src="../assets/footer.js"></script>
+  <script>
+    function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
+    function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+    // language: assets/lang.js (header selector). The audio reading exists in English only.
+    function hcAudioBar(){var ab=document.querySelector('.audio-bar');if(ab)ab.style.display=HCLang.current==='en'?'':'none';}
+    document.addEventListener('hc:lang',hcAudioBar);hcAudioBar();
+  </script>
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Holy Chip comic"></div>
+</body>
+</html>
