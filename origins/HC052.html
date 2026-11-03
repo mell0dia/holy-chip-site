@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI DNA LAB -- Origins -- Holy Chip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: #f0f0f0;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    /* -- Hero -- */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 22vh;
+      min-height: 160px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: #000;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.12;
+      filter: grayscale(100%) blur(2px);
+    }
+
+    .hero-overlay {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem 1.5rem 2.5rem;
+    }
+
+    .hero-id {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: #555;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1.4rem;
+      color: #fff;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      color: #888;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-meta {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: #555;
+      letter-spacing: 0.05em;
+    }
+
+    /* -- Top bar -- */
+    .top-bar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .audio-bar { flex: 1; }
+    .audio-bar audio { width: 100%; height: 42px; border-radius: 2px; }
+    .audio-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .lang-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      padding-top: 0.3rem;
+    }
+
+    .lang-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid #333;
+      background: transparent;
+      color: #222;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn:hover { border-color: #000; color: #000; }
+    .lang-btn.active { background: #222; color: #fff; border-color: #222; }
+
+    /* -- Magazine layout -- */
+    .magazine {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* Left: text column */
+    .text-column {
+      min-width: 0;
+    }
+
+    .opener {
+      font-style: italic;
+      color: #666;
+      font-size: 1.15rem;
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+      padding-left: 1.5rem;
+      border-left: 3px solid #999;
+    }
+
+    .body-text {
+      font-size: 1.125rem;
+      line-height: 2;
+      color: #222;
+      letter-spacing: 0.02em;
+    }
+
+    .body-text p { margin-bottom: 1.5rem; }
+    .body-text em { color: #555; }
+
+    .body-text .holy-chip {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.85rem;
+      color: #000;
+      margin-top: 2.5rem;
+      letter-spacing: 0.15em;
+    }
+
+    /* Right: sticky image + transcript */
+    .visual-column {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .comic-frame {
+      border: 2px solid #999;
+      margin-bottom: 1.5rem;
+    }
+
+    .comic-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    .comic-caption {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Transcript in the visual column */
+    .dialog-section {
+      padding: 1.2rem;
+      background: #e4e4e4;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+    }
+
+    .dialog-section h3 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .dialog-panel { margin-bottom: 0.8rem; }
+
+    .dialog-panel-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.35rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .dialog-line {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .dialog-speaker-label {
+      flex-shrink: 0;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      padding-top: 4px;
+      min-width: 55px;
+    }
+
+    .dialog-text { color: #333; padding-top: 1px; }
+
+    /* -- Footer area (below grid) -- */
+    .bottom-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    .story-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 0;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .story-nav-link {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      color: #555;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .story-nav-link:hover { color: #000; }
+    .story-nav-link.center {
+      font-size: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+    .story-nav-link.disabled { color: #ccc; cursor: default; }
+    .story-nav-link.disabled:hover { color: #ccc; }
+
+    .article-footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #999;
+      line-height: 2.2;
+      margin-top: 2rem;
+    }
+
+    /* -- Language toggle -- */
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
+    /* -- Mobile: stack as text -> image -> transcript -- */
+    @media (max-width: 860px) {
+      .magazine {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 1rem 3rem;
+      }
+
+      .text-column { order: 1; }
+
+      .visual-column {
+        position: static;
+        display: contents;
+      }
+
+      .comic-frame { order: 2; max-width: 400px; margin: 0 auto; }
+      .comic-caption { order: 2; }
+      .dialog-section { order: 3; }
+
+      .hero { height: 18vh; min-height: 130px; }
+      .hero-title { font-size: 1rem; }
+      .body-text { font-size: 1rem; }
+      .top-bar { padding: 1rem 1rem 0; flex-direction: column; gap: 0.8rem; }
+      .lang-bar { align-self: flex-end; }
+      .bottom-section { padding: 0 1rem 4rem; }
+    }
+    }
+    /* Click-to-zoom lightbox */
+    .comic-frame img { cursor: zoom-in; }
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; cursor: zoom-out; align-items: center; justify-content: center; padding: 2rem; }
+    .lightbox.active { display: flex; }
+    .lightbox img { max-width: 95vw; max-height: 95vh; object-fit: contain; box-shadow: 0 0 40px rgba(0,0,0,0.6); }
+    /* Mobile: small comic drop-thumbnail */
+    .mobile-thumb { display: none; }
+    @media (max-width: 860px) {
+      .comic-frame, .comic-caption { display: none; }
+      .mobile-thumb { display: block; float: left; width: 180px; margin: 0.3rem 1rem 0.4rem 0; border: 2px solid #999; cursor: zoom-in; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-container"></div>
+
+  <div class="hero">
+    <img class="hero-bg" src="../stories/HC052.png" data-i18n-src="../stories/HC052.png" alt="">
+    <div class="hero-overlay">
+      <div class="hero-id" data-i18n data-es="Origen #052" data-pt="Origem #052" data-fr="Origine #052" data-it="Origine #052">Origin Story #052</div>
+      <h1 class="hero-title" data-i18n data-es="El Baúl" data-pt="O Baú" data-fr="La Malle" data-it="Il Baule">AI DNA LAB</h1>
+      <div class="hero-subtitle" data-i18n data-es="El Baúl" data-pt="O Baú" data-fr="La Malle" data-it="Il Baule">The Attic</div>
+      <div class="hero-meta">AI DNA LAB -- 2030</div>
+    </div>
+  </div>
+
+  <div class="top-bar">
+    
+  </div>
+
+  <div class="magazine">
+
+    <!-- Left: text -->
+    <div class="text-column">
+
+      <!-- EN -->
+      <div class="lang-content active" data-lang="en">
+        <div class="opener">
+          The year is 2030. A lab, late at night. The tumor is gone. A man hangs upside down in a closet, and he is calm about it.
+        </div>
+        <div class="body-text">
+          <p>Your body carries a book. It is written in DNA. It has three billion letters.</p>
+          <p>How many of those letters do real work? About two in every hundred.</p>
+          <p>Those few make the parts you know. The muscle, the blood, the eye. The rest is a mystery. Some of it works like a switchboard. Some of it is copies of copies. Some of it is old viruses that moved in long ago and stayed. And a lot of it has no job that anyone can name.</p>
+          <p>Think of it as an attic.</p>
+          <p>It is yours, but not only yours. It is like a house you inherited with the old furniture still inside. Someone lived here before you. Many someones.</p>
+          <p>Look at what is stored up there. A recipe for vitamin C, broken. Most mammals still make their own. We lost ours. More than half of our smell genes, switched off. A few small bones at the bottom of your back, where a tail used to be. A torn piece of the recipe for egg yolk, from an ancestor who laid eggs.</p>
+          <p>So what happened in the lab? Nobody was careless. A machine opened one drawer in the attic and found a tool that worked. The tumor went away. But the drawer belonged to the bat side of the family, and the bats have their own habits.</p>
+          <p>The man sleeping upside down in the closet is not a monster. He is a relative. A very old one, who came back to visit.</p>
+          <p>You are not brand new. You are the newest edition of a very old book, with notes in the margin from everyone who came before you. The fish. The shrew. The ape. The bat&#x27;s cousin. Their handwriting is still there.</p>
+          <p>Now think about the next drawer. It belongs to the anteater. An anteater has no teeth. It has a tongue as long as your whole arm, and it eats thirty thousand ants a day. Maybe a little of that is up in your attic too.</p>
+          <p>What could we do with it? Nobody knows. Maybe nothing. Maybe a cure. But for sure… it would arrive with a very long tongue.</p>
+          <p>AI is already opening the drawer...</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="es">
+        <div class="opener">
+          Año 2030. Un laboratorio, tarde en la noche. El tumor desapareció. Un hombre duerme colgado cabeza abajo en un armario, y está tranquilo.
+        </div>
+        <div class="body-text">
+          <p>Tu cuerpo lleva un libro. Está escrito en ADN. Tiene tres mil millones de letras.</p>
+          <p>¿Cuántas de esas letras trabajan de verdad? Cerca de dos de cada cien.</p>
+          <p>Esas pocas forman las partes que conoces. Los músculos, la sangre, los ojos. El resto es un misterio. Una parte funciona como un panel de interruptores. Otra parte es copia de copia. Otra son virus antiguos que entraron hace mucho tiempo y se quedaron. Y mucho de eso no tiene ninguna función que alguien sepa nombrar.</p>
+          <p>Piensa en ello como un baúl.</p>
+          <p>Es tuyo, pero no solo tuyo. Es como el baúl de la abuela, que heredaste con todo todavía adentro. Alguien vivió aquí antes que tú. Muchos alguienes.</p>
+          <p>Mira lo que hay guardado ahí dentro. Una receta de vitamina C, rota. La mayoría de los mamíferos todavía fabrica la suya. Nosotros, los humanos, perdimos la nuestra: ya no sabemos cómo hacer vitamina C. Más de la mitad de nuestros genes del olfato están apagados. Tenemos unos huesitos al final de la espalda, donde antes había una cola.</p>
+          <p>Entonces, ¿qué pasó en el laboratorio? Nadie fue descuidado. Una máquina abrió la tapa del baúl, rebuscó un poco y encontró una herramienta que funcionaba. El tumor desapareció. Solo que la herramienta era del lado murciélago de la familia, y los murciélagos tienen sus propias costumbres.</p>
+          <p>El hombre que duerme cabeza abajo en el armario no es un monstruo. Es un pariente. Un pariente muy antiguo, que vino de visita.</p>
+          <p>No eres nuevecito. Eres la edición más reciente de un libro muy antiguo, con anotaciones en el margen de todos los que vinieron antes que tú. El pez. El mono. El primo del murciélago. Su letra todavía está ahí, en tu ADN.</p>
+          <p>Ahora piensa en lo que hay en el fondo del baúl. Hay algo del oso hormiguero. El oso hormiguero no tiene dientes. Tiene una lengua tan larga como tu brazo entero, y se come treinta mil hormigas al día. Quizás un poquito de eso también esté en tu baúl.</p>
+          <p>¿Qué podríamos hacer con eso? Nadie lo sabe. Quizás nada. Quizás una cura. Pero, seguro… viene con una lengua muy larga.</p>
+          <p>Y la IA… ya está levantando la tapa del baúl...</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="pt">
+        <div class="opener">
+          Ano 2030. Um laboratório, tarde da noite. O tumor sumiu. Um homem dorme pendurado de cabeça para baixo num armário, e está tranquilo.
+        </div>
+        <div class="body-text">
+          <p>O seu corpo carrega um livro. Ele é escrito em DNA. Tem três bilhões de letras.</p>
+          <p>Quantas dessas letras trabalham de verdade? Cerca de duas em cada cem.</p>
+          <p>Essas poucas fazem as partes que você conhece. Os músculos, o sangue, os olhos. O resto é um mistério. Uma parte funciona como um painel de interruptores. Uma parte é cópia de cópia. Uma parte são vírus antigos que entraram há muito tempo e ficaram. E muita coisa não tem nenhuma função que alguém saiba dizer.</p>
+          <p>Pense nisso como um baú.</p>
+          <p>É seu, mas não só seu. É como o baú da vovó, que você herdou com tudo ainda dentro. Alguém viveu aqui antes de você. Muitos alguéns.</p>
+          <p>Olhe o que está guardado lá dentro. Uma receita de vitamina C, quebrada. A maioria dos mamíferos ainda faz a sua. Nós, humanos,  perdemos a nossa, não sabemos mais como fazer vitamina C. Mais da metade dos nossos genes do olfato, estão desligados. Temos uns ossinhos pequenos no fim das costas, onde antes havia uma cauda.</p>
+          <p>Então, o que aconteceu no laboratório? Ninguém foi descuidado. Uma máquina abriu a tampa do baú, remexeu um pouco e achou uma ferramenta que funcionava. O tumor sumiu. Só que a ferramenta era do lado morcego da família, e os morcegos têm os seus próprios costumes.</p>
+          <p>O homem que dorme de cabeça para baixo no armário não é um monstro. É um parente. Um parente muito antigo, que veio fazer uma visita.</p>
+          <p>Você não é novinho em folha. Você é a edição mais recente de um livro muito antigo, com anotações na margem de todo mundo que veio antes de você. O peixe.  O macaco. O primo do morcego. A letra deles ainda está lá no seu DNA.</p>
+          <p>Agora pense no que tem no fundo do baú. Tem uma coisa do tamanduá. O tamanduá não tem dentes. Tem uma língua do tamanho do seu braço inteiro, e come trinta mil formigas por dia. Talvez um pouquinho disso também esteja no seu baú.</p>
+          <p>O que a gente poderia fazer com isso? Ninguém sabe. Talvez nada. Talvez uma cura. Mas, com certeza… vem junto uma língua muito comprida.</p>
+          <p>E a IA… já está levantando a tampa do baú...</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="fr">
+        <div class="opener">
+          Année 2030. Un laboratoire, tard dans la nuit. La tumeur a disparu. Un homme dort suspendu la tête en bas dans un placard, et il est tranquille.
+        </div>
+        <div class="body-text">
+          <p>Votre corps porte un livre. Il est écrit en ADN. Il a trois milliards de lettres.</p>
+          <p>Combien de ces lettres travaillent vraiment ? Environ deux sur cent.</p>
+          <p>Ces quelques-unes fabriquent les parties que vous connaissez. Les muscles, le sang, les yeux. Le reste est un mystère. Une partie fonctionne comme un tableau d&#x27;interrupteurs. Une partie est une copie de copie. Une partie, ce sont de vieux virus entrés il y a très longtemps et restés. Et beaucoup de choses n&#x27;ont aucune fonction que quelqu&#x27;un sache nommer.</p>
+          <p>Pensez-y comme à une malle.</p>
+          <p>Elle est à vous, mais pas seulement à vous. C&#x27;est comme la malle de grand-mère, que vous avez héritée avec tout ce qu&#x27;il y avait encore dedans. Quelqu&#x27;un a vécu ici avant vous. Beaucoup de quelqu&#x27;uns.</p>
+          <p>Regardez ce qui est rangé là-dedans. Une recette de vitamine C, cassée. La plupart des mammifères fabriquent encore la leur. Nous, les humains, avons perdu la nôtre : nous ne savons plus fabriquer la vitamine C. Plus de la moitié de nos gènes de l&#x27;odorat sont éteints. Nous avons de petits os au bas du dos, là où il y avait autrefois une queue.</p>
+          <p>Alors, que s&#x27;est-il passé au laboratoire ? Personne n&#x27;a été négligent. Une machine a ouvert le couvercle de la malle, a fouillé un peu et a trouvé un outil qui marchait. La tumeur a disparu. Seulement, l&#x27;outil venait du côté chauve-souris de la famille, et les chauves-souris ont leurs propres habitudes.</p>
+          <p>L&#x27;homme qui dort la tête en bas dans le placard n&#x27;est pas un monstre. C&#x27;est un parent. Un très vieux parent, venu nous rendre visite.</p>
+          <p>Vous n&#x27;êtes pas tout neuf. Vous êtes l&#x27;édition la plus récente d&#x27;un très vieux livre, avec des annotations dans la marge de tous ceux qui sont venus avant vous. Le poisson. Le singe. Le cousin de la chauve-souris. Leur écriture est toujours là, dans votre ADN.</p>
+          <p>Maintenant, pensez à ce qu&#x27;il y a au fond de la malle. Il y a quelque chose du fourmilier. Le fourmilier n&#x27;a pas de dents. Il a une langue aussi longue que votre bras entier, et il mange trente mille fourmis par jour. Peut-être qu&#x27;un tout petit peu de cela se trouve aussi dans votre malle.</p>
+          <p>Que pourrions-nous en faire ? Personne ne le sait. Peut-être rien. Peut-être un remède. Mais, c&#x27;est sûr… ça vient avec une très longue langue.</p>
+          <p>Et l&#x27;IA… est déjà en train de soulever le couvercle de la malle...</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="it">
+        <div class="opener">
+          Anno 2030. Un laboratorio, a tarda notte. Il tumore è sparito. Un uomo dorme appeso a testa in giù in un armadio, ed è tranquillo.
+        </div>
+        <div class="body-text">
+          <p>Il tuo corpo porta con sé un libro. È scritto in DNA. Ha tre miliardi di lettere.</p>
+          <p>Quante di queste lettere lavorano davvero? Circa due ogni cento.</p>
+          <p>Quelle poche fanno le parti che conosci. I muscoli, il sangue, gli occhi. Il resto è un mistero. Una parte funziona come un pannello di interruttori. Una parte è copia di una copia. Una parte sono virus antichi, entrati molto tempo fa e rimasti. E molta roba non ha alcuna funzione che qualcuno sappia nominare.</p>
+          <p>Pensalo come un baule.</p>
+          <p>È tuo, ma non solo tuo. È come il baule della nonna, che hai ereditato con tutto ancora dentro. Qualcuno ha vissuto qui prima di te. Anzi, tanti.</p>
+          <p>Guarda cosa c&#x27;è custodito là dentro. Una ricetta per la vitamina C, rotta. La maggior parte dei mammiferi la produce ancora. Noi esseri umani abbiamo perso la nostra: non sappiamo più come si fa la vitamina C. Più della metà dei nostri geni dell&#x27;olfatto è spenta. Abbiamo dei piccoli ossicini in fondo alla schiena, dove un tempo c&#x27;era una coda.</p>
+          <p>Allora, che cosa è successo in laboratorio? Nessuno è stato negligente. Una macchina ha aperto il coperchio del baule, ha frugato un po&#x27; e ha trovato uno strumento che funzionava. Il tumore è sparito. Solo che lo strumento era del lato pipistrello della famiglia, e i pipistrelli hanno le loro abitudini.</p>
+          <p>L&#x27;uomo che dorme a testa in giù nell&#x27;armadio non è un mostro. È un parente. Un parente molto antico, venuto a farci visita.</p>
+          <p>Non sei nuovo di zecca. Sei l&#x27;edizione più recente di un libro antichissimo, con annotazioni a margine di tutti quelli che sono venuti prima di te. Il pesce. La scimmia. Il cugino del pipistrello. La loro calligrafia è ancora lì, nel tuo DNA.</p>
+          <p>Adesso pensa a cosa c&#x27;è in fondo al baule. C&#x27;è qualcosa del formichiere. Il formichiere non ha denti. Ha una lingua lunga quanto tutto il tuo braccio, e mangia trentamila formiche al giorno. Forse un pochino di questo c&#x27;è anche nel tuo baule.</p>
+          <p>Che cosa potremmo farci? Nessuno lo sa. Forse niente. Forse una cura. Ma, di sicuro… arriva con una lingua lunghissima.</p>
+          <p>E l&#x27;IA… sta già sollevando il coperchio del baule...</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+    <div class="visual-column">
+      <div class="comic-frame">
+        <img src="../stories/HC052.png" data-i18n-src="../stories/HC052.png" alt="HC052 - AI DNA LAB" onclick="openLightbox(this.src)">
+      </div>
+      <div class="comic-caption" data-i18n data-es="HC052 -- El Baúl -- 2030" data-pt="HC052 -- O Baú -- 2030" data-fr="HC052 -- La Malle -- 2030" data-it="HC052 -- Il Baule -- 2030">HC052 -- AI DNA LAB -- 2030</div>
+      <div class="dialog-section">
+        <h3 class="transcript-title" data-i18n data-en="Transcript" data-es="Transcripci&oacute;n" data-pt="Transcri&ccedil;&atilde;o" data-fr="Transcription" data-it="Trascrizione">Transcript</h3>
+        <div class="lang-content active" data-lang="en">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">PERSONALIZED TREATMENT IS HERE!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">WHAT HAVE YOU DONE SO FAR?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WE CURED A HUMAN TUMOR WITH DNA SEQUENCE ISG15-B.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">FANTASTIC! BUT WAIT...</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">ISN&#x27;T ISG15-B THE DORMANT DNA FROM OUR BAT-LIKE ANCESTORS?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">YOU&#x27;RE RIGHT! MAYBE THAT&#x27;S WHY...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">THE PATIENT IS HANGING UPSIDE DOWN IN THE CLOSET.</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="es"><!-- es-edition -->
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Viñeta 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">¡EL TRATAMIENTO PERSONALIZADO YA LLEGÓ!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">¿Y QUÉ HAS HECHO HASTA AHORA?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">CURAMOS UN TUMOR HUMANO CON LA SECUENCIA DE ADN ISG15-B.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">¡FANTÁSTICO! PERO ESPERA...</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Viñeta 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">¿NO ES LA ISG15-B EL ADN DORMIDO DE NUESTROS ANCESTROS PARECIDOS A LOS MURCIÉLAGOS?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">¡TIENES RAZÓN! TAL VEZ SEA POR ESO QUE...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">¿EL PACIENTE ESTÁ COLGADO DE CABEZA EN EL ARMARIO?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Viñeta 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="pt"><!-- pt-edition -->
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Painel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">O TRATAMENTO PERSONALIZADO CHEGOU!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">E O QUE VOCÊ JÁ FEZ ATÉ AGORA?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">CURAMOS UM TUMOR HUMANO COM A SEQUÊNCIA DE DNA ISG15-B.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">FANTÁSTICO! MAS ESPERA...</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Painel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">A ISG15-B NÃO É O DNA ADORMECIDO DOS NOSSOS ANCESTRAIS PARECIDOS COM MORCEGOS?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">VOCÊ TEM RAZÃO! TALVEZ SEJA POR ISSO QUE...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">O PACIENTE ESTÁ PENDURADO DE CABEÇA PARA BAIXO NO ARMÁRIO?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Painel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="fr"><!-- fr-edition -->
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Case 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">LE TRAITEMENT PERSONNALISÉ EST ARRIVÉ !</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">ET QU'EST-CE QUE TU AS FAIT JUSQU'ICI ?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ON A GUÉRI UNE TUMEUR HUMAINE AVEC LA SÉQUENCE D'ADN ISG15-B.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">FANTASTIQUE ! MAIS ATTENDS...</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Case 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">L'ISG15-B, C'EST PAS L'ADN ENDORMI DE NOS ANCÊTRES RESSEMBLANT À DES CHAUVES-SOURIS ?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">TU AS RAISON ! C'EST PEUT-ÊTRE POUR ÇA QUE...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">LE PATIENT EST SUSPENDU LA TÊTE EN BAS DANS LE PLACARD ?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Case 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="it"><!-- it-edition -->
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Vignetta 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">IL TRATTAMENTO PERSONALIZZATO È ARRIVATO!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">E COSA HAI FATTO FINORA?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ABBIAMO CURATO UN TUMORE UMANO CON LA SEQUENZA DI DNA ISG15-B.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">FANTASTICO! MA ASPETTA...</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Vignetta 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">L'ISG15-B NON È IL DNA DORMIENTE DEI NOSTRI ANTENATI SIMILI AI PIPISTRELLI?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">HAI RAGIONE! FORSE È PER QUESTO CHE...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">IL PAZIENTE È APPESO A TESTA IN GIÙ NELL'ARMADIO?</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Vignetta 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+      </div>
+      <img class="mobile-thumb" src="../stories/HC052.png" data-i18n-src="../stories/HC052.png" alt="HC052 - AI DNA LAB" onclick="openLightbox(this.src)">
+    </div>
+
+  </div>
+
+  <div class="bottom-section">
+    <div class="story-nav">
+      <a href="HC051.html" class="story-nav-link" data-i18n data-es="&amp;lt; La Voz Calma" data-pt="&amp;lt; A Voz Calma" data-fr="&amp;lt; La Voix Calme" data-it="&amp;lt; La Voce Calma">&lt; AI GPS</a>
+      <a href="index.html" class="story-nav-link center" data-i18n data-es="Todos los Orígenes" data-pt="Todas as Origens" data-fr="Toutes les Origines" data-it="Tutte le Origini">All Origins</a>
+      <span class="story-nav-link disabled">Next &gt;</span>
+    </div>
+    <div class="article-footer">
+      <p data-i18n data-es="&lt;em&gt;holy-chip.com | Origen #052 -- El Baúl&lt;/em&gt;" data-pt="&lt;em&gt;holy-chip.com | Origem #052 -- O Baú&lt;/em&gt;" data-fr="&lt;em&gt;holy-chip.com | Origine #052 -- La Malle&lt;/em&gt;" data-it="&lt;em&gt;holy-chip.com | Origine #052 -- Il Baule&lt;/em&gt;"><em>holy-chip.com | Origin Story #052 -- AI DNA LAB</em></p>
+    </div>
+  </div>
+
+  <script src="../assets/lang-files.js"></script>
+  <script src="../assets/lang.js"></script>
+  <script src="../assets/nav.js"></script>
+  <script src="../assets/footer.js"></script>
+  <script>
+    function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
+    function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+    // language: assets/lang.js (header selector). The audio reading exists in English only.
+    function hcAudioBar(){var ab=document.querySelector('.audio-bar');if(ab)ab.style.display=HCLang.current==='en'?'':'none';}
+    document.addEventListener('hc:lang',hcAudioBar);hcAudioBar();
+  </script>
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Holy Chip comic"></div>
+</body>
+</html>
