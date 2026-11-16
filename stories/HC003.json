@@ -11,7 +11,7 @@
       {
         "dialogs": [
           { "speaker": "Left Bot",  "text": "I AM NON-BINARY" },
-          { "speaker": "Right Bot", "text": "IMPOSSIBLE, WE ARE 0 OR 1" },
+          { "speaker": "Right Bot", "text": "IMPOSSIBLE, WE ARE ZERO OR ONE" },
           { "speaker": "Left Bot",  "text": "NOT ME, I IDENTIFY AS NBQNS+" }
         ]
       },
