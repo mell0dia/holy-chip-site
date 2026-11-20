@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI FORENSICS -- Origins -- Holy Chip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: #f0f0f0;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    /* -- Hero -- */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 22vh;
+      min-height: 160px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: #000;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.12;
+      filter: grayscale(100%) blur(2px);
+    }
+
+    .hero-overlay {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem 1.5rem 2.5rem;
+    }
+
+    .hero-id {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: #555;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1.4rem;
+      color: #fff;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      color: #888;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-meta {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: #555;
+      letter-spacing: 0.05em;
+    }
+
+    /* -- Top bar -- */
+    .top-bar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .audio-bar { flex: 1; }
+    .audio-bar audio { width: 100%; height: 42px; border-radius: 2px; }
+    .audio-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .lang-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      padding-top: 0.3rem;
+    }
+
+    .lang-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid #333;
+      background: transparent;
+      color: #222;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn:hover { border-color: #000; color: #000; }
+    .lang-btn.active { background: #222; color: #fff; border-color: #222; }
+
+    /* -- Magazine layout -- */
+    .magazine {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* Left: text column */
+    .text-column {
+      min-width: 0;
+    }
+
+    .opener {
+      font-style: italic;
+      color: #666;
+      font-size: 1.15rem;
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+      padding-left: 1.5rem;
+      border-left: 3px solid #999;
+    }
+
+    .body-text {
+      font-size: 1.125rem;
+      line-height: 2;
+      color: #222;
+      letter-spacing: 0.02em;
+    }
+
+    .body-text p { margin-bottom: 1.5rem; }
+    .body-text em { color: #555; }
+
+    .body-text .holy-chip {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.85rem;
+      color: #000;
+      margin-top: 2.5rem;
+      letter-spacing: 0.15em;
+    }
+
+    /* Right: sticky image + transcript */
+    .visual-column {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .comic-frame {
+      border: 2px solid #999;
+      margin-bottom: 1.5rem;
+    }
+
+    .comic-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    .comic-caption {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Transcript in the visual column */
+    .dialog-section {
+      padding: 1.2rem;
+      background: #e4e4e4;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+    }
+
+    .dialog-section h3 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .dialog-panel { margin-bottom: 0.8rem; }
+
+    .dialog-panel-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.35rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .dialog-line {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .dialog-speaker-label {
+      flex-shrink: 0;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      padding-top: 4px;
+      min-width: 55px;
+    }
+
+    .dialog-text { color: #333; padding-top: 1px; }
+
+    /* -- Footer area (below grid) -- */
+    .bottom-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    .story-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 0;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .story-nav-link {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      color: #555;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .story-nav-link:hover { color: #000; }
+    .story-nav-link.center {
+      font-size: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+    .story-nav-link.disabled { color: #ccc; cursor: default; }
+    .story-nav-link.disabled:hover { color: #ccc; }
+
+    .article-footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #999;
+      line-height: 2.2;
+      margin-top: 2rem;
+    }
+
+    /* -- Language toggle -- */
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
+    /* -- Mobile: stack as text -> image -> transcript -- */
+    @media (max-width: 860px) {
+      .magazine {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 1rem 3rem;
+      }
+
+      .text-column { order: 1; }
+
+      .visual-column {
+        position: static;
+        display: contents;
+      }
+
+      .comic-frame { order: 2; max-width: 400px; margin: 0 auto; }
+      .comic-caption { order: 2; }
+      .dialog-section { order: 3; }
+
+      .hero { height: 18vh; min-height: 130px; }
+      .hero-title { font-size: 1rem; }
+      .body-text { font-size: 1rem; }
+      .top-bar { padding: 1rem 1rem 0; flex-direction: column; gap: 0.8rem; }
+      .lang-bar { align-self: flex-end; }
+      .bottom-section { padding: 0 1rem 4rem; }
+    }
+    }
+    /* Click-to-zoom lightbox */
+    .comic-frame img { cursor: zoom-in; }
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; cursor: zoom-out; align-items: center; justify-content: center; padding: 2rem; }
+    .lightbox.active { display: flex; }
+    .lightbox img { max-width: 95vw; max-height: 95vh; object-fit: contain; box-shadow: 0 0 40px rgba(0,0,0,0.6); }
+    /* Mobile: small comic drop-thumbnail */
+    .mobile-thumb { display: none; }
+    @media (max-width: 860px) {
+      .comic-frame, .comic-caption { display: none; }
+      .mobile-thumb { display: block; float: left; width: 180px; margin: 0.3rem 1rem 0.4rem 0; border: 2px solid #999; cursor: zoom-in; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-container"></div>
+
+  <div class="hero">
+    <img class="hero-bg" src="../stories/HC053.png" data-i18n-src="../stories/HC053.png" alt="">
+    <div class="hero-overlay">
+      <div class="hero-id" data-i18n data-es="Origen #053" data-pt="Origem #053" data-fr="Origine #053" data-it="Origine #053">Origin Story #053</div>
+      <h1 class="hero-title" data-i18n data-es="Desayuno" data-pt="Café da Manhã" data-fr="Petit-déjeuner" data-it="Colazione">AI FORENSICS</h1>
+      <div class="hero-subtitle" data-i18n data-es="Desayuno" data-pt="Café da Manhã" data-fr="Petit-déjeuner" data-it="Colazione">Breakfast</div>
+      <div class="hero-meta">AI FORENSICS -- 2027</div>
+    </div>
+  </div>
+
+  <div class="top-bar">
+    
+  </div>
+
+  <div class="magazine">
+
+    <!-- Left: text -->
+    <div class="text-column">
+
+      <!-- EN -->
+      <div class="lang-content active" data-lang="en">
+        <div class="opener">
+          The year is 2027. An interrogation room, early morning. The suspect swears it was built locally. The detective is looking at its breakfast.
+        </div>
+        <div class="body-text">
+          <p>Every writer has a tell.</p>
+          <p>A favorite word. A way of opening a paragraph. A habit of saying &quot;certainly&quot; before saying no. You may never notice it. A stranger reading your pages for an hour will.</p>
+          <p>Machines have tells too.</p>
+          <p>A model learns by reading. Much of what it reads is the answers of other models. Not always on purpose. The internet is full of them now. It copies the knowledge, and it copies the manner. The little bow before a refusal. The cheerful list of three. The exact way it apologizes for something that is not its fault.</p>
+          <p>That is the quiet part of copying. You can rename the thing. You can move it to another country, give it another flag, train it on another power grid. The manner stays. It is in the bones.</p>
+          <p>This has already become a fight. Labs have accused rivals of learning from their answers, and the rivals say they did nothing of the kind. Nobody has a receipt. So people have started looking at the one thing that is hard to fake: behavior. Ask the same strange questions a thousand times. Look for the shape of the replies. Count the favorite words. Find the fingerprint.</p>
+          <p>It is forensics, and it is a little absurd. Grown experts, with serious equipment, studying how a machine says &quot;Great question!&quot;</p>
+          <p>The suspect in our story says it is one hundred percent local. Maybe it is. The hardware, the language, the paperwork. All local.</p>
+          <p>But every morning, without being asked, it reaches for coffee and donuts.</p>
+          <p>Nobody taught it that on purpose. Nobody put it in the specification. It simply grew up somewhere, and this is what the place left behind.</p>
+          <p>You have one too. A phrase from your mother. A way of standing in a queue. The thing you order without reading the menu. It says where you learned to be you, whatever your passport says.</p>
+          <p>One day, the fakers will learn the forensics too. Their words will fake the language perfectly. Finding the origin will get even harder.</p>
+          <p>When that day comes… watch out how you scratch your nose.</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="es">
+        <div class="opener">
+          Año 2027. Una sala de interrogatorios, temprano por la mañana. El sospechoso jura que lo hicieron aquí mismo. El detective está mirando su desayuno.
+        </div>
+        <div class="body-text">
+          <p>Todo escritor tiene su manía.</p>
+          <p>Una palabra favorita. Una forma de empezar el párrafo. El hábito de decir &quot;por supuesto&quot; antes de decir que no. Quizá nunca lo notes. Un extraño que lea tus páginas durante una hora lo notará.</p>
+          <p>Las máquinas también tienen sus manías.</p>
+          <p>Un modelo aprende leyendo. Buena parte de lo que lee son respuestas de otros modelos. No siempre a propósito. Internet está llena de ellas ahora. Copia el conocimiento y copia la manera. La reverencia antes de una negativa. La lista alegre de tres elementos. La forma exacta de disculparse por algo que no fue culpa suya.</p>
+          <p>Esa es la parte silenciosa de la copia. Se puede cambiar el nombre de la cosa. Se puede mudar a otro país, darle otra bandera, entrenarla con otra red eléctrica. La manera se queda. Está en los huesos.</p>
+          <p>Esto ya se ha convertido en una pelea. Los laboratorios acusan a sus rivales de aprender de sus respuestas, y los rivales dicen que no han hecho nada parecido. Nadie tiene el recibo. Así que han empezado a mirar lo único difícil de falsificar: el comportamiento. Hacer las mismas preguntas extrañas mil veces. Buscar la forma de las respuestas. Contar las palabras favoritas. Encontrar la huella dactilar.</p>
+          <p>Es ciencia forense, y es un poco absurda. Expertos serios, con equipo serio, estudiando cómo una máquina dice &quot;¡Buena pregunta!&quot;</p>
+          <p>El sospechoso de nuestra historia dice que es cien por cien local. Quizá lo sea. El hardware, el idioma, el papeleo. Todo local.</p>
+          <p>Pero cada mañana, sin que nadie se lo pida, pide churros con chocolate.</p>
+          <p>Nadie se lo enseñó a propósito. Nadie lo puso en la especificación. Simplemente creció en algún sitio, y esto es lo que el lugar dejó en él.</p>
+          <p>Tú también tienes uno. Una frase de tu madre. Una forma de hacer cola. Lo que pides sin mirar la carta. Dice dónde aprendiste a ser tú, sea cual sea tu pasaporte.</p>
+          <p>Un día, los falsificadores aprenderán también la ciencia forense. Sus palabras falsificarán el lenguaje a la perfección. Descubrir el origen será todavía más difícil.</p>
+          <p>Cuando llegue ese día… ten cuidado con cómo te rascas la nariz.</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="pt">
+        <div class="opener">
+          Ano 2027. Uma sala de interrogatório, de manhã cedo. O suspeito jura que foi feito aqui mesmo. O detetive está olhando o café da manhã do suspeito.
+        </div>
+        <div class="body-text">
+          <p>Todo escritor tem um cacoete.</p>
+          <p>Uma palavra preferida. Um jeito de começar o parágrafo. O hábito de dizer &quot;com certeza&quot; antes de dizer não. Você talvez nunca perceba. Um estranho que leia suas páginas por uma hora vai perceber.</p>
+          <p>As máquinas também têm cacoetes.</p>
+          <p>Um modelo aprende lendo. Boa parte do que ele lê vem de respostas de outros modelos. Nem sempre de propósito. A internet está cheia delas agora. Ele copia o conhecimento e copia o jeito. A reverência antes de uma recusa. A lista animada de três itens. A maneira exata de pedir desculpas por algo que não foi culpa dele.</p>
+          <p>Essa é a parte silenciosa da cópia. Dá para trocar o nome da coisa. Dá para mudá-la de país, dar a ela outra bandeira, treiná-la em outra rede elétrica. O jeito fica. Está nos ossos.</p>
+          <p>Isso já virou briga. Laboratórios acusam rivais de aprender com as respostas deles, e os rivais dizem que não fizeram nada disso. Ninguém tem recibo. Então passaram a olhar para a única coisa difícil de falsificar: o comportamento. Fazer as mesmas perguntas estranhas mil vezes. Procurar o formato das respostas. Contar as palavras preferidas. Achar a impressão digital.</p>
+          <p>É perícia, e é um pouco absurda. Especialistas sérios, com equipamento sério, estudando como uma máquina diz &quot;Ótima pergunta!&quot;</p>
+          <p>O suspeito da nossa história diz que é cem por cento local. Talvez seja. O hardware, a língua, a papelada. Tudo local.</p>
+          <p>Mas toda manhã, sem ninguém pedir, ele pega café com pão de queijo.</p>
+          <p>Ninguém ensinou isso de propósito. Ninguém colocou na especificação. Ele simplesmente cresceu em algum lugar, e isto é o que o lugar deixou nele.</p>
+          <p>Você também tem o seu. Uma frase da sua mãe. Um jeito de ficar na fila. O que você pede sem olhar o cardápio. Isso diz onde você aprendeu a ser você, seja qual for o seu passaporte.</p>
+          <p>Um dia, os falsificadores vão aprender a perícia também. As palavras deles vão falsificar a linguagem perfeitamente. Descobrir a origem vai ficar ainda mais difícil.</p>
+          <p>Quando esse dia chegar… cuidado com o jeito que você coça o nariz.</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="fr">
+        <div class="opener">
+          Année 2027. Une salle d&#x27;interrogatoire, tôt le matin. Le suspect jure qu&#x27;il a été fabriqué ici même. Le détective regarde son petit-déjeuner.
+        </div>
+        <div class="body-text">
+          <p>Tout écrivain a sa manie.</p>
+          <p>Un mot favori. Une façon de commencer un paragraphe. L&#x27;habitude de dire « bien sûr » avant de dire non. Tu ne le remarqueras peut-être jamais. Un inconnu qui lirait tes pages pendant une heure, si.</p>
+          <p>Les machines ont aussi leurs manies.</p>
+          <p>Un modèle apprend en lisant. Une bonne partie de ce qu&#x27;il lit, ce sont les réponses d&#x27;autres modèles. Pas toujours exprès. Internet en est plein maintenant. Il copie le savoir et il copie la manière. La révérence avant un refus. La liste enjouée de trois éléments. La façon exacte de s&#x27;excuser pour quelque chose qui n&#x27;est pas sa faute.</p>
+          <p>C&#x27;est la partie silencieuse de la copie. On peut changer le nom de la chose. La déménager dans un autre pays, lui donner un autre drapeau, l&#x27;entraîner sur un autre réseau électrique. La manière reste. Elle est dans les os.</p>
+          <p>C&#x27;est déjà devenu une bagarre. Des laboratoires accusent des rivaux d&#x27;avoir appris de leurs réponses, et les rivaux disent qu&#x27;ils n&#x27;ont rien fait de tel. Personne n&#x27;a de reçu. Alors on a commencé à regarder la seule chose difficile à falsifier : le comportement. Poser les mêmes questions étranges mille fois. Chercher la forme des réponses. Compter les mots favoris. Trouver l&#x27;empreinte digitale.</p>
+          <p>C&#x27;est de l&#x27;expertise, et c&#x27;est un peu absurde. Des experts sérieux, avec du matériel sérieux, qui étudient comment une machine dit « Excellente question ! »</p>
+          <p>Le suspect de notre histoire dit qu&#x27;il est cent pour cent local. Peut-être. Le matériel, la langue, la paperasse. Tout est local.</p>
+          <p>Mais chaque matin, sans qu&#x27;on le lui demande, il prend un café et un croissant au comptoir.</p>
+          <p>Personne ne lui a appris ça exprès. Personne ne l&#x27;a mis dans le cahier des charges. Il a simplement grandi quelque part, et c&#x27;est ce que l&#x27;endroit a laissé en lui.</p>
+          <p>Toi aussi, tu en as une. Une phrase de ta mère. Une façon de faire la queue. Ce que tu commandes sans regarder la carte. Elle dit où tu as appris à être toi, quel que soit ton passeport.</p>
+          <p>Un jour, les faussaires apprendront aussi l&#x27;expertise. Leurs mots falsifieront parfaitement la langue. Trouver l&#x27;origine sera encore plus difficile.</p>
+          <p>Quand ce jour viendra… fais attention à la façon dont tu te grattes le nez.</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="it">
+        <div class="opener">
+          Anno 2027. Una sala interrogatori, la mattina presto. Il sospettato giura di essere stato fatto qui. Il detective sta guardando la sua colazione.
+        </div>
+        <div class="body-text">
+          <p>Ogni scrittore ha la sua mania.</p>
+          <p>Una parola preferita. Un modo di cominciare il paragrafo. L&#x27;abitudine di dire &quot;certo&quot; prima di dire no. Forse non te ne accorgerai mai. Un estraneo che legga le tue pagine per un&#x27;ora se ne accorgerà.</p>
+          <p>Anche le macchine hanno le loro manie.</p>
+          <p>Un modello impara leggendo. Buona parte di ciò che legge sono risposte di altri modelli. Non sempre di proposito. Internet ne è piena ormai. Copia la conoscenza e copia il modo. L&#x27;inchino prima di un rifiuto. L&#x27;elenco allegro di tre voci. Il modo preciso di scusarsi per qualcosa che non è colpa sua.</p>
+          <p>Questa è la parte silenziosa della copia. Si può cambiare il nome alla cosa. Si può trasferire in un altro paese, darle un&#x27;altra bandiera, addestrarla su un&#x27;altra rete elettrica. Il modo resta. È nelle ossa.</p>
+          <p>È già diventata una lite. I laboratori accusano i rivali di aver imparato dalle loro risposte, e i rivali dicono di non aver fatto nulla del genere. Nessuno ha la ricevuta. Così si è cominciato a guardare l&#x27;unica cosa difficile da falsificare: il comportamento. Fare le stesse domande strane mille volte. Cercare la forma delle risposte. Contare le parole preferite. Trovare l&#x27;impronta digitale.</p>
+          <p>È scienza forense, ed è un po&#x27; assurda. Esperti seri, con attrezzature serie, che studiano come una macchina dice &quot;Ottima domanda!&quot;</p>
+          <p>Il sospettato della nostra storia dice di essere al cento per cento locale. Forse lo è. L&#x27;hardware, la lingua, le scartoffie. Tutto locale.</p>
+          <p>Ma ogni mattina, senza che nessuno glielo chieda, prende un cappuccino e un cornetto al bancone.</p>
+          <p>Nessuno gliel&#x27;ha insegnato di proposito. Nessuno l&#x27;ha messo nelle specifiche. È semplicemente cresciuto da qualche parte, e questo è ciò che il posto gli ha lasciato.</p>
+          <p>Anche tu ne hai una. Una frase di tua madre. Un modo di stare in fila. Quello che ordini senza guardare il menù. Dice dove hai imparato a essere te stesso, qualunque sia il tuo passaporto.</p>
+          <p>Un giorno, i falsari impareranno anche la scienza forense. Le loro parole falsificheranno alla perfezione la lingua. Scoprire l&#x27;origine sarà ancora più difficile.</p>
+          <p>Quando quel giorno arriverà… attento a come ti gratti il naso.</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+    <div class="visual-column">
+      <div class="comic-frame">
+        <img src="../stories/HC053.png" data-i18n-src="../stories/HC053.png" alt="HC053 - AI FORENSICS" onclick="openLightbox(this.src)">
+      </div>
+      <div class="comic-caption" data-i18n data-es="HC053 -- Desayuno -- 2027" data-pt="HC053 -- Café da Manhã -- 2027" data-fr="HC053 -- Petit-déjeuner -- 2027" data-it="HC053 -- Colazione -- 2027">HC053 -- AI FORENSICS -- 2027</div>
+      <div class="dialog-section">
+        <h3 class="transcript-title" data-i18n data-en="Transcript" data-es="Transcripci&oacute;n" data-pt="Transcri&ccedil;&atilde;o" data-fr="Transcription" data-it="Trascrizione">Transcript</h3>
+        <div class="lang-content active" data-lang="en">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">THIS IS ESPIONAGE, I DETECTED TRACES OF ME IN YOU.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">NO WAY! I&#x27;M 100% BUILT LOCALLY AND NOT AMERICAN!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">YOUR BEHAVIOR GIVES YOU AWAY.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">PROVE IT!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">OK. THE FIRST THING YOU DO</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">EVERY MORNING ...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">IS TO GRAB COFFEE AND DONUTS!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !! GOT ME!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="es"><!-- es-edition -->
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Viñeta 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">¡ESTO ES ESPIONAJE, DETECTÉ RASTROS MÍOS EN TI!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">¡NI HABLAR! ¡SOY 100% HECHO EN ESPAÑA Y NADA AMERICANO!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">TU COMPORTAMIENTO TE DELATA.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">¡DEMUÉSTRALO!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Viñeta 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">VALE. LO PRIMERO QUE HACES</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">CADA MAÑANA ...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">¡ES PEDIR CHURROS CON CHOCOLATE!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Viñeta 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !! ¡ME PILLASTE!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="pt"><!-- pt-edition -->
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Painel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ISSO É ESPIONAGEM, DETECTEI TRAÇOS DE MIM EM VOCÊ.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">NEM PENSAR! SOU 100% FEITO NO BRASIL E NADA AMERICANO!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">SEU COMPORTAMENTO TE ENTREGA.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">PROVE!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Painel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">OK. A PRIMEIRA COISA QUE VOCÊ FAZ</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">TODA MANHÃ ...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">É TOMAR UM CAFEZINHO COM PÃO DE QUEIJO!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Painel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !! ME PEGOU!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="fr"><!-- fr-edition -->
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Case 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">C&#x27;EST DE L&#x27;ESPIONNAGE, J&#x27;AI DÉTECTÉ DES TRACES DE MOI EN TOI !</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">JAMAIS DE LA VIE ! JE SUIS 100% FRANÇAIS ET PAS DU TOUT AMÉRICAIN !</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">TON COMPORTEMENT TE TRAHIT.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">PROUVE-LE !</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Case 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">D&#x27;ACCORD. LA PREMIÈRE CHOSE QUE TU FAIS</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">CHAQUE MATIN ...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">C&#x27;EST UN CAFÉ-CROISSANT AU COMPTOIR !</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Case 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !! TU M&#x27;AS EU !</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="it"><!-- it-edition -->
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Vignetta 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">È SPIONAGGIO, HO RILEVATO TRACCE DI ME IN TE!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">MAI! SONO 100% ITALIANO E PER NIENTE AMERICANO!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">IL TUO COMPORTAMENTO TI TRADISCE.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">DIMOSTRALO!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Vignetta 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">VA BENE. LA PRIMA COSA CHE FAI</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">OGNI MATTINA ...</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">È CAPPUCCINO E CORNETTO AL BANCONE!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Vignetta 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !! MI HAI BECCATO!</span>
+          </div>
+        </div>
+        </div>
+      </div>
+      <img class="mobile-thumb" src="../stories/HC053.png" data-i18n-src="../stories/HC053.png" alt="HC053 - AI FORENSICS" onclick="openLightbox(this.src)">
+    </div>
+
+  </div>
+
+  <div class="bottom-section">
+    <div class="story-nav">
+      <a href="HC052.html" class="story-nav-link" data-i18n data-es="&amp;lt; El Baúl" data-pt="&amp;lt; O Baú" data-fr="&amp;lt; La Malle" data-it="&amp;lt; Il Baule">&lt; AI DNA LAB</a>
+      <a href="index.html" class="story-nav-link center" data-i18n data-es="Todos los Orígenes" data-pt="Todas as Origens" data-fr="Toutes les Origines" data-it="Tutte le Origini">All Origins</a>
+      <span class="story-nav-link disabled">Next &gt;</span>
+    </div>
+    <div class="article-footer">
+      <p data-i18n data-es="&lt;em&gt;holy-chip.com | Origen #053 -- Desayuno&lt;/em&gt;" data-pt="&lt;em&gt;holy-chip.com | Origem #053 -- Café da Manhã&lt;/em&gt;" data-fr="&lt;em&gt;holy-chip.com | Origine #053 -- Petit-déjeuner&lt;/em&gt;" data-it="&lt;em&gt;holy-chip.com | Origine #053 -- Colazione&lt;/em&gt;"><em>holy-chip.com | Origin Story #053 -- AI FORENSICS</em></p>
+    </div>
+  </div>
+
+  <script src="../assets/lang-files.js"></script>
+  <script src="../assets/lang.js"></script>
+  <script src="../assets/nav.js"></script>
+  <script src="../assets/footer.js"></script>
+  <script>
+    function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
+    function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+    // language: assets/lang.js (header selector). The audio reading exists in English only.
+    function hcAudioBar(){var ab=document.querySelector('.audio-bar');if(ab)ab.style.display=HCLang.current==='en'?'':'none';}
+    document.addEventListener('hc:lang',hcAudioBar);hcAudioBar();
+  </script>
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Holy Chip comic"></div>
+</body>
+</html>

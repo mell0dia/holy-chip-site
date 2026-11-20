@@ -988,6 +988,27 @@
    "itThumb": "stories/thumbs/HC052.it.jpg"
   },
   {
+   "id": "HC053",
+   "kind": "story",
+   "title": "AI FORENSICS",
+   "year": "2027",
+   "src": "stories/HC053.png",
+   "thumb": "stories/thumbs/HC053.jpg",
+   "p3": "stories/thumbs/HC053.p3.jpg",
+   "face": "stories/thumbs/HC053.face.jpg",
+   "origin": true,
+   "pre": "stories/HC053.pre.png",
+   "preThumb": "stories/thumbs/HC053.pre.jpg",
+   "pt": "stories/pt/HC053.png",
+   "ptThumb": "stories/thumbs/HC053.pt.jpg",
+   "es": "stories/HC053.es.png",
+   "esThumb": "stories/thumbs/HC053.es.jpg",
+   "fr": "stories/HC053.fr.png",
+   "frThumb": "stories/thumbs/HC053.fr.jpg",
+   "it": "stories/HC053.it.png",
+   "itThumb": "stories/thumbs/HC053.it.jpg"
+  },
+  {
    "id": "HC042.short",
    "kind": "short",
    "title": "AI CHIEF OF STAFF",
