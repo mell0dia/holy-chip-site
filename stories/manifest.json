@@ -1009,6 +1009,27 @@
    "itThumb": "stories/thumbs/HC053.it.jpg"
   },
   {
+   "id": "HC054",
+   "kind": "story",
+   "title": "NO INTERFACE",
+   "year": "2029",
+   "src": "stories/HC054.png",
+   "thumb": "stories/thumbs/HC054.jpg",
+   "p3": "stories/thumbs/HC054.p3.jpg",
+   "face": "stories/thumbs/HC054.face.jpg",
+   "origin": true,
+   "pre": "stories/HC054.pre.png",
+   "preThumb": "stories/thumbs/HC054.pre.jpg",
+   "pt": "stories/pt/HC054.png",
+   "ptThumb": "stories/thumbs/HC054.pt.jpg",
+   "es": "stories/HC054.es.png",
+   "esThumb": "stories/thumbs/HC054.es.jpg",
+   "fr": "stories/HC054.fr.png",
+   "frThumb": "stories/thumbs/HC054.fr.jpg",
+   "it": "stories/HC054.it.png",
+   "itThumb": "stories/thumbs/HC054.it.jpg"
+  },
+  {
    "id": "HC042.short",
    "kind": "short",
    "title": "AI CHIEF OF STAFF",

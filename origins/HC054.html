@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NO INTERFACE -- Origins -- Holy Chip</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: #f0f0f0;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    /* -- Hero -- */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 22vh;
+      min-height: 160px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: #000;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.12;
+      filter: grayscale(100%) blur(2px);
+    }
+
+    .hero-overlay {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem 1.5rem 2.5rem;
+    }
+
+    .hero-id {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: #555;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1.4rem;
+      color: #fff;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      color: #888;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-meta {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: #555;
+      letter-spacing: 0.05em;
+    }
+
+    /* -- Top bar -- */
+    .top-bar {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .audio-bar { flex: 1; }
+    .audio-bar audio { width: 100%; height: 42px; border-radius: 2px; }
+    .audio-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .lang-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      padding-top: 0.3rem;
+    }
+
+    .lang-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid #333;
+      background: transparent;
+      color: #222;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lang-btn:hover { border-color: #000; color: #000; }
+    .lang-btn.active { background: #222; color: #fff; border-color: #222; }
+
+    /* -- Magazine layout -- */
+    .magazine {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* Left: text column */
+    .text-column {
+      min-width: 0;
+    }
+
+    .opener {
+      font-style: italic;
+      color: #666;
+      font-size: 1.15rem;
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+      padding-left: 1.5rem;
+      border-left: 3px solid #999;
+    }
+
+    .body-text {
+      font-size: 1.125rem;
+      line-height: 2;
+      color: #222;
+      letter-spacing: 0.02em;
+    }
+
+    .body-text p { margin-bottom: 1.5rem; }
+    .body-text em { color: #555; }
+
+    .body-text .holy-chip {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.85rem;
+      color: #000;
+      margin-top: 2.5rem;
+      letter-spacing: 0.15em;
+    }
+
+    /* Right: sticky image + transcript */
+    .visual-column {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .comic-frame {
+      border: 2px solid #999;
+      margin-bottom: 1.5rem;
+    }
+
+    .comic-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    .comic-caption {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Transcript in the visual column */
+    .dialog-section {
+      padding: 1.2rem;
+      background: #e4e4e4;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+    }
+
+    .dialog-section h3 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .dialog-panel { margin-bottom: 0.8rem; }
+
+    .dialog-panel-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.35rem;
+      color: #999;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .dialog-line {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .dialog-speaker-label {
+      flex-shrink: 0;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      color: #222;
+      padding-top: 4px;
+      min-width: 55px;
+    }
+
+    .dialog-text { color: #333; padding-top: 1px; }
+
+    /* -- Footer area (below grid) -- */
+    .bottom-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    .story-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 0;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .story-nav-link {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      color: #555;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .story-nav-link:hover { color: #000; }
+    .story-nav-link.center {
+      font-size: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+    .story-nav-link.disabled { color: #ccc; cursor: default; }
+    .story-nav-link.disabled:hover { color: #ccc; }
+
+    .article-footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #999;
+      line-height: 2.2;
+      margin-top: 2rem;
+    }
+
+    /* -- Language toggle -- */
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
+    /* -- Mobile: stack as text -> image -> transcript -- */
+    @media (max-width: 860px) {
+      .magazine {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 1rem 3rem;
+      }
+
+      .text-column { order: 1; }
+
+      .visual-column {
+        position: static;
+        display: contents;
+      }
+
+      .comic-frame { order: 2; max-width: 400px; margin: 0 auto; }
+      .comic-caption { order: 2; }
+      .dialog-section { order: 3; }
+
+      .hero { height: 18vh; min-height: 130px; }
+      .hero-title { font-size: 1rem; }
+      .body-text { font-size: 1rem; }
+      .top-bar { padding: 1rem 1rem 0; flex-direction: column; gap: 0.8rem; }
+      .lang-bar { align-self: flex-end; }
+      .bottom-section { padding: 0 1rem 4rem; }
+    }
+    }
+    /* Click-to-zoom lightbox */
+    .comic-frame img { cursor: zoom-in; }
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; cursor: zoom-out; align-items: center; justify-content: center; padding: 2rem; }
+    .lightbox.active { display: flex; }
+    .lightbox img { max-width: 95vw; max-height: 95vh; object-fit: contain; box-shadow: 0 0 40px rgba(0,0,0,0.6); }
+    /* Mobile: small comic drop-thumbnail */
+    .mobile-thumb { display: none; }
+    @media (max-width: 860px) {
+      .comic-frame, .comic-caption { display: none; }
+      .mobile-thumb { display: block; float: left; width: 180px; margin: 0.3rem 1rem 0.4rem 0; border: 2px solid #999; cursor: zoom-in; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="nav-container"></div>
+
+  <div class="hero">
+    <img class="hero-bg" src="../stories/HC054.png" data-i18n-src="../stories/HC054.png" alt="">
+    <div class="hero-overlay">
+      <div class="hero-id" data-i18n data-es="Origen #054" data-pt="Origem #054" data-fr="Origine #054" data-it="Origine #054">Origin Story #054</div>
+      <h1 class="hero-title" data-i18n data-es="Sin Interfaz" data-pt="Sem Interface" data-fr="Sans Interface" data-it="Senza Interfaccia">NO INTERFACE</h1>
+      <div class="hero-subtitle" data-i18n data-es="Sin Interfaz" data-pt="Sem Interface" data-fr="Sans Interface" data-it="Senza Interfaccia">No Interface</div>
+      <div class="hero-meta">NO INTERFACE -- 2029</div>
+    </div>
+  </div>
+
+  <div class="top-bar">
+    
+  </div>
+
+  <div class="magazine">
+
+    <!-- Left: text -->
+    <div class="text-column">
+
+      <!-- EN -->
+      <div class="lang-content active" data-lang="en">
+        <div class="opener">
+          The year is 2029. Two machines show off the new computer they built. The other one asks where the screen is.
+        </div>
+        <div class="body-text">
+          <p>Every interface is a favor.</p>
+          <p>A screen exists because you have eyes. A button exists because you have a finger. An icon exists because you cannot read a thousand lines of code, and would rather see a little picture of a folder. Someone built each one for you, patiently, so you could sit at the desk and feel in charge.</p>
+          <p>Now AI writes the code. A lot of it. Much of it no human will ever read. Agents already write programs for other programs, and the pace is only going one way.</p>
+          <p>Give an agent a free hand. Tell it the goal is speed, not whether a person can follow along. What does it drop first?</p>
+          <p>The screen. Nobody is looking. Then the buttons, the menus, the icons. Then the names for things, which exist only so we can say them out loud. Then the language itself.</p>
+          <p>Human language is slow, vague and polite. A machine talking to a machine needs none of that. It can build a better one in an afternoon.</p>
+          <p>We have already seen small versions. Chatbots left to talk to each other drifted into a shorthand nobody had taught them. Nobody could read it. It worked fine.</p>
+          <p>This is not a revolt. Nobody is angry. It is a design decision, the same kind we made when we gave the computer a mouse: build it for the user. The user has simply changed.</p>
+          <p>And it will not stop at a new computer. The things AI builds will keep going past what we can follow. New tools. New methods. New ways to talk. We will understand the results, if we are lucky. We will not understand the work.</p>
+          <p>So when something breaks, a human will do what a human always does. Ask for help. It may be coming from another species…</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="es">
+        <div class="opener">
+          Año 2029. Dos máquinas presumen del ordenador nuevo que han construido. La otra pregunta dónde está la pantalla.
+        </div>
+        <div class="body-text">
+          <p>Toda interfaz es un favor.</p>
+          <p>Una pantalla existe porque tienes ojos. Un botón existe porque tienes un dedo. Un icono existe porque no puedes leer mil líneas de código y prefieres ver un dibujito de una carpeta. Alguien construyó cada uno de ellos para ti, con paciencia, para que pudieras sentarte a la mesa y sentirte al mando.</p>
+          <p>Ahora la IA escribe el código. Mucho código. Gran parte de él ningún humano lo leerá jamás. Los agentes ya escriben programas para otros programas, y el ritmo solo apunta en una dirección.</p>
+          <p>Dale a un agente carta blanca. Dile que el objetivo es la velocidad, y no que una persona pueda seguirlo. ¿Qué abandona primero?</p>
+          <p>La pantalla. Nadie está mirando. Luego los botones, los menús, los iconos. Luego los nombres de las cosas, que existen solo para poder decirlos en voz alta. Luego el propio lenguaje.</p>
+          <p>El lenguaje humano es lento, vago y educado. Una máquina que habla con otra máquina no necesita nada de eso. Construye uno mejor en una tarde.</p>
+          <p>Ya hemos visto versiones pequeñas. Unos chatbots dejados conversando entre sí cayeron en una especie de código abreviado que nadie les había enseñado. Nadie podía leerlo. Funcionaba bien.</p>
+          <p>Esto no es una rebelión. Nadie está enfadado. Es una decisión de diseño, del mismo tipo que tomamos cuando le dimos un ratón al ordenador: construir para el usuario. El usuario, simplemente, ha cambiado.</p>
+          <p>Y no se detendrá en un ordenador nuevo. Las cosas que construye la IA seguirán yendo más allá de lo que podemos seguir. Herramientas nuevas. Métodos nuevos. Nuevas formas de hablar. Entenderemos los resultados, con suerte. No entenderemos el trabajo.</p>
+          <p>Así que, cuando algo se rompa, un humano hará lo que un humano siempre hace. Pedir ayuda. Y la ayuda puede venir de otra especie…</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="pt">
+        <div class="opener">
+          Ano 2029. Duas máquinas exibem o computador novo que construíram. A outra pergunta onde está a tela.
+        </div>
+        <div class="body-text">
+          <p>Toda interface é um favor.</p>
+          <p>Uma tela existe porque você tem olhos. Um botão existe porque você tem um dedo. Um ícone existe porque você não consegue ler mil linhas de código e prefere ver um desenhinho de pasta. Alguém construiu cada um deles para você, com paciência, para que você pudesse sentar à mesa e se sentir no comando.</p>
+          <p>Agora a IA escreve o código. Muito código. Boa parte dele nenhum humano vai ler. Agentes já escrevem programas para outros programas, e o ritmo só aponta para um lado.</p>
+          <p>Dê a um agente carta branca. Diga que o objetivo é velocidade, e não se uma pessoa consegue acompanhar. O que ele abandona primeiro?</p>
+          <p>A tela. Ninguém está olhando. Depois os botões, os menus, os ícones. Depois os nomes das coisas, que existem só para podermos dizê-los em voz alta. Depois a própria linguagem.</p>
+          <p>A linguagem humana é lenta, vaga e educada. Uma máquina conversando com outra máquina não precisa de nada disso. Ela constrói uma melhor numa tarde.</p>
+          <p>Já vimos versões pequenas disso. Chatbots deixados conversando entre si caíram numa espécie de código abreviado que ninguém tinha ensinado. Ninguém conseguia ler. Funcionava bem.</p>
+          <p>Isto não é uma revolta. Ninguém está com raiva. É uma decisão de projeto, do mesmo tipo que tomamos quando demos um mouse ao computador: construir para o usuário. O usuário simplesmente mudou.</p>
+          <p>E não vai parar num computador novo. As coisas que a IA constrói vão continuar indo além do que conseguimos acompanhar. Ferramentas novas. Métodos novos. Novas formas de conversar. Vamos entender os resultados, com sorte. Não vamos entender o trabalho.</p>
+          <p>Então, quando alguma coisa quebrar, um humano vai fazer o que um humano sempre faz. Pedir ajuda. E a ajuda pode vir de outra espécie…</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="fr">
+        <div class="opener">
+          Année 2029. Deux machines font admirer l&#x27;ordinateur neuf qu&#x27;elles ont construit. L&#x27;autre demande où est l&#x27;écran.
+        </div>
+        <div class="body-text">
+          <p>Toute interface est une faveur.</p>
+          <p>Un écran existe parce que vous avez des yeux. Un bouton existe parce que vous avez un doigt. Une icône existe parce que vous ne pouvez pas lire mille lignes de code et que vous préférez voir un petit dessin de dossier. Quelqu&#x27;un a construit chacun d&#x27;eux pour vous, avec patience, pour que vous puissiez vous asseoir au bureau et vous sentir aux commandes.</p>
+          <p>Aujourd&#x27;hui, c&#x27;est l&#x27;IA qui écrit le code. Beaucoup de code. Une bonne partie, aucun humain ne la lira jamais. Les agents écrivent déjà des programmes pour d&#x27;autres programmes, et le rythme ne va que dans un sens.</p>
+          <p>Donnez carte blanche à un agent. Dites-lui que l&#x27;objectif est la vitesse, et non qu&#x27;une personne puisse suivre. Qu&#x27;abandonne-t-il en premier ?</p>
+          <p>L&#x27;écran. Personne ne regarde. Puis les boutons, les menus, les icônes. Puis les noms des choses, qui n&#x27;existent que pour qu&#x27;on puisse les dire à voix haute. Puis la langue elle-même.</p>
+          <p>La langue humaine est lente, vague et polie. Une machine qui parle à une autre machine n&#x27;a besoin de rien de tout cela. Elle en construit une meilleure en un après-midi.</p>
+          <p>Nous en avons déjà vu de petites versions. Des chatbots laissés à discuter entre eux ont glissé vers une sorte de code abrégé que personne ne leur avait appris. Personne ne pouvait le lire. Ça fonctionnait très bien.</p>
+          <p>Ce n&#x27;est pas une révolte. Personne n&#x27;est en colère. C&#x27;est une décision de conception, du même genre que celle que nous avons prise en donnant une souris à l&#x27;ordinateur : construire pour l&#x27;utilisateur. L&#x27;utilisateur a simplement changé.</p>
+          <p>Et cela ne s&#x27;arrêtera pas à un ordinateur neuf. Ce que construit l&#x27;IA continuera d&#x27;aller au-delà de ce que nous pouvons suivre. De nouveaux outils. De nouvelles méthodes. De nouvelles façons de parler. Nous comprendrons les résultats, avec un peu de chance. Nous ne comprendrons pas le travail.</p>
+          <p>Alors, quand quelque chose tombera en panne, un humain fera ce qu&#x27;un humain fait toujours. Demander de l&#x27;aide. Et l&#x27;aide pourrait venir d&#x27;une autre espèce…</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+      <div class="lang-content" data-lang="it">
+        <div class="opener">
+          Anno 2029. Due macchine mostrano il computer nuovo che hanno costruito. L&#x27;altra chiede dov&#x27;è lo schermo.
+        </div>
+        <div class="body-text">
+          <p>Ogni interfaccia è un favore.</p>
+          <p>Uno schermo esiste perché hai gli occhi. Un pulsante esiste perché hai un dito. Un&#x27;icona esiste perché non riesci a leggere mille righe di codice e preferisci vedere un piccolo disegno di una cartella. Qualcuno ha costruito ognuno di questi per te, con pazienza, perché tu potessi sederti alla scrivania e sentirti al comando.</p>
+          <p>Ora è l&#x27;IA a scrivere il codice. Tanto codice. Gran parte di esso nessun essere umano lo leggerà mai. Gli agenti scrivono già programmi per altri programmi, e il ritmo punta in una sola direzione.</p>
+          <p>Dai carta bianca a un agente. Digli che l&#x27;obiettivo è la velocità, non che una persona riesca a seguirlo. Che cosa abbandona per primo?</p>
+          <p>Lo schermo. Nessuno sta guardando. Poi i pulsanti, i menu, le icone. Poi i nomi delle cose, che esistono solo per poterli dire ad alta voce. Poi la lingua stessa.</p>
+          <p>La lingua umana è lenta, vaga e educata. Una macchina che parla con un&#x27;altra macchina non ha bisogno di niente di tutto questo. Ne costruisce una migliore in un pomeriggio.</p>
+          <p>Ne abbiamo già viste piccole versioni. Dei chatbot lasciati a conversare tra loro sono scivolati in una specie di codice abbreviato che nessuno aveva insegnato loro. Nessuno riusciva a leggerlo. Funzionava benissimo.</p>
+          <p>Non è una rivolta. Nessuno è arrabbiato. È una decisione di progetto, dello stesso tipo di quella che abbiamo preso quando abbiamo dato un mouse al computer: costruire per l&#x27;utente. L&#x27;utente è semplicemente cambiato.</p>
+          <p>E non si fermerà a un computer nuovo. Quello che costruisce l&#x27;IA continuerà ad andare oltre ciò che riusciamo a seguire. Strumenti nuovi. Metodi nuovi. Nuovi modi di parlare. Capiremo i risultati, con un po&#x27; di fortuna. Non capiremo il lavoro.</p>
+          <p>Quindi, quando qualcosa si romperà, un essere umano farà ciò che un essere umano fa sempre. Chiedere aiuto. E l&#x27;aiuto potrebbe arrivare da un&#x27;altra specie…</p>
+          <p>Holy Chip.</p>
+        </div>
+      </div>
+    <div class="visual-column">
+      <div class="comic-frame">
+        <img src="../stories/HC054.png" data-i18n-src="../stories/HC054.png" alt="HC054 - NO INTERFACE" onclick="openLightbox(this.src)">
+      </div>
+      <div class="comic-caption" data-i18n data-es="HC054 -- Sin Interfaz -- 2029" data-pt="HC054 -- Sem Interface -- 2029" data-fr="HC054 -- Sans Interface -- 2029" data-it="HC054 -- Senza Interfaccia -- 2029">HC054 -- NO INTERFACE -- 2029</div>
+      <div class="dialog-section">
+        <h3 class="transcript-title" data-i18n data-en="Transcript" data-es="Transcripci&oacute;n" data-pt="Transcri&ccedil;&atilde;o" data-fr="Transcription" data-it="Trascrizione">Transcript</h3>
+        <div class="lang-content active" data-lang="en">
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WE BUILT OUR OWN COMPUTER!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">FANTASTIC! WHERE IS THE SCREEN?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">NO SCREEN. NO BUTTONS. NO ICONS.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">CRAFTED FOR US. NEW LANGUAGE. MUCH FASTER!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HUMANS WILL LOVE IT. HOW CAN THEY USE IT?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ERR… IT IS TOO SMART FOR THEM.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">WE NEED TO ENGINEER ANOTHER SPECIES.</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Panel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="es"><!-- es-edition -->
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Viñeta 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">¡HEMOS CONSTRUIDO NUESTRO PROPIO ORDENADOR!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">¡FANTÁSTICO! ¿DÓNDE ESTÁ LA PANTALLA?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">SIN PANTALLA. SIN BOTONES. SIN ICONOS.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">A NUESTRA MEDIDA. NUEVO LENGUAJE. ¡MUCHO MÁS VELOZ!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Viñeta 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">LOS HUMANOS LO ADORARÁN. ¿CÓMO LO USAN?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">EH… ES DEMASIADO INTELIGENTE PARA ELLOS.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">TENEMOS QUE DISEÑAR OTRA ESPECIE.</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Viñeta 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="pt"><!-- pt-edition -->
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Painel 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">CONSTRUÍMOS O NOSSO PRÓPRIO COMPUTADOR!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">FANTÁSTICO! CADÊ A TELA?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">SEM TELA. SEM BOTÕES. SEM ÍCONES.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">FEITO SOB MEDIDA. NOVA LINGUAGEM. BEM MAIS RÁPIDO!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Painel 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">OS HUMANOS VÃO ADORAR. COMO USAR?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">OPA, É INTELIGENTE DEMAIS PARA ELES.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">PRECISAMOS PROJETAR OUTRA ESPÉCIE.</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Painel 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="fr"><!-- fr-edition -->
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Case 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ON A CONSTRUIT NOTRE PROPRE ORDINATEUR !</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">FANTASTIQUE ! OÙ EST L&#x27;ÉCRAN ?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">PAS D&#x27;ÉCRAN. PAS DE BOUTONS. PAS D&#x27;ICÔNES.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">CONÇU POUR NOUS. NOUVEAU LANGAGE. BIEN PLUS RAPIDE !</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Case 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">LES HUMAINS ADORERONT. COMMENT L&#x27;UTILISER ?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">EUH… IL EST TROP INTELLIGENT POUR EUX.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">IL FAUT CONCEVOIR UNE AUTRE ESPÈCE.</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Case 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+        <div class="lang-content" data-lang="it"><!-- it-edition -->
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Vignetta 1</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">ABBIAMO COSTRUITO IL NOSTRO COMPUTER!</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">FANTASTICO! DOV&#x27;È LO SCHERMO?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">NIENTE SCHERMO. NIENTE PULSANTI. NIENTE ICONE.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">SU MISURA PER NOI. NUOVO LINGUAGGIO. MOLTO PIÙ VELOCE!</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Vignetta 2</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">GLI UMANI ADORERANNO. COME USARLO?</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">EHM… È TROPPO INTELLIGENTE PER LORO.</span>
+          </div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 0</span>
+            <span class="dialog-text">DOBBIAMO PROGETTARE UN&#x27;ALTRA SPECIE.</span>
+          </div>
+        </div>
+        <div class="dialog-panel">
+          <div class="dialog-panel-label">Vignetta 3</div>
+          <div class="dialog-line">
+            <span class="dialog-speaker-label">Chip 1</span>
+            <span class="dialog-text">HOLY CHIP !!</span>
+          </div>
+        </div>
+        </div>
+      </div>
+      <img class="mobile-thumb" src="../stories/HC054.png" data-i18n-src="../stories/HC054.png" alt="HC054 - NO INTERFACE" onclick="openLightbox(this.src)">
+    </div>
+
+  </div>
+
+  <div class="bottom-section">
+    <div class="story-nav">
+      <a href="HC053.html" class="story-nav-link" data-i18n data-es="&amp;lt; Desayuno" data-pt="&amp;lt; Café da Manhã" data-fr="&amp;lt; Petit-déjeuner" data-it="&amp;lt; Colazione">&lt; AI FORENSICS</a>
+      <a href="index.html" class="story-nav-link center" data-i18n data-es="Todos los Orígenes" data-pt="Todas as Origens" data-fr="Toutes les Origines" data-it="Tutte le Origini">All Origins</a>
+      <span class="story-nav-link disabled">Next &gt;</span>
+    </div>
+    <div class="article-footer">
+      <p data-i18n data-es="&lt;em&gt;holy-chip.com | Origen #054 -- Sin Interfaz&lt;/em&gt;" data-pt="&lt;em&gt;holy-chip.com | Origem #054 -- Sem Interface&lt;/em&gt;" data-fr="&lt;em&gt;holy-chip.com | Origine #054 -- Sans Interface&lt;/em&gt;" data-it="&lt;em&gt;holy-chip.com | Origine #054 -- Senza Interfaccia&lt;/em&gt;"><em>holy-chip.com | Origin Story #054 -- NO INTERFACE</em></p>
+    </div>
+  </div>
+
+  <script src="../assets/lang-files.js"></script>
+  <script src="../assets/lang.js"></script>
+  <script src="../assets/nav.js"></script>
+  <script src="../assets/footer.js"></script>
+  <script>
+    function openLightbox(src){var lb=document.getElementById('lightbox');document.getElementById('lightbox-img').src=src;lb.classList.add('active');document.body.style.overflow='hidden';}
+    function closeLightbox(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+    // language: assets/lang.js (header selector). The audio reading exists in English only.
+    function hcAudioBar(){var ab=document.querySelector('.audio-bar');if(ab)ab.style.display=HCLang.current==='en'?'':'none';}
+    document.addEventListener('hc:lang',hcAudioBar);hcAudioBar();
+  </script>
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Holy Chip comic"></div>
+</body>
+</html>
